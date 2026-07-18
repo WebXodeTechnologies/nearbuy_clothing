@@ -6,11 +6,11 @@ import Select from "../ui/Select";
 import Button from "../ui/Button";
 
 const AVAILABLE_LOCATIONS = [
-  { value: "Indiranagar, Bangalore", label: "Indiranagar, Bangalore" },
-  { value: "Commercial Street, Bangalore", label: "Commercial Street, Bangalore" },
-  { value: "Koramangala, Bangalore", label: "Koramangala, Bangalore" },
-  { value: "Jayanagar, Bangalore", label: "Jayanagar, Bangalore" },
-  { value: "MG Road, Bangalore", label: "MG Road, Bangalore" }
+  { value: "Salem Road, Namakkal", label: "Salem Road, Namakkal" },
+  { value: "Mohanur Road, Namakkal", label: "Mohanur Road, Namakkal" },
+  { value: "Trichengode Road, Namakkal", label: "Trichengode Road, Namakkal" },
+  { value: "Paramathi Road, Namakkal", label: "Paramathi Road, Namakkal" },
+  { value: "Park Road, Namakkal", label: "Park Road, Namakkal" }
 ];
 
 const CATEGORIES_LIST = [
@@ -210,7 +210,7 @@ export default function StoreForm({ initialData = {}, onSubmit }) {
         <Input
           label="Complete Physical Address"
           name="address"
-          placeholder="Flat number, building, street, land-mark, city, PIN code"
+          placeholder="Flat number, building, street, landmark, city, PIN code"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           required

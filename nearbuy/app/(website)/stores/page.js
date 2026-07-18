@@ -117,10 +117,10 @@ function ExploreStoresContent() {
         {/* Page title */}
         <div className="mt-6">
           <h1 className="text-2xl font-bold text-gray-950 tracking-tight sm:text-3xl">
-            Explore Local Clothing Stores
+            Explore Local Clothing Stores in Namakkal
           </h1>
           <p className="mt-1 text-xs text-gray-500">
-            Browse through nearby boutiques, specialty shops, footwear options, and fashion outlets.
+            Browse through nearby boutiques, specialty shops, footwear options, and fashion outlets in Namakkal.
           </p>
         </div>
 
@@ -146,7 +146,7 @@ function ExploreStoresContent() {
                 value={location}
                 onChange={handleLocationChange}
                 placeholder={null}
-                options={locations.map((loc) => ({ value: loc, label: loc === "All Locations" ? "All Locations" : loc.replace(", Bangalore", "") }))}
+                options={locations.map((loc) => ({ value: loc, label: loc }))}
               />
             </div>
             <div className="flex gap-2">

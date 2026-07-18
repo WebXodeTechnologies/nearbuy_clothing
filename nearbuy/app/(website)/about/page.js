@@ -11,7 +11,7 @@ export default function AboutPage() {
     { value: "50+", label: "Registered Boutiques" },
     { value: "12,000+", label: "Monthly Store Discovery Views" },
     { value: "35%+", label: "Average Footfall Increase" },
-    { value: "5+", label: "Bangalore Neighborhoods" }
+    { value: "5+", label: "Namakkal Commercial Hubs" }
   ];
 
   return (
