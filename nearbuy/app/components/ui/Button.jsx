@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 export default function Button({
@@ -12,21 +14,21 @@ export default function Button({
   type = "button",
   ...props
 }) {
-  const baseStyles = "inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer";
+  const baseStyles = "inline-flex items-center justify-center font-bold rounded-xl transition-all duration-200 focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer select-none active:scale-[0.98]";
   
   const variants = {
-    primary: "bg-blue-600 hover:bg-blue-700 text-white shadow-sm focus:ring-blue-500 border border-transparent",
-    secondary: "bg-gray-100 hover:bg-gray-200 text-gray-900 focus:ring-gray-300 border border-transparent",
-    outline: "bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 hover:text-gray-900 focus:ring-blue-500",
-    ghost: "text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:ring-gray-300",
-    danger: "bg-red-600 hover:bg-red-700 text-white shadow-sm focus:ring-red-500 border border-transparent",
-    success: "bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm focus:ring-emerald-500 border border-transparent",
+    primary: "bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-600/20 hover:shadow-lg hover:shadow-blue-600/30 focus:ring-blue-500 border border-transparent",
+    secondary: "bg-gray-100 hover:bg-gray-200 text-gray-900 focus:ring-gray-300 border border-gray-200/50",
+    outline: "bg-white border border-gray-200 hover:bg-gray-50 text-gray-800 hover:text-gray-950 focus:ring-blue-500 shadow-2xs",
+    ghost: "text-gray-600 hover:bg-gray-100/80 hover:text-gray-950 focus:ring-gray-300",
+    danger: "bg-red-600 hover:bg-red-700 text-white shadow-md shadow-red-600/20 focus:ring-red-500 border border-transparent",
+    success: "bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-600/20 focus:ring-emerald-500 border border-transparent",
   };
 
   const sizes = {
-    sm: "px-3 py-1.5 text-xs",
-    md: "px-4 py-2 text-sm",
-    lg: "px-5 py-2.5 text-base",
+    sm: "px-3.5 py-1.5 text-xs",
+    md: "px-4.5 py-2.5 text-xs sm:text-sm",
+    lg: "px-6 py-3.5 text-sm sm:text-base",
   };
 
   return (
