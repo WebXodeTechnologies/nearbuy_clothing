@@ -127,7 +127,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <span className="font-bold text-gray-800 block">HQ Address</span>
-                    <span>Nearby Clothing Platforms Pvt Ltd, 45, 100 Feet Rd, Hal 2nd Stage, Indiranagar, Bengaluru, KA 560038</span>
+                    <span>Nearby Clothing Platforms Pvt Ltd, 45, Salem Main Road, Opposite Collectorate, Namakkal, Tamil Nadu 637001</span>
                   </div>
                 </div>
 
@@ -160,7 +160,7 @@ export default function ContactPage() {
             {/* Map Frame Card */}
             <div className="bg-white border border-gray-150 p-2.5 rounded-2xl shadow-xs overflow-hidden h-64 bg-gray-50">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.973412708453!2d77.63851571482204!3d12.971891590855848!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae16a629633e89%3A0xb697fa297593c6f2!2sIndiranagar!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
                 style={{ border: 0, borderRadius: '0.75rem' }}
