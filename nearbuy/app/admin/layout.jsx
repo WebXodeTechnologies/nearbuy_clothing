@@ -1,30 +1,20 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "../context/AuthContext";
 import Sidebar from "../components/navigation/Sidebar";
 import Button from "../components/ui/Button";
 
 export default function AdminLayout({ children }) {
   const router = useRouter();
-  const [authorized, setAuthorized] = useState(false);
-  const [checking, setChecking] = useState(true);
-
-  useEffect(() => {
-    const role = localStorage.getItem("nearbuy_role");
-    if (role !== "admin") {
-      setAuthorized(false);
-    } else {
-      setAuthorized(true);
-    }
-    setChecking(false);
-  }, []);
+  const { user, loading } = useAuth();
 
   const handleBackToLogin = () => {
     router.push("/auth/login");
   };
 
-  if (checking) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
@@ -32,7 +22,7 @@ export default function AdminLayout({ children }) {
     );
   }
 
-  if (!authorized) {
+  if (!user || user.role !== "admin") {
     return (
       <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-6 text-center text-gray-300">
         <div className="max-w-md space-y-4">

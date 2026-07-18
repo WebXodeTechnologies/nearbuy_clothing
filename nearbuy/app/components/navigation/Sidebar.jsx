@@ -3,14 +3,16 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "../../context/AuthContext";
 import Badge from "../ui/Badge";
 
 export default function Sidebar({ type = "vendor" }) {
   const pathname = usePathname();
   const router = useRouter();
+  const { user, logout } = useAuth();
 
-  const handleLogout = () => {
-    localStorage.removeItem("nearbuy_role");
+  const handleLogout = async () => {
+    await logout();
     router.push("/");
   };
 
@@ -205,15 +207,15 @@ export default function Sidebar({ type = "vendor" }) {
       {/* Bottom Footer Info */}
       <div className="p-4 border-t border-gray-800 bg-gray-950">
         <div className="flex items-center gap-3 mb-4">
-          <div className="h-9 w-9 rounded-full bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400 font-semibold text-sm">
-            {type === "admin" ? "AD" : "UT"}
+          <div className="h-9 w-9 rounded-full bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400 font-semibold text-sm uppercase">
+            {user?.name ? user.name.substring(0, 2) : (type === "admin" ? "AD" : "UT")}
           </div>
           <div className="flex flex-col min-w-0">
             <span className="text-xs font-semibold text-white truncate">
-              {type === "admin" ? "Admin Support" : "Urban Threads"}
+              {user?.name || (type === "admin" ? "Admin Support" : "Urban Threads")}
             </span>
             <span className="text-[10px] text-gray-400 truncate">
-              {type === "admin" ? "admin@nearbuy.com" : "Indiranagar Branch"}
+              {user?.email || (type === "admin" ? "admin@nearbuy.com" : "Indiranagar Branch")}
             </span>
           </div>
         </div>

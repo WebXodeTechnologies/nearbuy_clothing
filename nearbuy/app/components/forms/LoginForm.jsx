@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 
-export default function LoginForm({ onSubmit, mode = "login" }) {
+export default function LoginForm({ onSubmit, mode = "login", role = "vendor" }) {
+  const { login, register } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -12,7 +14,7 @@ export default function LoginForm({ onSubmit, mode = "login" }) {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
@@ -23,16 +25,29 @@ export default function LoginForm({ onSubmit, mode = "login" }) {
       return;
     }
 
-    setTimeout(() => {
+    try {
+      let user;
+      if (mode === "login") {
+        user = await login(email, password);
+      } else {
+        user = await register(name, email, password, phone, role);
+      }
+      
+      // Callback to parent for navigation
+      if (onSubmit) {
+        onSubmit(user);
+      }
+    } catch (err) {
+      setError(err.message || "Authentication failed. Please verify your details.");
+    } finally {
       setIsLoading(false);
-      onSubmit({ email, password, name, phone });
-    }, 800);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
-        <div className="p-3 text-xs text-red-600 bg-red-50 border border-red-100 rounded-lg">
+        <div className="p-3 text-xs font-semibold text-red-600 bg-red-50 border border-red-100 rounded-xl">
           {error}
         </div>
       )}
@@ -46,6 +61,8 @@ export default function LoginForm({ onSubmit, mode = "login" }) {
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
+            className="border-slate-200 focus:border-blue-500 focus:ring-blue-100"
+            autoComplete="name"
           />
           <Input
             label="Phone Number"
@@ -55,18 +72,22 @@ export default function LoginForm({ onSubmit, mode = "login" }) {
             required
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
+            className="border-slate-200 focus:border-blue-500 focus:ring-blue-100"
+            autoComplete="tel"
           />
         </>
       )}
 
       <Input
-        label="Email Address"
+        label="Email / Username"
         name="email"
-        type="email"
-        placeholder="you@example.com"
+        type="text"
+        placeholder="you@example.com or username"
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        className="border-slate-200 focus:border-blue-500 focus:ring-blue-100"
+        autoComplete="username"
       />
 
       <Input
@@ -77,6 +98,8 @@ export default function LoginForm({ onSubmit, mode = "login" }) {
         required
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        className="border-slate-200 focus:border-blue-500 focus:ring-blue-100"
+        autoComplete={mode === "login" ? "current-password" : "new-password"}
       />
 
       {mode === "login" && (
@@ -94,7 +117,7 @@ export default function LoginForm({ onSubmit, mode = "login" }) {
       <Button
         type="submit"
         isLoading={isLoading}
-        className="w-full mt-2"
+        className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl cursor-pointer shadow-xs"
       >
         {mode === "login" ? "Sign In" : "Create Account"}
       </Button>

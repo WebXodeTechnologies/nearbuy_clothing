@@ -6,19 +6,19 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import logoImg from "@/public/logos/nearbuy.png";
 
+import { useAuth } from "../../context/AuthContext";
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [userRole, setUserRole] = useState(null);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
-    const role = localStorage.getItem("nearbuy_role");
-    setUserRole(role);
-  }, [pathname]);
+  }, []);
 
   // Lock body scroll when drawer is open
   useEffect(() => {
@@ -32,9 +32,8 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("nearbuy_role");
-    setUserRole(null);
+  const handleLogout = async () => {
+    await logout();
     setIsOpen(false);
     router.push("/");
   };
@@ -146,7 +145,9 @@ export default function Navbar() {
               className="hidden lg:flex items-center gap-3 xl:gap-6 2xl:gap-8 4xl:gap-12"
               aria-label="Main Navigation"
             >
-              {navLinks.map((link) => {
+              {navLinks
+                .filter((link) => !(link.href === "/become-vendor" && user?.role === "vendor"))
+                .map((link) => {
                 const isActive = pathname === link.href;
                 return (
                   <Link
@@ -172,17 +173,19 @@ export default function Navbar() {
 
             {/* Desktop Right Actions & Auth Buttons */}
             <div className="hidden lg:flex items-center gap-2 xl:gap-3 2xl:gap-4 shrink-0">
-              {mounted && userRole ? (
+              {mounted && user ? (
                 <div className="flex items-center gap-2 xl:gap-2.5">
-                  <Link
-                    href={userRole === "admin" ? "/admin/dashboard" : "/vendor/dashboard"}
-                    className="inline-flex items-center gap-1.5 xl:gap-2 text-xs 2xl:text-sm font-bold text-gray-800 hover:text-blue-600 bg-gray-100/80 hover:bg-blue-50 px-3 py-2 xl:px-4 xl:py-2.5 rounded-xl transition-all border border-gray-200/80 shadow-2xs hover:shadow-xs whitespace-nowrap"
-                  >
-                    <svg className="w-3.5 h-3.5 xl:w-4 xl:h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                    </svg>
-                    {userRole === "admin" ? "Admin Console" : "Vendor Portal"}
-                  </Link>
+                  {user.role === "vendor" && (
+                    <Link
+                      href="/vendor/dashboard"
+                      className="inline-flex items-center gap-1.5 xl:gap-2 text-xs 2xl:text-sm font-bold text-gray-800 hover:text-blue-600 bg-gray-100/80 hover:bg-blue-50 px-3 py-2 xl:px-4 xl:py-2.5 rounded-xl transition-all border border-gray-200/80 shadow-2xs hover:shadow-xs whitespace-nowrap"
+                    >
+                      <svg className="w-3.5 h-3.5 xl:w-4 xl:h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                      </svg>
+                      Vendor Portal
+                    </Link>
+                  )}
                   <button
                     onClick={handleLogout}
                     className="inline-flex items-center gap-1.5 text-xs 2xl:text-sm font-bold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100/80 px-3 py-2 xl:px-4 xl:py-2.5 rounded-xl transition-all cursor-pointer border border-red-100 whitespace-nowrap"
@@ -290,7 +293,9 @@ export default function Navbar() {
                 Navigation Menu
               </p>
               <nav className="space-y-1.5 sm:space-y-2" aria-label="Mobile Navigation">
-                {navLinks.map((link) => {
+                {navLinks
+                  .filter((link) => !(link.href === "/become-vendor" && user?.role === "vendor"))
+                  .map((link) => {
                   const isActive = pathname === link.href;
                   return (
                     <Link
@@ -330,18 +335,20 @@ export default function Navbar() {
 
           {/* Drawer Footer / Auth Actions */}
           <div className="p-5 sm:p-6 border-t border-gray-100 bg-gray-50/60 space-y-3">
-            {mounted && userRole ? (
+            {mounted && user ? (
               <>
-                <Link
-                  href={userRole === "admin" ? "/admin/dashboard" : "/vendor/dashboard"}
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full text-center text-sm font-bold text-gray-900 bg-white hover:bg-gray-100 py-3 sm:py-3.5 rounded-2xl border border-gray-200/90 shadow-2xs transition-colors"
-                >
-                  <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                  </svg>
-                  {userRole === "admin" ? "Admin Console" : "Vendor Portal"}
-                </Link>
+                {user.role === "vendor" && (
+                  <Link
+                    href="/vendor/dashboard"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center justify-center gap-2 w-full text-center text-sm font-bold text-gray-900 bg-white hover:bg-gray-100 py-3 sm:py-3.5 rounded-2xl border border-gray-200/90 shadow-2xs transition-colors"
+                  >
+                    <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                    </svg>
+                    Vendor Portal
+                  </Link>
+                )}
                 <button
                   onClick={handleLogout}
                   className="flex items-center justify-center gap-2 w-full text-center text-sm font-bold text-red-600 bg-red-50 hover:bg-red-100 py-3 sm:py-3.5 rounded-2xl cursor-pointer border border-red-100 transition-colors"

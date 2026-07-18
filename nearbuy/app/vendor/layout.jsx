@@ -1,40 +1,31 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "../context/AuthContext";
 import Sidebar from "../components/navigation/Sidebar";
 import Button from "../components/ui/Button";
 
 export default function VendorLayout({ children }) {
   const router = useRouter();
-  const [authorized, setAuthorized] = useState(false);
-  const [checking, setChecking] = useState(true);
-
-  useEffect(() => {
-    const role = localStorage.getItem("nearbuy_role");
-    if (role !== "vendor") {
-      setAuthorized(false);
-    } else {
-      setAuthorized(true);
-    }
-    setChecking(false);
-  }, []);
+  const { user, loading } = useAuth();
 
   const handleBackToLogin = () => {
     router.push("/auth/login");
   };
 
-  if (checking) {
+  if (loading) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600" />
       </div>
     );
   }
 
-  if (!authorized) {
+  // Verify that a user is logged in AND is a vendor
+  if (!user || user.role !== "vendor") {
     return (
-      <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-6 text-center text-gray-300">
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-6 text-center text-slate-300">
         <div className="max-w-md space-y-4">
           <div className="h-12 w-12 bg-red-950/30 text-red-500 border border-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -42,11 +33,11 @@ export default function VendorLayout({ children }) {
             </svg>
           </div>
           <h2 className="text-xl font-bold text-white tracking-tight">Access Restricted</h2>
-          <p className="text-xs text-gray-500 leading-relaxed">
+          <p className="text-xs text-slate-400 leading-relaxed font-semibold">
             You must be logged in as a Merchant Vendor to access the merchant dashboard. Please authenticate to view your store listings.
           </p>
           <div className="pt-4">
-            <Button onClick={handleBackToLogin} className="w-full">
+            <Button onClick={handleBackToLogin} className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl py-2.5">
               Proceed to Sign In
             </Button>
           </div>

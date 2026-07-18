@@ -85,7 +85,7 @@ export default function OfferCard({ offer, onEdit, onDelete, isManageMode = fals
           {/* Discount Headline & Main Description */}
           <div className="space-y-1.5 my-3">
             <div className="flex items-baseline gap-2">
-              <h3 className="font-heading font-black text-3xl text-gray-950 tracking-tight bg-clip-text text-transparent bg-linear-to-r from-blue-700 via-indigo-800 to-gray-900">
+              <h3 className="font-heading font-black text-3xl tracking-tight bg-clip-text text-transparent bg-linear-to-r from-blue-700 via-indigo-800 to-gray-900">
                 {discount}
               </h3>
             </div>

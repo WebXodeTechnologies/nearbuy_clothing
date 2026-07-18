@@ -95,7 +95,7 @@ export default function WhyChooseUsSection() {
 
           <h2
             style={{ color: "#ffffff" }}
-            className="font-heading text-3xl sm:text-5xl 2xl:text-6xl font-extrabold tracking-tight !text-white leading-tight"
+            className="font-heading text-3xl sm:text-5xl 2xl:text-6xl font-extrabold tracking-tight text-white! leading-tight"
           >
             Why Browse & Shop Local{" "}
             <span
@@ -112,7 +112,7 @@ export default function WhyChooseUsSection() {
 
           <p
             style={{ color: "#cbd5e1" }}
-            className="mt-4 text-base sm:text-lg !text-slate-300 leading-relaxed font-body max-w-2xl mx-auto font-medium"
+            className="mt-4 text-base sm:text-lg text-slate-300! leading-relaxed font-body max-w-2xl mx-auto font-medium"
           >
             Online shopping is convenient, but apparel requires tactile quality, exact sizing, and immediate availability. Here is how Nearbuy bridges the physical-digital gap in Namakkal.
           </p>
@@ -195,13 +195,13 @@ export default function WhyChooseUsSection() {
 
                     <h3
                       style={{ color: "#ffffff" }}
-                      className="font-heading text-xl sm:text-2xl font-extrabold !text-white mb-3 tracking-tight group-hover:!text-blue-300 transition-colors"
+                      className="font-heading text-xl sm:text-2xl font-extrabold text-white! mb-3 tracking-tight group-hover:text-blue-300! transition-colors"
                     >
                       {feature.title}
                     </h3>
                     <p
                       style={{ color: "#cbd5e1" }}
-                      className="text-sm sm:text-base !text-slate-300 leading-relaxed font-body font-normal"
+                      className="text-sm sm:text-base text-slate-300! leading-relaxed font-body font-normal"
                     >
                       {feature.description}
                     </p>
@@ -211,7 +211,7 @@ export default function WhyChooseUsSection() {
                   <div className="mt-8 pt-5 border-t border-slate-800/90 flex items-center justify-between">
                     <span
                       style={{ color: "#cbd5e1" }}
-                      className="text-xs uppercase font-extrabold tracking-widest !text-slate-300"
+                      className="text-xs uppercase font-extrabold tracking-widest text-slate-300!"
                     >
                       {feature.badge}
                     </span>
