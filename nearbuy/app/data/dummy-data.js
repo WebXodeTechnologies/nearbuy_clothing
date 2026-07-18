@@ -72,7 +72,7 @@ export const stores = [
     "name": "Hunter Mens & Juniors Namakkal",
     "slug": "hunter-mens-juniors-namakkal",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Hunter Mens & Juniors Namakkal in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 58,
@@ -88,15 +88,15 @@ export const stores = [
     "isFeatured": true,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-1-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Hunter Mens & Juniors Namakkal.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -116,7 +116,7 @@ export const stores = [
     "name": "ORIGINAL GANSTER - Mens clothing",
     "slug": "original-ganster-mens-clothing",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at ORIGINAL GANSTER - Mens clothing in Mohanur Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 81,
@@ -131,15 +131,15 @@ export const stores = [
     "isFeatured": true,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-2-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at ORIGINAL GANSTER - Mens clothing.",
-        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -159,7 +159,7 @@ export const stores = [
     "name": "THE BLACK FASHION",
     "slug": "the-black-fashion",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at THE BLACK FASHION in Trichengode Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.8,
     "reviewsCount": 104,
@@ -174,15 +174,15 @@ export const stores = [
     "isFeatured": true,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-3-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at THE BLACK FASHION.",
-        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -202,7 +202,7 @@ export const stores = [
     "name": "Matrix Men's Clothing",
     "slug": "matrix-mens-clothing",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Matrix Men's Clothing in Paramathi Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.3,
     "reviewsCount": 127,
@@ -217,15 +217,15 @@ export const stores = [
     "isFeatured": true,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-4-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Matrix Men's Clothing.",
-        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -245,7 +245,7 @@ export const stores = [
     "name": "Unlimited Fashion Store - R.P Pudur",
     "slug": "unlimited-fashion-store-rp-pudur",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Unlimited Fashion Store - R.P Pudur in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 150,
@@ -261,15 +261,15 @@ export const stores = [
     "isFeatured": true,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-5-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Unlimited Fashion Store - R.P Pudur.",
-        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -289,7 +289,7 @@ export const stores = [
     "name": "Suxus men's wear",
     "slug": "suxus-mens-wear",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Suxus men's wear in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 173,
@@ -304,15 +304,15 @@ export const stores = [
     "isFeatured": true,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-6-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Suxus men's wear.",
-        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -332,7 +332,7 @@ export const stores = [
     "name": "Classic Style (PAYANS) Men's Wear",
     "slug": "classic-style-payans-mens-wear",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Classic Style (PAYANS) Men's Wear in Bus Stand Area, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.8,
     "reviewsCount": 196,
@@ -347,15 +347,15 @@ export const stores = [
     "isFeatured": true,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "collections": [
       {
         "id": "coll-7-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Classic Style (PAYANS) Men's Wear.",
-        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -375,7 +375,7 @@ export const stores = [
     "name": "Menscart",
     "slug": "menscart",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Menscart in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 219,
@@ -390,15 +390,15 @@ export const stores = [
     "isFeatured": true,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-8-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Menscart.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "status": "Active"
       }
     ],
@@ -418,7 +418,7 @@ export const stores = [
     "name": "Louis Philippe Namakkal",
     "slug": "louis-philippe-namakkal",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Louis Philippe Namakkal in Mohanur Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 242,
@@ -433,15 +433,15 @@ export const stores = [
     "isFeatured": true,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-9-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Louis Philippe Namakkal.",
-        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -461,7 +461,7 @@ export const stores = [
     "name": "DNA CLOTHING",
     "slug": "dna-clothing",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at DNA CLOTHING in Trichengode Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 265,
@@ -476,15 +476,15 @@ export const stores = [
     "isFeatured": true,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-10-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at DNA CLOTHING.",
-        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -504,7 +504,7 @@ export const stores = [
     "name": "The Boys Men's Wear",
     "slug": "the-boys-mens-wear",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at The Boys Men's Wear in Paramathi Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 48,
@@ -519,15 +519,15 @@ export const stores = [
     "isFeatured": true,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-11-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at The Boys Men's Wear.",
-        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -547,7 +547,7 @@ export const stores = [
     "name": "R-CUBE Men's Wear & Accessories",
     "slug": "r-cube-mens-wear-accessories",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at R-CUBE Men's Wear & Accessories in Park Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 71,
@@ -562,15 +562,15 @@ export const stores = [
     "isFeatured": true,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-12-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at R-CUBE Men's Wear & Accessories.",
-        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -590,7 +590,7 @@ export const stores = [
     "name": "Peter England",
     "slug": "peter-england",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Peter England in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 94,
@@ -605,15 +605,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-13-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Peter England.",
-        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -633,7 +633,7 @@ export const stores = [
     "name": "Basics Life. Namakkal",
     "slug": "basics-life-namakkal",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Basics Life. Namakkal in Bus Stand Area, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 117,
@@ -648,15 +648,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-14-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Basics Life. Namakkal.",
-        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -676,7 +676,7 @@ export const stores = [
     "name": "Indian Terrain - Namakkal",
     "slug": "indian-terrain-namakkal",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Indian Terrain - Namakkal in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 140,
@@ -691,15 +691,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "collections": [
       {
         "id": "coll-15-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Indian Terrain - Namakkal.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -719,7 +719,7 @@ export const stores = [
     "name": "French Club",
     "slug": "french-club",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at French Club in Mohanur Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 163,
@@ -734,15 +734,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-16-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at French Club.",
-        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "status": "Active"
       }
     ],
@@ -762,7 +762,7 @@ export const stores = [
     "name": "Sriniwasa Corporation",
     "slug": "sriniwasa-corporation",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Sriniwasa Corporation in Trichengode Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 186,
@@ -778,15 +778,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-17-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Sriniwasa Corporation.",
-        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -806,7 +806,7 @@ export const stores = [
     "name": "G.M.Fashions, NAMAKKAL",
     "slug": "gmfashions-namakkal",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at G.M.Fashions, NAMAKKAL in Paramathi Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.8,
     "reviewsCount": 209,
@@ -823,15 +823,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-18-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at G.M.Fashions, NAMAKKAL.",
-        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -851,7 +851,7 @@ export const stores = [
     "name": "N&P MENS WEAR",
     "slug": "np-mens-wear",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at N&P MENS WEAR in Park Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 232,
@@ -866,15 +866,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-19-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at N&P MENS WEAR.",
-        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -894,7 +894,7 @@ export const stores = [
     "name": "Deal’s Men’s wear",
     "slug": "deals-mens-wear",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Deal’s Men’s wear in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 255,
@@ -909,15 +909,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-20-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Deal’s Men’s wear.",
-        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -937,7 +937,7 @@ export const stores = [
     "name": "Cheetah Clothings men's wear",
     "slug": "cheetah-clothings-mens-wear",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Cheetah Clothings men's wear in Bus Stand Area, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 38,
@@ -952,15 +952,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-21-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Cheetah Clothings men's wear.",
-        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -980,7 +980,7 @@ export const stores = [
     "name": "OUTFIT MENSWEAR",
     "slug": "outfit-menswear",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at OUTFIT MENSWEAR in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.8,
     "reviewsCount": 61,
@@ -995,15 +995,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-22-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at OUTFIT MENSWEAR.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1023,7 +1023,7 @@ export const stores = [
     "name": "Van Heusen Namakkal",
     "slug": "van-heusen-namakkal",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Van Heusen Namakkal in Mohanur Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.3,
     "reviewsCount": 84,
@@ -1038,15 +1038,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "collections": [
       {
         "id": "coll-23-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Van Heusen Namakkal.",
-        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1066,7 +1066,7 @@ export const stores = [
     "name": "The Raymond shop",
     "slug": "the-raymond-shop",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at The Raymond shop in Trichengode Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 107,
@@ -1081,15 +1081,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-24-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at The Raymond shop.",
-        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "status": "Active"
       }
     ],
@@ -1109,7 +1109,7 @@ export const stores = [
     "name": "Bivol. Namakkal, Salem Road",
     "slug": "bivol-namakkal-salem-road",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Bivol. Namakkal, Salem Road in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 130,
@@ -1126,15 +1126,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-25-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Bivol. Namakkal, Salem Road.",
-        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1154,7 +1154,7 @@ export const stores = [
     "name": "The Vogue Apparels Namakkal",
     "slug": "the-vogue-apparels-namakkal",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at The Vogue Apparels Namakkal in Park Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.8,
     "reviewsCount": 153,
@@ -1170,15 +1170,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-26-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at The Vogue Apparels Namakkal.",
-        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1198,7 +1198,7 @@ export const stores = [
     "name": "Allen Solly",
     "slug": "allen-solly",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Allen Solly in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.3,
     "reviewsCount": 176,
@@ -1213,15 +1213,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-27-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Allen Solly.",
-        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1241,7 +1241,7 @@ export const stores = [
     "name": "MEN'S PARK",
     "slug": "mens-park",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at MEN'S PARK in Bus Stand Area, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 199,
@@ -1256,15 +1256,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-28-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at MEN'S PARK.",
-        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1284,7 +1284,7 @@ export const stores = [
     "name": "Minister White - Namakkal",
     "slug": "minister-white-namakkal",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Minister White - Namakkal in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 222,
@@ -1299,15 +1299,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-29-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Minister White - Namakkal.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1327,7 +1327,7 @@ export const stores = [
     "name": "SRI COLOURS LIFE",
     "slug": "sri-colours-life",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at SRI COLOURS LIFE in Mohanur Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 245,
@@ -1344,15 +1344,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-30-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at SRI COLOURS LIFE.",
-        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1372,7 +1372,7 @@ export const stores = [
     "name": "Muvidha Styles",
     "slug": "muvidha-styles",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Muvidha Styles in Trichengode Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 268,
@@ -1389,15 +1389,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "collections": [
       {
         "id": "coll-31-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Muvidha Styles.",
-        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1417,7 +1417,7 @@ export const stores = [
     "name": "JDC",
     "slug": "jdc",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at JDC in Paramathi Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 51,
@@ -1432,15 +1432,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-32-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at JDC.",
-        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "status": "Active"
       }
     ],
@@ -1460,7 +1460,7 @@ export const stores = [
     "name": "Vaali Fashion",
     "slug": "vaali-fashion",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Vaali Fashion in Park Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 74,
@@ -1477,15 +1477,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-33-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Vaali Fashion.",
-        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1505,7 +1505,7 @@ export const stores = [
     "name": "BRAND FX - NAMAKKAL",
     "slug": "brand-fx-namakkal",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at BRAND FX - NAMAKKAL in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 97,
@@ -1520,15 +1520,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-34-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at BRAND FX - NAMAKKAL.",
-        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1548,7 +1548,7 @@ export const stores = [
     "name": "EXCITING Men's Wear",
     "slug": "exciting-mens-wear",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at EXCITING Men's Wear in Bus Stand Area, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 120,
@@ -1563,15 +1563,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-35-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at EXCITING Men's Wear.",
-        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1591,7 +1591,7 @@ export const stores = [
     "name": "Big Boss New Style Garments",
     "slug": "big-boss-new-style-garments",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Big Boss New Style Garments in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 143,
@@ -1607,15 +1607,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-36-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Big Boss New Style Garments.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1635,7 +1635,7 @@ export const stores = [
     "name": "OTTO men's clothing store in Namakkal",
     "slug": "otto-mens-clothing-store-in-namakkal",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at OTTO men's clothing store in Namakkal in Mohanur Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 166,
@@ -1650,15 +1650,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-37-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at OTTO men's clothing store in Namakkal.",
-        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1678,7 +1678,7 @@ export const stores = [
     "name": "ARRS SILKS - NAMAKKAL",
     "slug": "arrs-silks-namakkal",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at ARRS SILKS - NAMAKKAL in Trichengode Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 189,
@@ -1695,15 +1695,15 @@ export const stores = [
     "isFeatured": true,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-38-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at ARRS SILKS - NAMAKKAL.",
-        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1723,7 +1723,7 @@ export const stores = [
     "name": "A4 GARMENTS",
     "slug": "a4-garments",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at A4 GARMENTS in Paramathi Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 212,
@@ -1739,15 +1739,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "collections": [
       {
         "id": "coll-39-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at A4 GARMENTS.",
-        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1767,7 +1767,7 @@ export const stores = [
     "name": "TRENDS",
     "slug": "trends",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at TRENDS in Park Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 235,
@@ -1784,15 +1784,15 @@ export const stores = [
     "isFeatured": true,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-40-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at TRENDS.",
-        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "status": "Active"
       }
     ],
@@ -1812,7 +1812,7 @@ export const stores = [
     "name": "Fly infinity mens wear",
     "slug": "fly-infinity-mens-wear",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Fly infinity mens wear in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.8,
     "reviewsCount": 258,
@@ -1827,15 +1827,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-41-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Fly infinity mens wear.",
-        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1855,7 +1855,7 @@ export const stores = [
     "name": "SAKTHIBALA",
     "slug": "sakthibala",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at SAKTHIBALA in Bus Stand Area, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 41,
@@ -1872,15 +1872,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-42-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at SAKTHIBALA.",
-        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1900,7 +1900,7 @@ export const stores = [
     "name": "Jockey Exclusive Store",
     "slug": "jockey-exclusive-store",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Jockey Exclusive Store in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 64,
@@ -1916,15 +1916,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-43-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Jockey Exclusive Store.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1944,7 +1944,7 @@ export const stores = [
     "name": "Stoned monkey",
     "slug": "stoned-monkey",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Stoned monkey in Mohanur Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 87,
@@ -1959,15 +1959,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-44-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Stoned monkey.",
-        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -1987,7 +1987,7 @@ export const stores = [
     "name": "SVC MENS WEAR",
     "slug": "svc-mens-wear",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at SVC MENS WEAR in Trichengode Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.8,
     "reviewsCount": 110,
@@ -2002,15 +2002,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-45-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at SVC MENS WEAR.",
-        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -2030,7 +2030,7 @@ export const stores = [
     "name": "HR CLOTHING",
     "slug": "hr-clothing",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at HR CLOTHING in Paramathi Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.3,
     "reviewsCount": 133,
@@ -2045,15 +2045,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-46-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at HR CLOTHING.",
-        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -2073,7 +2073,7 @@ export const stores = [
     "name": "Volume Zero",
     "slug": "volume-zero",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Volume Zero in Park Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 156,
@@ -2088,15 +2088,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "collections": [
       {
         "id": "coll-47-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Volume Zero.",
-        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -2116,7 +2116,7 @@ export const stores = [
     "name": "KR COLLECTIONS",
     "slug": "kr-collections",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at KR COLLECTIONS in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 179,
@@ -2131,7 +2131,7 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
@@ -2139,7 +2139,7 @@ export const stores = [
         "id": "coll-48-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at KR COLLECTIONS.",
-        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "status": "Active"
       }
     ],
@@ -2159,7 +2159,7 @@ export const stores = [
     "name": "TN-28 Men’s fashion store",
     "slug": "tn-28-mens-fashion-store",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at TN-28 Men’s fashion store in Bus Stand Area, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.8,
     "reviewsCount": 202,
@@ -2434,7 +2434,7 @@ export const stores = [
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
       "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "collections": [
       {
@@ -2477,15 +2477,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-56-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at VARNAM - The clothing house.",
-        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "status": "Active"
       }
     ],
@@ -2505,7 +2505,7 @@ export const stores = [
     "name": "Sri Naachammal Boutiques",
     "slug": "sri-naachammal-boutiques",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Sri Naachammal Boutiques in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 146,
@@ -2521,15 +2521,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-57-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Sri Naachammal Boutiques.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -2549,7 +2549,7 @@ export const stores = [
     "name": "Fflashh Boutique",
     "slug": "fflashh-boutique",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Fflashh Boutique in Mohanur Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 169,
@@ -2565,15 +2565,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-58-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Fflashh Boutique.",
-        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -2593,7 +2593,7 @@ export const stores = [
     "name": "Yash Trendz- Exclusive Plus Size Store",
     "slug": "yash-trendz-exclusive-plus-size-store",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Yash Trendz- Exclusive Plus Size Store in Trichengode Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 192,
@@ -2608,15 +2608,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-59-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Yash Trendz- Exclusive Plus Size Store.",
-        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -2636,7 +2636,7 @@ export const stores = [
     "name": "lifestyle for womens",
     "slug": "lifestyle-for-womens",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at lifestyle for womens in Paramathi Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.8,
     "reviewsCount": 215,
@@ -2651,15 +2651,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-60-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at lifestyle for womens.",
-        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -2679,7 +2679,7 @@ export const stores = [
     "name": "Ahimsa Fashions",
     "slug": "ahimsa-fashions",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Ahimsa Fashions in Park Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 238,
@@ -2695,15 +2695,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-61-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Ahimsa Fashions.",
-        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -2723,7 +2723,7 @@ export const stores = [
     "name": "Aaraa Boutiques",
     "slug": "aaraa-boutiques",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Aaraa Boutiques in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 261,
@@ -2739,15 +2739,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-62-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Aaraa Boutiques.",
-        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -2767,7 +2767,7 @@ export const stores = [
     "name": "Queen Boutique",
     "slug": "queen-boutique",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Queen Boutique in Bus Stand Area, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 44,
@@ -2783,15 +2783,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "collections": [
       {
         "id": "coll-63-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Queen Boutique.",
-        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -2811,7 +2811,7 @@ export const stores = [
     "name": "GG Matching",
     "slug": "gg-matching",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at GG Matching in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.8,
     "reviewsCount": 67,
@@ -2827,15 +2827,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-64-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at GG Matching.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "status": "Active"
       }
     ],
@@ -2855,7 +2855,7 @@ export const stores = [
     "name": "Rathi women’s world",
     "slug": "rathi-womens-world",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Rathi women’s world in Mohanur Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.3,
     "reviewsCount": 90,
@@ -2870,15 +2870,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-65-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Rathi women’s world.",
-        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -2898,7 +2898,7 @@ export const stores = [
     "name": "Ganesh garments",
     "slug": "ganesh-garments",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Ganesh garments in Trichengode Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 113,
@@ -2913,15 +2913,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-66-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Ganesh garments.",
-        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -2941,7 +2941,7 @@ export const stores = [
     "name": "Go Colors - Namakkal | Women's Bottom Wear Store",
     "slug": "go-colors-namakkal-womens-bottom-wear-store",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Go Colors - Namakkal | Women's Bottom Wear Store in Paramathi Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 136,
@@ -2956,15 +2956,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-67-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Go Colors - Namakkal | Women's Bottom Wear Store.",
-        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -2984,7 +2984,7 @@ export const stores = [
     "name": "Queens World - The Womens Boutique",
     "slug": "queens-world-the-womens-boutique",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Queens World - The Womens Boutique in Park Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.8,
     "reviewsCount": 159,
@@ -3000,15 +3000,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-68-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Queens World - The Womens Boutique.",
-        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3028,7 +3028,7 @@ export const stores = [
     "name": "Aaraa sarees namakkal",
     "slug": "aaraa-sarees-namakkal",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Aaraa sarees namakkal in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.3,
     "reviewsCount": 182,
@@ -3044,15 +3044,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-69-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Aaraa sarees namakkal.",
-        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3072,7 +3072,7 @@ export const stores = [
     "name": "Mahi's Boutique",
     "slug": "mahis-boutique",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Mahi's Boutique in Bus Stand Area, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 205,
@@ -3088,15 +3088,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-70-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Mahi's Boutique.",
-        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3116,7 +3116,7 @@ export const stores = [
     "name": "Vibha boutique",
     "slug": "vibha-boutique",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Vibha boutique in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 228,
@@ -3132,15 +3132,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "collections": [
       {
         "id": "coll-71-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Vibha boutique.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3160,7 +3160,7 @@ export const stores = [
     "name": "SS Clothing Spot",
     "slug": "ss-clothing-spot",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at SS Clothing Spot in Mohanur Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.8,
     "reviewsCount": 251,
@@ -3175,15 +3175,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-72-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at SS Clothing Spot.",
-        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "status": "Active"
       }
     ],
@@ -3203,7 +3203,7 @@ export const stores = [
     "name": "Sai ganapathy textile's",
     "slug": "sai-ganapathy-textiles",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Sai ganapathy textile's in Trichengode Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 274,
@@ -3218,15 +3218,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-73-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Sai ganapathy textile's.",
-        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3246,7 +3246,7 @@ export const stores = [
     "name": "HAY! Namakkal",
     "slug": "hay-namakkal",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at HAY! Namakkal in Paramathi Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 57,
@@ -3261,15 +3261,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-74-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at HAY! Namakkal.",
-        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3289,7 +3289,7 @@ export const stores = [
     "name": "Kaveri Boutique",
     "slug": "kaveri-boutique",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Kaveri Boutique in Park Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 80,
@@ -3305,15 +3305,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-75-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Kaveri Boutique.",
-        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3333,7 +3333,7 @@ export const stores = [
     "name": "Puppy Shame Namakkal",
     "slug": "puppy-shame-namakkal",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Puppy Shame Namakkal in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 103,
@@ -3349,15 +3349,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-76-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Puppy Shame Namakkal.",
-        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3377,7 +3377,7 @@ export const stores = [
     "name": "Uzhamagal",
     "slug": "uzhamagal",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Uzhamagal in Bus Stand Area, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 126,
@@ -3392,15 +3392,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-77-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Uzhamagal.",
-        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3420,7 +3420,7 @@ export const stores = [
     "name": "Intenzo fashions",
     "slug": "intenzo-fashions",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Intenzo fashions in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 149,
@@ -3435,15 +3435,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-78-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Intenzo fashions.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3463,7 +3463,7 @@ export const stores = [
     "name": "Double star Ladies tailoring",
     "slug": "double-star-ladies-tailoring",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Double star Ladies tailoring in Mohanur Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 172,
@@ -3478,15 +3478,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "collections": [
       {
         "id": "coll-79-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Double star Ladies tailoring.",
-        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3506,7 +3506,7 @@ export const stores = [
     "name": "VANAVIL COLLECTION",
     "slug": "vanavil-collection",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at VANAVIL COLLECTION in Trichengode Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 195,
@@ -3521,15 +3521,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-80-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at VANAVIL COLLECTION.",
-        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "status": "Active"
       }
     ],
@@ -3549,7 +3549,7 @@ export const stores = [
     "name": "THE PEACOCKS",
     "slug": "the-peacocks",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at THE PEACOCKS in Paramathi Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 218,
@@ -3564,15 +3564,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-81-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at THE PEACOCKS.",
-        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3592,7 +3592,7 @@ export const stores = [
     "name": "Sana's Bridal Designer Studio",
     "slug": "sanas-bridal-designer-studio",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Sana's Bridal Designer Studio in Park Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 241,
@@ -3609,15 +3609,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-82-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Sana's Bridal Designer Studio.",
-        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3637,7 +3637,7 @@ export const stores = [
     "name": "Lotus Women's World",
     "slug": "lotus-womens-world",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Lotus Women's World in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.8,
     "reviewsCount": 264,
@@ -3652,15 +3652,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-83-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Lotus Women's World.",
-        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3680,7 +3680,7 @@ export const stores = [
     "name": "Narumugai ethnic wear",
     "slug": "narumugai-ethnic-wear",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Narumugai ethnic wear in Bus Stand Area, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 47,
@@ -3696,15 +3696,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-84-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Narumugai ethnic wear.",
-        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3724,7 +3724,7 @@ export const stores = [
     "name": "Aahaa Fashion",
     "slug": "aahaa-fashion",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Aahaa Fashion in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 70,
@@ -3739,15 +3739,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-85-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Aahaa Fashion.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3767,7 +3767,7 @@ export const stores = [
     "name": "PSR SILK SAREES - NAMAKKAL",
     "slug": "psr-silk-sarees-namakkal",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at PSR SILK SAREES - NAMAKKAL in Mohanur Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 93,
@@ -3783,15 +3783,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-86-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at PSR SILK SAREES - NAMAKKAL.",
-        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3811,7 +3811,7 @@ export const stores = [
     "name": "Chudi's Park in Namakkal",
     "slug": "chudis-park-in-namakkal",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Chudi's Park in Namakkal in Trichengode Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.8,
     "reviewsCount": 116,
@@ -3826,15 +3826,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "collections": [
       {
         "id": "coll-87-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Chudi's Park in Namakkal.",
-        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3854,7 +3854,7 @@ export const stores = [
     "name": "NESAVU BOUTIQUE",
     "slug": "nesavu-boutique",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at NESAVU BOUTIQUE in Paramathi Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.3,
     "reviewsCount": 139,
@@ -3870,15 +3870,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-88-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at NESAVU BOUTIQUE.",
-        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "status": "Active"
       }
     ],
@@ -3898,7 +3898,7 @@ export const stores = [
     "name": "YAALI Boutique & Bridal studio",
     "slug": "yaali-boutique-bridal-studio",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at YAALI Boutique & Bridal studio in Park Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 162,
@@ -3915,15 +3915,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-89-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at YAALI Boutique & Bridal studio.",
-        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3943,7 +3943,7 @@ export const stores = [
     "name": "Kanna Collections",
     "slug": "kanna-collections",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Kanna Collections in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 185,
@@ -3958,15 +3958,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-90-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Kanna Collections.",
-        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -3986,7 +3986,7 @@ export const stores = [
     "name": "Subam Boutique",
     "slug": "subam-boutique",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Subam Boutique in Bus Stand Area, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.8,
     "reviewsCount": 208,
@@ -4002,15 +4002,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-91-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Subam Boutique.",
-        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -4030,7 +4030,7 @@ export const stores = [
     "name": "Dhiya Ladies Tailoring",
     "slug": "dhiya-ladies-tailoring",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Dhiya Ladies Tailoring in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.3,
     "reviewsCount": 231,
@@ -4045,15 +4045,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-92-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Dhiya Ladies Tailoring.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -4073,7 +4073,7 @@ export const stores = [
     "name": "Mazhai Boutique",
     "slug": "mazhai-boutique",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Mazhai Boutique in Mohanur Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 254,
@@ -4089,15 +4089,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-93-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Mazhai Boutique.",
-        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -4117,7 +4117,7 @@ export const stores = [
     "name": "New pothys silks",
     "slug": "new-pothys-silks",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at New pothys silks in Trichengode Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 37,
@@ -4133,15 +4133,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-94-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at New pothys silks.",
-        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -4161,7 +4161,7 @@ export const stores = [
     "name": "Milans Fashion Designers",
     "slug": "milans-fashion-designers",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Milans Fashion Designers in Paramathi Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 60,
@@ -4177,15 +4177,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "collections": [
       {
         "id": "coll-95-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Milans Fashion Designers.",
-        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -4205,7 +4205,7 @@ export const stores = [
     "name": "Sri Vinayaka Matchings",
     "slug": "sri-vinayaka-matchings",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Sri Vinayaka Matchings in Park Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 83,
@@ -4221,15 +4221,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-96-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Sri Vinayaka Matchings.",
-        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "status": "Active"
       }
     ],
@@ -4249,7 +4249,7 @@ export const stores = [
     "name": "Sree Jayalakshmi Sarees & Fancy",
     "slug": "sree-jayalakshmi-sarees-fancy",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Sree Jayalakshmi Sarees & Fancy in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 106,
@@ -4266,15 +4266,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-97-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Sree Jayalakshmi Sarees & Fancy.",
-        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -4294,7 +4294,7 @@ export const stores = [
     "name": "Naachivelavan boutique",
     "slug": "naachivelavan-boutique",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Naachivelavan boutique in Bus Stand Area, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 129,
@@ -4310,15 +4310,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-98-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Naachivelavan boutique.",
-        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -4338,7 +4338,7 @@ export const stores = [
     "name": "Feather trendz",
     "slug": "feather-trendz",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Feather trendz in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 152,
@@ -4353,15 +4353,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-99-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Feather trendz.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -4381,7 +4381,7 @@ export const stores = [
     "name": "Ehkai Boutique",
     "slug": "ehkai-boutique",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Ehkai Boutique in Mohanur Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 175,
@@ -4397,15 +4397,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-100-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Ehkai Boutique.",
-        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -4425,7 +4425,7 @@ export const stores = [
     "name": "SSM SILKS",
     "slug": "ssm-silks",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at SSM SILKS in Trichengode Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 198,
@@ -4441,15 +4441,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-101-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at SSM SILKS.",
-        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -4469,7 +4469,7 @@ export const stores = [
     "name": "Mathi Boutique",
     "slug": "mathi-boutique",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Mathi Boutique in Paramathi Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 221,
@@ -4485,15 +4485,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-102-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Mathi Boutique.",
-        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -4513,7 +4513,7 @@ export const stores = [
     "name": "Glow Fashion Studio",
     "slug": "glow-fashion-studio",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Glow Fashion Studio in Park Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 244,
@@ -4529,15 +4529,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "collections": [
       {
         "id": "coll-103-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Glow Fashion Studio.",
-        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -4557,7 +4557,7 @@ export const stores = [
     "name": "RV fashion",
     "slug": "rv-fashion",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at RV fashion in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 267,
@@ -4572,7 +4572,7 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
@@ -4580,7 +4580,7 @@ export const stores = [
         "id": "coll-104-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at RV fashion.",
-        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "status": "Active"
       }
     ],
@@ -4600,7 +4600,7 @@ export const stores = [
     "name": "Lakshmi Garments",
     "slug": "lakshmi-garments",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Lakshmi Garments in Bus Stand Area, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 50,
@@ -4876,7 +4876,7 @@ export const stores = [
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
       "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "collections": [
       {
@@ -4919,15 +4919,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-112-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Meghna Silks.",
-        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "status": "Active"
       }
     ],
@@ -4947,7 +4947,7 @@ export const stores = [
     "name": "Womens World Boutique",
     "slug": "womens-world-boutique",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Womens World Boutique in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 234,
@@ -4963,15 +4963,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-113-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Womens World Boutique.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -4991,7 +4991,7 @@ export const stores = [
     "name": "Co-optex",
     "slug": "co-optex",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Co-optex in Mohanur Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.8,
     "reviewsCount": 257,
@@ -5006,15 +5006,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-114-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Co-optex.",
-        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -5034,7 +5034,7 @@ export const stores = [
     "name": "Sri Mahalaxmi silks",
     "slug": "sri-mahalaxmi-silks",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Sri Mahalaxmi silks in Trichengode Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.3,
     "reviewsCount": 40,
@@ -5050,15 +5050,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-115-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Sri Mahalaxmi silks.",
-        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -5078,7 +5078,7 @@ export const stores = [
     "name": "New Tops & bottoms",
     "slug": "new-tops-bottoms",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at New Tops & bottoms in Paramathi Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.5,
     "reviewsCount": 63,
@@ -5093,15 +5093,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-116-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at New Tops & bottoms.",
-        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -5121,7 +5121,7 @@ export const stores = [
     "name": "Gangai Amman Bridal Boutique",
     "slug": "gangai-amman-bridal-boutique",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Gangai Amman Bridal Boutique in Park Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 86,
@@ -5138,15 +5138,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-117-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Gangai Amman Bridal Boutique.",
-        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -5166,7 +5166,7 @@ export const stores = [
     "name": "AATHINI WOMENS SHOP",
     "slug": "aathini-womens-shop",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at AATHINI WOMENS SHOP in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 109,
@@ -5181,15 +5181,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-118-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at AATHINI WOMENS SHOP.",
-        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -5209,7 +5209,7 @@ export const stores = [
     "name": "JusCubs Babies and Kids Clothing Store",
     "slug": "juscubs-babies-and-kids-clothing-store",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at JusCubs Babies and Kids Clothing Store in Bus Stand Area, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 132,
@@ -5224,15 +5224,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "collections": [
       {
         "id": "coll-119-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at JusCubs Babies and Kids Clothing Store.",
-        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -5252,7 +5252,7 @@ export const stores = [
     "name": "D-KIDZ",
     "slug": "d-kidz",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at D-KIDZ in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 155,
@@ -5267,15 +5267,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-120-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at D-KIDZ.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "status": "Active"
       }
     ],
@@ -5295,7 +5295,7 @@ export const stores = [
     "name": "Unlimited Fashion Store - R.P Pudur,",
     "slug": "unlimited-fashion-store-rp-pudur",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Unlimited Fashion Store - R.P Pudur, in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 178,
@@ -5310,15 +5310,15 @@ export const stores = [
     "isFeatured": true,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-121-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Unlimited Fashion Store - R.P Pudur,.",
-        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -5338,7 +5338,7 @@ export const stores = [
     "name": "Maa Toddlers",
     "slug": "maa-toddlers",
     "logo": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Maa Toddlers in Trichengode Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 201,
@@ -5353,15 +5353,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-122-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Maa Toddlers.",
-        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -5381,7 +5381,7 @@ export const stores = [
     "name": "Mini Me baby shop",
     "slug": "mini-me-baby-shop",
     "logo": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Mini Me baby shop in Paramathi Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 224,
@@ -5396,15 +5396,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-123-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Mini Me baby shop.",
-        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -5424,7 +5424,7 @@ export const stores = [
     "name": "Baby & Baby",
     "slug": "baby-baby",
     "logo": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Baby & Baby in Park Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.6,
     "reviewsCount": 247,
@@ -5439,15 +5439,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-124-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Baby & Baby.",
-        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -5467,7 +5467,7 @@ export const stores = [
     "name": "Shiva Silks",
     "slug": "shiva-silks",
     "logo": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1471286174240-e6458e7b3044?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Shiva Silks in R.P Pudur, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.7,
     "reviewsCount": 270,
@@ -5483,15 +5483,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-125-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Shiva Silks.",
-        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -5511,7 +5511,7 @@ export const stores = [
     "name": "EasyBuy",
     "slug": "easybuy",
     "logo": "https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at EasyBuy in Bus Stand Area, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.9,
     "reviewsCount": 53,
@@ -5526,15 +5526,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80"
     ],
     "collections": [
       {
         "id": "coll-126-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at EasyBuy.",
-        "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -5554,7 +5554,7 @@ export const stores = [
     "name": "Babies NesT Baby shop",
     "slug": "babies-nest-baby-shop",
     "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-    "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "banner": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&h=400&q=80",
     "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Babies NesT Baby shop in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
     "rating": 4.4,
     "reviewsCount": 76,
@@ -5569,15 +5569,15 @@ export const stores = [
     "isFeatured": false,
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
     "gallery": [
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
+      "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "collections": [
       {
         "id": "coll-127-1",
         "name": "New Festive & Seasonal Arrival",
         "description": "Handpicked clothing range available at Babies NesT Baby shop.",
-        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+        "image": "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&h=400&q=80",
         "status": "Active"
       }
     ],
@@ -5705,7 +5705,7 @@ export const initialVendorStore = {
   "name": "Hunter Mens & Juniors Namakkal",
   "slug": "hunter-mens-juniors-namakkal",
   "logo": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&h=200&q=80",
-  "banner": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+  "banner": "https://images.unsplash.com/photo-1470309864661-68328b2cd0a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "description": "Explore exclusive clothing collections, traditional apparel, and contemporary styles at Hunter Mens & Juniors Namakkal in Salem Road, Namakkal. Visit store for walk-in discounts and fitting services.",
   "rating": 4.5,
   "reviewsCount": 58,
@@ -5721,15 +5721,15 @@ export const initialVendorStore = {
   "isFeatured": true,
   "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435749114321!2d78.16335121480436!3d11.218942292022436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babce0415a770a9%3A0xc6fb0e02eb7f59a3!2sNamakkal%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1625480000000!5m2!1sen!2sin",
   "gallery": [
-    "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
-    "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1200&h=400&q=80"
+    "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
+    "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80"
   ],
   "collections": [
     {
       "id": "coll-1-1",
       "name": "New Festive & Seasonal Arrival",
       "description": "Handpicked clothing range available at Hunter Mens & Juniors Namakkal.",
-      "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=400&q=80",
+      "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=400&q=80",
       "status": "Active"
     }
   ],

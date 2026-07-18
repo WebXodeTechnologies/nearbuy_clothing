@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { categories, stores, testimonials, faqs } from "../data/dummy-data";
+import { categories, stores, testimonials, faqs, plans } from "../data/dummy-data";
 import HeroSection from "../components/home/HeroSection";
 import FeaturedCategoriesSection from "../components/home/FeaturedCategoriesSection";
 import FeaturedStoresSection from "../components/home/FeaturedStoresSection";
@@ -10,6 +10,7 @@ import TrendingOffersSection from "../components/home/TrendingOffersSection";
 import WhyChooseUsSection from "../components/home/WhyChooseUsSection";
 import HowItWorksSection from "../components/home/HowItWorksSection";
 import VendorCtaSection from "../components/home/VendorCtaSection";
+import PricingSection from "../components/home/PricingSection";
 import TestimonialsSection from "../components/home/TestimonialsSection";
 import FaqSection from "../components/home/FaqSection";
 
@@ -45,8 +46,10 @@ export default function Home() {
       <WhyChooseUsSection />
       <HowItWorksSection />
       <VendorCtaSection />
+      <PricingSection plans={plans} />
       <TestimonialsSection testimonials={testimonials} />
       <FaqSection faqs={faqs} />
     </div>
   );
 }
+
