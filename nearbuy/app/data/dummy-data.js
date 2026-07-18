@@ -374,53 +374,52 @@ export const faqs = [
 export const plans = [
   {
     name: "Starter",
-    price: "Free",
-    period: "Forever",
-    description: "Perfect for local boutiques starting their digital presence.",
+    price: "₹499",
+    period: "month",
+    description: "Ideal for new and micro local boutiques digitizing their storefront.",
     features: [
       "1 Store Listing",
-      "Up to 2 Active Collections",
-      "1 Active Offer",
+      "Up to 5 Catalog Products",
+      "Basic Profile & Map Location",
       "Standard Directory Search",
-      "Basic Store Profile (No Banner)",
-      "WhatsApp & Phone details"
+      "WhatsApp & Direct Phone Contact"
     ],
-    cta: "Start Free",
+    cta: "Start Starter Plan",
     popular: false
   },
   {
-    name: "Grow (Silver)",
+    name: "Growth",
     price: "₹999",
     period: "month",
-    description: "Designed for established shops seeking high local visibility.",
+    description: "Designed for active local brands seeking high local visibility and sales.",
     features: [
       "1 Store Listing",
-      "Unlimited Collections",
-      "Up to 3 Active Offers",
-      "Premium Store Banner",
-      "Gallery Showcase (up to 10 images)",
+      "Up to 20 Catalog Products",
+      "Active Promotions & Offer Campaigns",
+      "Gallery Showcase (up to 10 photos)",
       "Featured Badge in Category Search",
+      "Basic Engagement Analytics",
       "Priority Email Support"
     ],
-    cta: "Choose Grow",
-    popular: false
+    cta: "Choose Growth Plan",
+    popular: true
   },
   {
-    name: "Enterprise (Gold)",
-    price: "₹2,499",
+    name: "Pro",
+    price: "₹1,999",
     period: "month",
-    description: "Ultimate visibility and marketing tools for retail brands.",
+    description: "Unlimited power and marketing tools for established clothing retail brands.",
     features: [
-      "Up to 3 Stores Listing",
-      "Unlimited Collections & Offers",
-      "Premium Gallery (unlimited images)",
-      "Featured Badge on Homepage",
-      "Priority listing in search filters",
-      "Detailed Analytics (views & clicks)",
-      "1-on-1 Dedicated Support Manager"
+      "Up to 3 Store Outlets",
+      "Unlimited Catalog Products & Collections",
+      "Unlimited Active In-Store Offers",
+      "Featured Badge on Homepage & Search",
+      "Advanced Traffic Analytics (views & clicks)",
+      "Priority Listing & Custom Banners",
+      "1-on-1 Dedicated Account Manager"
     ],
-    cta: "Choose Enterprise",
-    popular: true
+    cta: "Choose Pro Plan",
+    popular: false
   }
 ];
 

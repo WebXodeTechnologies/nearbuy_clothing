@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 export default function Card({
@@ -11,8 +13,8 @@ export default function Card({
     <div
       onClick={onClick}
       className={`
-        bg-white border border-gray-100 rounded-xl shadow-xs overflow-hidden
-        ${hoverable ? "hover:shadow-md hover:border-gray-200 transition-all duration-200 cursor-pointer hover:-translate-y-0.5" : ""}
+        bg-white border border-gray-200/80 rounded-2xl shadow-xs overflow-hidden transition-all duration-300
+        ${hoverable ? "hover:shadow-xl hover:border-blue-200 hover:-translate-y-1 cursor-pointer" : ""}
         ${className}
       `}
       {...props}
@@ -24,7 +26,7 @@ export default function Card({
 
 export function CardHeader({ children, className = "", ...props }) {
   return (
-    <div className={`px-5 py-4 border-b border-gray-50 flex items-center justify-between ${className}`} {...props}>
+    <div className={`px-6 py-4 border-b border-gray-100 flex items-center justify-between font-heading ${className}`} {...props}>
       {children}
     </div>
   );
@@ -32,7 +34,7 @@ export function CardHeader({ children, className = "", ...props }) {
 
 export function CardBody({ children, className = "", ...props }) {
   return (
-    <div className={`p-5 ${className}`} {...props}>
+    <div className={`p-6 ${className}`} {...props}>
       {children}
     </div>
   );
@@ -40,7 +42,7 @@ export function CardBody({ children, className = "", ...props }) {
 
 export function CardFooter({ children, className = "", ...props }) {
   return (
-    <div className={`px-5 py-4 bg-gray-50/50 border-t border-gray-50 flex items-center justify-between ${className}`} {...props}>
+    <div className={`px-6 py-4 bg-gray-50/60 border-t border-gray-100 flex items-center justify-between ${className}`} {...props}>
       {children}
     </div>
   );

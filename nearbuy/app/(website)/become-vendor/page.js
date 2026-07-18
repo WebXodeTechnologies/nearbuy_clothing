@@ -18,7 +18,7 @@ const VENDOR_FAQS = [
   },
   {
     question: "Can I upgrade, downgrade or cancel my plan?",
-    answer: "Yes, you can change your listing subscription plan at any time directly through your Vendor Portal's Subscription tab. Downgrades or cancellations will take effect at the end of your billing cycle."
+    answer: "Yes, you can change your listing subscription plan at any time directly through your Vendor&apos;s Portal Subscription tab. Downgrades or cancellations will take effect at the end of your billing cycle."
   },
   {
     question: "How do customers find my store?",
@@ -125,7 +125,7 @@ export default function BecomeVendorPage() {
         <div className="mt-20 space-y-10">
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <h2 className="text-2xl font-bold text-gray-900 tracking-tight sm:text-3xl">Pricing & Subscription Plans</h2>
-            <p className="text-sm text-gray-500">Pick a listing tier that matches your store's requirements. Cancel anytime.</p>
+            <p className="text-sm text-gray-500">Pick a listing tier that matches your store&apos;s requirements. Cancel anytime.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">

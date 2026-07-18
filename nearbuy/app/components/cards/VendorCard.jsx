@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Badge from "../ui/Badge";
 import Card, { CardBody } from "../ui/Card";
