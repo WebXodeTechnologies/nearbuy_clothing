@@ -47,9 +47,9 @@ const defaultBrandFaqs = [
 ];
 
 
-export default function FaqSection({ faqs }) {
+export default function FaqSection({ faqs, title, description }) {
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
-  const displayFaqs = defaultBrandFaqs;
+  const displayFaqs = faqs || defaultBrandFaqs;
 
   const toggleFaq = (index) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
@@ -98,10 +98,14 @@ export default function FaqSection({ faqs }) {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="font-heading text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight text-slate-950"
           >
-            Frequently Asked{" "}
-            <span className="bg-clip-text text-transparent bg-linear-to-r from-purple-600 via-indigo-600 to-purple-800">
-              Questions
-            </span>
+            {title || (
+              <>
+                Frequently Asked{" "}
+                <span className="bg-clip-text text-transparent bg-linear-to-r from-purple-600 via-indigo-600 to-purple-800">
+                  Questions
+                </span>
+              </>
+            )}
           </motion.h2>
 
           <motion.p
@@ -111,7 +115,7 @@ export default function FaqSection({ faqs }) {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-base text-slate-500 leading-relaxed font-body"
           >
-            Everything you need to know about the Nearbuy hyperlocal fashion discovery experience.
+            {description || "Everything you need to know about the Nearbuy hyperlocal fashion discovery experience."}
           </motion.p>
         </div>
 
