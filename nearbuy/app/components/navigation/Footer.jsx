@@ -82,7 +82,7 @@ export default function Footer() {
               </div>
               <div className="flex flex-col">
                 <span className="font-heading font-extrabold text-white text-2xl tracking-tight leading-none group-hover:text-blue-400 transition-colors">
-                  Nearbuy<span className="text-blue-500 ml-0.5">Clothing</span>
+                  Nearbuy
                 </span>
                 <span className="text-[10px] font-extrabold text-blue-400 uppercase tracking-widest mt-1">
                   Hyperlocal SaaS Platform
