@@ -59,8 +59,6 @@ export default function Footer() {
       {/* Main Container */}
       <div className="w-full max-w-7xl 2xl:max-w-[1440px] 3xl:max-w-[1600px] 4xl:max-w-[2000px] 5xl:max-w-[2400px] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12 pt-16 sm:pt-20 pb-12 relative z-10">
 
-
-
         {subscribed && (
           <div className="mb-10 p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-sm font-bold text-center animate-fadeIn shadow-lg">
             🎉 Thank you for subscribing! Check your inbox for your first local boutique discount code.
@@ -73,7 +71,7 @@ export default function Footer() {
           {/* Brand Info Column */}
           <div className="lg:col-span-1 space-y-5">
             <Link href="/" className="flex items-center gap-3 group focus:outline-none">
-              <div className="relative h-11 w-11 rounded-2xl bg-gradient-to-tr from-blue-900/60 via-gray-900 to-indigo-900/60 border border-blue-500/40 p-1 flex items-center justify-center shadow-md group-hover:border-blue-400 transition-all duration-300 shrink-0">
+              <div className="relative h-11 w-11 rounded-2xl bg-linear-to-tr from-blue-900/60 via-gray-900 to-indigo-900/60 border border-blue-500/40 p-1 flex items-center justify-center shadow-md group-hover:border-blue-400 transition-all duration-300 shrink-0">
                 <Image
                   src={logoImg}
                   alt="Nearbuy Clothing Logo"
@@ -242,7 +240,7 @@ export default function Footer() {
               href="https://webxode.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-sky-400 hover:from-blue-300 hover:to-indigo-200 transition-all  decoration-blue-500/40 underline-offset-4"
+              className="font-extrabold text-transparent bg-clip-text bg-linear-to-r from-blue-400 via-indigo-300 to-sky-400 hover:from-blue-300 hover:to-indigo-200 transition-all decoration-blue-500/40 underline-offset-4"
             >
               Webxode Technologies
             </a>

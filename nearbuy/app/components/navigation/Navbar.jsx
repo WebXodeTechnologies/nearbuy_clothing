@@ -100,7 +100,7 @@ export default function Navbar() {
     <>
       <header className="sticky top-0 z-40 w-full bg-white/85 backdrop-blur-xl border-b border-gray-100 shadow-2xs transition-all duration-300">
         {/* Top micro gradient line */}
-        <div className="h-0.5 w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500" />
+        <div className="h-0.5 w-full bg-linear-to-r from-blue-600 via-indigo-600 to-sky-500" />
 
         <div className="w-full max-w-7xl 2xl:max-w-[1440px] 3xl:max-w-[1600px] 4xl:max-w-[2000px] 5xl:max-w-[2400px] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12">
           <div className="flex justify-between h-16 sm:h-20 items-center gap-2 lg:gap-4 xl:gap-8">
@@ -111,7 +111,7 @@ export default function Navbar() {
                 href="/"
                 className="flex items-center gap-2.5 sm:gap-3 group focus:outline-none rounded-2xl p-1 -m-1"
               >
-                <div className="relative h-9 w-9 sm:h-11 sm:w-11 2xl:h-12 2xl:w-12 rounded-2xl bg-gradient-to-tr from-blue-50 via-white to-indigo-50 border border-blue-100/80 p-1 flex items-center justify-center shadow-xs group-hover:scale-105 group-hover:shadow-md group-hover:border-blue-300 transition-all duration-300 overflow-hidden shrink-0">
+                <div className="relative h-9 w-9 sm:h-11 sm:w-11 2xl:h-12 2xl:w-12 rounded-2xl bg-linear-to-tr from-blue-50 via-white to-indigo-50 border border-blue-100/80 p-1 flex items-center justify-center shadow-xs group-hover:scale-105 group-hover:shadow-md group-hover:border-blue-300 transition-all duration-300 overflow-hidden shrink-0">
                   <Image
                     src={logoImg}
                     alt="Nearbuy Clothing Logo"
@@ -132,7 +132,7 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Desktop Nav Links (Visible on LG screens and above: lg, xl, 2xl, 3xl, 4xl, 7xl) */}
+            {/* Desktop Nav Links */}
             <nav
               className="hidden lg:flex items-center gap-3 xl:gap-6 2xl:gap-8 4xl:gap-12"
               aria-label="Main Navigation"
@@ -151,7 +151,7 @@ export default function Navbar() {
                     <span>{link.label}</span>
                     {/* Animated Sliding Underline Line */}
                     <span
-                      className={`absolute bottom-0 left-0 h-0.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 transition-all duration-300 ease-out ${isActive
+                      className={`absolute bottom-0 left-0 h-0.5 rounded-full bg-linear-to-r from-blue-600 to-indigo-600 transition-all duration-300 ease-out ${isActive
                         ? "w-full shadow-xs shadow-blue-500/50"
                         : "w-0 group-hover:w-full opacity-60"
                         }`}
@@ -161,7 +161,7 @@ export default function Navbar() {
               })}
             </nav>
 
-            {/* Desktop Right Actions & Auth Buttons (Visible on LG screens and above) */}
+            {/* Desktop Right Actions & Auth Buttons */}
             <div className="hidden lg:flex items-center gap-2 xl:gap-3 2xl:gap-4 shrink-0">
               {mounted && userRole ? (
                 <div className="flex items-center gap-2 xl:gap-2.5">
@@ -194,7 +194,7 @@ export default function Navbar() {
                   </Link>
                   <Link
                     href="/become-vendor"
-                    className="text-xs xl:text-sm 2xl:text-base font-bold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:to-indigo-800 px-4 py-2 xl:px-5 xl:py-2.5 rounded-xl shadow-md shadow-blue-600/20 hover:shadow-lg hover:shadow-blue-600/30 transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 whitespace-nowrap border border-blue-500/20"
+                    className="text-xs xl:text-sm 2xl:text-base font-bold text-white bg-linear-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:to-indigo-800 px-4 py-2 xl:px-5 xl:py-2.5 rounded-xl shadow-md shadow-blue-600/20 hover:shadow-lg hover:shadow-blue-600/30 transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 whitespace-nowrap border border-blue-500/20"
                   >
                     Register Shop
                   </Link>
@@ -202,7 +202,7 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Mobile & Tablet Hamburger Button (Visible on screens below LG: xs, sm, md) */}
+            {/* Mobile & Tablet Hamburger Button */}
             <div className="flex items-center lg:hidden">
               <button
                 onClick={() => setIsOpen(true)}
@@ -219,7 +219,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Slide-over Full Height Drawer (Mobile & Tablet: xs, sm, md) */}
+      {/* Slide-over Full Height Drawer */}
       <div
         className={`fixed inset-0 z-50 lg:hidden transition-all duration-300 ${isOpen ? "visible" : "invisible delay-300"
           }`}
@@ -232,7 +232,7 @@ export default function Navbar() {
           aria-hidden="true"
         />
 
-        {/* Sliding Menu Panel (Fluid max-width across all mobile/tablet sizes) */}
+        {/* Sliding Menu Panel */}
         <div
           className={`fixed inset-y-0 right-0 w-full max-w-[85vw] sm:max-w-md md:max-w-lg bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-in-out transform ${isOpen ? "translate-x-0" : "translate-x-full"
             }`}
@@ -274,7 +274,7 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Drawer Body - Scrollable Navigation Links with Left Accent Slide Line */}
+          {/* Drawer Body */}
           <div className="flex-1 overflow-y-auto px-5 sm:px-6 py-5 sm:py-6 space-y-6">
             <div>
               <p className="text-[11px] font-extrabold tracking-wider text-gray-400 uppercase mb-3 px-1">
@@ -348,7 +348,7 @@ export default function Navbar() {
                 <Link
                   href="/become-vendor"
                   onClick={() => setIsOpen(false)}
-                  className="w-full text-center text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 py-3 sm:py-3.5 rounded-2xl shadow-md shadow-blue-600/20 transition-all block"
+                  className="w-full text-center text-sm font-bold text-white bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 py-3 sm:py-3.5 rounded-2xl shadow-md shadow-blue-600/20 transition-all block"
                 >
                   Register Shop
                 </Link>
