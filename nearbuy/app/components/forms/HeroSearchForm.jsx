@@ -12,7 +12,7 @@ export default function HeroSearchForm() {
   const popularTags = [
     { label: "👗 Ethnic Wear", query: "Ethnic" },
     { label: "👟 Footwear", query: "Footwear" },
-    { label: "⚡ Indiranagar", loc: "Indiranagar, Bangalore" },
+    { label: "⚡ Salem Road", loc: "Salem Road, Namakkal" },
     { label: "🏷️ Active Coupons", query: "Discounts" },
   ];
 
@@ -55,7 +55,7 @@ export default function HeroSearchForm() {
           </svg>
           <input
             type="text"
-            placeholder="Search styles, designer boutiques, ethnic wear..."
+            placeholder="Search styles, designer boutiques, saree collections in Namakkal..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full text-sm font-medium outline-hidden border-none text-gray-900 placeholder-gray-400 bg-transparent focus:ring-0 focus:outline-hidden"
@@ -88,11 +88,12 @@ export default function HeroSearchForm() {
             onChange={(e) => setSelectedLocation(e.target.value)}
             className="w-full text-sm text-gray-800 outline-hidden border-none bg-transparent cursor-pointer font-semibold"
           >
-            <option value="All Locations">All Bangalore</option>
-            <option value="Indiranagar, Bangalore">Indiranagar</option>
-            <option value="Commercial Street, Bangalore">Commercial St</option>
-            <option value="Koramangala, Bangalore">Koramangala</option>
-            <option value="Jayanagar, Bangalore">Jayanagar</option>
+            <option value="All Locations">All Namakkal</option>
+            <option value="Salem Road, Namakkal">Salem Road</option>
+            <option value="Mohanur Road, Namakkal">Mohanur Road</option>
+            <option value="Paramathi Road, Namakkal">Paramathi Road</option>
+            <option value="Tiruchengode Road, Namakkal">Tiruchengode Rd</option>
+            <option value="Park Road, Namakkal">Park Road</option>
           </select>
         </div>
 
