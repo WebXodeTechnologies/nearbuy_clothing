@@ -1,70 +1,81 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
+import { motion } from "framer-motion";
 import { categories } from "../../data/dummy-data";
 import Breadcrumb from "../../components/navigation/Breadcrumb";
-import Card, { CardBody } from "../../components/ui/Card";
+import CategoriesGrid from "../../components/categories/CategoriesGrid";
 
 export default function CategoriesPage() {
   return (
-    <div className="flex-1 bg-gray-50/50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Breadcrumb items={[{ label: "Categories", href: "/categories" }]} />
+    <div className="flex-1 bg-slate-50/30 py-12 pt-28 sm:pt-32 relative overflow-hidden min-h-screen">
+      {/* Decorative Background Grid */}
+      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_2px)] bg-size-[24px_24px] opacity-75 pointer-events-none" />
 
-        {/* Header Title */}
-        <div className="mt-6 mb-10">
-          <h1 className="text-2xl font-bold text-gray-950 tracking-tight sm:text-3xl">
-            Browse Clothing Categories
-          </h1>
-          <p className="mt-1 text-xs text-gray-500">
-            Discover local store offerings categorized by dress styles, footwear, boutiques, and fashion departments.
-          </p>
+      {/* Ambient background glows */}
+      <motion.div
+        animate={{
+          scale: [1, 1.05, 1],
+          opacity: [0.15, 0.22, 0.15],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        className="absolute top-12 right-1/4 w-[450px] h-[450px] bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
+      />
+      <motion.div
+        animate={{
+          scale: [1, 1.08, 1],
+          opacity: [0.2, 0.28, 0.2],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 3,
+        }}
+        className="absolute bottom-20 left-10 w-[350px] h-[350px] bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
+        {/* Breadcrumb row */}
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white/80 backdrop-blur-md px-4.5 py-2.5 rounded-2xl border border-slate-100/60 inline-block shadow-sm"
+        >
+          <Breadcrumb items={[{ label: "Categories", href: "/categories" }]} />
+        </motion.div>
+
+        {/* Page title and header description */}
+        <div className="space-y-2">
+          <motion.h1
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.08 }}
+            className="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl md:text-5xl font-heading leading-tight"
+          >
+            Browse Clothing{" "}
+            <span className="bg-clip-text text-transparent bg-linear-to-r from-purple-600 via-indigo-600 to-purple-800">
+              Categories
+            </span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="text-sm sm:text-base text-black font-body max-w-3xl leading-relaxed"
+          >
+            Discover local boutique catalogs, saree houses, footwear, and
+            accessory stores grouped by dress style and departments in Namakkal.
+          </motion.p>
         </div>
 
         {/* Categories Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {categories.map((cat) => (
-            <Card key={cat.id} hoverable className="bg-white flex flex-col h-full group">
-              <div className="h-48 w-full overflow-hidden bg-gray-100 shrink-0">
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                />
-              </div>
-
-              <CardBody className="p-5 flex-1 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-bold text-gray-900 text-base group-hover:text-blue-600 transition-colors">
-                      {cat.name}
-                    </h3>
-                    <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
-                      {cat.count} stores
-                    </span>
-                  </div>
-                  <p className="mt-2 text-xs text-gray-500 leading-relaxed">
-                    {cat.description}
-                  </p>
-                </div>
-
-                <div className="mt-5 pt-4 border-t border-gray-50 flex items-center justify-end">
-                  <Link
-                    href={`/stores?category=${encodeURIComponent(cat.name)}`}
-                    className="inline-flex items-center text-xs font-semibold text-blue-600 hover:text-blue-700 gap-0.5"
-                  >
-                    View Registered Stores
-                    <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                </div>
-              </CardBody>
-            </Card>
-          ))}
-        </div>
+        <CategoriesGrid categories={categories} />
       </div>
     </div>
   );
