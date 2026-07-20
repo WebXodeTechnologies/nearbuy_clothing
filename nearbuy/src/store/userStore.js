@@ -42,6 +42,25 @@ export const useUserStore = create((set) => ({
     }
   },
 
+  deleteProfile: async () => {
+    set({ loading: true });
+    try {
+      const res = await fetch("/api/users/profile", {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      set({ profile: null, loading: false });
+      toast.success("Account profile deleted successfully");
+      return true;
+    } catch (error) {
+      set({ loading: false });
+      toast.error(error.message);
+      throw error;
+    }
+  },
+
   fetchUsers: async (page = 1, limit = 10) => {
     set({ loading: true });
     try {

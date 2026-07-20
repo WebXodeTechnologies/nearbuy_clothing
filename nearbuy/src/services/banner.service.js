@@ -22,5 +22,6 @@ class BannerService {
   }
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default new BannerService();
+const bannerService = new BannerService();
+export default bannerService;
+

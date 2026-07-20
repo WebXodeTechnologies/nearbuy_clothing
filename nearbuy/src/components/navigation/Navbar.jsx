@@ -146,7 +146,7 @@ export default function Navbar() {
               aria-label="Main Navigation"
             >
               {navLinks
-                .filter((link) => !(link.href === "/become-vendor" && user?.role === "vendor"))
+                .filter((link) => !(link.href === "/become-vendor" && user?.role && user.role.toUpperCase() === "VENDOR"))
                 .map((link) => {
                 const isActive = pathname === link.href;
                 return (
@@ -175,7 +175,7 @@ export default function Navbar() {
             <div className="hidden lg:flex items-center gap-2 xl:gap-3 2xl:gap-4 shrink-0">
               {mounted && user ? (
                 <div className="flex items-center gap-2 xl:gap-2.5">
-                  {user.role === "vendor" && (
+                  {user?.role && ["VENDOR", "ADMIN"].includes(user.role.toUpperCase()) && (
                     <Link
                       href="/vendor/dashboard"
                       className="inline-flex items-center gap-1.5 xl:gap-2 text-xs 2xl:text-sm font-bold text-gray-800 hover:text-blue-600 bg-gray-100/80 hover:bg-blue-50 px-3 py-2 xl:px-4 xl:py-2.5 rounded-xl transition-all border border-gray-200/80 shadow-2xs hover:shadow-xs whitespace-nowrap"
@@ -294,7 +294,7 @@ export default function Navbar() {
               </p>
               <nav className="space-y-1.5 sm:space-y-2" aria-label="Mobile Navigation">
                 {navLinks
-                  .filter((link) => !(link.href === "/become-vendor" && user?.role === "vendor"))
+                  .filter((link) => !(link.href === "/become-vendor" && user?.role && user.role.toUpperCase() === "VENDOR"))
                   .map((link) => {
                   const isActive = pathname === link.href;
                   return (
@@ -337,7 +337,7 @@ export default function Navbar() {
           <div className="p-5 sm:p-6 border-t border-gray-100 bg-gray-50/60 space-y-3">
             {mounted && user ? (
               <>
-                {user.role === "vendor" && (
+                {user?.role && ["VENDOR", "ADMIN"].includes(user.role.toUpperCase()) && (
                   <Link
                     href="/vendor/dashboard"
                     onClick={() => setIsOpen(false)}

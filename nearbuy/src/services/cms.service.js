@@ -37,4 +37,6 @@ class CMSService {
   }
 }
 
-export default new CMSService();
+const cmsService = new CMSService();
+export default cmsService;
+

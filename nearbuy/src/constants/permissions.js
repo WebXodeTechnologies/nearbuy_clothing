@@ -1,0 +1,54 @@
+import { ROLES } from "./roles";
+
+/**
+ * System permission flags for RBAC control
+ */
+export const PERMISSIONS = {
+  // Vendor permissions
+  MANAGE_STORE: "MANAGE_STORE",
+  MANAGE_COLLECTIONS: "MANAGE_COLLECTIONS",
+  MANAGE_OFFERS: "MANAGE_OFFERS",
+  VIEW_VENDOR_ANALYTICS: "VIEW_VENDOR_ANALYTICS",
+
+  // Admin permissions
+  MANAGE_USERS: "MANAGE_USERS",
+  MANAGE_VENDORS: "MANAGE_VENDORS",
+  APPROVE_VENDORS: "APPROVE_VENDORS",
+  MANAGE_CATEGORIES: "MANAGE_CATEGORIES",
+  MANAGE_CMS: "MANAGE_CMS",
+  VIEW_PLATFORM_ANALYTICS: "VIEW_PLATFORM_ANALYTICS",
+};
+
+/**
+ * Permission mappings by user role
+ */
+export const ROLE_PERMISSIONS = {
+  [ROLES.USER]: [],
+  [ROLES.VENDOR]: [
+    PERMISSIONS.MANAGE_STORE,
+    PERMISSIONS.MANAGE_COLLECTIONS,
+    PERMISSIONS.MANAGE_OFFERS,
+    PERMISSIONS.VIEW_VENDOR_ANALYTICS,
+  ],
+  [ROLES.ADMIN]: [
+    PERMISSIONS.MANAGE_STORE,
+    PERMISSIONS.MANAGE_COLLECTIONS,
+    PERMISSIONS.MANAGE_OFFERS,
+    PERMISSIONS.VIEW_VENDOR_ANALYTICS,
+    PERMISSIONS.MANAGE_USERS,
+    PERMISSIONS.MANAGE_VENDORS,
+    PERMISSIONS.APPROVE_VENDORS,
+    PERMISSIONS.MANAGE_CATEGORIES,
+    PERMISSIONS.MANAGE_CMS,
+    PERMISSIONS.VIEW_PLATFORM_ANALYTICS,
+  ],
+};
+
+export function hasPermission(role, permission) {
+  if (!role || !permission) return false;
+  const userRole = role.toUpperCase();
+  const permissions = ROLE_PERMISSIONS[userRole] || [];
+  return permissions.includes(permission);
+}
+
+export default PERMISSIONS;

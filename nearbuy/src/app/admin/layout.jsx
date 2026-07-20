@@ -22,7 +22,10 @@ export default function AdminLayout({ children }) {
     );
   }
 
-  if (!user || user.role !== "admin") {
+  // Case-insensitive verification for ADMIN role
+  const isAdmin = user?.role && user.role.toUpperCase() === "ADMIN";
+
+  if (!user || !isAdmin) {
     return (
       <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-6 text-center text-gray-300">
         <div className="max-w-md space-y-4">

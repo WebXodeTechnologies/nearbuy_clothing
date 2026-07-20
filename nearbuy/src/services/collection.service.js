@@ -66,4 +66,6 @@ class CollectionService {
   }
 }
 
-export default new CollectionService();
+const collectionService = new CollectionService();
+export default collectionService;
+

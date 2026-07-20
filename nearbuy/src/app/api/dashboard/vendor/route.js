@@ -9,8 +9,14 @@ export const GET = withErrorHandler(async (req) => {
   const user = await requireVendor(req);
   await dbConnect();
 
-  const vendor = await vendorService.getVendorByOwner(user.id);
-  const stats = await dashboardService.getVendorDashboardStats(vendor._id);
+  let vendor = null;
+  try {
+    vendor = await vendorService.getVendorByOwner(user.id);
+  } catch {
+    // Account is VENDOR role, but hasn't created a business profile document yet
+  }
+
+  const stats = await dashboardService.getVendorDashboardStats(vendor ? vendor._id : null);
 
   return ApiResponse.success(stats, "Vendor dashboard stats retrieved successfully");
 });
