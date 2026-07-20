@@ -17,10 +17,11 @@ function CallbackContent() {
 
     const syncRoleAndRedirect = async () => {
       const urlRole = searchParams.get("role");
+      let activeRole = user.role ? user.role.toUpperCase() : "USER";
 
-      if (urlRole && ["customer", "vendor", "admin"].includes(urlRole)) {
+      if (urlRole) {
         try {
-          // Sync role update with backend
+          // Sync role update with backend API
           const res = await fetch("/api/auth/update-role", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -28,8 +29,12 @@ function CallbackContent() {
           });
 
           if (res.ok) {
-            // Update NextAuth local session state to reflect role
-            await updateSession({ role: urlRole });
+            const data = await res.json();
+            if (data.role) {
+              activeRole = data.role.toUpperCase();
+              // Update NextAuth local session state to reflect uppercase role
+              await updateSession({ role: activeRole });
+            }
           }
         } catch (err) {
           console.error("Failed to sync role:", err);
@@ -37,10 +42,9 @@ function CallbackContent() {
       }
 
       // Route user to appropriate portal
-      const finalRole = urlRole || user.role;
-      if (finalRole === "admin") {
+      if (activeRole === "ADMIN") {
         router.push("/admin/dashboard");
-      } else if (finalRole === "vendor") {
+      } else if (activeRole === "VENDOR") {
         router.push("/vendor/dashboard");
       } else {
         router.push("/");
@@ -56,7 +60,7 @@ function CallbackContent() {
         <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600 mx-auto" />
         <h2 className="text-xl font-bold text-slate-900 tracking-tight">Completing Sign-In</h2>
         <p className="text-xs text-slate-500 font-semibold max-w-xs mx-auto leading-relaxed">
-          Please wait while we establish your secure session and sync your profile parameters...
+          Establishing your secure session and setting up your vendor dashboard...
         </p>
       </div>
     </div>

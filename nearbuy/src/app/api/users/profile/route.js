@@ -25,3 +25,11 @@ export const PUT = withErrorHandler(async (req) => {
   const updatedUser = await userRepository.updateProfile(activeUser.id, validatedData);
   return ApiResponse.success(updatedUser, "Profile updated successfully");
 });
+
+export const DELETE = withErrorHandler(async (req) => {
+  const activeUser = await authenticate(req);
+  await dbConnect();
+
+  await authService.deleteUserProfile(activeUser.id);
+  return ApiResponse.success(null, "User profile deleted successfully");
+});

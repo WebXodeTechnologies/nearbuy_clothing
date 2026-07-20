@@ -26,9 +26,9 @@ export const authOptions = {
         // Hardcoded Admin Account Check
         if (inputIdentifier === "nearbuyadmin1" && credentials.password === "123456") {
           return {
-            id: "nearbuy-admin-static-id",
+            id: "000000000000000000000001",
             name: "Nearbuy Admin",
-            email: "nearbuyadmin1",
+            email: "nearbuyadmin1@nearbuy.com",
             role: "ADMIN",
             phone: "+91 99999 99999",
             picture: "",

@@ -70,4 +70,6 @@ class StoreService {
   }
 }
 
-export default new StoreService();
+const storeService = new StoreService();
+export default storeService;
+

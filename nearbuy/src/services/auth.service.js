@@ -13,11 +13,14 @@ class AuthService {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    let normalizedRole = (role || "USER").toUpperCase().trim();
+    if (normalizedRole === "CUSTOMER") normalizedRole = "USER";
+
     const user = await userRepository.create({
       name,
       email: normalizedEmail,
       password: hashedPassword,
-      role,
+      role: normalizedRole,
     });
 
     const userObj = user.toObject();
@@ -54,6 +57,16 @@ class AuthService {
     }
     return user;
   }
+
+  async deleteUserProfile(userId) {
+    const user = await userRepository.deleteProfile(userId);
+    if (!user) {
+      throw new ApiError(404, "User profile not found.");
+    }
+    return user;
+  }
 }
 
-export default new AuthService();
+const authService = new AuthService();
+export default authService;
+

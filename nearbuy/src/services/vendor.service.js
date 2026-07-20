@@ -75,4 +75,6 @@ class VendorService {
   }
 }
 
-export default new VendorService();
+const vendorService = new VendorService();
+export default vendorService;
+

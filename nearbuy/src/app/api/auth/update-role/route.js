@@ -7,35 +7,48 @@ import User from "@/models/User";
 export async function POST(request) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session || !session.user) {
+    if (!session || !session.user || !session.user.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { role } = await request.json();
-    if (!role || !["customer", "vendor", "admin"].includes(role)) {
-      return NextResponse.json({ error: "Invalid role" }, { status: 400 });
+    const body = await request.json().catch(() => ({}));
+    const rawRole = body.role;
+    if (!rawRole) {
+      return NextResponse.json({ error: "Role parameter is required" }, { status: 400 });
+    }
+
+    let normalizedRole = String(rawRole).toUpperCase().trim();
+    if (normalizedRole === "CUSTOMER") normalizedRole = "USER";
+
+    if (!["USER", "VENDOR", "ADMIN"].includes(normalizedRole)) {
+      return NextResponse.json({ error: `Invalid role: ${rawRole}` }, { status: 400 });
     }
 
     await dbConnect();
-    
-    // Find the logged-in Google user and update their role
-    const user = await User.findOne({ email: session.user.email.toLowerCase() });
+
+    const email = session.user.email.toLowerCase().trim();
+    let user = await User.findOne({ email });
+
     if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+      user = await User.create({
+        name: session.user.name || email.split("@")[0],
+        email: email,
+        image: session.user.image || "",
+        role: normalizedRole,
+      });
+    } else {
+      user.role = normalizedRole;
+      await user.save();
     }
 
-    // Update role
-    user.role = role;
-    await user.save();
-
-    return NextResponse.json({ 
-      message: "Role updated successfully", 
-      role: user.role 
+    return NextResponse.json({
+      message: "Role updated successfully",
+      role: user.role,
     });
   } catch (error) {
     console.error("Update Role Error:", error);
     return NextResponse.json(
-      { error: "Server error occurred while updating profile" },
+      { error: error.message || "Server error occurred while updating profile" },
       { status: 500 }
     );
   }
