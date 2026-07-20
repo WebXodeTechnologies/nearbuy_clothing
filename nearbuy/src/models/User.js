@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, "Name is required"],
+      trim: true,
     },
     email: {
       type: String,
@@ -12,27 +13,32 @@ const UserSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
+      index: true,
     },
     password: {
       type: String,
-      // Optional, as Google authenticated users won't have a password
     },
-    phone: {
+    image: {
       type: String,
       default: "",
     },
     role: {
       type: String,
-      enum: ["customer", "vendor", "admin"],
-      default: "vendor",
+      enum: ["USER", "VENDOR", "ADMIN"],
+      default: "USER",
     },
-    picture: {
-      type: String,
-      default: "",
+    vendorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Vendor",
+      default: null,
     },
-    isGoogleUser: {
+    isActive: {
       type: Boolean,
-      default: false,
+      default: true,
+    },
+    lastLogin: {
+      type: Date,
+      default: Date.now,
     },
   },
   {
@@ -40,7 +46,6 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-// Prevent mongoose from compiling Model multiple times during Next.js hot reloads
 const User = mongoose.models.User || mongoose.model("User", UserSchema);
 
 export default User;

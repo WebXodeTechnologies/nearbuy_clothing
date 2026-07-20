@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import StatsCard from "@/components/dashboard/StatsCard";
 import AnalyticsCard from "@/components/dashboard/AnalyticsCard";
@@ -8,8 +8,15 @@ import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import Card, { CardHeader, CardBody } from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import useDashboardStore from "@/store/dashboardStore";
 
 export default function VendorDashboard() {
+  const { vendorStats, fetchVendorStats, loading } = useDashboardStore();
+
+  useEffect(() => {
+    fetchVendorStats();
+  }, [fetchVendorStats]);
+
   const storeViewsIcon = (props) => (
     <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -46,7 +53,7 @@ export default function VendorDashboard() {
     <div className="space-y-6">
       {/* Header */}
       <DashboardHeader
-        title="Urban Threads Boutique"
+        title="Merchant Partner Dashboard"
         description="Monitor store discovery stats, active lookbooks, and coupon walk-ins."
       >
         <Link href="/vendor/collections">
@@ -65,29 +72,29 @@ export default function VendorDashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatsCard
           title="Store Views"
-          value="1,480"
-          change="+18.4%"
+          value={loading ? "..." : (vendorStats?.storeViews || 0).toString()}
+          change={vendorStats?.whatsappClicks ? `+${vendorStats.whatsappClicks} WhatsApp leads` : "Live updates"}
           changeType="increase"
           icon={storeViewsIcon}
         />
         <StatsCard
-          title="Lookbooks"
-          value="4 Active"
-          change="Updated today"
+          title="Boutique Stores"
+          value={loading ? "..." : `${vendorStats?.storesCount || 0} Listed`}
+          change="Active Listings"
           changeType="neutral"
           icon={collectionsIcon}
         />
         <StatsCard
           title="Offers Running"
-          value="2 Active"
-          change="35 claims"
+          value={loading ? "..." : `${vendorStats?.activeOffersCount || 0} Active`}
+          change={`${vendorStats?.totalLeads || 0} total claims`}
           changeType="increase"
           icon={offersIcon}
         />
         <StatsCard
           title="Listing Tier"
-          value="Gold Plan"
-          change="Expires in 24 days"
+          value="Pro Tier"
+          change="Status: Active"
           changeType="neutral"
           icon={subIcon}
         />
@@ -98,13 +105,12 @@ export default function VendorDashboard() {
         <div className="lg:col-span-2">
           <AnalyticsCard
             title="Discovery Performance"
-            subtitle="Views and coupon claims tracked over the past 6 months."
+            subtitle="Views and customer lead actions tracked live."
           />
         </div>
 
         {/* Quick links & activities */}
         <div className="space-y-6">
-          {/* Quick Actions Panel */}
           <Card className="bg-white">
             <CardHeader>
               <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wider">Quick Actions</h3>
@@ -128,20 +134,18 @@ export default function VendorDashboard() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
-              <a
-                href="/stores/urban-threads-boutique"
-                target="_blank"
+              <Link
+                href="/stores"
                 className="w-full flex items-center justify-between p-2.5 rounded-lg text-xs font-medium text-gray-700 hover:bg-gray-50 border border-gray-150 transition-colors"
               >
-                <span>Preview Store Profile</span>
+                <span>Browse Store Directory</span>
                 <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
-              </a>
+              </Link>
             </CardBody>
           </Card>
 
-          {/* Activity Log */}
           <Card className="bg-white">
             <CardHeader>
               <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wider">Recent Activity</h3>
