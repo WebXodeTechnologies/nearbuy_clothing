@@ -247,7 +247,7 @@ export default function VendorDashboard() {
 
             <div className="flex-1 space-y-3 w-full">
               <div>
-                <span className="text-[10px] font-extrabold text-indigo-600 uppercase tracking-wider">Men's Apparel</span>
+                <span className="text-[10px] font-extrabold text-indigo-600 uppercase tracking-wider">Men&apos;s Apparel</span>
                 <h3 className="text-base font-heading font-bold text-slate-900 leading-tight">
                   Summer Linen Essentials 2026
                 </h3>

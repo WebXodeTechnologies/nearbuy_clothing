@@ -62,6 +62,12 @@ class OfferService {
 
     return await offerRepository.delete(id);
   }
+
+  async getAllOffers(query = {}, pagination = { limit: 10, skip: 0 }) {
+    const offers = await offerRepository.findAll(query, pagination);
+    const total = await offerRepository.count(query);
+    return { offers, total };
+  }
 }
 
 const offerService = new OfferService();

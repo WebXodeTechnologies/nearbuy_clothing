@@ -33,7 +33,7 @@ export default function TermsPage() {
                 Nearby Clothing is a hyperlocal directory directory platform that assists customers in discovering local physical apparel outlets, catalog lookbooks, and active coupons. 
               </p>
               <p className="font-semibold text-gray-800">
-                You cannot buy, check out, pay for, or ship clothing items through this website. All financial transactions must take place physically at the vendor's retail shop.
+                You cannot buy, check out, pay for, or ship clothing items through this website. All financial transactions must take place physically at the vendor&apos;s retail shop.
               </p>
             </div>
 

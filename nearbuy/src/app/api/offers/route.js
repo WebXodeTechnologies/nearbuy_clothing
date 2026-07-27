@@ -24,12 +24,19 @@ export const GET = withErrorHandler(async (req) => {
   const page = parseInt(searchParams.get("page") || "1", 10);
   const limit = parseInt(searchParams.get("limit") || "10", 10);
   const vendorId = searchParams.get("vendor");
+  const all = searchParams.get("all") === "true";
 
   if (vendorId) {
     const offers = await offerService.getOffersByVendor(vendorId);
     return ApiResponse.success({ offers }, "Vendor offers retrieved successfully");
   }
 
-  const result = await offerService.getActiveOffers({ limit, skip: (page - 1) * limit });
-  return ApiResponse.success({ ...result, page, limit }, "Active promotional offers retrieved successfully");
+  let result;
+  if (all) {
+    result = await offerService.getAllOffers({}, { limit, skip: (page - 1) * limit });
+  } else {
+    result = await offerService.getActiveOffers({ limit, skip: (page - 1) * limit });
+  }
+
+  return ApiResponse.success({ ...result, page, limit }, "Promotional offers retrieved successfully");
 });

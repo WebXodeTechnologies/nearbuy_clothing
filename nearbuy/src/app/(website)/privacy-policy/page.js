@@ -54,7 +54,7 @@ export default function PrivacyPolicyPage() {
             <div className="space-y-2">
               <h3 className="font-bold text-gray-950 text-sm">3. Location Information</h3>
               <p>
-                Since Nearby Clothing is a hyperlocal platform, we may request your browser's location coordinates to display clothing shops closest to you. You can enable or disable location tracking anytime via your browser settings.
+                Since Nearby Clothing is a hyperlocal platform, we may request your browser&apos;s location coordinates to display clothing shops closest to you. You can enable or disable location tracking anytime via your browser settings.
               </p>
             </div>
 

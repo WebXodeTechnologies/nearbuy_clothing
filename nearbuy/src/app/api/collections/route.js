@@ -26,6 +26,7 @@ export const GET = withErrorHandler(async (req) => {
   const limit = parseInt(searchParams.get("limit") || "10", 10);
   const categoryId = searchParams.get("category");
   const vendorId = searchParams.get("vendor");
+  const all = searchParams.get("all") === "true";
 
   let result;
   if (categoryId) {
@@ -33,8 +34,9 @@ export const GET = withErrorHandler(async (req) => {
   } else if (vendorId) {
     result = await collectionService.getCollectionsByVendor(vendorId, { limit, skip: (page - 1) * limit });
   } else {
-    const collections = await collectionRepository.findAll({ status: true }, { limit, skip: (page - 1) * limit });
-    const total = await collectionRepository.count({ status: true });
+    const query = all ? {} : { status: true };
+    const collections = await collectionRepository.findAll(query, { limit, skip: (page - 1) * limit });
+    const total = await collectionRepository.count(query);
     result = { collections, total };
   }
 

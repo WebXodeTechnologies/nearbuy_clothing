@@ -7,11 +7,17 @@ export const useStoreStore = create((set) => ({
   total: 0,
   loading: false,
 
-  fetchStores: async (city = "", page = 1, limit = 10) => {
+  fetchStores: async (filters = {}, page = 1, limit = 10) => {
     set({ loading: true });
     try {
       const queryParams = new URLSearchParams({ page, limit });
-      if (city) queryParams.append("city", city);
+      if (typeof filters === "string") {
+        if (filters) queryParams.append("city", filters);
+      } else {
+        if (filters.city) queryParams.append("city", filters.city);
+        if (filters.vendor) queryParams.append("vendor", filters.vendor);
+        if (filters.all) queryParams.append("all", "true");
+      }
 
       const res = await fetch(`/api/stores?${queryParams}`);
       const data = await res.json();

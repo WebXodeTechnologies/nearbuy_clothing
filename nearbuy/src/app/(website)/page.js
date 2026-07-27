@@ -1,7 +1,13 @@
 "use client";
 
 import React from "react";
-import { categories, stores, testimonials, faqs, plans } from "@/data/dummy-data";
+import {
+  categories,
+  stores,
+  testimonials,
+  faqs,
+  plans,
+} from "@/data/dummy-data";
 import HeroSection from "@/components/home/HeroSection";
 import FeaturedCategoriesSection from "@/components/home/FeaturedCategoriesSection";
 import FeaturedStoresSection from "@/components/home/FeaturedStoresSection";
@@ -52,4 +58,3 @@ export default function Home() {
     </div>
   );
 }
-
