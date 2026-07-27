@@ -25,6 +25,14 @@ class OfferRepository {
       .limit(pagination.limit);
   }
 
+  async findAll(query = {}, pagination = { limit: 10, skip: 0 }) {
+    return await Offer.find(query)
+      .populate("vendorId", "businessName businessSlug logo")
+      .sort({ createdAt: -1 })
+      .skip(pagination.skip)
+      .limit(pagination.limit);
+  }
+
   async update(id, updateData) {
     return await Offer.findByIdAndUpdate(id, updateData, { new: true });
   }
@@ -38,4 +46,5 @@ class OfferRepository {
   }
 }
 
-export default new OfferRepository();
+const offerRepository = new OfferRepository();
+export default offerRepository;

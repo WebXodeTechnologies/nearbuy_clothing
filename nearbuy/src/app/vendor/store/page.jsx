@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import { toast } from "react-hot-toast";
+import { useAuth } from "@/context/AuthContext";
+import useStoreStore from "@/store/storeStore";
 import {
   Store,
   MapPin,
@@ -22,7 +24,11 @@ import {
 } from "lucide-react";
 
 export default function VendorStore() {
+  const { user } = useAuth();
+  const { stores, fetchStores, createStore, updateStore } = useStoreStore();
+
   const [loading, setLoading] = useState(false);
+  const [storeId, setStoreId] = useState(null);
   const [facilities, setFacilities] = useState([
     "Parking",
     "Trial Room",
@@ -36,16 +42,51 @@ export default function VendorStore() {
     businessName: "Urban Threads Boutique",
     description: "Premium handcrafted linen, silk dresses, and designer festive ethnic wear for men and women in Bandra West.",
     address: "Shop 14, Hill Road, Opposite St. Andrew's Church, Bandra West, Mumbai 400050",
+    city: "Mumbai",
+    pincode: "400050",
     phone: "+91 98200 12345",
     whatsapp: "+91 98200 12345",
     email: "contact@urbanthreads.com",
-    workingHours: "10:30 AM - 9:30 PM",
+    workingHours: "10:30 AM - 09:30 PM",
     businessDays: "Monday - Sunday",
     instagram: "@urbanthreadsmumbai",
     facebook: "facebook.com/urbanthreadsmumbai",
     website: "https://urbanthreads.in",
     status: "Active",
   });
+
+  useEffect(() => {
+    if (user?.vendorId) {
+      fetchStores({ vendor: user.vendorId });
+    }
+  }, [user, fetchStores]);
+
+  useEffect(() => {
+    if (stores && stores.length > 0) {
+      const store = stores[0];
+      if (store._id !== storeId) {
+        Promise.resolve().then(() => {
+          setStoreId(store._id);
+          setFormData({
+            businessName: store.storeName || "",
+            description: store.description || "",
+            address: store.address || "",
+            city: store.city || "Mumbai",
+            pincode: store.pincode || "",
+            phone: store.phone || "",
+            whatsapp: store.whatsapp || "",
+            email: store.email || "",
+            workingHours: `${store.openingTime || "10:00 AM"} - ${store.closingTime || "09:00 PM"}`,
+            businessDays: store.workingDays?.join(" - ") || "Monday - Sunday",
+            instagram: store.instagram || "",
+            facebook: store.facebook || "",
+            website: store.website || "",
+            status: store.status || "Active",
+          });
+        });
+      }
+    }
+  }, [stores, storeId]);
 
   const availableFacilities = [
     "Parking",
@@ -67,13 +108,43 @@ export default function VendorStore() {
     }
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
+
+    const [openingTime, closingTime] = formData.workingHours.split(" - ");
+    const workingDays = formData.businessDays.split(" - ");
+
+    const payload = {
+      storeName: formData.businessName,
+      description: formData.description,
+      address: formData.address,
+      city: formData.city || "Mumbai",
+      pincode: formData.pincode,
+      phone: formData.phone,
+      whatsapp: formData.whatsapp,
+      email: formData.email,
+      openingTime: openingTime || "10:00 AM",
+      closingTime: closingTime || "09:00 PM",
+      workingDays: workingDays.length > 0 ? workingDays : ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      instagram: formData.instagram,
+      facebook: formData.facebook,
+      website: formData.website,
+      status: formData.status,
+    };
+
+    try {
+      if (storeId) {
+        await updateStore(storeId, payload);
+      } else {
+        await createStore(payload);
+      }
+      toast.success("Store details updated successfully!");
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
       setLoading(false);
-      toast.success("Store details & SEO preview updated successfully!");
-    }, 800);
+    }
   };
 
   return (
@@ -103,9 +174,6 @@ export default function VendorStore() {
             className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
           />
           <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-transparent to-transparent" />
-          <button className="absolute top-4 right-4 px-3.5 py-2 rounded-xl bg-white/90 backdrop-blur-md text-slate-900 text-xs font-bold shadow-md hover:bg-white transition-colors flex items-center gap-2 cursor-pointer">
-            <Upload className="w-3.5 h-3.5" /> Change Cover Banner
-          </button>
         </div>
 
         {/* Logo & Basic Header */}
@@ -118,9 +186,6 @@ export default function VendorStore() {
                 alt="Store Logo"
                 className="w-full h-full object-cover rounded-2xl"
               />
-              <button className="absolute inset-0 bg-slate-950/40 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold">
-                Change
-              </button>
             </div>
             <div className="space-y-1">
               <div className="flex items-center gap-2">
@@ -130,7 +195,7 @@ export default function VendorStore() {
                 </span>
               </div>
               <p className="text-xs text-slate-500 font-medium flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-indigo-600" /> Bandra West, Mumbai
+                <MapPin className="w-3.5 h-3.5 text-indigo-600" /> {formData.city}, India
               </p>
             </div>
           </div>
@@ -139,7 +204,7 @@ export default function VendorStore() {
             <span className="text-xs font-bold text-slate-600 px-2">Store Visibility:</span>
             <button
               type="button"
-              onClick={() => setFormData({ ...formData, status: formData.status === "Active" ? "Paused" : "Active" })}
+              onClick={() => setFormData({ ...formData, status: formData.status === "Active" ? "Inactive" : "Active" })}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 formData.status === "Active"
                   ? "bg-emerald-600 text-white shadow-sm"
@@ -168,6 +233,7 @@ export default function VendorStore() {
                 </label>
                 <input
                   type="text"
+                  required
                   value={formData.businessName}
                   onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
                   className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
@@ -180,6 +246,7 @@ export default function VendorStore() {
                 </label>
                 <textarea
                   rows={3}
+                  required
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs font-medium text-slate-900 focus:outline-none focus:border-indigo-600"
@@ -193,6 +260,7 @@ export default function VendorStore() {
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.whatsapp}
                     onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
@@ -204,6 +272,7 @@ export default function VendorStore() {
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
@@ -226,10 +295,38 @@ export default function VendorStore() {
                 </label>
                 <input
                   type="text"
+                  required
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                   className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
                 />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-1.5">
+                    City (Indexed for local search)
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.city}
+                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-1.5">
+                    Pincode
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.pincode}
+                    onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -239,8 +336,10 @@ export default function VendorStore() {
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.workingHours}
                     onChange={(e) => setFormData({ ...formData, workingHours: e.target.value })}
+                    placeholder="e.g. 10:30 AM - 09:30 PM"
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
                   />
                 </div>
@@ -250,8 +349,10 @@ export default function VendorStore() {
                   </label>
                   <input
                     type="text"
+                    required
                     value={formData.businessDays}
                     onChange={(e) => setFormData({ ...formData, businessDays: e.target.value })}
+                    placeholder="e.g. Monday - Sunday"
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
                   />
                 </div>
@@ -302,10 +403,10 @@ export default function VendorStore() {
 
             <div className="p-4 rounded-2xl bg-slate-50 border border-slate-150 space-y-2">
               <span className="text-[10px] font-mono text-emerald-700 truncate block">
-                https://nearbuy.clothing/stores/urban-threads-mumbai
+                https://nearbuy.clothing/stores/{formData.businessName.toLowerCase().replace(/\s+/g, "-")}
               </span>
               <h4 className="text-sm font-heading font-bold text-indigo-600 hover:underline leading-tight">
-                {formData.businessName} - Bandra West Clothing Store
+                {formData.businessName} - {formData.city} Clothing Store
               </h4>
               <p className="text-[11px] text-slate-500 font-medium line-clamp-2 leading-relaxed">
                 {formData.description}

@@ -24,7 +24,18 @@ export const GET = withErrorHandler(async (req) => {
   const city = searchParams.get("city") || "";
   const page = parseInt(searchParams.get("page") || "1", 10);
   const limit = parseInt(searchParams.get("limit") || "10", 10);
+  const vendor = searchParams.get("vendor");
+  const all = searchParams.get("all") === "true";
 
-  const result = await storeService.getStoresByCity(city, { limit, skip: (page - 1) * limit });
+  let result;
+  if (vendor) {
+    const stores = await storeService.getStoresByVendor(vendor);
+    result = { stores, total: stores.length };
+  } else if (all) {
+    result = await storeService.getAllStores({}, { limit, skip: (page - 1) * limit });
+  } else {
+    result = await storeService.getStoresByCity(city, { limit, skip: (page - 1) * limit });
+  }
+
   return ApiResponse.success({ ...result, page, limit }, "Stores retrieved successfully");
 });

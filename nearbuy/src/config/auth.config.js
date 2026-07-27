@@ -58,6 +58,7 @@ export const authOptions = {
           role: user.role,
           phone: user.phone,
           image: user.image || "",
+          vendorId: user.vendorId ? user.vendorId.toString() : null,
         };
       },
     }),
@@ -84,12 +85,14 @@ export const authOptions = {
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.vendorId = user.vendorId || null;
       } else if (token.email) {
         await dbConnect();
         const dbUser = await User.findOne({ email: token.email });
         if (dbUser) {
           token.id = dbUser._id.toString();
           token.role = dbUser.role;
+          token.vendorId = dbUser.vendorId ? dbUser.vendorId.toString() : null;
         }
       }
 
@@ -103,6 +106,7 @@ export const authOptions = {
       if (session.user) {
         session.user.id = token.id;
         session.user.role = token.role;
+        session.user.vendorId = token.vendorId || null;
       }
       return session;
     },

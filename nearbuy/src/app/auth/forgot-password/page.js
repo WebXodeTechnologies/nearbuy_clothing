@@ -37,7 +37,7 @@ export default function ForgotPasswordPage() {
           Forgot Your Password?
         </h2>
         <p className="text-xs text-gray-500">
-          Enter your registered email address below, and we'll send you an OTP code to reset it.
+          Enter your registered email address below, and we&apos;ll send you an OTP code to reset it.
         </p>
       </div>
 

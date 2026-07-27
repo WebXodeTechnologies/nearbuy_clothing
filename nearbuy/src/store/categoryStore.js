@@ -39,6 +39,48 @@ export const useCategoryStore = create((set) => ({
       throw error;
     }
   },
+
+  updateCategory: async (id, updateData) => {
+    set({ loading: true });
+    try {
+      const res = await fetch(`/api/categories/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updateData),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      set((state) => ({
+        categories: state.categories.map((c) => (c._id === id ? data.data : c)),
+        loading: false,
+      }));
+      toast.success("Category updated!");
+      return data.data;
+    } catch (error) {
+      set({ loading: false });
+      toast.error(error.message);
+      throw error;
+    }
+  },
+
+  deleteCategory: async (id) => {
+    set({ loading: true });
+    try {
+      const res = await fetch(`/api/categories/${id}`, { method: "DELETE" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      set((state) => ({
+        categories: state.categories.filter((c) => c._id !== id),
+        loading: false,
+      }));
+      toast.success("Category deleted!");
+    } catch (error) {
+      set({ loading: false });
+      toast.error(error.message);
+    }
+  },
 }));
 
 export default useCategoryStore;

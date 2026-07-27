@@ -45,11 +45,11 @@ export function AuthProvider({ children }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
+  const store = useAuthStore();
   if (context) {
     return context;
   }
   // Fallback directly to Zustand store if invoked outside Provider
-  const store = useAuthStore();
   return {
     user: store.user,
     loading: store.loading,

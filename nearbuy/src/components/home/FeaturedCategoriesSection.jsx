@@ -14,7 +14,7 @@ export default function FeaturedCategoriesSection({ categories }) {
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-blue-400/10 blur-3xl pointer-events-none rounded-full" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-400/10 blur-3xl pointer-events-none rounded-full" />
 
-      <div className="w-full max-w-7xl 2xl:max-w-[1440px] 3xl:max-w-[1600px] 4xl:max-w-[2000px] 5xl:max-w-[2400px] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12 relative z-10">
+      <div className="w-full max-w-7xl 2xl:max-w-360 3xl:max-w-[1600px] 4xl:max-w-[2000px] 5xl:max-w-[2400px] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12 relative z-10">
 
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 lg:mb-14 gap-6">
