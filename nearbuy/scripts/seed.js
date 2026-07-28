@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
 const vendorSchema = new mongoose.Schema({
   ownerId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   businessName: { type: String, required: true },
-  slug: { type: String, required: true, unique: true },
+  businessSlug: { type: String, required: true, unique: true },
   phone: { type: String, required: true },
   email: { type: String, required: true },
   status: { type: String, enum: ["Pending", "Approved", "Rejected", "Suspended"], default: "Approved" },
@@ -76,8 +76,9 @@ const offerSchema = new mongoose.Schema({
 
 const bannerSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  imageUrl: { type: String, required: true },
-  linkUrl: { type: String, default: "/stores" },
+  image: { type: String, required: true },
+  buttonText: { type: String, default: "" },
+  buttonLink: { type: String, default: "/stores" },
   isActive: { type: Boolean, default: true },
 }, { timestamps: true });
 
@@ -146,7 +147,7 @@ async function seedDatabase() {
     const vendorProfile = await Vendor.create({
       ownerId: vendorUser._id,
       businessName: "Urban Threads Apparel Pvt Ltd",
-      slug: "urban-threads-apparel",
+      businessSlug: "urban-threads-apparel",
       phone: "+919812345678",
       email: "vendor@urbanthreads.com",
       status: "Approved",
@@ -254,8 +255,9 @@ async function seedDatabase() {
     await Banner.insertMany([
       {
         title: "Discover Local Boutique Stores Near You",
-        imageUrl: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80",
-        linkUrl: "/stores",
+        image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80",
+        buttonText: "Browse Stores",
+        buttonLink: "/stores",
         isActive: true,
       },
     ]);

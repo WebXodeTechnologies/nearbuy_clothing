@@ -1,5 +1,5 @@
 import CMS from "@/models/CMS";
-import slugify from "@/lib/slugify";
+import slugify from "@/utils/slugify";
 import ApiError from "@/utils/apiError";
 
 class CMSService {
@@ -39,4 +39,3 @@ class CMSService {
 
 const cmsService = new CMSService();
 export default cmsService;
-

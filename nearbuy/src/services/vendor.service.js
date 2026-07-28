@@ -1,19 +1,25 @@
 import vendorRepository from "@/repositories/vendor.repository";
 import userRepository from "@/repositories/user.repository";
-import slugify from "@/lib/slugify";
+import slugify from "@/utils/slugify";
 import ApiError from "@/utils/apiError";
 
 class VendorService {
   async registerVendor(ownerId, vendorData) {
     const existingVendor = await vendorRepository.findByOwnerId(ownerId);
     if (existingVendor) {
-      throw new ApiError(400, "Vendor application already exists for this account.");
+      throw new ApiError(
+        400,
+        "Vendor application already exists for this account.",
+      );
     }
 
     const businessSlug = slugify(vendorData.businessName);
     const existingSlug = await vendorRepository.findBySlug(businessSlug);
     if (existingSlug) {
-      throw new ApiError(400, "Business name already taken. Please choose another name.");
+      throw new ApiError(
+        400,
+        "Business name already taken. Please choose another name.",
+      );
     }
 
     const vendor = await vendorRepository.create({
@@ -77,4 +83,3 @@ class VendorService {
 
 const vendorService = new VendorService();
 export default vendorService;
-

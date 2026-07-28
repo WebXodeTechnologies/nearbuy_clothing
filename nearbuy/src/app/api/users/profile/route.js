@@ -4,6 +4,7 @@ import { validate } from "@/middleware/validate.middleware";
 import { updateUserProfileSchema } from "@/validations/user.schema";
 import authService from "@/services/auth.service";
 import userRepository from "@/repositories/user.repository";
+import vendorRepository from "@/repositories/vendor.repository";
 import dbConnect from "@/lib/dbConnect";
 import ApiResponse from "@/utils/apiResponse";
 
@@ -12,7 +13,16 @@ export const GET = withErrorHandler(async (req) => {
   await dbConnect();
 
   const user = await authService.getUserProfile(activeUser.id);
-  return ApiResponse.success(user, "Profile retrieved successfully");
+  const userObj = user.toObject ? user.toObject() : { ...user };
+
+  if (userObj.role === "VENDOR") {
+    const vendor = await vendorRepository.findByOwnerId(activeUser.id);
+    if (vendor) {
+      userObj.phone = vendor.phone;
+    }
+  }
+
+  return ApiResponse.success(userObj, "Profile retrieved successfully");
 });
 
 export const PUT = withErrorHandler(async (req) => {
@@ -23,7 +33,23 @@ export const PUT = withErrorHandler(async (req) => {
   const validatedData = validate(updateUserProfileSchema, body);
 
   const updatedUser = await userRepository.updateProfile(activeUser.id, validatedData);
-  return ApiResponse.success(updatedUser, "Profile updated successfully");
+  const userObj = updatedUser.toObject ? updatedUser.toObject() : { ...updatedUser };
+
+  if (userObj.role === "VENDOR") {
+    const vendor = await vendorRepository.findByOwnerId(activeUser.id);
+    if (vendor) {
+      if (validatedData.phone) {
+        const updatedVendor = await vendorRepository.updateProfile(vendor._id, {
+          phone: validatedData.phone,
+        });
+        userObj.phone = updatedVendor.phone;
+      } else {
+        userObj.phone = vendor.phone;
+      }
+    }
+  }
+
+  return ApiResponse.success(userObj, "Profile updated successfully");
 });
 
 export const DELETE = withErrorHandler(async (req) => {
