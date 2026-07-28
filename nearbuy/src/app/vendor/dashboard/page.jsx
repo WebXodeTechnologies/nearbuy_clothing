@@ -27,6 +27,7 @@ import {
   Image as ImageIcon,
   Store,
 } from "lucide-react";
+import Image from "next/image";
 
 export default function VendorDashboard() {
   const { vendorStats, fetchVendorStats, loading } = useDashboardStore();
@@ -74,7 +75,7 @@ export default function VendorDashboard() {
           <h1 className="text-2xl md:text-3xl font-heading font-black text-slate-900 tracking-tight">
             Good Morning, Akash 👋
           </h1>
-          <p className="text-xs md:text-sm text-slate-500 font-medium max-w-2xl leading-relaxed">
+          <p className="text-xs md:text-sm text-slate-900 font-medium max-w-2xl leading-relaxed">
             Here is your hyperlocal clothing store discovery stats, WhatsApp lead conversions, and store health checklist today.
           </p>
         </div>
@@ -102,9 +103,9 @@ export default function VendorDashboard() {
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-base font-heading font-bold text-slate-900">Business Score</h2>
-              <p className="text-xs text-slate-400 font-medium">Store listing completeness rank</p>
+              <p className="text-xs text-slate-900 font-medium">Store listing completeness rank</p>
             </div>
-            <span className="px-2.5 py-1 rounded-full bg-teal-50 text-teal-700 text-xs font-black border border-teal-100">
+            <span className="px-2.5 py-1 rounded-full bg-teal-50 text-teal-900 text-xs font-black border border-teal-100">
               92% Score
             </span>
           </div>
@@ -142,30 +143,30 @@ export default function VendorDashboard() {
               <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-emerald-500" /> Optimized for Footfall
               </div>
-              <p className="text-[11px] text-slate-500 leading-normal">
-                Your store listing ranks in the <span className="font-extrabold text-slate-800">Top 5% in Bandra West</span> for linen clothing searches.
+              <p className="text-[12px] text-slate-800 leading-normal">
+                Your store listing ranks in the <span className="font-extrabold text-slate-900">Top 5% in Bandra West</span> for linen clothing searches.
               </p>
             </div>
           </div>
 
           {/* Actionable Suggestions Checklist */}
           <div className="space-y-2 border-t border-slate-100 pt-4 text-xs font-medium">
-            <div className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1">
+            <div className="text-[10px] font-extrabold text-slate-900 uppercase tracking-wider mb-1">
               Actionable Suggestions (+8% Available)
             </div>
             <div className="flex items-center justify-between text-slate-700">
               <span className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" /> Store Profile & Location Pinned
               </span>
-              <span className="text-[10px] text-slate-400 font-bold">Done</span>
+              <span className="text-[10px] text-slate-900 font-bold">Done</span>
             </div>
             <div className="flex items-center justify-between text-slate-700">
               <span className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" /> Summer Lookbook Collection
               </span>
-              <span className="text-[10px] text-slate-400 font-bold">Done</span>
+              <span className="text-[10px] text-slate-900 font-bold">Done</span>
             </div>
-            <div className="flex items-center justify-between text-slate-800 font-bold bg-slate-50 p-2 rounded-xl border border-slate-100">
+            <div className="flex items-center justify-between text-slate-900 font-bold bg-slate-50 p-2 rounded-xl border border-slate-100">
               <span className="flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 text-amber-500 shrink-0" /> Upload 2 Store Gallery Photos
               </span>
@@ -193,7 +194,7 @@ export default function VendorDashboard() {
                 className="bg-white p-5 rounded-3xl border border-[#ECECEC] shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                  <span className="text-[11px] font-bold text-slate-900 uppercase tracking-wider">
                     {s.title}
                   </span>
                   <div className="h-9 w-9 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center shrink-0 border border-indigo-100 group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all">
@@ -235,9 +236,10 @@ export default function VendorDashboard() {
           <div className="bg-slate-50/80 p-4 rounded-2xl border border-slate-100 flex flex-col sm:flex-row items-center gap-5">
             <div className="h-28 w-full sm:w-36 rounded-2xl overflow-hidden shrink-0 relative bg-slate-200">
               {/* Collection Image */}
-              <img
+              <Image
                 src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80"
                 alt="Summer Linen 2026"
+                fill
                 className="w-full h-full object-cover"
               />
               <span className="absolute top-2 left-2 bg-indigo-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full shadow-xs">
@@ -251,7 +253,7 @@ export default function VendorDashboard() {
                 <h3 className="text-base font-heading font-bold text-slate-900 leading-tight">
                   Summer Linen Essentials 2026
                 </h3>
-                <p className="text-xs text-slate-500 font-medium line-clamp-1 mt-0.5">
+                <p className="text-xs text-slate-800 font-medium line-clamp-1 mt-0.5">
                   Lightweight breathable pure linen shirts & trousers for summer walk-ins.
                 </p>
               </div>
@@ -274,7 +276,7 @@ export default function VendorDashboard() {
         <div className="bg-white p-6 rounded-3xl border border-[#ECECEC] shadow-xs space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-heading font-bold text-slate-900">Quick Actions</h2>
-            <span className="text-[10px] font-bold text-slate-400">⌘K Command</span>
+            <span className="text-[10px] font-bold text-slate-800">⌘ K <span className="ml-1">Command</span></span>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -293,7 +295,7 @@ export default function VendorDashboard() {
                     <div className="text-xs font-bold text-slate-900 group-hover:text-indigo-900 leading-tight">
                       {act.title}
                     </div>
-                    <div className="text-[9px] text-slate-400 font-medium line-clamp-1 mt-0.5">
+                    <div className="text-[9px] text-slate-900 font-medium line-clamp-1 mt-0.5">
                       {act.desc}
                     </div>
                   </div>
@@ -309,7 +311,7 @@ export default function VendorDashboard() {
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-base font-heading font-bold text-slate-900">Recent Customer Activity</h2>
-            <p className="text-xs text-slate-400 font-medium">Real-time walk-in leads and store interactions</p>
+            <p className="text-xs text-slate-900 font-medium">Real-time walk-in leads and store interactions</p>
           </div>
           <span className="text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200/60">
             Live Stream
@@ -328,8 +330,8 @@ export default function VendorDashboard() {
                 </div>
                 <div>
                   <p className="text-xs font-bold text-slate-800">{act.text}</p>
-                  <span className="text-[10px] text-slate-400 font-medium flex items-center gap-1 mt-0.5">
-                    <Clock className="w-3 h-3 text-slate-400" /> {act.date}
+                  <span className="text-[10px] text-slate-900 font-medium flex items-center gap-1 mt-0.5">
+                    <Clock className="w-3 h-3 text-slate-900" /> {act.date}
                   </span>
                 </div>
               </div>
