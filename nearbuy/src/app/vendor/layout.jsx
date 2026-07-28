@@ -65,12 +65,12 @@ export default function VendorLayout({ children }) {
           {/* Global Command Search Trigger */}
           <button
             onClick={() => setIsCommandOpen(true)}
-            className="flex items-center gap-3 bg-slate-100/80 hover:bg-slate-200/60 border border-slate-200/60 px-4 py-2 rounded-2xl text-xs text-slate-400 hover:text-slate-700 transition-all duration-200 w-72 md:w-96 cursor-pointer group shadow-2xs"
+            className="flex items-center gap-3 bg-slate-100/80 hover:bg-slate-200/60 border border-slate-200/60 px-4 py-2 rounded-2xl text-xs text-slate-800 hover:text-slate-700 transition-all duration-200 w-72 md:w-96 cursor-pointer group shadow-2xs"
           >
             <Search className="w-4 h-4 text-indigo-600 group-hover:scale-110 transition-transform" />
             <span className="font-medium truncate">Search store metrics, offers, collections...</span>
-            <kbd className="ml-auto px-2 py-0.5 bg-white border border-slate-200 rounded-lg text-[10px] font-mono text-slate-500 font-extrabold shadow-2xs">
-              ⌘K
+            <kbd className="ml-auto px-2 py-0.5 bg-white border border-slate-200 rounded-lg text-[10px] font-mono text-slate-700 font-extrabold shadow-2xs">
+              ⌘ K
             </kbd>
           </button>
 
@@ -79,7 +79,7 @@ export default function VendorLayout({ children }) {
             {/* Store Status Indicator */}
             <div className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/60 text-emerald-700 text-xs font-bold shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Store Open • Bandra West</span>
+              <span>Store Open •</span>
             </div>
 
             {/* Public Storefront Link */}
