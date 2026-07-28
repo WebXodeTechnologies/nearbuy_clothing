@@ -1,0 +1,11 @@
+export const PLAN_TYPES = {
+  FREE: "FREE",
+  STARTER: "STARTER",
+  BUSINESS: "BUSINESS",
+  PREMIUM: "PREMIUM",
+};
+
+export const BILLING_CYCLES = {
+  MONTHLY: "MONTHLY",
+  YEARLY: "YEARLY",
+};

@@ -1,5 +1,5 @@
 import ApiError from "@/utils/apiError";
-import logger from "@/lib/logger";
+import logger from "@/utils/logger";
 
 /**
  * Higher-order error handling wrapper for Next.js App Router API Routes

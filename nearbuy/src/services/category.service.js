@@ -1,5 +1,5 @@
 import categoryRepository from "@/repositories/category.repository";
-import slugify from "@/lib/slugify";
+import slugify from "@/utils/slugify";
 import ApiError from "@/utils/apiError";
 
 class CategoryService {
@@ -47,4 +47,3 @@ class CategoryService {
 
 const categoryService = new CategoryService();
 export default categoryService;
-
