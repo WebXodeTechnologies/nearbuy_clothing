@@ -1,7 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
-import dbConnect from "@/lib/dbConnect";
+import dbConnect from "@/lib/db";
 import User from "@/models/User";
 
 export const authOptions = {
@@ -24,7 +24,10 @@ export const authOptions = {
         const inputIdentifier = credentials.email.toLowerCase().trim();
 
         // Hardcoded Admin Account Check
-        if (inputIdentifier === "nearbuyadmin1" && credentials.password === "123456") {
+        if (
+          inputIdentifier === "nearbuyadmin1" &&
+          credentials.password === "123456"
+        ) {
           return {
             id: "000000000000000000000001",
             name: "Nearbuy Admin",
@@ -43,10 +46,15 @@ export const authOptions = {
         }
 
         if (!user.password) {
-          throw new Error("This account is registered via Google OAuth. Please sign in with Google.");
+          throw new Error(
+            "This account is registered via Google OAuth. Please sign in with Google.",
+          );
         }
 
-        const isValid = await bcrypt.compare(credentials.password, user.password);
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          user.password,
+        );
         if (!isValid) {
           throw new Error("Invalid password");
         }
@@ -67,7 +75,7 @@ export const authOptions = {
     async signIn({ account, profile }) {
       if (account.provider === "google") {
         await dbConnect();
-        
+
         let user = await User.findOne({ email: profile.email.toLowerCase() });
         if (!user) {
           user = await User.create({

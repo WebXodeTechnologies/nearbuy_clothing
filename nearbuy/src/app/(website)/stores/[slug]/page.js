@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState, use, useRef } from "react";
+import React, { useState, use, useRef, useEffect } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { stores } from "@/data/dummy-data";
 import CollectionCard from "@/components/cards/CollectionCard";
 import OfferCard from "@/components/cards/OfferCard";
 import StoreCard from "@/components/cards/StoreCard";
@@ -47,25 +46,106 @@ const gridItemVariants = {
     },
   },
 };
-
 export default function StoreDetailsPage({ params }) {
-  // Unwrap params using React.use for compatibility with Next.js dynamic routing
   const { slug } = use(params);
 
-  // Find matching store
-  const store = stores.find((s) => s.slug === slug);
-
-  if (!store) {
-    notFound();
-  }
+  const [store, setStore] = useState(null);
+  const [relatedStores, setRelatedStores] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [activeTab, setActiveTab] = useState("collections"); // collections, offers, gallery
   const [selectedGalleryImage, setSelectedGalleryImage] = useState(null);
 
-  // Spotlight coordinates state for the Header card
   const headerRef = useRef(null);
   const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });
   const [isHoveringHeader, setIsHoveringHeader] = useState(false);
+
+  useEffect(() => {
+    async function loadStoreData() {
+      try {
+        setLoading(true);
+        const res = await fetch(`/api/stores/${slug}`);
+        if (!res.ok) {
+          setStore(null);
+          return;
+        }
+        const storeData = await res.json();
+        const storeDoc = storeData.data;
+
+        if (!storeDoc) {
+          setStore(null);
+          return;
+        }
+
+        const vendorId = storeDoc.vendorId._id;
+        const [collectionsRes, offersRes, allStoresRes] = await Promise.all([
+          fetch(`/api/collections?vendorId=${vendorId}`),
+          fetch(`/api/offers?vendorId=${vendorId}`),
+          fetch(`/api/stores`),
+        ]);
+
+        const collectionsData = await collectionsRes.json();
+        const offersData = await offersRes.json();
+        const allStoresData = await allStoresRes.json();
+
+        const mappedStore = {
+          id: storeDoc._id,
+          name: storeDoc.storeName,
+          slug: storeDoc.vendorId?.businessSlug || "",
+          logo: storeDoc.vendorId?.logo || "",
+          banner: storeDoc.vendorId?.coverImage || "",
+          rating: 4.8,
+          reviewsCount: 12,
+          description: storeDoc.description || "",
+          location: `${storeDoc.address}, ${storeDoc.city}`,
+          city: storeDoc.city,
+          phone: storeDoc.phone || storeDoc.vendorId?.phone || "",
+          whatsapp: storeDoc.whatsapp || storeDoc.phone || storeDoc.vendorId?.phone || "",
+          gallery: storeDoc.gallery || [],
+          categories: storeDoc.categoryIds?.map(c => c.name) || ["Boutique"],
+          collections: (collectionsData.data?.collections || []).map(c => ({
+            id: c._id,
+            title: c.title,
+            description: c.description || "",
+            image: c.images?.[0] || c.coverImage || "",
+          })),
+          offers: (offersData.data?.offers || []).map(o => ({
+            id: o._id,
+            title: o.title,
+            code: o.code,
+            discountType: o.discountType,
+            discountValue: o.discountValue,
+            endDate: o.endDate,
+          })),
+        };
+
+        const dbStores = allStoresData.data?.stores || [];
+        const mappedRelated = dbStores
+          .filter(s => s._id !== storeDoc._id)
+          .map(s => ({
+            id: s._id,
+            name: s.storeName,
+            slug: s.vendorId?.businessSlug || "",
+            logo: s.vendorId?.logo || "",
+            banner: s.vendorId?.coverImage || "",
+            rating: 4.8,
+            reviewsCount: 12,
+            location: `${s.address}, ${s.city}`,
+            categories: s.categoryIds?.map(c => c.name) || ["Boutique"],
+          }))
+          .slice(0, 3);
+
+        setStore(mappedStore);
+        setRelatedStores(mappedRelated);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadStoreData();
+  }, [slug]);
 
   const handleHeaderMouseMove = (e) => {
     if (!headerRef.current) return;
@@ -76,15 +156,21 @@ export default function StoreDetailsPage({ params }) {
     });
   };
 
-  // Find related stores (same category or location)
-  const relatedStores = stores
-    .filter(
-      (s) =>
-        s.id !== store.id &&
-        (s.location === store.location ||
-          s.categories.some((cat) => store.categories.includes(cat))),
-    )
-    .slice(0, 3);
+  if (loading) {
+    return (
+      <div className="flex-1 flex items-center justify-center min-h-screen bg-slate-50/50">
+        <div className="relative flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600" />
+          <div className="absolute h-6 w-6 rounded-full bg-purple-50 animate-pulse" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!store) {
+    notFound();
+    return null;
+  }
 
   return (
     <div className="flex-1 bg-slate-50/30 pb-20 pt-24 relative overflow-hidden min-h-screen">

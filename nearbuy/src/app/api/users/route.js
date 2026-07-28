@@ -1,7 +1,7 @@
 import { withErrorHandler } from "@/middleware/error.middleware";
 import { requireAdmin } from "@/middleware/admin.middleware";
 import userRepository from "@/repositories/user.repository";
-import dbConnect from "@/lib/dbConnect";
+import dbConnect from "@/lib/db";
 import ApiResponse from "@/utils/apiResponse";
 
 export const GET = withErrorHandler(async (req) => {
@@ -16,5 +16,8 @@ export const GET = withErrorHandler(async (req) => {
   const users = await userRepository.findAll({}, { limit, skip });
   const total = await userRepository.count();
 
-  return ApiResponse.success({ users, total, page, limit }, "Users retrieved successfully");
+  return ApiResponse.success(
+    { users, total, page, limit },
+    "Users retrieved successfully",
+  );
 });

@@ -1,6 +1,6 @@
 import { withErrorHandler } from "@/middleware/error.middleware";
 import Contact from "@/models/Contact";
-import dbConnect from "@/lib/dbConnect";
+import dbConnect from "@/lib/db";
 import ApiResponse from "@/utils/apiResponse";
 import ApiError from "@/utils/apiError";
 
@@ -21,5 +21,8 @@ export const POST = withErrorHandler(async (req) => {
     status: "New",
   });
 
-  return ApiResponse.created(contact, "Your inquiry has been submitted successfully.");
+  return ApiResponse.created(
+    contact,
+    "Your inquiry has been submitted successfully.",
+  );
 });

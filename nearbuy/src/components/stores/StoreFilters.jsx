@@ -17,7 +17,8 @@ export default function StoreFilters({
   clearFilters,
   categoriesList,
   viewMode,
-  setViewMode
+  setViewMode,
+  locationsList = ["All Locations", "Mumbai", "Namakkal"]
 }) {
   const cardRef = useRef(null);
   const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });
@@ -70,7 +71,7 @@ export default function StoreFilters({
             value={location}
             onChange={handleLocationChange}
             placeholder={null}
-            options={locations.map((loc) => ({ value: loc, label: loc }))}
+            options={locationsList.map((loc) => ({ value: loc, label: loc }))}
             className="focus-within:ring-2 focus-within:ring-purple-500/10 focus-within:border-purple-500 transition-all duration-200"
           />
         </div>
