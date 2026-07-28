@@ -34,14 +34,15 @@ class SubscriptionService {
       throw new ApiError(404, "Subscription not found.");
     }
 
-    const updateData = { paymentStatus };
-    if (paymentId) updateData.paymentId = paymentId;
-
-    return await subscriptionRepository.updateStatus(
-      subscriptionId,
+    const updateData = {
       paymentStatus,
-      paymentStatus === "Paid" ? "Active" : "Expired"
-    );
+      status: paymentStatus === "Paid" ? "Active" : "Expired",
+    };
+    if (paymentId) {
+      updateData.razorpayPaymentId = paymentId;
+    }
+
+    return await subscriptionRepository.update(subscriptionId, updateData);
   }
 }
 

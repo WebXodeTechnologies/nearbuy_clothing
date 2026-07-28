@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-import { BILLING_CYCLES } from "@/constants/plans";
+import { BILLING_CYCLES } from "../constants/plans.js";
+import { PAYMENT_STATUS, SUBSCRIPTION_STATUS } from "../constants/status.js";
 
 const SubscriptionSchema = new mongoose.Schema(
   {
@@ -76,8 +77,8 @@ const SubscriptionSchema = new mongoose.Schema(
 
     paymentStatus: {
       type: String,
-      enum: ["PENDING", "PAID", "FAILED", "REFUNDED"],
-      default: "PENDING",
+      enum: Object.values(PAYMENT_STATUS),
+      default: PAYMENT_STATUS.PENDING,
       index: true,
     },
 
@@ -107,8 +108,8 @@ const SubscriptionSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["ACTIVE", "EXPIRED", "CANCELLED"],
-      default: "ACTIVE",
+      enum: Object.values(SUBSCRIPTION_STATUS),
+      default: SUBSCRIPTION_STATUS.ACTIVE,
       index: true,
     },
 

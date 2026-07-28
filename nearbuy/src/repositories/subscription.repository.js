@@ -13,12 +13,8 @@ class SubscriptionRepository {
     return await Subscription.findOne({ vendorId }).sort({ createdAt: -1 });
   }
 
-  async updateStatus(id, paymentStatus, status = "Active") {
-    return await Subscription.findByIdAndUpdate(
-      id,
-      { paymentStatus, status },
-      { new: true }
-    );
+  async update(id, updateData) {
+    return await Subscription.findByIdAndUpdate(id, updateData, { new: true });
   }
 
   async findAll(query = {}, pagination = { limit: 10, skip: 0 }) {

@@ -1,9 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
-  categories,
-  stores,
   testimonials,
   faqs,
   plans,
@@ -19,33 +17,71 @@ import VendorCtaSection from "@/components/home/VendorCtaSection";
 import PricingSection from "@/components/home/PricingSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import FaqSection from "@/components/home/FaqSection";
+import useWebsiteStore from "@/store/websiteStore";
+
+const mapDbStoreToFrontend = (s) => ({
+  id: s._id,
+  name: s.storeName,
+  slug: s.vendorId?.businessSlug || "",
+  logo: s.vendorId?.logo || "",
+  banner: s.vendorId?.coverImage || "",
+  rating: 4.8,
+  reviewsCount: 12,
+  description: s.description || "",
+  location: `${s.address}, ${s.city}`,
+  phone: s.phone || s.vendorId?.phone || "",
+  whatsapp: s.whatsapp || s.phone || s.vendorId?.phone || "",
+  isFeatured: s.isFeatured || false,
+});
 
 export default function Home() {
-  // Filter featured stores
-  const featuredStores = stores.filter((s) => s.isFeatured);
+  const { stores: dbStores, categories: dbCategories, offers: dbOffers, collections: dbCollections, fetchPublicDirectory } = useWebsiteStore();
 
-  // Extract top 3 trending offers from stores
-  const trendingOffers = stores
-    .flatMap((s) =>
-      s.offers.map((o) => ({ ...o, storeName: s.name, storeSlug: s.slug })),
-    )
+  useEffect(() => {
+    fetchPublicDirectory();
+  }, [fetchPublicDirectory]);
+
+  // Map stores to frontend representation
+  const mappedStores = dbStores.map(mapDbStoreToFrontend);
+
+  // Filter featured stores
+  const featuredStores = mappedStores.filter((s) => s.isFeatured);
+
+  // Map and sort latest collections from MongoDB
+  const latestCollections = dbCollections
+    .map((c) => {
+      const store = dbStores.find(s => s._id === c.storeId);
+      return {
+        id: c._id,
+        title: c.title,
+        description: c.description || "",
+        image: c.images?.[0] || c.coverImage || "",
+        storeName: store?.storeName || c.vendorId?.businessName || "Local Store",
+        storeSlug: store?.vendorId?.businessSlug || "",
+      };
+    })
     .slice(0, 3);
 
-  // Extract top 3 latest collections from stores
-  const latestCollections = stores
-    .flatMap((s) =>
-      s.collections.map((c) => ({
-        ...c,
-        storeName: s.name,
-        storeSlug: s.slug,
-      })),
-    )
+  // Map and sort trending offers from MongoDB
+  const trendingOffers = dbOffers
+    .map((o) => {
+      const store = dbStores.find(s => s._id === o.storeId);
+      return {
+        id: o._id,
+        title: o.title,
+        code: o.code,
+        discountType: o.discountType,
+        discountValue: o.discountValue,
+        storeName: store?.storeName || o.vendorId?.businessName || "Local Store",
+        storeSlug: store?.vendorId?.businessSlug || "",
+      };
+    })
     .slice(0, 3);
 
   return (
     <div className="">
       <HeroSection />
-      <FeaturedCategoriesSection categories={categories} />
+      <FeaturedCategoriesSection categories={dbCategories} />
       <FeaturedStoresSection stores={featuredStores} />
       <LatestCollectionsSection collections={latestCollections} />
       <TrendingOffersSection offers={trendingOffers} />

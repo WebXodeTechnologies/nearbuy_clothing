@@ -1,6 +1,6 @@
 import { withErrorHandler } from "@/middleware/error.middleware";
 import analyticsService from "@/services/analytics.service";
-import dbConnect from "@/lib/dbConnect";
+import dbConnect from "@/lib/db";
 import ApiResponse from "@/utils/apiResponse";
 
 export const POST = withErrorHandler(async (req) => {

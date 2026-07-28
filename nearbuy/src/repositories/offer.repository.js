@@ -16,7 +16,7 @@ class OfferRepository {
   async findActiveOffers(pagination = { limit: 10, skip: 0 }) {
     const now = new Date();
     return await Offer.find({
-      status: "Active",
+      isActive: true,
       endDate: { $gte: now },
     })
       .populate("vendorId", "businessName businessSlug logo coverImage")

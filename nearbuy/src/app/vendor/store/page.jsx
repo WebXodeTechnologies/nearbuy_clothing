@@ -53,6 +53,8 @@ export default function VendorStore() {
     facebook: "facebook.com/urbanthreadsmumbai",
     website: "https://urbanthreads.in",
     status: "Active",
+    logo: "",
+    coverImage: "",
   });
 
   useEffect(() => {
@@ -82,6 +84,8 @@ export default function VendorStore() {
             facebook: store.facebook || "",
             website: store.website || "",
             status: store.status || "Active",
+            logo: store.vendorId?.logo || "",
+            coverImage: store.vendorId?.coverImage || "",
           });
         });
       }
@@ -109,7 +113,7 @@ export default function VendorStore() {
   };
 
   const handleSave = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     setLoading(true);
 
     const [openingTime, closingTime] = formData.workingHours.split(" - ");
@@ -131,6 +135,8 @@ export default function VendorStore() {
       facebook: formData.facebook,
       website: formData.website,
       status: formData.status,
+      logo: formData.logo,
+      coverImage: formData.coverImage,
     };
 
     try {
@@ -169,23 +175,43 @@ export default function VendorStore() {
         <div className="h-48 md:h-64 w-full bg-slate-800 relative group overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80"
+            src={formData.coverImage || "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80"}
             alt="Store Cover"
             className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
           />
           <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-transparent to-transparent" />
+          <button
+            type="button"
+            onClick={() => {
+              const url = prompt("Enter Cover Image URL:", formData.coverImage);
+              if (url !== null) setFormData({ ...formData, coverImage: url });
+            }}
+            className="absolute top-4 right-4 bg-slate-950/60 hover:bg-slate-950/80 rounded-2xl px-4 py-2 text-white text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+          >
+            <Upload className="w-4 h-4" /> Edit Cover Image
+          </button>
         </div>
 
         {/* Logo & Basic Header */}
         <div className="p-6 md:p-8 flex flex-col md:flex-row items-start md:items-end justify-between gap-6 -mt-16 relative z-10">
           <div className="flex items-end gap-5">
-            <div className="h-24 w-24 md:h-28 md:w-28 rounded-3xl bg-white p-1.5 shadow-xl border border-slate-200 shrink-0 relative group">
+            <div className="h-24 w-24 md:h-28 md:w-28 rounded-3xl bg-white p-1.5 shadow-xl border border-slate-200 shrink-0 relative group overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80"
+                src={formData.logo || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80"}
                 alt="Store Logo"
                 className="w-full h-full object-cover rounded-2xl"
               />
+              <button
+                type="button"
+                onClick={() => {
+                  const url = prompt("Enter Logo Image URL:", formData.logo);
+                  if (url !== null) setFormData({ ...formData, logo: url });
+                }}
+                className="absolute inset-0 bg-slate-950/40 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-bold gap-1 cursor-pointer"
+              >
+                <Upload className="w-4 h-4" /> Edit
+              </button>
             </div>
             <div className="space-y-1">
               <div className="flex items-center gap-2">

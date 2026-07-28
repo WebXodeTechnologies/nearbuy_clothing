@@ -22,6 +22,8 @@ export const storeSchema = z.object({
   gallery: z.array(z.string()).optional(),
   featured: z.boolean().optional(),
   status: z.enum(["Active", "Inactive"]).optional().default("Active"),
+  logo: z.string().optional(),
+  coverImage: z.string().optional(),
 });
 
 export const updateStoreSchema = storeSchema.partial();

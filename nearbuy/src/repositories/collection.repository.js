@@ -8,21 +8,21 @@ class CollectionRepository {
   async findById(id) {
     return await Collection.findById(id)
       .populate("vendorId", "businessName businessSlug logo")
-      .populate("categoryId", "name slug");
+      .populate("categoryIds", "name slug");
   }
 
   async findByVendorId(vendorId, pagination = { limit: 10, skip: 0 }) {
     return await Collection.find({ vendorId })
-      .populate("categoryId", "name slug")
+      .populate("categoryIds", "name slug")
       .sort({ createdAt: -1 })
       .skip(pagination.skip)
       .limit(pagination.limit);
   }
 
   async findByCategory(categoryId, pagination = { limit: 10, skip: 0 }) {
-    return await Collection.find({ categoryId, status: true })
+    return await Collection.find({ categoryIds: categoryId, isActive: true })
       .populate("vendorId", "businessName businessSlug logo")
-      .sort({ featured: -1, createdAt: -1 })
+      .sort({ isFeatured: -1, createdAt: -1 })
       .skip(pagination.skip)
       .limit(pagination.limit);
   }
@@ -30,7 +30,7 @@ class CollectionRepository {
   async findAll(query = {}, pagination = { limit: 10, skip: 0 }) {
     return await Collection.find(query)
       .populate("vendorId", "businessName businessSlug logo")
-      .populate("categoryId", "name slug")
+      .populate("categoryIds", "name slug")
       .sort({ createdAt: -1 })
       .skip(pagination.skip)
       .limit(pagination.limit);

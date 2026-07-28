@@ -1,41 +1,10 @@
 import { withErrorHandler } from "@/middleware/error.middleware";
-import { requireVendor } from "@/middleware/vendor.middleware";
-import { validate } from "@/middleware/validate.middleware";
-import { storeSchema } from "@/validations/store.schema";
-import storeService from "@/services/store.service";
-import dbConnect from "@/lib/dbConnect";
-import ApiResponse from "@/utils/apiResponse";
+import storeController from "@/controllers/store.controller";
 
 export const POST = withErrorHandler(async (req) => {
-  const user = await requireVendor(req);
-  await dbConnect();
-
-  const body = await req.json();
-  const validatedData = validate(storeSchema, body);
-
-  const store = await storeService.createStore(user.id, validatedData);
-  return ApiResponse.created(store, "Store listing created successfully");
+  return await storeController.createStore(req);
 });
 
 export const GET = withErrorHandler(async (req) => {
-  await dbConnect();
-
-  const { searchParams } = new URL(req.url);
-  const city = searchParams.get("city") || "";
-  const page = parseInt(searchParams.get("page") || "1", 10);
-  const limit = parseInt(searchParams.get("limit") || "10", 10);
-  const vendor = searchParams.get("vendor");
-  const all = searchParams.get("all") === "true";
-
-  let result;
-  if (vendor) {
-    const stores = await storeService.getStoresByVendor(vendor);
-    result = { stores, total: stores.length };
-  } else if (all) {
-    result = await storeService.getAllStores({}, { limit, skip: (page - 1) * limit });
-  } else {
-    result = await storeService.getStoresByCity(city, { limit, skip: (page - 1) * limit });
-  }
-
-  return ApiResponse.success({ ...result, page, limit }, "Stores retrieved successfully");
+  return await storeController.getStores(req);
 });

@@ -1,0 +1,62 @@
+export const ROUTES = {
+  WEBSITE: {
+    HOME: "/",
+    STORES: "/stores",
+    STORE_DETAILS: "/stores/[slug]",
+    OFFERS: "/offers",
+    COLLECTIONS: "/collections",
+    CATEGORIES: "/categories",
+    CONTACT: "/contact",
+    ABOUT: "/about",
+    LOGIN: "/login",
+    PROFILE: "/profile",
+  },
+
+  VENDOR: {
+    ROOT: "/vendor",
+    DASHBOARD: "/vendor/dashboard",
+    STORE: "/vendor/store",
+    COLLECTIONS: "/vendor/collections",
+    OFFERS: "/vendor/offers",
+    ANALYTICS: "/vendor/analytics",
+    CUSTOMERS: "/vendor/customers",
+    SUBSCRIPTION: "/vendor/subscription",
+    SETTINGS: "/vendor/settings",
+  },
+
+  ADMIN: {
+    ROOT: "/admin",
+    DASHBOARD: "/admin/dashboard",
+    USERS: "/admin/users",
+    VENDORS: "/admin/vendors",
+    STORES: "/admin/stores",
+    CATEGORIES: "/admin/categories",
+    COLLECTIONS: "/admin/collections",
+    OFFERS: "/admin/offers",
+    SUBSCRIPTIONS: "/admin/subscriptions",
+    BANNERS: "/admin/banners",
+    CMS: "/admin/cms",
+    ANALYTICS: "/admin/analytics",
+    CONTACTS: "/admin/contacts",
+    SETTINGS: "/admin/settings",
+  },
+
+  API: {
+    AUTH: "/api/auth",
+    USERS: "/api/users",
+    VENDORS: "/api/vendors",
+    STORES: "/api/stores",
+    CATEGORIES: "/api/categories",
+    COLLECTIONS: "/api/collections",
+    OFFERS: "/api/offers",
+    SUBSCRIPTIONS: "/api/subscriptions",
+    BANNERS: "/api/banners",
+    CMS: "/api/cms",
+    CONTACTS: "/api/contacts",
+    ANALYTICS: "/api/analytics",
+    DASHBOARD: "/api/dashboard",
+    UPLOADS: "/api/uploads",
+  },
+};
+
+export default ROUTES;

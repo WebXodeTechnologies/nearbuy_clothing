@@ -3,7 +3,7 @@ import { requireAdmin } from "@/middleware/admin.middleware";
 import { validate } from "@/middleware/validate.middleware";
 import { cmsSchema } from "@/validations/cms.schema";
 import cmsService from "@/services/cms.service";
-import dbConnect from "@/lib/dbConnect";
+import dbConnect from "@/lib/db";
 import ApiResponse from "@/utils/apiResponse";
 
 export const POST = withErrorHandler(async (req) => {

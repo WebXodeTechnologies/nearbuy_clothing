@@ -5,6 +5,7 @@ export const useWebsiteStore = create((set) => ({
   stores: [],
   categories: [],
   offers: [],
+  collections: [],
   loading: false,
 
   fetchPublicDirectory: async (city = "") => {
@@ -13,20 +14,23 @@ export const useWebsiteStore = create((set) => ({
       const queryParams = new URLSearchParams();
       if (city) queryParams.append("city", city);
 
-      const [storesRes, categoriesRes, offersRes] = await Promise.all([
+      const [storesRes, categoriesRes, offersRes, collectionsRes] = await Promise.all([
         fetch(`/api/stores?${queryParams}`),
         fetch("/api/categories"),
         fetch("/api/offers"),
+        fetch("/api/collections"),
       ]);
 
       const storesData = await storesRes.json();
       const categoriesData = await categoriesRes.json();
       const offersData = await offersRes.json();
+      const collectionsData = await collectionsRes.json();
 
       set({
         stores: storesData.data?.stores || [],
         categories: categoriesData.data || [],
         offers: offersData.data?.offers || [],
+        collections: collectionsData.data?.collections || [],
         loading: false,
       });
     } catch (error) {

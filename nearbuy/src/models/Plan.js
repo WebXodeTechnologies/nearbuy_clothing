@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { PLAN_TYPES, BILLING_CYCLES } from "@/constants/plans";
+import { PLAN_TYPES, BILLING_CYCLES } from "../constants/plans.js";
 
 const PlanSchema = new mongoose.Schema(
   {
@@ -54,25 +54,25 @@ const PlanSchema = new mongoose.Schema(
     maxStores: {
       type: Number,
       default: 1,
-      min: 1,
+      min: -1,
     },
 
     maxCollections: {
       type: Number,
       default: 20,
-      min: 0,
+      min: -1,
     },
 
     maxOffers: {
       type: Number,
       default: 10,
-      min: 0,
+      min: -1,
     },
 
     maxGalleryImages: {
       type: Number,
       default: 20,
-      min: 0,
+      min: -1,
     },
 
     // ==========================================

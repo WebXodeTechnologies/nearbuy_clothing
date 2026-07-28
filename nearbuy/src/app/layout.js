@@ -51,7 +51,8 @@ export default function RootLayout({ children }) {
                 padding: "12px 20px",
                 fontSize: "14px",
                 fontWeight: "600",
-                boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2)",
+                boxShadow:
+                  "0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2)",
                 border: "1px solid rgba(59, 130, 246, 0.3)",
               },
             }}

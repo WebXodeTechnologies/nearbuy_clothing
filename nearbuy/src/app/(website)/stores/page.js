@@ -3,15 +3,36 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { stores } from "@/data/dummy-data";
+import useWebsiteStore from "@/store/websiteStore";
 import Breadcrumb from "@/components/navigation/Breadcrumb";
 import StoreFilters from "@/components/stores/StoreFilters";
 import StoreListings from "@/components/stores/StoreListings";
 import StorePagination from "@/components/stores/StorePagination";
 
+const mapDbStoreToFrontend = (s) => ({
+  id: s._id,
+  name: s.storeName,
+  slug: s.vendorId?.businessSlug || "",
+  logo: s.vendorId?.logo || "",
+  banner: s.vendorId?.coverImage || "",
+  rating: 4.8,
+  reviewsCount: 12,
+  description: s.description || "",
+  location: `${s.address}, ${s.city}`,
+  city: s.city,
+  phone: s.phone || s.vendorId?.phone || "",
+  whatsapp: s.whatsapp || s.phone || s.vendorId?.phone || "",
+  categories: s.categoryIds?.map(c => c.name) || ["Boutique"],
+});
+
 function ExploreStoresContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { stores: dbStores, categories: dbCategories, fetchPublicDirectory } = useWebsiteStore();
+
+  useEffect(() => {
+    fetchPublicDirectory();
+  }, [fetchPublicDirectory]);
 
   // Read URL query parameters
   const urlQuery = searchParams.get("q") || "";
@@ -36,17 +57,19 @@ function ExploreStoresContent() {
 
   const categoriesList = [
     "All Categories",
-    "Men's Wear",
-    "Women's Wear",
-    "Kids Wear",
-    "Ethnic Wear",
-    "Boutique",
-    "Footwear",
-    "Accessories",
+    ...dbCategories.map(c => c.name)
   ];
 
+  const locationsList = [
+    "All Locations",
+    ...new Set(dbStores.map(s => s.city).filter(Boolean))
+  ];
+
+  // Map stores to frontend representation
+  const mappedStores = dbStores.map(mapDbStoreToFrontend);
+
   // Filter logic
-  const filteredStores = stores.filter((store) => {
+  const filteredStores = mappedStores.filter((store) => {
     const matchesSearch =
       store.name.toLowerCase().includes(search.toLowerCase()) ||
       store.description.toLowerCase().includes(search.toLowerCase()) ||
@@ -56,7 +79,7 @@ function ExploreStoresContent() {
 
     const matchesLocation =
       location === "All Locations" ||
-      store.location.toLowerCase() === location.toLowerCase();
+      store.city.toLowerCase() === location.toLowerCase();
 
     const matchesCategory =
       !category ||
@@ -100,7 +123,7 @@ function ExploreStoresContent() {
     router.push("/stores");
   };
 
-  // Mock Pagination sizing
+  // Pagination sizing
   const storesPerPage = 6;
   const totalPages = Math.ceil(filteredStores.length / storesPerPage) || 1;
   const displayedStores = filteredStores.slice(
@@ -208,6 +231,7 @@ function ExploreStoresContent() {
             categoriesList={categoriesList}
             viewMode={viewMode}
             setViewMode={setViewMode}
+            locationsList={locationsList}
           />
         </motion.div>
 

@@ -21,7 +21,7 @@ class OfferService {
 
   async getActiveOffers(pagination = { limit: 10, skip: 0 }) {
     const offers = await offerRepository.findActiveOffers(pagination);
-    const total = await offerRepository.count({ status: "Active", endDate: { $gte: new Date() } });
+    const total = await offerRepository.count({ isActive: true, endDate: { $gte: new Date() } });
     return { offers, total };
   }
 

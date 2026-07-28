@@ -23,7 +23,7 @@ class CollectionService {
 
   async getCollectionsByCategory(categoryId, pagination = { limit: 10, skip: 0 }) {
     const collections = await collectionRepository.findByCategory(categoryId, pagination);
-    const total = await collectionRepository.count({ categoryId, status: true });
+    const total = await collectionRepository.count({ categoryIds: categoryId, isActive: true });
     return { collections, total };
   }
 
