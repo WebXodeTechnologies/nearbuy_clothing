@@ -8,7 +8,7 @@ class ApiResponse {
         message,
         data,
       },
-      { status: statusCode }
+      { status: statusCode },
     );
   }
 
@@ -23,8 +23,16 @@ class ApiResponse {
         message,
         errors,
       },
-      { status: statusCode }
+      { status: statusCode },
     );
+  }
+
+  static badRequest(message = "Bad request", errors = null) {
+    return this.error(message, 400, errors);
+  }
+
+  static notFound(message = "Resource not found") {
+    return this.error(message, 404);
   }
 }
 
