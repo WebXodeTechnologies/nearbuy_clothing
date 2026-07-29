@@ -29,6 +29,18 @@ const UserSchema = new mongoose.Schema(
       default: "",
     },
 
+    designation: {
+      type: String,
+      trim: true,
+      default: "Merchant Owner",
+    },
+
+    bio: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
     profileImage: {
       type: String,
       default: "",
@@ -39,8 +51,8 @@ const UserSchema = new mongoose.Schema(
     // ==========================================
     provider: {
       type: String,
-      enum: ["google"],
-      default: "google",
+      enum: ["google", "credentials"],
+      default: "credentials",
     },
 
     providerId: {

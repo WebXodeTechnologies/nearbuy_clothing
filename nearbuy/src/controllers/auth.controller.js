@@ -68,12 +68,17 @@ class AuthController {
     const activeUser = await authenticate(req);
     await dbConnect();
 
-    const user = await authService.getUserProfile(activeUser.id);
+    // Use userRepository directly to avoid Turbopack service export mismatch
+    const user = await userRepository.findById(activeUser.id);
+    if (!user) {
+      throw new ApiError(404, "User profile not found.");
+    }
+
     const userObj = user.toObject ? user.toObject() : { ...user };
 
     if (userObj.role === "VENDOR") {
       const vendor = await vendorRepository.findByOwnerId(activeUser.id);
-      if (vendor) {
+      if (vendor && vendor.phone) {
         userObj.phone = vendor.phone;
       }
     }
@@ -92,6 +97,11 @@ class AuthController {
       activeUser.id,
       validatedData,
     );
+
+    if (!updatedUser) {
+      throw new ApiError(404, "User profile not found.");
+    }
+
     const userObj = updatedUser.toObject
       ? updatedUser.toObject()
       : { ...updatedUser };
@@ -100,10 +110,13 @@ class AuthController {
       const vendor = await vendorRepository.findByOwnerId(activeUser.id);
       if (vendor) {
         if (validatedData.phone) {
-          const updatedVendor = await vendorRepository.updateProfile(vendor._id, {
-            phone: validatedData.phone,
-          });
-          userObj.phone = updatedVendor.phone;
+          const updatedVendor = await vendorRepository.updateProfile(
+            vendor._id,
+            {
+              phone: validatedData.phone,
+            },
+          );
+          userObj.phone = updatedVendor?.phone || validatedData.phone;
         } else {
           userObj.phone = vendor.phone;
         }
@@ -117,7 +130,7 @@ class AuthController {
     const activeUser = await authenticate(req);
     await dbConnect();
 
-    await authService.deleteUserProfile(activeUser.id);
+    await userRepository.deleteProfile(activeUser.id);
     return ApiResponse.success(null, "User profile deleted successfully");
   }
 }

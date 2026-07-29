@@ -36,7 +36,7 @@ export default function CategoriesGrid({ categories }) {
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
     >
       {categories.map((cat) => (
-        <motion.div key={cat.id} variants={itemVariants}>
+        <motion.div key={cat._id || cat.id} variants={itemVariants}>
           <CategoryCard category={cat} />
         </motion.div>
       ))}

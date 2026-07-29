@@ -63,7 +63,7 @@ export default function FeaturedCategoriesSection({ categories }) {
         {/* Categories Grid (Responsive xs to 7xl) */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4 sm:gap-5">
           {categories.map((cat) => (
-            <CategoryCard key={cat.id} category={cat} />
+            <CategoryCard key={cat._id || cat.id} category={cat} />
           ))}
         </div>
 
