@@ -9,7 +9,7 @@ const StoreSchema = new mongoose.Schema(
     vendorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vendor",
-      required: true,
+      required: [true, "Store must belong to an active Vendor profile"],
       index: true,
     },
 
@@ -31,9 +31,15 @@ const StoreSchema = new mongoose.Schema(
       maxlength: 150,
     },
 
+    tagline: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
     storeSlug: {
       type: String,
-      required: true,
+      required: [true, "Store slug is required"],
       unique: true,
       lowercase: true,
       trim: true,
@@ -65,26 +71,39 @@ const StoreSchema = new mongoose.Schema(
       default: [],
     },
 
+    // Facilities & Tags (Sarees, AC, Parking, Trial Room)
+    facilities: {
+      type: [String],
+      default: [],
+    },
+
     // ==========================================
-    // Address
+    // Address & Location
     // ==========================================
 
     address: {
       type: String,
-      required: true,
+      required: [true, "Physical address is required"],
+      trim: true,
+    },
+
+    area: {
+      type: String,
+      default: "Salem Road",
       trim: true,
     },
 
     city: {
       type: String,
-      required: true,
+      required: [true, "City is required"],
+      default: "Namakkal",
       trim: true,
       index: true,
     },
 
     state: {
       type: String,
-      default: "",
+      default: "Tamil Nadu",
       trim: true,
     },
 
@@ -96,18 +115,21 @@ const StoreSchema = new mongoose.Schema(
 
     pincode: {
       type: String,
-      default: "",
+      default: "637001",
       trim: true,
     },
 
-    latitude: {
-      type: Number,
-      default: null,
-    },
-
-    longitude: {
-      type: Number,
-      default: null,
+    // GeoJSON Point for GPS Location Searching
+    location: {
+      type: {
+        type: String,
+        enum: ["Point"],
+        default: "Point",
+      },
+      coordinates: {
+        type: [Number], // [longitude, latitude]
+        default: [78.1674, 11.2189], // Namakkal Default Coords
+      },
     },
 
     googleMapUrl: {
@@ -190,8 +212,14 @@ const StoreSchema = new mongoose.Schema(
     },
 
     // ==========================================
-    // Visibility
+    // Status & Visibility
     // ==========================================
+
+    status: {
+      type: String,
+      enum: ["Active", "Inactive", "Pending"],
+      default: "Active",
+    },
 
     isFeatured: {
       type: Boolean,
@@ -200,7 +228,7 @@ const StoreSchema = new mongoose.Schema(
 
     isVerified: {
       type: Boolean,
-      default: false,
+      default: true,
     },
 
     isActive: {
@@ -211,7 +239,7 @@ const StoreSchema = new mongoose.Schema(
 
     profileCompleted: {
       type: Boolean,
-      default: false,
+      default: true,
     },
 
     // ==========================================
@@ -258,14 +286,33 @@ const StoreSchema = new mongoose.Schema(
 );
 
 // ==========================================
-// Indexes
+// Auto-Generate Slug Pre-Validate Hook
+// ==========================================
+
+StoreSchema.pre("validate", function (next) {
+  if (!this.storeSlug || this.storeSlug.trim() === "") {
+    const baseName = this.storeName || "store";
+    this.storeSlug =
+      baseName
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/[\s_-]+/g, "-")
+        .replace(/^-+|-+$/g, "") +
+      "-" +
+      Math.floor(Math.random() * 10000);
+  }
+  next();
+});
+// ==========================================
+// Compound Indexes
 // ==========================================
 
 StoreSchema.index({ vendorId: 1 });
-StoreSchema.index({ city: 1 });
+StoreSchema.index({ city: 1, area: 1 });
 StoreSchema.index({ storeSlug: 1 });
-StoreSchema.index({ isFeatured: 1 });
-StoreSchema.index({ isActive: 1 });
+StoreSchema.index({ location: "2dsphere" });
+StoreSchema.index({ isFeatured: 1, isActive: 1 });
 
 // ==========================================
 // Hide Internal Fields

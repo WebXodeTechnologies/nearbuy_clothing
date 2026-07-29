@@ -18,6 +18,7 @@ import {
   Building,
   RefreshCw,
 } from "lucide-react";
+import Image from "next/image";
 
 export default function VendorUserProfile() {
   const { data: session, update: updateSession } = useSession();
@@ -177,11 +178,13 @@ export default function VendorUserProfile() {
       <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="flex items-center gap-5">
           <div className="relative group">
-            <div className="h-24 w-24 rounded-3xl bg-gradient-to-tr from-indigo-500 to-teal-400 p-1 shadow-xl shrink-0 overflow-hidden relative">
+            <div className="h-24 w-24 rounded-3xl bg-linear-to-tr from-indigo-500 to-teal-400 p-1 shadow-xl shrink-0 overflow-hidden relative">
               {formData.image ? (
-                <img
+                <Image
                   src={formData.image}
                   alt={formData.name}
+                  width={96}
+                  height={96}
                   className="w-full h-full object-cover rounded-[20px]"
                 />
               ) : (

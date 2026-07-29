@@ -3,6 +3,7 @@ import { validate } from "@/middleware/validate.middleware";
 import { storeSchema, updateStoreSchema } from "@/validations/store.schema";
 import storeService from "@/services/store.service";
 import vendorRepository from "@/repositories/vendor.repository";
+import storeRepository from "@/repositories/store.repository";
 import Store from "@/models/Store";
 import dbConnect from "@/lib/db";
 import ApiResponse from "@/utils/apiResponse";
@@ -55,21 +56,36 @@ class StoreController {
 
   async getStoreById(req, { params }) {
     await dbConnect();
-    const { id } = await params;
+    const resolvedParams = params instanceof Promise ? await params : params;
+    const { id } = resolvedParams;
 
     let store;
     if (mongoose.Types.ObjectId.isValid(id)) {
       store = await storeService.getStoreById(id);
     } else {
-      const vendor = await vendorRepository.findBySlug(id);
-      if (!vendor) {
+      // 1. First attempt direct Store Slug lookup
+      store = await Store.findOne({ storeSlug: id.toLowerCase().trim() })
+        .populate(
+          "vendorId",
+          "businessName businessSlug logo coverImage phone email",
+        )
+        .populate("categoryIds", "name slug image")
+        .lean();
+
+      // 2. If not found by storeSlug, fallback to Vendor Slug lookup
+      if (!store) {
+        const vendor = await vendorRepository.findBySlug(id);
+        if (vendor) {
+          const stores = await storeService.getStoresByVendor(vendor._id);
+          if (stores && stores.length > 0) {
+            store = stores[0];
+          }
+        }
+      }
+
+      if (!store) {
         throw new ApiError(404, "Store listing not found.");
       }
-      const stores = await storeService.getStoresByVendor(vendor._id);
-      if (!stores || stores.length === 0) {
-        throw new ApiError(404, "Store listing not found.");
-      }
-      store = await storeService.getStoreById(stores[0]._id);
     }
 
     return ApiResponse.success(store, "Store listing retrieved successfully");
@@ -78,7 +94,8 @@ class StoreController {
   async updateStore(req, { params }) {
     const user = await requireVendor(req);
     await dbConnect();
-    const { id } = await params;
+    const resolvedParams = params instanceof Promise ? await params : params;
+    const { id } = resolvedParams;
 
     const body = await req.json();
     const validatedData = validate(updateStoreSchema, body);
@@ -88,6 +105,7 @@ class StoreController {
       user.id,
       validatedData,
     );
+
     return ApiResponse.success(
       updatedStore,
       "Store listing updated successfully",
@@ -97,7 +115,8 @@ class StoreController {
   async deleteStore(req, { params }) {
     const user = await requireVendor(req);
     await dbConnect();
-    const { id } = await params;
+    const resolvedParams = params instanceof Promise ? await params : params;
+    const { id } = resolvedParams;
 
     await storeService.deleteStore(id, user.id);
     return ApiResponse.success(null, "Store listing deleted successfully");
@@ -114,6 +133,7 @@ class StoreController {
       query.$or = [
         { storeName: { $regex: q, $options: "i" } },
         { description: { $regex: q, $options: "i" } },
+        { area: { $regex: q, $options: "i" } },
       ];
     }
     if (city) {
@@ -122,7 +142,8 @@ class StoreController {
 
     const stores = await Store.find(query)
       .populate("vendorId", "businessName businessSlug logo coverImage")
-      .populate("categoryIds", "name slug image");
+      .populate("categoryIds", "name slug image")
+      .lean();
 
     return ApiResponse.success(
       { stores, total: stores.length },

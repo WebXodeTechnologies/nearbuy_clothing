@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import toast from "react-hot-toast";
 
 export const useStoreStore = create((set) => ({
   stores: [],
@@ -13,7 +12,7 @@ export const useStoreStore = create((set) => ({
       const queryParams = new URLSearchParams({ page, limit });
       if (typeof filters === "string") {
         if (filters) queryParams.append("city", filters);
-      } else {
+      } else if (filters && typeof filters === "object") {
         if (filters.city) queryParams.append("city", filters.city);
         if (filters.vendor) queryParams.append("vendor", filters.vendor);
         if (filters.all) queryParams.append("all", "true");
@@ -21,12 +20,18 @@ export const useStoreStore = create((set) => ({
 
       const res = await fetch(`/api/stores?${queryParams}`);
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      if (!res.ok) throw new Error(data.message || "Failed to fetch stores");
 
-      set({ stores: data.data.stores, total: data.data.total, loading: false });
+      const storeList =
+        data.data?.stores || (Array.isArray(data.data) ? data.data : []);
+      const totalCount = data.data?.total || storeList.length || 0;
+
+      set({ stores: storeList, total: totalCount, loading: false });
+      return storeList;
     } catch (error) {
       set({ loading: false });
-      toast.error(error.message);
+      console.error("fetchStores error:", error);
+      return [];
     }
   },
 
@@ -35,13 +40,16 @@ export const useStoreStore = create((set) => ({
     try {
       const res = await fetch(`/api/stores/${id}`);
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      if (!res.ok)
+        throw new Error(data.message || "Failed to fetch store details");
 
-      set({ currentStore: data.data, loading: false });
-      return data.data;
+      const storeData = data.data || data;
+      set({ currentStore: storeData, loading: false });
+      return storeData;
     } catch (error) {
       set({ loading: false });
-      toast.error(error.message);
+      console.error("fetchStoreById error:", error);
+      return null;
     }
   },
 
@@ -53,15 +61,15 @@ export const useStoreStore = create((set) => ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(storeData),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
 
-      set((state) => ({ stores: [data.data, ...state.stores], loading: false }));
-      toast.success("Store created successfully!");
-      return data.data;
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to create store");
+
+      const newStore = data.data || data;
+      set((state) => ({ stores: [newStore, ...state.stores], loading: false }));
+      return newStore;
     } catch (error) {
       set({ loading: false });
-      toast.error(error.message);
       throw error;
     }
   },
@@ -74,18 +82,18 @@ export const useStoreStore = create((set) => ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updateData),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
 
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to update store");
+
+      const updatedStore = data.data || data;
       set((state) => ({
-        stores: state.stores.map((s) => (s._id === id ? data.data : s)),
+        stores: state.stores.map((s) => (s._id === id ? updatedStore : s)),
         loading: false,
       }));
-      toast.success("Store updated successfully!");
-      return data.data;
+      return updatedStore;
     } catch (error) {
       set({ loading: false });
-      toast.error(error.message);
       throw error;
     }
   },
@@ -95,16 +103,16 @@ export const useStoreStore = create((set) => ({
     try {
       const res = await fetch(`/api/stores/${id}`, { method: "DELETE" });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      if (!res.ok) throw new Error(data.message || "Failed to delete store");
 
       set((state) => ({
         stores: state.stores.filter((s) => s._id !== id),
         loading: false,
       }));
-      toast.success("Store deleted successfully");
+      return true;
     } catch (error) {
       set({ loading: false });
-      toast.error(error.message);
+      throw error;
     }
   },
 }));
