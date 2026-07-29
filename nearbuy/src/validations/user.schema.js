@@ -3,7 +3,9 @@ import { z } from "zod";
 export const updateUserProfileSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").optional(),
   phone: z.string().optional(),
-  image: z.string().url("Invalid image URL").or(z.literal("")).optional(),
+  image: z.string().optional(),
+  designation: z.string().optional(),
+  bio: z.string().optional(),
 });
 
 export const updateUserRoleSchema = z.object({

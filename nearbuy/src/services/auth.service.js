@@ -8,7 +8,10 @@ class AuthService {
     const existingUser = await userRepository.findByEmail(normalizedEmail);
 
     if (existingUser) {
-      throw new ApiError(400, "An account with this email address already exists.");
+      throw new ApiError(
+        400,
+        "An account with this email address already exists.",
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -23,7 +26,7 @@ class AuthService {
       role: normalizedRole,
     });
 
-    const userObj = user.toObject();
+    const userObj = user.toObject ? user.toObject() : { ...user };
     delete userObj.password;
     return userObj;
   }
@@ -37,7 +40,10 @@ class AuthService {
     }
 
     if (!user.password) {
-      throw new ApiError(400, "This account uses Google Login. Please sign in with Google.");
+      throw new ApiError(
+        400,
+        "This account uses Google Login. Please sign in with Google.",
+      );
     }
 
     const isValid = await bcrypt.compare(password, user.password);
@@ -45,7 +51,7 @@ class AuthService {
       throw new ApiError(401, "Invalid password credentials.");
     }
 
-    const userObj = user.toObject();
+    const userObj = user.toObject ? user.toObject() : { ...user };
     delete userObj.password;
     return userObj;
   }
@@ -67,6 +73,7 @@ class AuthService {
   }
 }
 
+// Export instance as both default and named export to prevent Turbopack bundle mismatches
 const authService = new AuthService();
+export { authService };
 export default authService;
-

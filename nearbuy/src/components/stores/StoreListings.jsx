@@ -67,7 +67,7 @@ export default function StoreListings({ displayedStores, viewMode, clearFilters,
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
       >
         {displayedStores.map((store) => (
-          <motion.div key={store.id} variants={itemVariants}>
+          <motion.div key={store._id || store.id} variants={itemVariants}>
             <StoreCard store={store} />
           </motion.div>
         ))}
@@ -84,7 +84,7 @@ export default function StoreListings({ displayedStores, viewMode, clearFilters,
     >
       {displayedStores.map((store) => (
         <motion.div
-          key={store.id}
+          key={store._id || store.id}
           variants={itemVariants}
           whileHover={{ y: -4 }}
           className="bg-white/95 backdrop-blur-md border border-slate-100 rounded-3xl p-6 hover:shadow-xl hover:border-purple-200/50 transition-all duration-300 flex flex-col md:flex-row gap-6 items-start md:items-center relative group overflow-hidden"

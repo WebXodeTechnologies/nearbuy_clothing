@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import useUserStore from "@/store/userStore";
 import { useSession, signOut } from "next-auth/react";
@@ -9,22 +9,18 @@ import { motion } from "framer-motion";
 import {
   User,
   Mail,
-  Phone,
-  Shield,
   Camera,
   Save,
   Trash2,
   CheckCircle2,
-  Calendar,
-  Sparkles,
+  Shield,
   AlertTriangle,
   Building,
-  KeyRound,
   RefreshCw,
 } from "lucide-react";
 
 export default function VendorUserProfile() {
-  const { data: session } = useSession();
+  const { data: session, update: updateSession } = useSession();
   const { profile, fetchProfile, updateProfile, deleteProfile, loading } = useUserStore();
 
   const [formData, setFormData] = useState({
@@ -32,57 +28,124 @@ export default function VendorUserProfile() {
     email: "",
     phone: "",
     image: "",
-    designation: "Merchant Owner & General Manager",
-    bio: "Managing director and apparel buyer at Urban Threads Boutique. Specializing in sustainable linen and traditional ethnic wear.",
+    designation: "Boutique Owner & General Manager",
+    bio: "Managing director and apparel buyer. Specializing in sustainable cotton, linen, and traditional silk wear.",
   });
 
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+  // Safely hydrate profile data ONCE on mount without triggering infinite resets
   useEffect(() => {
-    fetchProfile().then((data) => {
+    let isMounted = true;
+
+    async function loadData() {
+      if (isDataLoaded) return; // Prevent overwriting user's active edits
+
+      const data = await fetchProfile();
+      if (!isMounted) return;
+
       if (data) {
-        setFormData((prev) => ({
-          ...prev,
+        setFormData({
           name: data.name || session?.user?.name || "",
           email: data.email || session?.user?.email || "",
-          phone: data.phone || "+91 98200 12345",
-          image: data.image || session?.user?.image || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
-        }));
+          phone: data.phone || "",
+          image: data.profileImage || data.image || session?.user?.image || "",
+          designation: data.designation || "Merchant Owner",
+          bio: data.bio || "",
+        });
+        setIsDataLoaded(true);
       } else if (session?.user) {
-        setFormData((prev) => ({
-          ...prev,
+        setFormData({
           name: session.user.name || "",
           email: session.user.email || "",
-          image: session.user.image || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
-        }));
+          phone: "",
+          image: session.user.image || "",
+          designation: "Merchant Owner",
+          bio: "",
+        });
+        setIsDataLoaded(true);
       }
-    });
-  }, [fetchProfile, session]);
+    }
 
-  // Update CRUD Action
+    loadData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [fetchProfile, session, isDataLoaded]);
+
+  // Handle Input Changes cleanly
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Update Profile CRUD Handler
   const handleSaveProfile = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
+    setIsSaving(true);
+
     try {
-      await updateProfile({
+      // Map keys cleanly for both User model (profileImage) and Vendor model (phone)
+      const updatedData = {
         name: formData.name,
         phone: formData.phone,
         image: formData.image,
-      });
-      toast.success("Merchant owner profile updated successfully!");
+        profileImage: formData.image,
+        designation: formData.designation,
+        bio: formData.bio,
+      };
+
+      // 1. Call Zustand API Service
+      const result = await updateProfile(updatedData);
+
+      // 2. Refresh NextAuth Client Session Header
+      if (updateSession) {
+        await updateSession({
+          ...session,
+          user: {
+            ...session?.user,
+            name: formData.name,
+            image: formData.image,
+          },
+        });
+      }
+
+      // 3. Keep local state aligned with updated response
+      if (result) {
+        setFormData((prev) => ({
+          ...prev,
+          name: result.name || prev.name,
+          phone: result.phone || prev.phone,
+          image: result.profileImage || result.image || prev.image,
+          designation: result.designation || prev.designation,
+          bio: result.bio || prev.bio,
+        }));
+      }
+
+      toast.success("profile updated successfully!");
     } catch (err) {
-      // Toast already handled in userStore
+      toast.error(err?.message || "Failed to update profile details.");
+    } finally {
+      setIsSaving(false);
     }
   };
 
-  // Delete CRUD Action
+  // Delete Account Handler
   const handleDeleteAccount = async () => {
     setIsDeleting(true);
     try {
       await deleteProfile();
-      toast.success("Profile deleted. Logging out...");
+      toast.success("Profile deleted. Redirecting to login...");
       signOut({ callbackUrl: "/auth/login" });
     } catch (err) {
+      toast.error("Failed to delete account.");
       setIsDeleting(false);
       setShowDeleteModal(false);
     }
@@ -92,41 +155,48 @@ export default function VendorUserProfile() {
     <div className="space-y-8 font-body pb-12">
       <DashboardHeader
         title="Owner Account & Personal Profile"
-        description="Manage your personal merchant identity, contact information, profile photo, security credentials, and account settings."
-        badge="Account CRUD"
+        description="Manage your merchant identity, contact phone number, profile image, and store credentials."
+        badge="Account Settings"
       >
         <button
+          type="button"
           onClick={handleSaveProfile}
-          disabled={loading}
-          className="px-6 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-lg shadow-indigo-600/30 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+          disabled={loading || isSaving}
+          className="px-6 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/20 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
         >
-          {loading ? (
+          {loading || isSaving ? (
             <RefreshCw className="w-4 h-4 animate-spin" />
           ) : (
             <Save className="w-4 h-4" />
           )}
-          Save Profile Changes
+          <span>Save Changes</span>
         </button>
       </DashboardHeader>
 
       {/* Main Profile Summary Header */}
-      <div className="bg-white p-6 md:p-8 rounded-3xl border border-[#ECECEC] shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="flex items-center gap-5">
           <div className="relative group">
-            <div className="h-24 w-24 rounded-3xl bg-linear-to-tr from-indigo-500 to-teal-400 p-1 shadow-xl shrink-0 overflow-hidden">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={formData.image || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80"}
-                alt={formData.name}
-                className="w-full h-full object-cover rounded-[20px]"
-              />
+            <div className="h-24 w-24 rounded-3xl bg-gradient-to-tr from-indigo-500 to-teal-400 p-1 shadow-xl shrink-0 overflow-hidden relative">
+              {formData.image ? (
+                <img
+                  src={formData.image}
+                  alt={formData.name}
+                  className="w-full h-full object-cover rounded-[20px]"
+                />
+              ) : (
+                <div className="w-full h-full bg-slate-900 text-white font-black text-2xl flex items-center justify-center rounded-[20px]">
+                  {formData.name ? formData.name.charAt(0) : "V"}
+                </div>
+              )}
             </div>
             <button
+              type="button"
               onClick={() => {
                 const url = prompt("Enter Avatar Image URL:", formData.image);
-                if (url) setFormData({ ...formData, image: url });
+                if (url !== null) setFormData((prev) => ({ ...prev, image: url }));
               }}
-              className="absolute inset-0 bg-slate-950/40 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1 cursor-pointer"
+              className="absolute inset-0 bg-slate-950/50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1 cursor-pointer"
             >
               <Camera className="w-4 h-4" /> Edit
             </button>
@@ -144,15 +214,15 @@ export default function VendorUserProfile() {
             <p className="text-xs text-slate-500 font-medium flex items-center gap-1.5">
               <Mail className="w-3.5 h-3.5 text-indigo-600" /> {formData.email}
             </p>
-            <p className="text-[11px] text-slate-400 font-medium flex items-center gap-1.5 pt-0.5">
-              <Building className="w-3.5 h-3.5 text-teal-600" /> Urban Threads Boutique (Bandra West)
+            <p className="text-[11px] text-slate-500 font-medium flex items-center gap-1.5 pt-0.5">
+              <Building className="w-3.5 h-3.5 text-teal-600" /> {formData.designation}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-100 shrink-0">
+        <div className="flex items-center gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-200/80 shrink-0">
           <div className="text-right">
-            <span className="text-[10px] font-extrabold text-slate-400 uppercase block">Account Status</span>
+            <span className="text-[10px] font-black text-slate-400 uppercase block">Account Status</span>
             <span className="text-xs font-bold text-emerald-600 flex items-center justify-end gap-1 mt-0.5">
               <CheckCircle2 className="w-3.5 h-3.5" /> Verified Merchant
             </span>
@@ -160,35 +230,35 @@ export default function VendorUserProfile() {
         </div>
       </div>
 
-      {/* Profile CRUD Forms */}
+      {/* Profile Form */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          {/* Read & Update Details Form */}
-          <form onSubmit={handleSaveProfile} className="bg-white p-6 md:p-8 rounded-3xl border border-[#ECECEC] shadow-xs space-y-5">
+          <form onSubmit={handleSaveProfile} className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-5">
             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <h3 className="text-base font-heading font-bold text-slate-900 flex items-center gap-2">
+              <h3 className="text-base font-heading font-extrabold text-slate-900 flex items-center gap-2">
                 <User className="w-5 h-5 text-indigo-600" /> Personal Identity Details
               </h3>
-              <span className="text-xs font-bold text-slate-400">CRUD: Update Profile</span>
+              <span className="text-xs font-bold text-slate-400">Merchant Settings</span>
             </div>
 
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
                     Full Name
                   </label>
                   <input
                     type="text"
+                    name="name"
                     required
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={handleChange}
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
                     Email Address (Immutable)
                   </label>
                   <input
@@ -202,53 +272,57 @@ export default function VendorUserProfile() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
                     Contact Phone Number
                   </label>
                   <input
                     type="text"
+                    name="phone"
                     required
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+91 98200 12345"
+                    onChange={handleChange}
+                    placeholder="+91 98765 43210"
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-1.5">
-                    Merchant Title / Role
+                  <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
+                    Merchant Title / Designation
                   </label>
                   <input
                     type="text"
+                    name="designation"
                     value={formData.designation}
-                    onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
+                    onChange={handleChange}
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
                   Avatar Picture URL
                 </label>
                 <input
                   type="text"
+                  name="image"
                   value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  placeholder="https://images.unsplash.com/..."
+                  onChange={handleChange}
+                  placeholder="https://cloudinary.com/..."
                   className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600 font-mono"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-1.5">
-                  About Owner / Short Bio
+                <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
+                  Owner Bio & Description
                 </label>
                 <textarea
                   rows={3}
+                  name="bio"
                   value={formData.bio}
-                  onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                  onChange={handleChange}
                   className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs font-medium text-slate-900 focus:outline-none focus:border-indigo-600"
                 />
               </div>
@@ -257,21 +331,25 @@ export default function VendorUserProfile() {
             <div className="pt-2 flex justify-end">
               <button
                 type="submit"
-                disabled={loading}
-                className="px-6 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md transition-all cursor-pointer flex items-center gap-2"
+                disabled={loading || isSaving}
+                className="px-6 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-md transition-all cursor-pointer flex items-center gap-2 disabled:opacity-50"
               >
-                <Save className="w-4 h-4" /> Save Profile Details
+                {isSaving ? (
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Save className="w-4 h-4" />
+                )}
+                <span>Save Profile Details</span>
               </button>
             </div>
           </form>
         </div>
 
-        {/* Sidebar Info & Delete Profile Action */}
+        {/* Sidebar Security Details */}
         <div className="space-y-6">
-          {/* Account Credentials Card */}
-          <div className="bg-white p-6 rounded-3xl border border-[#ECECEC] shadow-xs space-y-4">
+          <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
             <h3 className="text-base font-heading font-bold text-slate-900 flex items-center gap-2">
-              <Shield className="w-5 h-5 text-teal-600" /> Account Security & Role
+              <Shield className="w-5 h-5 text-teal-600" /> Security & Role
             </h3>
 
             <div className="space-y-3 text-xs font-semibold text-slate-600">
@@ -284,25 +362,21 @@ export default function VendorUserProfile() {
               <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                 <span>Auth Provider</span>
                 <span className="font-bold text-slate-900">
-                  {session?.user?.email?.includes("gmail") ? "Google OAuth 2.0" : "Credentials Password"}
+                  {session?.user?.email?.includes("gmail") ? "Google OAuth" : "Email / Password"}
                 </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span>Member Since</span>
-                <span className="font-bold text-slate-900">July 2026</span>
               </div>
             </div>
           </div>
 
-          {/* Delete Profile (CRUD: Delete) Card */}
           <div className="bg-rose-50/60 p-6 rounded-3xl border border-rose-200/80 space-y-3">
             <h3 className="text-base font-heading font-bold text-rose-900 flex items-center gap-2">
-              <Trash2 className="w-5 h-5 text-rose-600" /> Delete Profile (CRUD)
+              <Trash2 className="w-5 h-5 text-rose-600" /> Delete Profile
             </h3>
             <p className="text-xs text-rose-700 font-medium leading-relaxed">
-              Deleting your merchant account profile will erase your login credentials and owner settings.
+              Deleting your profile will erase your login account settings from the database.
             </p>
             <button
+              type="button"
               onClick={() => setShowDeleteModal(true)}
               className="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-md transition-all cursor-pointer flex items-center gap-1.5 w-full justify-center"
             >
@@ -327,18 +401,20 @@ export default function VendorUserProfile() {
             <div className="text-center space-y-1">
               <h3 className="text-lg font-heading font-bold text-slate-900">Delete Account Profile?</h3>
               <p className="text-xs text-slate-500 font-medium">
-                This action is permanent. Your merchant profile details will be removed from MongoDB.
+                This action is permanent and will remove your owner settings.
               </p>
             </div>
 
             <div className="flex items-center gap-3 pt-2">
               <button
+                type="button"
                 onClick={() => setShowDeleteModal(false)}
                 className="flex-1 py-2.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200"
               >
                 Cancel
               </button>
               <button
+                type="button"
                 disabled={isDeleting}
                 onClick={handleDeleteAccount}
                 className="flex-1 py-2.5 rounded-xl bg-rose-600 text-white text-xs font-bold hover:bg-rose-700 shadow-md"
