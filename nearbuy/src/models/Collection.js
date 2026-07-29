@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import "@/models/Vendor";
+import "@/models/Store";
+import "@/models/Category";
 
 const CollectionSchema = new mongoose.Schema(
   {
@@ -9,14 +12,14 @@ const CollectionSchema = new mongoose.Schema(
     vendorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vendor",
-      required: true,
+      required: [true, "Collection must belong to a Vendor profile"],
       index: true,
     },
 
     storeId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Store",
-      required: true,
+      required: [true, "Collection must belong to a Store"],
       index: true,
     },
 
@@ -47,6 +50,11 @@ const CollectionSchema = new mongoose.Schema(
       index: true,
     },
 
+    price: {
+      type: Number,
+      default: 0,
+    },
+
     description: {
       type: String,
       default: "",
@@ -68,7 +76,7 @@ const CollectionSchema = new mongoose.Schema(
     },
 
     // ==========================================
-    // Search
+    // Search & Status
     // ==========================================
 
     tags: {
@@ -76,9 +84,10 @@ const CollectionSchema = new mongoose.Schema(
       default: [],
     },
 
-    // ==========================================
-    // Display
-    // ==========================================
+    status: {
+      type: Boolean,
+      default: true, // true = In Stock / Available in Shop
+    },
 
     isFeatured: {
       type: Boolean,
@@ -105,6 +114,11 @@ const CollectionSchema = new mongoose.Schema(
       default: 0,
     },
 
+    totalWhatsappClicks: {
+      type: Number,
+      default: 0,
+    },
+
     // ==========================================
     // SEO
     // ==========================================
@@ -124,6 +138,22 @@ const CollectionSchema = new mongoose.Schema(
   },
 );
 
+// Pre-validate hook for auto slug generation
+CollectionSchema.pre("validate", function (next) {
+  if (!this.slug || this.slug.trim() === "") {
+    const baseName = this.title || "collection";
+    this.slug =
+      baseName
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/[\s_-]+/g, "-")
+        .replace(/^-+|-+$/g, "") +
+      "-" +
+      Math.floor(Math.random() * 10000);
+  }
+});
+
 // ==========================================
 // Indexes
 // ==========================================
@@ -134,10 +164,6 @@ CollectionSchema.index({ categoryIds: 1 });
 CollectionSchema.index({ slug: 1 });
 CollectionSchema.index({ isFeatured: 1 });
 CollectionSchema.index({ isActive: 1 });
-
-// ==========================================
-// Hide Internal Fields
-// ==========================================
 
 CollectionSchema.set("toJSON", {
   transform: (_, ret) => {

@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import toast from "react-hot-toast";
 
 export const useCollectionStore = create((set) => ({
   collections: [],
@@ -16,16 +15,24 @@ export const useCollectionStore = create((set) => ({
 
       const res = await fetch(`/api/collections?${queryParams}`);
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      if (!res.ok)
+        throw new Error(data.message || "Failed to fetch collections");
+
+      const collectionsList =
+        data.data?.collections || (Array.isArray(data.data) ? data.data : []);
+      const totalCount = data.data?.total || collectionsList.length || 0;
 
       set({
-        collections: data.data.collections || [],
-        total: data.data.total || 0,
+        collections: collectionsList,
+        total: totalCount,
         loading: false,
       });
+
+      return collectionsList;
     } catch (error) {
       set({ loading: false });
-      toast.error(error.message);
+      console.error("fetchCollections error:", error);
+      return [];
     }
   },
 
@@ -37,19 +44,22 @@ export const useCollectionStore = create((set) => ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(collectionData),
       });
+
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      if (!res.ok)
+        throw new Error(data.message || "Failed to create collection");
+
+      const newCollection = data.data || data;
 
       set((state) => ({
-        collections: [data.data, ...state.collections],
+        collections: [newCollection, ...state.collections],
         loading: false,
       }));
-      toast.success("Lookbook published successfully!");
-      return data.data;
+
+      return newCollection;
     } catch (error) {
       set({ loading: false });
-      toast.error(error.message);
-      throw error;
+      throw error; // Let UI component catch & trigger single toast
     }
   },
 
@@ -61,19 +71,24 @@ export const useCollectionStore = create((set) => ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updateData),
       });
+
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      if (!res.ok)
+        throw new Error(data.message || "Failed to update collection");
+
+      const updatedCollection = data.data || data;
 
       set((state) => ({
-        collections: state.collections.map((c) => (c._id === id ? data.data : c)),
+        collections: state.collections.map((c) =>
+          c._id === id ? updatedCollection : c,
+        ),
         loading: false,
       }));
-      toast.success("Lookbook updated successfully!");
-      return data.data;
+
+      return updatedCollection;
     } catch (error) {
       set({ loading: false });
-      toast.error(error.message);
-      throw error;
+      throw error; // Let UI component catch & trigger single toast
     }
   },
 
@@ -82,16 +97,18 @@ export const useCollectionStore = create((set) => ({
     try {
       const res = await fetch(`/api/collections/${id}`, { method: "DELETE" });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      if (!res.ok)
+        throw new Error(data.message || "Failed to delete collection");
 
       set((state) => ({
         collections: state.collections.filter((c) => c._id !== id),
         loading: false,
       }));
-      toast.success("Lookbook deleted successfully");
+
+      return true;
     } catch (error) {
       set({ loading: false });
-      toast.error(error.message);
+      throw error; // Let UI component catch & trigger single toast
     }
   },
 }));

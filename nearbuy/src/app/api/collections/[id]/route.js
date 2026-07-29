@@ -9,6 +9,8 @@ export const PUT = withErrorHandler(async (req, context) => {
   return await collectionController.updateCollection(req, context);
 });
 
+export const PATCH = PUT; // Alias for PATCH requests
+
 export const DELETE = withErrorHandler(async (req, context) => {
   return await collectionController.deleteCollection(req, context);
 });

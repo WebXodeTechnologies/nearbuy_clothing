@@ -238,7 +238,6 @@ VendorSchema.pre("validate", function (next) {
       "-" +
       Math.floor(Math.random() * 10000);
   }
-  next();
 });
 
 // ==========================================

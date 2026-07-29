@@ -1,6 +1,9 @@
 import { requireVendor } from "@/middleware/vendor.middleware";
 import { validate } from "@/middleware/validate.middleware";
-import { collectionSchema, updateCollectionSchema } from "@/validations/collection.schema";
+import {
+  collectionSchema,
+  updateCollectionSchema,
+} from "@/validations/collection.schema";
 import collectionService from "@/services/collection.service";
 import collectionRepository from "@/repositories/collection.repository";
 import dbConnect from "@/lib/db";
@@ -63,7 +66,8 @@ class CollectionController {
 
   async getCollectionById(req, { params }) {
     await dbConnect();
-    const { id } = await params;
+    const resolvedParams = params instanceof Promise ? await params : params;
+    const { id } = resolvedParams;
 
     const collection = await collectionService.getCollectionById(id);
     return ApiResponse.success(collection, "Collection retrieved successfully");
@@ -72,7 +76,8 @@ class CollectionController {
   async updateCollection(req, { params }) {
     const user = await requireVendor(req);
     await dbConnect();
-    const { id } = await params;
+    const resolvedParams = params instanceof Promise ? await params : params;
+    const { id } = resolvedParams;
 
     const body = await req.json();
     const validatedData = validate(updateCollectionSchema, body);
@@ -88,7 +93,8 @@ class CollectionController {
   async deleteCollection(req, { params }) {
     const user = await requireVendor(req);
     await dbConnect();
-    const { id } = await params;
+    const resolvedParams = params instanceof Promise ? await params : params;
+    const { id } = resolvedParams;
 
     await collectionService.deleteCollection(id, user.id);
     return ApiResponse.success(null, "Collection deleted successfully");
