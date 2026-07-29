@@ -14,7 +14,10 @@ class OfferController {
     const validatedData = validate(offerSchema, body);
 
     const offer = await offerService.createOffer(user.id, validatedData);
-    return ApiResponse.created(offer, "Offer created successfully");
+    return ApiResponse.created(
+      offer,
+      "Promotional offer launched successfully",
+    );
   }
 
   async getOffers(req) {
@@ -26,16 +29,13 @@ class OfferController {
     const vendorId = searchParams.get("vendor");
     const all = searchParams.get("all") === "true";
 
-    if (vendorId) {
-      const offers = await offerService.getOffersByVendor(vendorId);
-      return ApiResponse.success(
-        { offers },
-        "Vendor offers retrieved successfully",
-      );
-    }
-
     let result;
-    if (all) {
+    if (vendorId) {
+      result = await offerService.getOffersByVendor(vendorId, {
+        limit,
+        skip: (page - 1) * limit,
+      });
+    } else if (all) {
       result = await offerService.getAllOffers(
         {},
         { limit, skip: (page - 1) * limit },
@@ -55,7 +55,8 @@ class OfferController {
 
   async getOfferById(req, { params }) {
     await dbConnect();
-    const { id } = await params;
+    const resolvedParams = params instanceof Promise ? await params : params;
+    const { id } = resolvedParams;
 
     const offer = await offerService.getOfferById(id);
     return ApiResponse.success(offer, "Offer retrieved successfully");
@@ -64,7 +65,8 @@ class OfferController {
   async updateOffer(req, { params }) {
     const user = await requireVendor(req);
     await dbConnect();
-    const { id } = await params;
+    const resolvedParams = params instanceof Promise ? await params : params;
+    const { id } = resolvedParams;
 
     const body = await req.json();
     const validatedData = validate(updateOfferSchema, body);
@@ -76,7 +78,8 @@ class OfferController {
   async deleteOffer(req, { params }) {
     const user = await requireVendor(req);
     await dbConnect();
-    const { id } = await params;
+    const resolvedParams = params instanceof Promise ? await params : params;
+    const { id } = resolvedParams;
 
     await offerService.deleteOffer(id, user.id);
     return ApiResponse.success(null, "Offer deleted successfully");

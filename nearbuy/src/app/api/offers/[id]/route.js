@@ -9,6 +9,8 @@ export const PUT = withErrorHandler(async (req, context) => {
   return await offerController.updateOffer(req, context);
 });
 
+export const PATCH = PUT;
+
 export const DELETE = withErrorHandler(async (req, context) => {
   return await offerController.deleteOffer(req, context);
 });
