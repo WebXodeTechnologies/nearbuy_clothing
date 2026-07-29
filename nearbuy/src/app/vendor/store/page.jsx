@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import { toast } from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
@@ -13,8 +13,17 @@ import {
   Eye,
   RefreshCw,
   Save,
+  Camera,
+  Image as ImageIcon,
+  Clock,
+  Calendar,
+  Compass,
+  Globe,
+  ExternalLink,
 } from "lucide-react";
 import Image from "next/image";
+
+const ALL_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 export default function VendorStore() {
   const { user } = useAuth();
@@ -22,6 +31,15 @@ export default function VendorStore() {
 
   const [loading, setLoading] = useState(false);
   const [storeId, setStoreId] = useState(null);
+
+  // Hidden File Input Refs
+  const logoInputRef = useRef(null);
+  const coverInputRef = useRef(null);
+
+  // Operating Days State
+  const [selectedDays, setSelectedDays] = useState(ALL_DAYS);
+
+  // Store Facilities
   const [facilities, setFacilities] = useState([
     "Parking",
     "Trial Room",
@@ -33,15 +51,19 @@ export default function VendorStore() {
 
   const [formData, setFormData] = useState({
     businessName: "Kavin Ethnic Boutiques",
-    description: "Premium handcrafted silk sarees, linen shirts, and designer festive ethnic wear in Namakkal.",
-    address: "Shop 12, Salem Main Road, Near Bus Stand, Namakkal 637001",
+    description:
+      "Premium handcrafted silk sarees, linen shirts, and designer festive ethnic wear in Namakkal.",
+    address: "Shop 12, Salem Main Road, Near Bus Stand",
+    area: "Salem Road",
     city: "Namakkal",
+    state: "Tamil Nadu",
     pincode: "637001",
+    googleMapUrl: "https://maps.google.com/?q=Namakkal",
     phone: "+91 98765 43210",
     whatsapp: "+91 98765 43210",
     email: "contact@kavinboutique.com",
-    workingHours: "10:00 AM - 09:00 PM",
-    businessDays: "Monday - Sunday",
+    openingTime: "09:30", // 24hr format for <input type="time">
+    closingTime: "21:00",
     instagram: "@kavin_boutique_namakkal",
     facebook: "facebook.com/kavinboutiquenamakkal",
     website: "https://kavinboutique.com",
@@ -62,17 +84,35 @@ export default function VendorStore() {
       if (store._id !== storeId) {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setStoreId(store._id);
+
+        // Convert stored AM/PM times back to 24-hr format for <input type="time">
+        const parseTo24Hr = (timeStr) => {
+          if (!timeStr) return "09:30";
+          if (timeStr.includes(":") && !timeStr.toLowerCase().includes("m")) return timeStr;
+          const match = timeStr.match(/(\d+):(\d+)\s*(AM|PM)/i);
+          if (!match) return "09:30";
+          let hours = parseInt(match[1], 10);
+          const minutes = match[2];
+          const period = match[3].toUpperCase();
+          if (period === "PM" && hours < 12) hours += 12;
+          if (period === "AM" && hours === 12) hours = 0;
+          return `${String(hours).padStart(2, "0")}:${minutes}`;
+        };
+
         setFormData({
           businessName: store.storeName || "",
           description: store.description || "",
           address: store.address || "",
+          area: store.area || "Salem Road",
           city: store.city || "Namakkal",
+          state: store.state || "Tamil Nadu",
           pincode: store.pincode || "637001",
+          googleMapUrl: store.googleMapUrl || "",
           phone: store.phone || "",
           whatsapp: store.whatsapp || "",
           email: store.email || "",
-          workingHours: `${store.openingTime || "10:00 AM"} - ${store.closingTime || "09:00 PM"}`,
-          businessDays: store.workingDays?.join(" - ") || "Monday - Sunday",
+          openingTime: parseTo24Hr(store.openingTime || "09:30 AM"),
+          closingTime: parseTo24Hr(store.closingTime || "09:00 PM"),
           instagram: store.instagram || "",
           facebook: store.facebook || "",
           website: store.website || "",
@@ -80,6 +120,14 @@ export default function VendorStore() {
           logo: store.logo || store.vendorId?.logo || "",
           coverImage: store.coverImage || store.vendorId?.coverImage || "",
         });
+
+        if (store.workingDays && Array.isArray(store.workingDays)) {
+          setSelectedDays(store.workingDays);
+        }
+
+        if (store.facilities && Array.isArray(store.facilities)) {
+          setFacilities(store.facilities);
+        }
       }
     }
   }, [stores, storeId]);
@@ -96,6 +144,28 @@ export default function VendorStore() {
     "Western Wear",
   ];
 
+  // Helper to format 24h time to 12h AM/PM
+  const format12Hour = (time24) => {
+    if (!time24) return "";
+    const [h, m] = time24.split(":");
+    let hours = parseInt(h, 10);
+    const suffix = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12;
+    return `${String(hours).padStart(2, "0")}:${m} ${suffix}`;
+  };
+
+  const toggleDay = (day) => {
+    if (selectedDays.includes(day)) {
+      if (selectedDays.length === 1) {
+        toast.error("At least one operating day must be selected.");
+        return;
+      }
+      setSelectedDays(selectedDays.filter((d) => d !== day));
+    } else {
+      setSelectedDays([...selectedDays, day]);
+    }
+  };
+
   const toggleFacility = (item) => {
     if (facilities.includes(item)) {
       setFacilities(facilities.filter((f) => f !== item));
@@ -104,35 +174,57 @@ export default function VendorStore() {
     }
   };
 
+  const handleFileUpload = (e, field) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please upload a valid image file (PNG, JPG, WEBP)");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image file size should be less than 5MB");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData((prev) => ({
+        ...prev,
+        [field]: reader.result,
+      }));
+      toast.success(`${field === "logo" ? "Store Logo" : "Cover Banner"} loaded!`);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSave = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
     setLoading(true);
 
-    const hoursParts = formData.workingHours.split("-").map((s) => s.trim());
-    const openingTime = hoursParts[0] || "10:00 AM";
-    const closingTime = hoursParts[1] || "09:00 PM";
-
-    const workingDays = formData.businessDays.split("-").map((s) => s.trim());
-
     const payload = {
       storeName: formData.businessName,
-      description: formData.description,
+      description: formData.description || "",
       address: formData.address,
+      area: formData.area || "Salem Road",
       city: formData.city || "Namakkal",
-      pincode: formData.pincode,
-      phone: formData.phone,
-      whatsapp: formData.whatsapp,
-      email: formData.email,
-      openingTime,
-      closingTime,
-      workingDays: workingDays.length > 0 ? workingDays : ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-      facilities,
-      instagram: formData.instagram,
-      facebook: formData.facebook,
-      website: formData.website,
-      status: formData.status,
-      logo: formData.logo,
-      coverImage: formData.coverImage,
+      state: formData.state || "Tamil Nadu",
+      pincode: formData.pincode || "637001",
+      googleMapUrl: formData.googleMapUrl || "",
+      phone: formData.phone || "",
+      whatsapp: formData.whatsapp || "",
+      email: formData.email || "",
+      openingTime: format12Hour(formData.openingTime),
+      closingTime: format12Hour(formData.closingTime),
+      workingDays: selectedDays,
+      facilities: facilities || [],
+      instagram: formData.instagram || "",
+      facebook: formData.facebook || "",
+      website: formData.website || "",
+      status: formData.status || "Active",
+      logo: formData.logo || "",
+      coverImage: formData.coverImage || "",
     };
 
     try {
@@ -151,9 +243,25 @@ export default function VendorStore() {
 
   return (
     <div className="space-y-8 font-body pb-12">
+      {/* Hidden File Inputs */}
+      <input
+        type="file"
+        ref={logoInputRef}
+        onChange={(e) => handleFileUpload(e, "logo")}
+        accept="image/*"
+        className="hidden"
+      />
+      <input
+        type="file"
+        ref={coverInputRef}
+        onChange={(e) => handleFileUpload(e, "coverImage")}
+        accept="image/*"
+        className="hidden"
+      />
+
       <DashboardHeader
         title="My Store Profile & Physical Location"
-        description="Configure your physical store storefront, location, opening hours, facilities, and SEO preview."
+        description="Configure your physical storefront, address, Google Maps link, clock hours, and operating days."
         badge="Namakkal Storefront"
       >
         <button
@@ -171,9 +279,8 @@ export default function VendorStore() {
         </button>
       </DashboardHeader>
 
-      {/* Cover Banner & Logo Section */}
+      {/* Cover Banner & Logo Header */}
       <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
-        {/* Cover Photo */}
         <div className="h-48 md:h-64 w-full bg-slate-900 relative group overflow-hidden">
           {formData.coverImage ? (
             <Image
@@ -183,24 +290,23 @@ export default function VendorStore() {
               className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
-            <div className="w-full h-full bg-linear-to-r from-slate-900 to-indigo-950 flex items-center justify-center text-slate-500 text-xs font-bold">
-              No Cover Banner Set
+            <div className="w-full h-full bg-linear-to-r from-slate-900 to-indigo-950 flex items-center justify-center text-slate-400 text-xs font-bold flex-col gap-2">
+              <ImageIcon className="w-8 h-8 text-slate-500" />
+              <span>No Cover Banner Selected. Click button to upload from PC.</span>
             </div>
           )}
           <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-transparent to-transparent" />
+
           <button
             type="button"
-            onClick={() => {
-              const url = prompt("Enter Cover Image URL:", formData.coverImage);
-              if (url !== null) setFormData({ ...formData, coverImage: url });
-            }}
-            className="absolute top-4 right-4 bg-slate-950/70 hover:bg-slate-950/90 rounded-2xl px-4 py-2 text-white text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer border border-white/10"
+            onClick={() => coverInputRef.current?.click()}
+            className="absolute top-4 right-4 bg-slate-950/70 hover:bg-slate-950/90 text-white rounded-2xl px-4 py-2 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer border border-white/20 backdrop-blur-md shadow-md"
           >
-            <Upload className="w-4 h-4" /> Edit Cover Image
+            <Upload className="w-4 h-4 text-indigo-400" />
+            <span>{formData.coverImage ? "Change Cover Banner" : "Upload Banner from PC"}</span>
           </button>
         </div>
 
-        {/* Logo & Basic Header */}
         <div className="p-6 md:p-8 flex flex-col md:flex-row items-start md:items-end justify-between gap-6 -mt-16 relative z-10">
           <div className="flex items-end gap-5">
             <div className="h-24 w-24 md:h-28 md:w-28 rounded-3xl bg-white p-1.5 shadow-xl border border-slate-200 shrink-0 relative group overflow-hidden">
@@ -218,13 +324,11 @@ export default function VendorStore() {
               )}
               <button
                 type="button"
-                onClick={() => {
-                  const url = prompt("Enter Logo Image URL:", formData.logo);
-                  if (url !== null) setFormData({ ...formData, logo: url });
-                }}
-                className="absolute inset-0 bg-slate-950/50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-bold gap-1 cursor-pointer"
+                onClick={() => logoInputRef.current?.click()}
+                className="absolute inset-0 bg-slate-950/60 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-bold gap-1 cursor-pointer flex-col"
               >
-                <Upload className="w-4 h-4" /> Edit
+                <Camera className="w-4 h-4 text-indigo-300" />
+                <span>Upload Logo</span>
               </button>
             </div>
             <div className="space-y-1">
@@ -237,7 +341,7 @@ export default function VendorStore() {
                 </span>
               </div>
               <p className="text-xs text-slate-500 font-medium flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-indigo-600" /> {formData.city}, Tamil Nadu
+                <MapPin className="w-3.5 h-3.5 text-indigo-600" /> {formData.area}, {formData.city}
               </p>
             </div>
           </div>
@@ -263,13 +367,14 @@ export default function VendorStore() {
         </div>
       </div>
 
-      {/* Main Details Form Grid */}
+      {/* Main Details Form */}
       <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          {/* General Store Info */}
+
+          {/* 1. General Info Card */}
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-5">
             <h3 className="text-base font-heading font-extrabold text-slate-900 flex items-center gap-2">
-              <Store className="w-5 h-5 text-indigo-600" /> General Store Info
+              <Store className="w-5 h-5 text-indigo-600" /> Basic Store Information
             </h3>
 
             <div className="space-y-4">
@@ -288,7 +393,7 @@ export default function VendorStore() {
 
               <div>
                 <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
-                  Store Description
+                  Store Tagline / Description
                 </label>
                 <textarea
                   rows={3}
@@ -314,7 +419,7 @@ export default function VendorStore() {
                 </div>
                 <div>
                   <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
-                    Direct Store Contact Phone
+                    Direct Phone Number
                   </label>
                   <input
                     type="text"
@@ -328,28 +433,47 @@ export default function VendorStore() {
             </div>
           </div>
 
-          {/* Location & Operating Hours */}
+          {/* 2. Structured Address Section */}
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-5">
             <h3 className="text-base font-heading font-extrabold text-slate-900 flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-teal-600" /> Physical Location & Hours
+              <MapPin className="w-5 h-5 text-teal-600" /> Physical Store Address & GPS
             </h3>
 
             <div className="space-y-4">
               <div>
                 <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
-                  Full Store Address
+                  Street / Shop Address Line
                 </label>
                 <input
                   type="text"
                   required
+                  placeholder="e.g. Shop No. 12, Salem Main Road, Opposite Bus Stand"
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                   className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="md:col-span-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
+                    Area / Locality
+                  </label>
+                  <select
+                    value={formData.area}
+                    onChange={(e) => setFormData({ ...formData, area: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600 cursor-pointer"
+                  >
+                    <option value="Salem Road">Salem Road</option>
+                    <option value="Paramathi Road">Paramathi Road</option>
+                    <option value="Mohanur Road">Mohanur Road</option>
+                    <option value="Tiruchengode Road">Tiruchengode Road</option>
+                    <option value="Park Road">Park Road</option>
+                    <option value="Bus Stand Main Market">Bus Stand Main Market</option>
+                  </select>
+                </div>
+
+                <div>
                   <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
                     City
                   </label>
@@ -361,6 +485,22 @@ export default function VendorStore() {
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
                   />
                 </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
+                    State
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.state}
+                    onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
+                  />
+                </div>
+
                 <div>
                   <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
                     Pincode
@@ -375,38 +515,127 @@ export default function VendorStore() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
-                    Working Hours
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.workingHours}
-                    onChange={(e) => setFormData({ ...formData, workingHours: e.target.value })}
-                    placeholder="10:00 AM - 09:00 PM"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
-                    Operating Days
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.businessDays}
-                    onChange={(e) => setFormData({ ...formData, businessDays: e.target.value })}
-                    placeholder="Monday - Sunday"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
-                  />
-                </div>
+              <div>
+                <label className="text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <Compass className="w-3.5 h-3.5 text-indigo-600" /> Google Maps Link
+                  </span>
+                  {formData.googleMapUrl && (
+                    <a
+                      href={formData.googleMapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[10px] text-indigo-600 font-bold hover:underline flex items-center gap-1"
+                    >
+                      Test Map Link <ExternalLink className="w-3 h-3" />
+                    </a>
+                  )}
+                </label>
+                <input
+                  type="url"
+                  placeholder="https://maps.google.com/..."
+                  value={formData.googleMapUrl}
+                  onChange={(e) => setFormData({ ...formData, googleMapUrl: e.target.value })}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
+                />
               </div>
             </div>
           </div>
 
-          {/* Store Facilities Tags */}
+          {/* 3. Clock Working Hours & Operating Days Section */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-6">
+            <h3 className="text-base font-heading font-extrabold text-slate-900 flex items-center gap-2">
+              <Clock className="w-5 h-5 text-indigo-600" /> Working Hours & Operating Days
+            </h3>
+
+            {/* Native Clock Time Pickers */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 space-y-2">
+                <label className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center justify-between">
+                  <span>Opening Time</span>
+                  <span className="text-[11px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-100">
+                    {format12Hour(formData.openingTime)}
+                  </span>
+                </label>
+                <input
+                  type="time"
+                  required
+                  value={formData.openingTime}
+                  onChange={(e) => setFormData({ ...formData, openingTime: e.target.value })}
+                  className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 focus:outline-none focus:border-indigo-600 cursor-pointer"
+                />
+              </div>
+
+              <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 space-y-2">
+                <label className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center justify-between">
+                  <span>Closing Time</span>
+                  <span className="text-[11px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-100">
+                    {format12Hour(formData.closingTime)}
+                  </span>
+                </label>
+                <input
+                  type="time"
+                  required
+                  value={formData.closingTime}
+                  onChange={(e) => setFormData({ ...formData, closingTime: e.target.value })}
+                  className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 focus:outline-none focus:border-indigo-600 cursor-pointer"
+                />
+              </div>
+            </div>
+
+            {/* Operating Days Picker */}
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                  <Calendar className="w-4 h-4 text-emerald-600" /> Operating Days
+                </label>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedDays(ALL_DAYS)}
+                    className="text-[10px] font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
+                  >
+                    All 7 Days
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedDays(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"])}
+                    className="text-[10px] font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
+                  >
+                    Mon - Sat
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
+                {ALL_DAYS.map((day) => {
+                  const isSelected = selectedDays.includes(day);
+                  return (
+                    <button
+                      type="button"
+                      key={day}
+                      onClick={() => toggleDay(day)}
+                      className={`py-3 px-2 rounded-2xl text-xs font-bold transition-all cursor-pointer flex flex-col items-center gap-1 border ${isSelected
+                        ? "bg-indigo-600 text-white border-indigo-600 shadow-sm"
+                        : "bg-slate-50 text-slate-400 border-slate-200 hover:bg-slate-100"
+                        }`}
+                    >
+                      <span className="text-[10px] font-black uppercase tracking-wider opacity-80">
+                        {day.slice(0, 3)}
+                      </span>
+                      {isSelected ? (
+                        <Check className="w-3.5 h-3.5 text-white" />
+                      ) : (
+                        <span className="text-[10px] opacity-50">Off</span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* 4. Facilities & Amenities */}
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
             <h3 className="text-base font-heading font-extrabold text-slate-900">Facilities & Features</h3>
             <p className="text-xs text-slate-500 font-medium">Select features available at your physical shop</p>
@@ -441,7 +670,7 @@ export default function VendorStore() {
                 <Eye className="w-4 h-4 text-indigo-600" /> Search Card Preview
               </h3>
               <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                Google Live
+                Nearbuy Live
               </span>
             </div>
 
@@ -450,16 +679,25 @@ export default function VendorStore() {
                 https://nearbuy.clothing/stores/{formData.businessName.toLowerCase().replace(/\s+/g, "-")}
               </span>
               <h4 className="text-sm font-heading font-bold text-indigo-600 leading-tight">
-                {formData.businessName} - {formData.city} Clothing Store
+                {formData.businessName} - {formData.city}
               </h4>
               <p className="text-[11px] text-slate-500 font-medium line-clamp-2 leading-relaxed">
                 {formData.description}
               </p>
+              <div className="pt-2 border-t border-slate-200/60 flex items-center justify-between text-[10px] font-bold text-slate-600">
+                <span className="flex items-center gap-1 text-emerald-700">
+                  <Clock className="w-3 h-3 text-emerald-600" />
+                  {format12Hour(formData.openingTime)} - {format12Hour(formData.closingTime)}
+                </span>
+                <span className="text-indigo-600">
+                  {selectedDays.length === 7 ? "Open Daily" : `${selectedDays.length} Days / Wk`}
+                </span>
+              </div>
             </div>
           </div>
 
           <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
-            <h3 className="text-base font-heading font-extrabold text-slate-900">Social Handles</h3>
+            <h3 className="text-base font-heading font-extrabold text-slate-900">Social & Web Links</h3>
 
             <div className="space-y-3">
               <div>
@@ -475,8 +713,8 @@ export default function VendorStore() {
               </div>
 
               <div>
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">
-                  Website URL
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
+                  <Globe className="w-3 h-3 text-indigo-600" /> Website URL
                 </label>
                 <input
                   type="text"

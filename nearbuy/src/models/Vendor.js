@@ -9,7 +9,7 @@ const VendorSchema = new mongoose.Schema(
     ownerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: [true, "Owner ID is required"],
       index: true,
     },
 
@@ -26,7 +26,7 @@ const VendorSchema = new mongoose.Schema(
 
     businessSlug: {
       type: String,
-      required: true,
+      required: [true, "Business slug is required"],
       unique: true,
       lowercase: true,
       trim: true,
@@ -50,14 +50,14 @@ const VendorSchema = new mongoose.Schema(
 
     email: {
       type: String,
-      required: true,
       lowercase: true,
       trim: true,
+      default: "",
     },
 
     phone: {
       type: String,
-      required: true,
+      default: "",
       trim: true,
     },
 
@@ -90,6 +90,12 @@ const VendorSchema = new mongoose.Schema(
     coverImage: {
       type: String,
       default: "",
+    },
+
+    storeId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Store",
+      default: null,
     },
 
     // ==========================================
@@ -147,18 +153,18 @@ const VendorSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["Pending", "Approved", "Rejected", "Suspended"],
-      default: "Pending",
+      default: "Approved",
       index: true,
     },
 
     isVerified: {
       type: Boolean,
-      default: false,
+      default: true,
     },
 
     verifiedAt: {
       type: Date,
-      default: null,
+      default: Date.now,
     },
 
     approvedBy: {
@@ -202,7 +208,7 @@ const VendorSchema = new mongoose.Schema(
 
     profileCompleted: {
       type: Boolean,
-      default: false,
+      default: true,
     },
 
     isActive: {
@@ -214,6 +220,26 @@ const VendorSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
+
+// ==========================================
+// Pre-Validate Hook for Auto Slug
+// ==========================================
+
+VendorSchema.pre("validate", function (next) {
+  if (!this.businessSlug || this.businessSlug.trim() === "") {
+    const baseName = this.businessName || "boutique-vendor";
+    this.businessSlug =
+      baseName
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/[\s_-]+/g, "-")
+        .replace(/^-+|-+$/g, "") +
+      "-" +
+      Math.floor(Math.random() * 10000);
+  }
+  next();
+});
 
 // ==========================================
 // Indexes
