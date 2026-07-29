@@ -1,35 +1,22 @@
+// models/Offer.js
 import mongoose from "mongoose";
+import "@/models/Vendor";
+import "@/models/Store";
 
 const OfferSchema = new mongoose.Schema(
   {
-    // ==========================================
-    // Relationships
-    // ==========================================
-
     vendorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vendor",
-      required: true,
+      required: [true, "Offer must belong to a Vendor profile"],
       index: true,
     },
-
     storeId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Store",
-      required: true,
-      index: true,
-    },
-
-    collectionId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Collection",
       default: null,
       index: true,
     },
-
-    // ==========================================
-    // Offer Information
-    // ==========================================
 
     title: {
       type: String,
@@ -41,10 +28,16 @@ const OfferSchema = new mongoose.Schema(
     slug: {
       type: String,
       required: true,
-      unique: true,
       lowercase: true,
       trim: true,
       index: true,
+    },
+
+    couponCode: {
+      type: String,
+      required: [true, "Coupon code is required"],
+      trim: true,
+      uppercase: true,
     },
 
     description: {
@@ -53,125 +46,77 @@ const OfferSchema = new mongoose.Schema(
       trim: true,
     },
 
-    // ==========================================
-    // Media
-    // ==========================================
-
-    bannerImage: {
-      type: String,
-      default: "",
-    },
-
-    gallery: {
-      type: [String],
-      default: [],
-    },
-
-    // ==========================================
-    // Discount
-    // ==========================================
-
     discountType: {
       type: String,
-      enum: ["PERCENTAGE", "FLAT"],
-      default: "PERCENTAGE",
+      enum: ["Percentage", "Flat", "BOGO"], // 🟢 Allows 'Flat'
+      default: "Percentage",
     },
 
     discountValue: {
       type: Number,
-      required: true,
-      min: 0,
+      default: 0,
     },
 
-    minimumPurchase: {
+    minPurchaseAmount: {
       type: Number,
       default: 0,
     },
 
-    maximumDiscount: {
-      type: Number,
-      default: null,
-    },
-
-    // ==========================================
-    // Validity
-    // ==========================================
-
     startDate: {
       type: Date,
-      required: true,
       default: Date.now,
     },
 
     endDate: {
       type: Date,
-      required: true,
+      required: [true, "Offer valid until date is required"],
     },
 
-    // ==========================================
-    // Visibility
-    // ==========================================
-
-    isFeatured: {
-      type: Boolean,
-      default: false,
+    banner: {
+      type: String,
+      default: "",
     },
 
-    isActive: {
-      type: Boolean,
-      default: true,
+    status: {
+      type: String,
+      enum: ["Active", "Paused", "Expired"],
+      default: "Active",
       index: true,
     },
 
-    // ==========================================
-    // Analytics
-    // ==========================================
-
-    totalViews: {
+    views: {
       type: Number,
       default: 0,
     },
 
-    totalWhatsappClicks: {
+    claims: {
       type: Number,
       default: 0,
     },
-
-    // ==========================================
-    // SEO
-    // ==========================================
-
-    seoTitle: {
-      type: String,
-      default: "",
-    },
-
-    seoDescription: {
-      type: String,
-      default: "",
-    },
   },
-  {
-    timestamps: true,
-  },
+  { timestamps: true },
 );
 
-// ==========================================
+// 🟢 Pre-validate Hook to auto-generate slug before saving!
+OfferSchema.pre("validate", function () {
+  if (!this.slug || this.slug.trim() === "") {
+    const baseName = this.title || "offer";
+    this.slug =
+      baseName
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/[\s_-]+/g, "-")
+        .replace(/^-+|-+$/g, "") +
+      "-" +
+      Math.floor(Math.random() * 10000);
+  }
+});
+
 // Indexes
-// ==========================================
-
 OfferSchema.index({ vendorId: 1 });
-OfferSchema.index({ storeId: 1 });
-OfferSchema.index({ collectionId: 1 });
 OfferSchema.index({ slug: 1 });
-OfferSchema.index({ startDate: 1 });
-OfferSchema.index({ endDate: 1 });
-OfferSchema.index({ isActive: 1 });
-OfferSchema.index({ isFeatured: 1 });
-
-// ==========================================
-// Hide Internal Fields
-// ==========================================
+OfferSchema.index({ status: 1 });
 
 OfferSchema.set("toJSON", {
   transform: (_, ret) => {
@@ -181,5 +126,4 @@ OfferSchema.set("toJSON", {
 });
 
 const Offer = mongoose.models.Offer || mongoose.model("Offer", OfferSchema);
-
 export default Offer;
