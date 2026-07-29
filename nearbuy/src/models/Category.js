@@ -87,6 +87,18 @@ const CategorySchema = new mongoose.Schema(
   },
 );
 
+// Pre-validate hook to guarantee category slug
+CategorySchema.pre("validate", function (next) {
+  if (this.name && !this.slug) {
+    this.slug = this.name
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/[\s_-]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+});
+
 // ==========================================
 // Indexes
 // ==========================================
