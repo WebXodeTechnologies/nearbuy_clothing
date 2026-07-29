@@ -2,10 +2,6 @@ import mongoose from "mongoose";
 
 const AnalyticsSchema = new mongoose.Schema(
   {
-    // ==========================================
-    // Event
-    // ==========================================
-
     eventType: {
       type: String,
       required: true,
@@ -25,10 +21,6 @@ const AnalyticsSchema = new mongoose.Schema(
       ],
       index: true,
     },
-
-    // ==========================================
-    // Relationships
-    // ==========================================
 
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -62,10 +54,6 @@ const AnalyticsSchema = new mongoose.Schema(
       ref: "Offer",
       default: null,
     },
-
-    // ==========================================
-    // Visitor Information
-    // ==========================================
 
     ipAddress: {
       type: String,
@@ -109,10 +97,6 @@ const AnalyticsSchema = new mongoose.Schema(
       default: "",
     },
 
-    // ==========================================
-    // Event Metadata
-    // ==========================================
-
     metadata: {
       type: mongoose.Schema.Types.Mixed,
       default: {},
@@ -123,20 +107,16 @@ const AnalyticsSchema = new mongoose.Schema(
   },
 );
 
-// ==========================================
+// Synchronous pre-validate hook (No `next` parameter)
+AnalyticsSchema.pre("validate", function () {
+  if (this.eventType) {
+    this.eventType = this.eventType.toUpperCase();
+  }
+});
+
 // Indexes
-// ==========================================
-
-AnalyticsSchema.index({ eventType: 1 });
-AnalyticsSchema.index({ vendorId: 1 });
-AnalyticsSchema.index({ storeId: 1 });
-AnalyticsSchema.index({ userId: 1 });
-AnalyticsSchema.index({ city: 1 });
-AnalyticsSchema.index({ createdAt: -1 });
-
-// ==========================================
-// Hide Internal Fields
-// ==========================================
+AnalyticsSchema.index({ eventType: 1, vendorId: 1, createdAt: -1 });
+AnalyticsSchema.index({ vendorId: 1, createdAt: -1 });
 
 AnalyticsSchema.set("toJSON", {
   transform: (_, ret) => {

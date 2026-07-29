@@ -204,8 +204,8 @@ export default function VendorGallery() {
               key={f}
               onClick={() => setActiveFolder(f)}
               className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 border ${activeFolder === f
-                  ? "bg-indigo-600 text-white border-indigo-600 shadow-xs"
-                  : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
+                ? "bg-indigo-600 text-white border-indigo-600 shadow-xs"
+                : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
                 }`}
             >
               <Folder className="w-3.5 h-3.5" />
@@ -295,7 +295,7 @@ export default function VendorGallery() {
                 {/* Asset Footer */}
                 <div className="p-4 flex items-center justify-between bg-white border-t border-slate-100">
                   <div>
-                    <h4 className="text-xs font-black text-slate-900 truncate max-w-[160px]">
+                    <h4 className="text-xs font-black text-slate-900 truncate max-w-40">
                       {item.name}
                     </h4>
                     <span className="text-[10px] font-bold text-slate-400">

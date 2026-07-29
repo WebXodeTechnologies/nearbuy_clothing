@@ -1,27 +1,40 @@
 import React from "react";
 
-export default function DashboardHeader({ title, description, children, badge }) {
+export default function DashboardHeader({
+  title,
+  description,
+  children,
+  badge,
+}) {
   return (
-    <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-      <div>
-        <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+    <div className="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden group">
+      {/* Subtle Indigo Accent Bar on Left Border */}
+      <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-linear-to-b from-indigo-600 via-indigo-500 to-teal-400 rounded-l-full" />
+
+      {/* Title & Description Container */}
+      <div className="space-y-1.5 pl-2 sm:pl-1">
+        <div className="flex flex-wrap items-center gap-2.5">
+          <h1 className="text-xl sm:text-2xl font-heading font-black text-slate-900 tracking-tight">
             {title}
           </h1>
+
           {badge && (
-            <span className="bg-blue-50 text-blue-700 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full border border-blue-100">
+            <span className="bg-indigo-50 text-indigo-700 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full border border-indigo-100/80 shadow-2xs backdrop-blur-md">
               {badge}
             </span>
           )}
         </div>
+
         {description && (
-          <p className="mt-1 text-xs font-medium text-gray-500 max-w-2xl leading-relaxed">
+          <p className="text-xs sm:text-xs font-medium text-slate-500 max-w-2xl leading-relaxed">
             {description}
           </p>
         )}
       </div>
+
+      {/* Children Action Buttons / Filters */}
       {children && (
-        <div className="shrink-0 flex items-center gap-3">
+        <div className="shrink-0 flex flex-wrap items-center gap-3 pt-2 md:pt-0 pl-2 sm:pl-0 border-t md:border-t-0 border-slate-100">
           {children}
         </div>
       )}

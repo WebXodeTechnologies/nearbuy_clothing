@@ -3,10 +3,20 @@ import analyticsService from "@/services/analytics.service";
 import dbConnect from "@/lib/db";
 import ApiResponse from "@/utils/apiResponse";
 
-export const POST = withErrorHandler(async (req) => {
+export const GET = withErrorHandler(async (req) => {
   await dbConnect();
-  const body = await req.json();
+  const { searchParams } = new URL(req.url);
 
-  const event = await analyticsService.trackEvent(body);
-  return ApiResponse.success(event, "Event logged successfully", 201);
+  const vendorId = searchParams.get("vendor");
+  const range = searchParams.get("range") || "30days";
+
+  if (!vendorId) {
+    return ApiResponse.error("Vendor ID is required", 400);
+  }
+
+  const metrics = await analyticsService.getVendorMetrics(vendorId, range);
+  return ApiResponse.success(
+    metrics,
+    "Vendor analytics retrieved successfully",
+  );
 });

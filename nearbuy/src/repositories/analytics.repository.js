@@ -8,26 +8,35 @@ class AnalyticsRepository {
   async getEventsByVendor(vendorId, options = { limit: 100 }) {
     return await Analytics.find({ vendorId })
       .sort({ createdAt: -1 })
-      .limit(options.limit);
+      .limit(options.limit)
+      .lean();
   }
 
-  async getEventsByStore(storeId, options = { limit: 100 }) {
-    return await Analytics.find({ storeId })
-      .sort({ createdAt: -1 })
-      .limit(options.limit);
-  }
-
-  async getEventCountByType(vendorId = null, eventType) {
-    const filter = { eventType };
+  async getEventCountByType(vendorId = null, eventType, startDate = null) {
+    const filter = { eventType: eventType.toUpperCase() };
     if (vendorId) filter.vendorId = vendorId;
+    if (startDate) filter.createdAt = { $gte: startDate };
+
     return await Analytics.countDocuments(filter);
   }
 
-  async getPlatformStats() {
-    const totalVisits = await Analytics.countDocuments({ eventType: "website_visit" });
-    const totalStoreViews = await Analytics.countDocuments({ eventType: "store_view" });
-    const totalWhatsappClicks = await Analytics.countDocuments({ eventType: "whatsapp_click" });
-    const totalPhoneClicks = await Analytics.countDocuments({ eventType: "phone_click" });
+  async getPlatformStats(startDate = null) {
+    const filter = (eventType) => {
+      const query = { eventType: eventType.toUpperCase() };
+      if (startDate) query.createdAt = { $gte: startDate };
+      return query;
+    };
+
+    const totalVisits = await Analytics.countDocuments(filter("WEBSITE_VISIT"));
+    const totalStoreViews = await Analytics.countDocuments(
+      filter("STORE_VIEW"),
+    );
+    const totalWhatsappClicks = await Analytics.countDocuments(
+      filter("WHATSAPP_CLICK"),
+    );
+    const totalPhoneClicks = await Analytics.countDocuments(
+      filter("PHONE_CLICK"),
+    );
 
     return {
       totalVisits,
@@ -38,4 +47,5 @@ class AnalyticsRepository {
   }
 }
 
-export default new AnalyticsRepository();
+const analyticsRepository = new AnalyticsRepository();
+export default analyticsRepository;
