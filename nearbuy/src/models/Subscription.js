@@ -4,10 +4,6 @@ import { PAYMENT_STATUS, SUBSCRIPTION_STATUS } from "../constants/status.js";
 
 const SubscriptionSchema = new mongoose.Schema(
   {
-    // ==========================================
-    // Relationships
-    // ==========================================
-
     vendorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vendor",
@@ -21,10 +17,6 @@ const SubscriptionSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
-
-    // ==========================================
-    // Plan Snapshot
-    // ==========================================
 
     planName: {
       type: String,
@@ -40,13 +32,11 @@ const SubscriptionSchema = new mongoose.Schema(
 
     billingCycle: {
       type: String,
-      enum: Object.values(BILLING_CYCLES),
-      default: BILLING_CYCLES.MONTHLY,
+      enum: Object.values(
+        BILLING_CYCLES || { MONTHLY: "Monthly", YEARLY: "Yearly" },
+      ),
+      default: "Monthly",
     },
-
-    // ==========================================
-    // Razorpay
-    // ==========================================
 
     razorpayOrderId: {
       type: String,
@@ -65,10 +55,6 @@ const SubscriptionSchema = new mongoose.Schema(
       default: "",
     },
 
-    // ==========================================
-    // Payment
-    // ==========================================
-
     paymentMethod: {
       type: String,
       enum: ["UPI", "CARD", "NETBANKING", "WALLET", "CASH", "UNKNOWN"],
@@ -77,14 +63,16 @@ const SubscriptionSchema = new mongoose.Schema(
 
     paymentStatus: {
       type: String,
-      enum: Object.values(PAYMENT_STATUS),
-      default: PAYMENT_STATUS.PENDING,
+      enum: Object.values(
+        PAYMENT_STATUS || {
+          PENDING: "Pending",
+          PAID: "Paid",
+          FAILED: "Failed",
+        },
+      ),
+      default: "Pending",
       index: true,
     },
-
-    // ==========================================
-    // Subscription Dates
-    // ==========================================
 
     startDate: {
       type: Date,
@@ -102,14 +90,16 @@ const SubscriptionSchema = new mongoose.Schema(
       default: null,
     },
 
-    // ==========================================
-    // Status
-    // ==========================================
-
     status: {
       type: String,
-      enum: Object.values(SUBSCRIPTION_STATUS),
-      default: SUBSCRIPTION_STATUS.ACTIVE,
+      enum: Object.values(
+        SUBSCRIPTION_STATUS || {
+          ACTIVE: "Active",
+          EXPIRED: "Expired",
+          INACTIVE: "Inactive",
+        },
+      ),
+      default: "Active",
       index: true,
     },
 
@@ -117,10 +107,6 @@ const SubscriptionSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-
-    // ==========================================
-    // Invoice
-    // ==========================================
 
     invoiceNumber: {
       type: String,
@@ -143,19 +129,11 @@ const SubscriptionSchema = new mongoose.Schema(
   },
 );
 
-// ==========================================
-// Indexes
-// ==========================================
-
 SubscriptionSchema.index({ vendorId: 1 });
 SubscriptionSchema.index({ planId: 1 });
 SubscriptionSchema.index({ paymentStatus: 1 });
 SubscriptionSchema.index({ status: 1 });
 SubscriptionSchema.index({ expiryDate: 1 });
-
-// ==========================================
-// Hide Internal Fields
-// ==========================================
 
 SubscriptionSchema.set("toJSON", {
   transform: (_, ret) => {
