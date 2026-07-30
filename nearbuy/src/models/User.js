@@ -3,9 +3,6 @@ import { ROLES } from "../constants/roles.js";
 
 const UserSchema = new mongoose.Schema(
   {
-    // ==========================================
-    // Basic Information
-    // ==========================================
     name: {
       type: String,
       required: [true, "Name is required"],
@@ -21,6 +18,11 @@ const UserSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
       index: true,
+    },
+
+    password: {
+      type: String,
+      select: false, // Hidden by default in queries
     },
 
     phone: {
@@ -46,9 +48,7 @@ const UserSchema = new mongoose.Schema(
       default: "",
     },
 
-    // ==========================================
-    // Authentication
-    // ==========================================
+    // Authentication Strategy
     provider: {
       type: String,
       enum: ["google", "credentials"],
@@ -66,13 +66,25 @@ const UserSchema = new mongoose.Schema(
       default: true,
     },
 
-    // ==========================================
+    resetPasswordToken: {
+      type: String,
+      default: null,
+      select: false,
+    },
+
+    resetPasswordExpires: {
+      type: Date,
+      default: null,
+      select: false,
+    },
+
     // Role & Permissions
-    // ==========================================
     role: {
       type: String,
-      enum: Object.values(ROLES),
-      default: ROLES.USER,
+      enum: Object.values(
+        ROLES || { USER: "USER", VENDOR: "VENDOR", ADMIN: "ADMIN" },
+      ),
+      default: "USER",
       index: true,
     },
 
@@ -83,9 +95,7 @@ const UserSchema = new mongoose.Schema(
       index: true,
     },
 
-    // ==========================================
     // Account Status
-    // ==========================================
     isActive: {
       type: Boolean,
       default: true,
@@ -101,9 +111,7 @@ const UserSchema = new mongoose.Schema(
       default: false,
     },
 
-    // ==========================================
     // Activity
-    // ==========================================
     loginCount: {
       type: Number,
       default: 0,
@@ -124,26 +132,20 @@ const UserSchema = new mongoose.Schema(
   },
 );
 
-// ==========================================
-// Indexes
-// ==========================================
-
 UserSchema.index({ email: 1 });
 UserSchema.index({ role: 1 });
 UserSchema.index({ providerId: 1 });
 UserSchema.index({ vendorId: 1 });
 
-// ==========================================
-// Hide Internal Fields
-// ==========================================
-
 UserSchema.set("toJSON", {
   transform: (_, ret) => {
+    delete ret.password;
+    delete ret.resetPasswordToken;
+    delete ret.resetPasswordExpires;
     delete ret.__v;
     return ret;
   },
 });
 
 const User = mongoose.models.User || mongoose.model("User", UserSchema);
-
 export default User;

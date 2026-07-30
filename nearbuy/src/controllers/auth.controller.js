@@ -1,16 +1,15 @@
 import { authenticate } from "@/middleware/auth.middleware";
 import { validate } from "@/middleware/validate.middleware";
-import { registerSchema } from "@/validations/auth.schema";
-import { updateUserProfileSchema } from "@/validations/user.schema";
+import {
+  registerSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
+} from "@/validations/auth.schema";
 import authService from "@/services/auth.service";
 import userRepository from "@/repositories/user.repository";
-import vendorRepository from "@/repositories/vendor.repository";
 import dbConnect from "@/lib/db";
 import ApiResponse from "@/utils/apiResponse";
 import ApiError from "@/utils/apiError";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/config/auth.config";
-import User from "@/models/User";
 
 class AuthController {
   async register(req) {
@@ -22,116 +21,38 @@ class AuthController {
     return ApiResponse.created(user, "User registered successfully");
   }
 
-  async updateRole(req) {
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user || !session.user.email) {
-      throw new ApiError(401, "Unauthorized");
-    }
-
-    const body = await req.json().catch(() => ({}));
-    const rawRole = body.role;
-    if (!rawRole) {
-      throw new ApiError(400, "Role parameter is required");
-    }
-
-    let normalizedRole = String(rawRole).toUpperCase().trim();
-    if (normalizedRole === "CUSTOMER") normalizedRole = "USER";
-
-    if (!["USER", "VENDOR", "ADMIN"].includes(normalizedRole)) {
-      throw new ApiError(400, `Invalid role: ${rawRole}`);
-    }
-
+  async forgotPassword(req) {
     await dbConnect();
+    const body = await req.json();
+    const validatedData = validate(forgotPasswordSchema, body);
 
-    const email = session.user.email.toLowerCase().trim();
-    let user = await User.findOne({ email });
+    const result = await authService.forgotPassword(validatedData.email);
+    return ApiResponse.success(result, "Password reset token generated");
+  }
 
-    if (!user) {
-      user = await User.create({
-        name: session.user.name || email.split("@")[0],
-        email: email,
-        image: session.user.image || "",
-        role: normalizedRole,
-      });
-    } else {
-      user.role = normalizedRole;
-      await user.save();
-    }
+  async resetPassword(req) {
+    await dbConnect();
+    const body = await req.json();
+    const validatedData = validate(resetPasswordSchema, body);
 
-    return ApiResponse.success({
-      message: "Role updated successfully",
-      role: user.role,
-    });
+    await authService.resetPassword(
+      validatedData.token,
+      validatedData.newPassword,
+    );
+    return ApiResponse.success(
+      null,
+      "Password reset successfully. You can now login.",
+    );
   }
 
   async getProfile(req) {
     const activeUser = await authenticate(req);
     await dbConnect();
 
-    // Use userRepository directly to avoid Turbopack service export mismatch
     const user = await userRepository.findById(activeUser.id);
-    if (!user) {
-      throw new ApiError(404, "User profile not found.");
-    }
+    if (!user) throw new ApiError(404, "User profile not found.");
 
-    const userObj = user.toObject ? user.toObject() : { ...user };
-
-    if (userObj.role === "VENDOR") {
-      const vendor = await vendorRepository.findByOwnerId(activeUser.id);
-      if (vendor && vendor.phone) {
-        userObj.phone = vendor.phone;
-      }
-    }
-
-    return ApiResponse.success(userObj, "Profile retrieved successfully");
-  }
-
-  async updateProfile(req) {
-    const activeUser = await authenticate(req);
-    await dbConnect();
-
-    const body = await req.json();
-    const validatedData = validate(updateUserProfileSchema, body);
-
-    const updatedUser = await userRepository.updateProfile(
-      activeUser.id,
-      validatedData,
-    );
-
-    if (!updatedUser) {
-      throw new ApiError(404, "User profile not found.");
-    }
-
-    const userObj = updatedUser.toObject
-      ? updatedUser.toObject()
-      : { ...updatedUser };
-
-    if (userObj.role === "VENDOR") {
-      const vendor = await vendorRepository.findByOwnerId(activeUser.id);
-      if (vendor) {
-        if (validatedData.phone) {
-          const updatedVendor = await vendorRepository.updateProfile(
-            vendor._id,
-            {
-              phone: validatedData.phone,
-            },
-          );
-          userObj.phone = updatedVendor?.phone || validatedData.phone;
-        } else {
-          userObj.phone = vendor.phone;
-        }
-      }
-    }
-
-    return ApiResponse.success(userObj, "Profile updated successfully");
-  }
-
-  async deleteProfile(req) {
-    const activeUser = await authenticate(req);
-    await dbConnect();
-
-    await userRepository.deleteProfile(activeUser.id);
-    return ApiResponse.success(null, "User profile deleted successfully");
+    return ApiResponse.success(user, "Profile retrieved successfully");
   }
 }
 
