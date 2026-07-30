@@ -46,6 +46,13 @@ class UserRepository {
   async deleteProfile(id) {
     return await User.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
   }
+
+  /**
+   * FIX: Added missing count method for Dashboard Stats calculation
+   */
+  async count(query = {}) {
+    return await User.countDocuments(query);
+  }
 }
 
 const userRepository = new UserRepository();

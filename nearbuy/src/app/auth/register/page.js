@@ -24,7 +24,12 @@ function RegisterContent() {
         name: formData.name,
         email: formData.email,
         password: formData.password,
-        role: selectedRole === "vendor" ? "VENDOR" : "USER",
+        role:
+          selectedRole === "vendor"
+            ? "VENDOR"
+            : selectedRole === "admin"
+              ? "ADMIN"
+              : "USER",
         plan: selectedRole === "vendor" ? selectedPlan : undefined,
       };
 
@@ -135,6 +140,7 @@ function RegisterContent() {
                 {[
                   { value: "vendor", label: "Merchant Vendor" },
                   { value: "customer", label: "Regular Customer" },
+                  { value: "admin", label: "Admin" },
                 ].map((role) => {
                   const isSelected = selectedRole === role.value;
                   return (

@@ -11,6 +11,7 @@ import vendorService from "@/services/vendor.service";
 import vendorRepository from "@/repositories/vendor.repository";
 import dbConnect from "@/lib/db";
 import ApiResponse from "@/utils/apiResponse";
+import ApiError from "@/utils/apiError";
 
 class VendorController {
   async registerVendor(req) {
@@ -50,24 +51,70 @@ class VendorController {
 
   async getVendorById(req, { params }) {
     await dbConnect();
-    const { id } = await params;
+    const resolvedParams = params ? await params : {};
+    const { id } = resolvedParams;
 
     const vendor = await vendorRepository.findById(id);
+    if (!vendor) {
+      throw new ApiError(404, "Vendor store not found.");
+    }
     return ApiResponse.success(vendor, "Vendor retrieved successfully");
   }
 
-  async updateVendorProfile(req, { params }) {
+  /**
+   * FIX: Fetch current logged-in vendor's profile automatically
+   */
+  async getMyVendorProfile(req) {
     const user = await requireVendor(req);
     await dbConnect();
-    const { id } = await params;
+
+    const vendor = await vendorRepository.findByOwnerId(user.id);
+    if (!vendor) {
+      throw new ApiError(404, "Vendor profile not found for this account.");
+    }
+
+    return ApiResponse.success(vendor, "Vendor profile retrieved successfully");
+  }
+
+  /**
+   * FIX: Updates vendor profile scoped to the authenticated user's store
+   */
+  async updateVendorProfile(req, context = {}) {
+    const user = await requireVendor(req);
+    await dbConnect();
+
+    // Extract ID if provided in URL params, otherwise locate vendor by user.id
+    const resolvedParams = context.params ? await context.params : {};
+    let targetVendorId = resolvedParams.id;
+
+    // Find the vendor document owned by this user
+    let vendor = await vendorRepository.findByOwnerId(user.id);
+
+    if (!vendor && targetVendorId) {
+      vendor = await vendorRepository.findById(targetVendorId);
+    }
+
+    if (!vendor) {
+      throw new ApiError(404, "Vendor store profile not found to update.");
+    }
+
+    // Security Check: Verify ownership unless user is Admin
+    if (String(vendor.ownerId) !== String(user.id) && user.role !== "ADMIN") {
+      throw new ApiError(
+        403,
+        "You do not have permission to modify this store.",
+      );
+    }
 
     const body = await req.json();
     const validatedData = validate(updateVendorProfileSchema, body);
 
+    // Perform update on vendor._id
     const updatedVendor = await vendorService.updateVendorProfile(
-      id,
+      vendor._id,
       validatedData,
     );
+
     return ApiResponse.success(
       updatedVendor,
       "Vendor profile updated successfully",
