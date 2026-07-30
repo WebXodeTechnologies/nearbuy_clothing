@@ -6,13 +6,26 @@ class SubscriptionService {
   async createSubscription(ownerId, subscriptionData) {
     const vendor = await vendorRepository.findByOwnerId(ownerId);
     if (!vendor) {
-      throw new ApiError(404, "Vendor account required to purchase subscriptions.");
+      throw ApiError.notFound(
+        "Vendor account required to purchase subscriptions.",
+      );
+    }
+
+    // Calculate Expiry Date automatically based on Title Case billing cycle
+    const startDate = new Date();
+    const expiryDate = new Date(startDate);
+    if (subscriptionData.billingCycle === "Yearly") {
+      expiryDate.setFullYear(startDate.getFullYear() + 1);
+    } else {
+      expiryDate.setMonth(startDate.getMonth() + 1);
     }
 
     const subscription = await subscriptionRepository.create({
       ...subscriptionData,
       vendorId: vendor._id,
-      paymentStatus: "Pending",
+      startDate,
+      expiryDate,
+      paymentStatus: subscriptionData.paymentStatus || "Pending",
       status: "Active",
     });
 
@@ -31,13 +44,14 @@ class SubscriptionService {
   async updatePaymentStatus(subscriptionId, paymentStatus, paymentId = "") {
     const subscription = await subscriptionRepository.findById(subscriptionId);
     if (!subscription) {
-      throw new ApiError(404, "Subscription not found.");
+      throw ApiError.notFound("Subscription not found.");
     }
 
     const updateData = {
       paymentStatus,
       status: paymentStatus === "Paid" ? "Active" : "Expired",
     };
+
     if (paymentId) {
       updateData.razorpayPaymentId = paymentId;
     }
@@ -48,4 +62,3 @@ class SubscriptionService {
 
 const subscriptionService = new SubscriptionService();
 export default subscriptionService;
-

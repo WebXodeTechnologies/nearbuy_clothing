@@ -8,9 +8,13 @@ export const useSubscriptionStore = create((set) => ({
   fetchSubscription: async () => {
     set({ loading: true });
     try {
-      const res = await fetch("/api/subscriptions");
+      const res = await fetch("/api/subscriptions", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      if (!res.ok)
+        throw new Error(data.message || "Failed to fetch subscription");
 
       set({ subscription: data.data, loading: false });
     } catch (error) {
@@ -28,10 +32,11 @@ export const useSubscriptionStore = create((set) => ({
         body: JSON.stringify(subscriptionData),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      if (!res.ok)
+        throw new Error(data.message || "Failed to initialize subscription");
 
       set({ subscription: data.data, loading: false });
-      toast.success("Subscription initialized!");
+      toast.success("Subscription initialized successfully!");
       return data.data;
     } catch (error) {
       set({ loading: false });
