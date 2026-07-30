@@ -16,10 +16,19 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Determine redirect URL dynamically based on selected role
+  const getCallbackUrl = () => {
+    if (selectedRole === "admin") return "/admin/dashboard";
+    if (selectedRole === "vendor") return "/vendor/dashboard";
+    return "/"; // Default to Homepage for Customer
+  };
+
   const handleGoogleLogin = async () => {
     try {
       setError("");
-      await signIn("google", { callbackUrl: "/vendor/dashboard" });
+      const targetUrl = getCallbackUrl();
+      // ✅ Dynamic callback URL based on selected tab
+      await signIn("google", { callbackUrl: targetUrl });
     } catch (err) {
       setError(err.message || "Failed to sign in with Google.");
     }
@@ -43,13 +52,9 @@ export default function LoginPage() {
 
       toast.success("Login successful!");
 
-      if (selectedRole === "admin") {
-        router.push("/admin/dashboard");
-      } else if (selectedRole === "vendor") {
-        router.push("/vendor/dashboard");
-      } else {
-        router.push("/");
-      }
+      // ✅ Clean Role Routing
+      const targetUrl = getCallbackUrl();
+      router.push(targetUrl);
     } catch (err) {
       setError(err.message || "Invalid credentials.");
       toast.error(err.message || "Login failed");
