@@ -4,44 +4,66 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { useAuth } from "@/context/AuthContext";
+import { signIn } from "next-auth/react";
 import LoginForm from "@/components/forms/LoginForm";
 import Card, { CardBody } from "@/components/ui/Card";
+import Image from "next/image";
+import { toast } from "react-hot-toast";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { loginWithGoogle } = useAuth();
-  const [selectedRole, setSelectedRole] = useState("vendor"); // customer, vendor, admin
+  const [selectedRole, setSelectedRole] = useState("vendor");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleGoogleLogin = async () => {
     try {
       setError("");
-      await loginWithGoogle(selectedRole);
+      await signIn("google", { callbackUrl: "/vendor/dashboard" });
     } catch (err) {
       setError(err.message || "Failed to sign in with Google.");
     }
   };
 
-  const handleLoginSubmit = (user) => {
-    if (user) {
-      const finalRole = user.role || selectedRole;
-      if (finalRole === "admin") {
+  const handleLoginSubmit = async (formData) => {
+    setError("");
+    setLoading(true);
+
+    try {
+      // Direct NextAuth Credentials Sign-In
+      const result = await signIn("credentials", {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        throw new Error(result.error);
+      }
+
+      toast.success("Login successful!");
+
+      if (selectedRole === "admin") {
         router.push("/admin/dashboard");
-      } else if (finalRole === "vendor") {
+      } else if (selectedRole === "vendor") {
         router.push("/vendor/dashboard");
       } else {
         router.push("/");
       }
+    } catch (err) {
+      setError(err.message || "Invalid credentials.");
+      toast.error(err.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/40 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Decorative Background dot patterns */}
-      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_2px)] bg-size-[24px_24px] opacity-75 pointer-events-none" />
+    <div className="min-h-screen bg-slate-50/40 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden font-body">
+      {/* Background patterns */}
+      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_2px)] bg-[size:24px_24px] opacity-75 pointer-events-none" />
 
-      {/* Floating Ambient Mesh Glows */}
+      {/* Ambient Mesh Glows */}
       <motion.div
         animate={{
           scale: [1, 1.05, 1],
@@ -55,18 +77,36 @@ export default function LoginPage() {
           scale: [1, 1.08, 1],
           opacity: [0.15, 0.25, 0.15],
         }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2,
+        }}
         className="absolute bottom-10 left-1/4 w-[350px] h-[350px] bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
       />
 
-      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center space-y-4 relative z-10 font-body">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center space-y-4 relative z-10">
         {/* Logo */}
-        <Link href="/" className="inline-flex items-center gap-2.5 group justify-center">
-          <div className="h-10 w-10 rounded-2xl bg-linear-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-purple-600/10">
-            N
+        <Link
+          href="/"
+          className="inline-flex items-center gap-3 group justify-center focus:outline-none"
+        >
+          <div className="relative h-10 w-10 rounded-xl bg-gradient-to-tr from-blue-50 via-white to-indigo-50 border border-blue-100/50 p-1 flex items-center justify-center shadow-xs group-hover:scale-105 group-hover:shadow-md group-hover:border-purple-300 transition-all duration-300 overflow-hidden shrink-0">
+            <Image
+              src="/logos/nearbuy.png"
+              alt="Nearbuy Logo"
+              width={40}
+              height={40}
+              priority
+              className="h-full w-full object-contain transform group-hover:scale-105 transition-transform duration-300"
+            />
           </div>
-          <span className="font-heading font-black text-slate-900 text-2xl tracking-tight leading-none">
-            Nearby<span className="text-purple-600">Clothing</span>
+          <span className="font-heading font-black text-slate-900 text-2xl tracking-tight leading-none group-hover:text-purple-600 transition-colors duration-200">
+            Nearbuy
+            <span className="text-purple-600 group-hover:text-purple-700">
+              Clothing
+            </span>
           </span>
         </Link>
         <h2 className="text-3xl font-heading font-black text-slate-950 tracking-tight leading-tight">
@@ -74,7 +114,10 @@ export default function LoginPage() {
         </h2>
         <p className="text-xs text-slate-500 font-semibold">
           Or{" "}
-          <Link href="/auth/register" className="font-bold text-purple-600 hover:text-purple-700 underline">
+          <Link
+            href="/auth/register"
+            className="font-bold text-purple-600 hover:text-purple-700 underline"
+          >
             register your shop today
           </Link>
         </p>
@@ -84,7 +127,7 @@ export default function LoginPage() {
         <Card className="bg-white/95 backdrop-blur-md border border-slate-100/70 rounded-3xl shadow-xl">
           <CardBody className="p-8 space-y-6">
             {/* Quick Testing Role Switcher */}
-            <div className="bg-purple-50/50 border border-purple-100/30 rounded-2xl p-4 space-y-2.5 font-body">
+            <div className="bg-purple-50/50 border border-purple-100/30 rounded-2xl p-4 space-y-2.5">
               <span className="text-[10px] uppercase font-bold tracking-wider text-purple-700 block">
                 Choose Sign In Role
               </span>
@@ -92,7 +135,7 @@ export default function LoginPage() {
                 {[
                   { value: "customer", label: "Customer" },
                   { value: "vendor", label: "Merchant" },
-                  { value: "admin", label: "Admin" }
+                  { value: "admin", label: "Admin" },
                 ].map((role) => {
                   const isSelected = selectedRole === role.value;
                   return (
@@ -120,7 +163,12 @@ export default function LoginPage() {
             )}
 
             {/* Email/Password Login Form */}
-            <LoginForm onSubmit={handleLoginSubmit} mode="login" role={selectedRole} />
+            <LoginForm
+              onSubmit={handleLoginSubmit}
+              mode="login"
+              role={selectedRole}
+              loading={loading}
+            />
 
             {/* Social Separator */}
             <div className="relative my-4">
@@ -128,18 +176,19 @@ export default function LoginPage() {
                 <div className="w-full border-t border-slate-100"></div>
               </div>
               <div className="relative flex justify-center text-[10px] uppercase font-bold tracking-wider">
-                <span className="bg-white px-2.5 text-slate-400">Or continue with</span>
+                <span className="bg-white px-2.5 text-slate-400">
+                  Or continue with
+                </span>
               </div>
             </div>
 
-            {/* Native NextAuth Google OAuth Action Button */}
+            {/* Google OAuth Action Button */}
             <div className="w-full">
               <button
                 type="button"
                 onClick={handleGoogleLogin}
                 className="w-full flex justify-center items-center gap-2.5 py-3 px-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-sm transition-all cursor-pointer shadow-xs active:scale-[0.98] select-none"
               >
-                {/* SVG Google Logo */}
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path
                     fill="#EA4335"
@@ -161,7 +210,6 @@ export default function LoginPage() {
                 <span>Continue with Google</span>
               </button>
             </div>
-
           </CardBody>
         </Card>
       </div>

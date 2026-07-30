@@ -1,93 +1,50 @@
 "use client";
 
 import React, { useState } from "react";
-import { useAuth } from "@/context/AuthContext";
-import Input from "../ui/Input";
-import Button from "../ui/Button";
+import Input from "@/components/ui/Input";
+import Button from "@/components/ui/Button";
 
-export default function LoginForm({ onSubmit, mode = "login", role = "vendor" }) {
-  const { login, register } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+export default function LoginForm({ onSubmit, mode = "login", role, loading }) {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
-  const handleSubmit = async (e) => {
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError("");
-    setIsLoading(true);
-
-    if (!email || !password || (mode === "register" && (!name || !phone))) {
-      setError("Please fill out all required fields.");
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      let user;
-      if (mode === "login") {
-        user = await login(email, password);
-      } else {
-        user = await register(name, email, password, phone, role);
-      }
-      
-      // Callback to parent for navigation
-      if (onSubmit) {
-        onSubmit(user);
-      }
-    } catch (err) {
-      setError(err.message || "Authentication failed. Please verify your details.");
-    } finally {
-      setIsLoading(false);
-    }
+    onSubmit(formData);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      {error && (
-        <div className="p-3 text-xs font-semibold text-red-600 bg-red-50 border border-red-100 rounded-xl">
-          {error}
-        </div>
-      )}
-
+    <form onSubmit={handleSubmit} className="space-y-4 font-body">
       {mode === "register" && (
-        <>
-          <Input
-            label="Full Name"
-            name="name"
-            placeholder="John Doe"
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="border-slate-200 focus:border-blue-500 focus:ring-blue-100"
-            autoComplete="name"
-          />
-          <Input
-            label="Phone Number"
-            name="phone"
-            type="tel"
-            placeholder="+91 98765 43210"
-            required
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="border-slate-200 focus:border-blue-500 focus:ring-blue-100"
-            autoComplete="tel"
-          />
-        </>
+        <Input
+          label="Full Name"
+          name="name"
+          type="text"
+          placeholder="Akash Sharma"
+          required
+          value={formData.name}
+          onChange={handleChange}
+        />
       )}
 
       <Input
-        label="Email / Username"
+        label="Email Address"
         name="email"
-        type="text"
-        placeholder="you@example.com or username"
+        type="email"
+        placeholder="you@example.com"
         required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="border-slate-200 focus:border-blue-500 focus:ring-blue-100"
-        autoComplete="username"
+        value={formData.email}
+        onChange={handleChange}
       />
 
       <Input
@@ -96,30 +53,16 @@ export default function LoginForm({ onSubmit, mode = "login", role = "vendor" })
         type="password"
         placeholder="••••••••"
         required
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="border-slate-200 focus:border-blue-500 focus:ring-blue-100"
-        autoComplete={mode === "login" ? "current-password" : "new-password"}
+        value={formData.password}
+        onChange={handleChange}
       />
-
-      {mode === "login" && (
-        <div className="flex items-center justify-between text-xs pt-1">
-          <label className="flex items-center space-x-2 text-gray-600 select-none cursor-pointer">
-            <input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 w-4 h-4 cursor-pointer" />
-            <span>Remember me</span>
-          </label>
-          <a href="/auth/forgot-password" className="font-semibold text-blue-600 hover:text-blue-700">
-            Forgot password?
-          </a>
-        </div>
-      )}
 
       <Button
         type="submit"
-        isLoading={isLoading}
-        className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl cursor-pointer shadow-xs"
+        isLoading={loading}
+        className="w-full mt-2 bg-purple-600 hover:bg-purple-700 text-white font-bold"
       >
-        {mode === "login" ? "Sign In" : "Create Account"}
+        {mode === "register" ? "Create Account" : "Sign In"}
       </Button>
     </form>
   );

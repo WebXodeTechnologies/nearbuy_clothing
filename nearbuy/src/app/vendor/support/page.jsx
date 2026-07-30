@@ -19,6 +19,7 @@ import {
   AlertCircle,
   Image as ImageIcon,
 } from "lucide-react";
+import Image from "next/image";
 
 export default function VendorSupport() {
   const { tickets, loading, fetchTickets, createTicket } = useSupportStore();
@@ -350,7 +351,7 @@ export default function VendorSupport() {
               <div className="flex flex-wrap gap-2 pt-3">
                 {attachments.map((url, i) => (
                   <div key={i} className="relative w-16 h-16 rounded-xl overflow-hidden border border-slate-200 group">
-                    <img src={url} alt="Attachment" className="w-full h-full object-cover" />
+                    <Image src={url} alt="Attachment" fill className="w-full h-full object-cover" />
                     <button
                       type="button"
                       onClick={() => removeAttachment(i)}

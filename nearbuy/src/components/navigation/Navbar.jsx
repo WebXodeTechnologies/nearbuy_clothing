@@ -148,27 +148,27 @@ export default function Navbar() {
               {navLinks
                 .filter((link) => !(link.href === "/become-vendor" && user?.role && user.role.toUpperCase() === "VENDOR"))
                 .map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`relative py-2 text-xs xl:text-sm 2xl:text-base 4xl:text-lg transition-all duration-200 whitespace-nowrap group ${isActive
-                      ? "font-bold text-blue-600"
-                      : "font-semibold text-gray-600 hover:text-gray-950"
-                      }`}
-                  >
-                    <span>{link.label}</span>
-                    {/* Animated Sliding Underline Line */}
-                    <span
-                      className={`absolute bottom-0 left-0 h-0.5 rounded-full bg-linear-to-r from-blue-600 to-indigo-600 transition-all duration-300 ease-out ${isActive
-                        ? "w-full shadow-xs shadow-blue-500/50"
-                        : "w-0 group-hover:w-full opacity-60"
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={`relative py-2 text-xs xl:text-sm 2xl:text-base 4xl:text-lg transition-all duration-200 whitespace-nowrap group ${isActive
+                        ? "font-bold text-blue-600"
+                        : "font-semibold text-gray-600 hover:text-gray-950"
                         }`}
-                    />
-                  </Link>
-                );
-              })}
+                    >
+                      <span>{link.label}</span>
+                      {/* Animated Sliding Underline Line */}
+                      <span
+                        className={`absolute bottom-0 left-0 h-0.5 rounded-full bg-linear-to-r from-blue-600 to-indigo-600 transition-all duration-300 ease-out ${isActive
+                          ? "w-full shadow-xs shadow-blue-500/50"
+                          : "w-0 group-hover:w-full opacity-60"
+                          }`}
+                      />
+                    </Link>
+                  );
+                })}
             </nav>
 
             {/* Desktop Right Actions & Auth Buttons */}
@@ -296,39 +296,39 @@ export default function Navbar() {
                 {navLinks
                   .filter((link) => !(link.href === "/become-vendor" && user?.role && user.role.toUpperCase() === "VENDOR"))
                   .map((link) => {
-                  const isActive = pathname === link.href;
-                  return (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className={`relative group flex items-center justify-between px-3.5 sm:px-4 py-3 sm:py-3.5 rounded-xl text-sm sm:text-base font-bold transition-all duration-200 ${isActive
-                        ? "text-blue-600 bg-blue-50/60 border-l-4 border-blue-600 pl-4"
-                        : "text-gray-700 hover:text-blue-600 hover:bg-gray-50 hover:pl-5 border-l-4 border-transparent"
-                        }`}
-                    >
-                      <div className="flex items-center gap-3 sm:gap-3.5">
-                        <span className={isActive ? "text-blue-600" : "text-gray-400 group-hover:text-blue-600 transition-colors"}>
-                          {link.icon}
-                        </span>
-                        <span>{link.label}</span>
-                      </div>
-
-                      {/* Active / Hover Slide Arrow Indicator */}
-                      <svg
-                        className={`w-4 h-4 transition-transform duration-200 ${isActive
-                          ? "text-blue-600 translate-x-0"
-                          : "text-gray-300 opacity-0 group-hover:opacity-100 group-hover:text-blue-600 group-hover:translate-x-1"
+                    const isActive = pathname === link.href;
+                    return (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className={`relative group flex items-center justify-between px-3.5 sm:px-4 py-3 sm:py-3.5 rounded-xl text-sm sm:text-base font-bold transition-all duration-200 ${isActive
+                          ? "text-blue-600 bg-blue-50/60 border-l-4 border-blue-600 pl-4"
+                          : "text-gray-700 hover:text-blue-600 hover:bg-gray-50 hover:pl-5 border-l-4 border-transparent"
                           }`}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
                       >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
-                      </svg>
-                    </Link>
-                  );
-                })}
+                        <div className="flex items-center gap-3 sm:gap-3.5">
+                          <span className={isActive ? "text-blue-600" : "text-gray-400 group-hover:text-blue-600 transition-colors"}>
+                            {link.icon}
+                          </span>
+                          <span>{link.label}</span>
+                        </div>
+
+                        {/* Active / Hover Slide Arrow Indicator */}
+                        <svg
+                          className={`w-4 h-4 transition-transform duration-200 ${isActive
+                            ? "text-blue-600 translate-x-0"
+                            : "text-gray-300 opacity-0 group-hover:opacity-100 group-hover:text-blue-600 group-hover:translate-x-1"
+                            }`}
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </Link>
+                    );
+                  })}
               </nav>
             </div>
           </div>
