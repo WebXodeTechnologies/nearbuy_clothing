@@ -1,117 +1,161 @@
 import { create } from "zustand";
 
-export const useStoreStore = create((set) => ({
+export const useStoreStore = create((set, get) => ({
   stores: [],
   currentStore: null,
   total: 0,
   loading: false,
+  error: null,
 
-  fetchStores: async (filters = {}, page = 1, limit = 10) => {
-    set({ loading: true });
+  // 1. Fetch Current Vendor Store Profile (/api/vendors/me)
+  fetchStores: async (filters = {}) => {
+    set({ loading: true, error: null });
     try {
-      const queryParams = new URLSearchParams({ page, limit });
-      if (typeof filters === "string") {
-        if (filters) queryParams.append("city", filters);
-      } else if (filters && typeof filters === "object") {
-        if (filters.city) queryParams.append("city", filters.city);
-        if (filters.vendor) queryParams.append("vendor", filters.vendor);
-        if (filters.all) queryParams.append("all", "true");
+      const res = await fetch("/api/vendors/me");
+      const data = await res.json();
+
+      if (!res.ok) {
+        // Fallback for public marketplace directory pages passing query parameters
+        if (filters && (filters.city || filters.all)) {
+          const queryParams = new URLSearchParams(filters).toString();
+          const publicRes = await fetch(`/api/stores?${queryParams}`);
+          const publicData = await publicRes.json();
+          if (!publicRes.ok) {
+            throw new Error(publicData.message || "Failed to fetch stores");
+          }
+
+          const storeList =
+            publicData.data?.stores ||
+            (Array.isArray(publicData.data) ? publicData.data : []);
+          set({
+            stores: storeList,
+            total: publicData.data?.total || storeList.length,
+            loading: false,
+          });
+          return storeList;
+        }
+        throw new Error(data.message || "Failed to fetch vendor store profile");
       }
 
-      const res = await fetch(`/api/stores?${queryParams}`);
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to fetch stores");
+      const vendorStore = data.data || data;
+      const storeList = vendorStore ? [vendorStore] : [];
 
-      const storeList =
-        data.data?.stores || (Array.isArray(data.data) ? data.data : []);
-      const totalCount = data.data?.total || storeList.length || 0;
+      set({
+        stores: storeList,
+        currentStore: vendorStore,
+        total: storeList.length,
+        loading: false,
+      });
 
-      set({ stores: storeList, total: totalCount, loading: false });
       return storeList;
     } catch (error) {
-      set({ loading: false });
       console.error("fetchStores error:", error);
+      set({ loading: false, error: error.message });
       return [];
     }
   },
 
+  // 2. Fetch Store Details By ID
   fetchStoreById: async (id) => {
-    set({ loading: true });
+    set({ loading: true, error: null });
     try {
-      const res = await fetch(`/api/stores/${id}`);
+      const res = await fetch(`/api/vendors/${id}`);
       const data = await res.json();
-      if (!res.ok)
+
+      if (!res.ok) {
         throw new Error(data.message || "Failed to fetch store details");
+      }
 
       const storeData = data.data || data;
       set({ currentStore: storeData, loading: false });
       return storeData;
     } catch (error) {
-      set({ loading: false });
       console.error("fetchStoreById error:", error);
+      set({ loading: false, error: error.message });
       return null;
     }
   },
 
+  // 3. Create Vendor Store Profile (/api/vendors/me)
   createStore: async (storeData) => {
-    set({ loading: true });
+    set({ loading: true, error: null });
     try {
-      const res = await fetch("/api/stores", {
+      const res = await fetch("/api/vendors/me", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(storeData),
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to create store");
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to create store profile");
+      }
 
       const newStore = data.data || data;
-      set((state) => ({ stores: [newStore, ...state.stores], loading: false }));
+      set((state) => ({
+        stores: [newStore, ...state.stores],
+        currentStore: newStore,
+        loading: false,
+      }));
       return newStore;
     } catch (error) {
-      set({ loading: false });
+      set({ loading: false, error: error.message });
       throw error;
     }
   },
 
-  updateStore: async (id, updateData) => {
-    set({ loading: true });
+  // 4. Update Active Vendor Store Profile (/api/vendors/me)
+  updateStore: async (storeId, payload) => {
+    set({ loading: true, error: null });
     try {
-      const res = await fetch(`/api/stores/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updateData),
+      const res = await fetch("/api/vendors/me", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to update store");
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to update store profile");
+      }
 
       const updatedStore = data.data || data;
+
       set((state) => ({
-        stores: state.stores.map((s) => (s._id === id ? updatedStore : s)),
+        stores: state.stores.map((s) =>
+          s._id === updatedStore._id ? updatedStore : s,
+        ),
+        currentStore: updatedStore,
         loading: false,
       }));
+
       return updatedStore;
     } catch (error) {
-      set({ loading: false });
+      console.error("updateStore error:", error);
+      set({ error: error.message, loading: false });
       throw error;
     }
   },
 
+  // 5. Delete Store
   deleteStore: async (id) => {
-    set({ loading: true });
+    set({ loading: true, error: null });
     try {
-      const res = await fetch(`/api/stores/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/vendors/${id}`, { method: "DELETE" });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to delete store");
 
       set((state) => ({
         stores: state.stores.filter((s) => s._id !== id),
+        currentStore: null,
         loading: false,
       }));
       return true;
     } catch (error) {
-      set({ loading: false });
+      set({ loading: false, error: error.message });
       throw error;
     }
   },

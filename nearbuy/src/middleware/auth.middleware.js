@@ -30,7 +30,8 @@ export async function authenticate(req) {
         id: token.id || token.sub,
         email: token.email,
         name: token.name,
-        role: (token.role || "VENDOR").toUpperCase(),
+        role: (token.role || "USER").toUpperCase(),
+        vendorId: token.vendorId || null,
       };
     }
   } catch (err) {
@@ -38,7 +39,6 @@ export async function authenticate(req) {
   }
 
   // 3. Manual Fallback: Check Cookie Header directly from `req.headers`
-  const cookieHeader = req?.headers?.get("cookie") || "";
   const authHeader =
     req?.headers?.get("authorization") || req?.headers?.get("Authorization");
 
@@ -60,7 +60,8 @@ export async function authenticate(req) {
             id: decodedToken.id || decodedToken.sub,
             email: decodedToken.email,
             name: decodedToken.name,
-            role: (decodedToken.role || "VENDOR").toUpperCase(),
+            role: (decodedToken.role || "USER").toUpperCase(),
+            vendorId: decodedToken.vendorId || null,
           };
         }
       } catch (e) {
@@ -70,6 +71,48 @@ export async function authenticate(req) {
   }
 
   throw new ApiError(401, "Authentication required. Please log in.");
+}
+
+/**
+ * Require Merchant Vendor or Admin Access
+ */
+export async function requireVendor(req) {
+  const user = await authenticate(req);
+  const userRole = (user.role || "").toUpperCase();
+
+  if (userRole !== "VENDOR" && userRole !== "ADMIN") {
+    throw new ApiError(
+      403,
+      "Access denied: Merchant Vendor privileges required.",
+    );
+  }
+
+  return user;
+}
+
+/**
+ * Require Administrator Access
+ */
+export async function requireAdmin(req) {
+  const user = await authenticate(req);
+  const userRole = (user.role || "").toUpperCase();
+
+  if (userRole !== "ADMIN") {
+    throw new ApiError(
+      403,
+      "Access denied: Administrator privileges required.",
+    );
+  }
+
+  return user;
+}
+
+/**
+ * Require Customer/Regular User Access
+ */
+export async function requireCustomer(req) {
+  const user = await authenticate(req);
+  return user;
 }
 
 export default authenticate;

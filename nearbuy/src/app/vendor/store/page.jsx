@@ -23,13 +23,22 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
-const ALL_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const ALL_DAYS = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 
 export default function VendorStore() {
   const { user } = useAuth();
-  const { stores, fetchStores, createStore, updateStore } = useStoreStore();
+  const { updateStore } = useStoreStore();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [storeId, setStoreId] = useState(null);
 
   // Hidden File Input Refs
@@ -40,97 +49,121 @@ export default function VendorStore() {
   const [selectedDays, setSelectedDays] = useState(ALL_DAYS);
 
   // Store Facilities
-  const [facilities, setFacilities] = useState([
-    "Parking",
-    "Trial Room",
-    "Air Conditioned",
-    "Women's Wear",
-    "Ethnic Wear",
-    "Western Wear",
-  ]);
+  const [facilities, setFacilities] = useState([]);
 
+  // Form State
   const [formData, setFormData] = useState({
-    businessName: "Kavin Ethnic Boutiques",
-    description:
-      "Premium handcrafted silk sarees, linen shirts, and designer festive ethnic wear in Namakkal.",
-    address: "Shop 12, Salem Main Road, Near Bus Stand",
-    area: "Salem Road",
+    businessName: "",
+    description: "",
+    address: "",
+    area: "",
     city: "Namakkal",
     state: "Tamil Nadu",
-    pincode: "637001",
-    googleMapUrl: "https://maps.google.com/?q=Namakkal",
-    phone: "+91 98765 43210",
-    whatsapp: "+91 98765 43210",
-    email: "contact@kavinboutique.com",
-    openingTime: "09:30", // 24hr format for <input type="time">
+    pincode: "",
+    googleMapUrl: "",
+    phone: "",
+    whatsapp: "",
+    email: "",
+    openingTime: "09:30",
     closingTime: "21:00",
-    instagram: "@kavin_boutique_namakkal",
-    facebook: "facebook.com/kavinboutiquenamakkal",
-    website: "https://kavinboutique.com",
+    instagram: "",
+    facebook: "",
+    website: "",
     status: "Active",
     logo: "",
     coverImage: "",
   });
 
-  useEffect(() => {
-    if (user?.vendorId) {
-      fetchStores({ vendor: user.vendorId });
+  // Helper to parse 12hr/24hr times to 24hr format for <input type="time">
+  const parseTo24Hr = (timeStr) => {
+    if (!timeStr) return "09:30";
+    if (timeStr.includes(":") && !timeStr.toLowerCase().includes("m")) {
+      return timeStr;
     }
-  }, [user, fetchStores]);
+    const match = timeStr.match(/(\d+):(\d+)\s*(AM|PM)/i);
+    if (!match) return "09:30";
+    let hours = parseInt(match[1], 10);
+    const minutes = match[2];
+    const period = match[3].toUpperCase();
+    if (period === "PM" && hours < 12) hours += 12;
+    if (period === "AM" && hours === 12) hours = 0;
+    return `${String(hours).padStart(2, "0")}:${minutes}`;
+  };
 
+  // Helper to format 24h time to 12h AM/PM for display
+  const format12Hour = (time24) => {
+    if (!time24) return "";
+    const [h, m] = time24.split(":");
+    let hours = parseInt(h, 10);
+    const suffix = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12;
+    return `${String(hours).padStart(2, "0")}:${m} ${suffix}`;
+  };
+
+  // 1. Fetch Store Profile Data on Mount
   useEffect(() => {
-    if (stores && stores.length > 0) {
-      const store = stores[0];
-      if (store._id !== storeId) {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setStoreId(store._id);
+    async function loadVendorStoreData() {
+      setLoading(true);
+      try {
+        const res = await fetch("/api/vendors/me");
+        const json = await res.json();
 
-        // Convert stored AM/PM times back to 24-hr format for <input type="time">
-        const parseTo24Hr = (timeStr) => {
-          if (!timeStr) return "09:30";
-          if (timeStr.includes(":") && !timeStr.toLowerCase().includes("m")) return timeStr;
-          const match = timeStr.match(/(\d+):(\d+)\s*(AM|PM)/i);
-          if (!match) return "09:30";
-          let hours = parseInt(match[1], 10);
-          const minutes = match[2];
-          const period = match[3].toUpperCase();
-          if (period === "PM" && hours < 12) hours += 12;
-          if (period === "AM" && hours === 12) hours = 0;
-          return `${String(hours).padStart(2, "0")}:${minutes}`;
-        };
+        if (res.ok && json.data) {
+          const store = json.data;
+          setStoreId(store._id);
 
-        setFormData({
-          businessName: store.storeName || "",
-          description: store.description || "",
-          address: store.address || "",
-          area: store.area || "Salem Road",
-          city: store.city || "Namakkal",
-          state: store.state || "Tamil Nadu",
-          pincode: store.pincode || "637001",
-          googleMapUrl: store.googleMapUrl || "",
-          phone: store.phone || "",
-          whatsapp: store.whatsapp || "",
-          email: store.email || "",
-          openingTime: parseTo24Hr(store.openingTime || "09:30 AM"),
-          closingTime: parseTo24Hr(store.closingTime || "09:00 PM"),
-          instagram: store.instagram || "",
-          facebook: store.facebook || "",
-          website: store.website || "",
-          status: store.status || "Active",
-          logo: store.logo || store.vendorId?.logo || "",
-          coverImage: store.coverImage || store.vendorId?.coverImage || "",
-        });
+          // Full DB field fallback mapping
+          setFormData({
+            businessName: store.businessName || store.storeName || "",
+            description: store.description || store.tagline || store.bio || "",
+            address:
+              store.address ||
+              (typeof store.location === "object" ? store.location?.street : "") ||
+              "",
+            area: store.area || "Salem Road",
+            city: store.city || "Namakkal",
+            state: store.state || "Tamil Nadu",
+            pincode: store.pincode || "",
+            googleMapUrl:
+              store.googleMapUrl || store.location?.googleMapUrl || "",
+            phone: store.phone || store.businessPhone || "",
+            whatsapp: store.whatsapp || store.whatsappNumber || "",
+            email: store.email || "",
+            openingTime: parseTo24Hr(store.openingTime || "09:30 AM"),
+            closingTime: parseTo24Hr(store.closingTime || "09:00 PM"),
+            instagram: store.instagram || "",
+            facebook: store.facebook || "",
+            website: store.website || "",
+            status:
+              store.isActive === false || store.status === "Inactive"
+                ? "Inactive"
+                : "Active",
+            logo: store.logo || "",
+            coverImage: store.coverImage || "",
+          });
 
-        if (store.workingDays && Array.isArray(store.workingDays)) {
-          setSelectedDays(store.workingDays);
+          if (
+            store.workingDays &&
+            Array.isArray(store.workingDays) &&
+            store.workingDays.length > 0
+          ) {
+            setSelectedDays(store.workingDays);
+          }
+
+          if (store.facilities && Array.isArray(store.facilities)) {
+            setFacilities(store.facilities);
+          }
         }
-
-        if (store.facilities && Array.isArray(store.facilities)) {
-          setFacilities(store.facilities);
-        }
+      } catch (err) {
+        console.error("Error loading store data:", err);
+        toast.error("Failed to load store profile details.");
+      } finally {
+        setLoading(false);
       }
     }
-  }, [stores, storeId]);
+
+    loadVendorStoreData();
+  }, []);
 
   const availableFacilities = [
     "Parking",
@@ -143,16 +176,6 @@ export default function VendorStore() {
     "Ethnic Wear",
     "Western Wear",
   ];
-
-  // Helper to format 24h time to 12h AM/PM
-  const format12Hour = (time24) => {
-    if (!time24) return "";
-    const [h, m] = time24.split(":");
-    let hours = parseInt(h, 10);
-    const suffix = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12 || 12;
-    return `${String(hours).padStart(2, "0")}:${m} ${suffix}`;
-  };
 
   const toggleDay = (day) => {
     if (selectedDays.includes(day)) {
@@ -194,26 +217,34 @@ export default function VendorStore() {
         ...prev,
         [field]: reader.result,
       }));
-      toast.success(`${field === "logo" ? "Store Logo" : "Cover Banner"} loaded!`);
+      toast.success(
+        `${field === "logo" ? "Store Logo" : "Cover Banner"} loaded!`
+      );
     };
     reader.readAsDataURL(file);
   };
 
+  // 2. Save Handler
   const handleSave = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
-    setLoading(true);
+    setSaving(true);
 
     const payload = {
       storeName: formData.businessName,
+      businessName: formData.businessName,
+      tagline: formData.description,
       description: formData.description || "",
+      bio: formData.description || "",
       address: formData.address,
-      area: formData.area || "Salem Road",
+      area: formData.area || "",
       city: formData.city || "Namakkal",
       state: formData.state || "Tamil Nadu",
-      pincode: formData.pincode || "637001",
+      pincode: formData.pincode || "",
       googleMapUrl: formData.googleMapUrl || "",
       phone: formData.phone || "",
+      businessPhone: formData.phone || "",
       whatsapp: formData.whatsapp || "",
+      whatsappNumber: formData.whatsapp || "",
       email: formData.email || "",
       openingTime: format12Hour(formData.openingTime),
       closingTime: format12Hour(formData.closingTime),
@@ -222,24 +253,32 @@ export default function VendorStore() {
       instagram: formData.instagram || "",
       facebook: formData.facebook || "",
       website: formData.website || "",
-      status: formData.status || "Active",
+      isActive: formData.status === "Active",
       logo: formData.logo || "",
       coverImage: formData.coverImage || "",
     };
 
     try {
-      if (storeId) {
-        await updateStore(storeId, payload);
-      } else {
-        await createStore(payload);
-      }
-      toast.success("Store details updated successfully!");
+      await updateStore(storeId, payload);
+      toast.success("Store details saved successfully!");
     } catch (err) {
+      console.error("Save error:", err);
       toast.error(err?.message || "Failed to save store details");
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-100">
+        <RefreshCw className="w-8 h-8 text-indigo-600 animate-spin" />
+        <span className="ml-3 text-sm font-semibold text-slate-600">
+          Loading store profile...
+        </span>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8 font-body pb-12">
@@ -267,15 +306,15 @@ export default function VendorStore() {
         <button
           type="button"
           onClick={handleSave}
-          disabled={loading}
+          disabled={saving}
           className="px-6 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/20 transition-all cursor-pointer flex items-center gap-2 disabled:opacity-50"
         >
-          {loading ? (
+          {saving ? (
             <RefreshCw className="w-4 h-4 animate-spin" />
           ) : (
             <Save className="w-4 h-4" />
           )}
-          <span>Save Store Changes</span>
+          <span>{saving ? "Saving..." : "Save Store Changes"}</span>
         </button>
       </DashboardHeader>
 
@@ -303,7 +342,11 @@ export default function VendorStore() {
             className="absolute top-4 right-4 bg-slate-950/70 hover:bg-slate-950/90 text-white rounded-2xl px-4 py-2 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer border border-white/20 backdrop-blur-md shadow-md"
           >
             <Upload className="w-4 h-4 text-indigo-400" />
-            <span>{formData.coverImage ? "Change Cover Banner" : "Upload Banner from PC"}</span>
+            <span>
+              {formData.coverImage
+                ? "Change Cover Banner"
+                : "Upload Banner from PC"}
+            </span>
           </button>
         </div>
 
@@ -334,20 +377,27 @@ export default function VendorStore() {
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <h2 className="text-xl md:text-2xl font-heading font-black text-slate-900">
-                  {formData.businessName}
+                  {formData.businessName || "Store Name"}
                 </h2>
                 <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-black border border-emerald-200">
                   Verified Store
                 </span>
               </div>
               <p className="text-xs text-slate-500 font-medium flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-indigo-600" /> {formData.area}, {formData.city}
+                <MapPin className="w-3.5 h-3.5 text-indigo-600" />{" "}
+                {formData.address
+                  ? `${formData.address}, ${formData.city}`
+                  : formData.area && formData.city
+                    ? `${formData.area}, ${formData.city}`
+                    : "Address not updated yet"}
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2 bg-slate-50 p-2 rounded-2xl border border-slate-200">
-            <span className="text-xs font-bold text-slate-600 px-2">Store Status:</span>
+            <span className="text-xs font-bold text-slate-600 px-2">
+              Store Status:
+            </span>
             <button
               type="button"
               onClick={() =>
@@ -370,7 +420,6 @@ export default function VendorStore() {
       {/* Main Details Form */}
       <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-
           {/* 1. General Info Card */}
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-5">
             <h3 className="text-base font-heading font-extrabold text-slate-900 flex items-center gap-2">
@@ -384,9 +433,13 @@ export default function VendorStore() {
                 </label>
                 <input
                   type="text"
+                  name="businessName"
                   required
+                  placeholder="e.g. Kavin Ethnic Boutiques"
                   value={formData.businessName}
-                  onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, businessName: e.target.value })
+                  }
                   className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
                 />
               </div>
@@ -397,9 +450,13 @@ export default function VendorStore() {
                 </label>
                 <textarea
                   rows={3}
+                  name="description"
                   required
+                  placeholder="Describe your store and products..."
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                   className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs font-medium text-slate-900 focus:outline-none focus:border-indigo-600"
                 />
               </div>
@@ -411,9 +468,13 @@ export default function VendorStore() {
                   </label>
                   <input
                     type="text"
+                    name="whatsapp"
                     required
+                    placeholder="+91 98765 43210"
                     value={formData.whatsapp}
-                    onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, whatsapp: e.target.value })
+                    }
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
                   />
                 </div>
@@ -423,9 +484,13 @@ export default function VendorStore() {
                   </label>
                   <input
                     type="text"
+                    name="phone"
                     required
+                    placeholder="+91 98765 43210"
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
                   />
                 </div>
@@ -446,10 +511,13 @@ export default function VendorStore() {
                 </label>
                 <input
                   type="text"
+                  name="address"
                   required
                   placeholder="e.g. Shop No. 12, Salem Main Road, Opposite Bus Stand"
                   value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address: e.target.value })
+                  }
                   className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
                 />
               </div>
@@ -460,8 +528,11 @@ export default function VendorStore() {
                     Area / Locality
                   </label>
                   <select
+                    name="area"
                     value={formData.area}
-                    onChange={(e) => setFormData({ ...formData, area: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, area: e.target.value })
+                    }
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600 cursor-pointer"
                   >
                     <option value="Salem Road">Salem Road</option>
@@ -469,7 +540,9 @@ export default function VendorStore() {
                     <option value="Mohanur Road">Mohanur Road</option>
                     <option value="Tiruchengode Road">Tiruchengode Road</option>
                     <option value="Park Road">Park Road</option>
-                    <option value="Bus Stand Main Market">Bus Stand Main Market</option>
+                    <option value="Bus Stand Main Market">
+                      Bus Stand Main Market
+                    </option>
                   </select>
                 </div>
 
@@ -479,9 +552,12 @@ export default function VendorStore() {
                   </label>
                   <input
                     type="text"
+                    name="city"
                     required
                     value={formData.city}
-                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, city: e.target.value })
+                    }
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
                   />
                 </div>
@@ -494,9 +570,12 @@ export default function VendorStore() {
                   </label>
                   <input
                     type="text"
+                    name="state"
                     required
                     value={formData.state}
-                    onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, state: e.target.value })
+                    }
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
                   />
                 </div>
@@ -507,9 +586,13 @@ export default function VendorStore() {
                   </label>
                   <input
                     type="text"
+                    name="pincode"
                     required
+                    placeholder="637001"
                     value={formData.pincode}
-                    onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, pincode: e.target.value })
+                    }
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
                   />
                 </div>
@@ -518,7 +601,8 @@ export default function VendorStore() {
               <div>
                 <label className="text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5 flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
-                    <Compass className="w-3.5 h-3.5 text-indigo-600" /> Google Maps Link
+                    <Compass className="w-3.5 h-3.5 text-indigo-600" /> Google
+                    Maps Link
                   </span>
                   {formData.googleMapUrl && (
                     <a
@@ -533,22 +617,25 @@ export default function VendorStore() {
                 </label>
                 <input
                   type="url"
+                  name="googleMapUrl"
                   placeholder="https://maps.google.com/..."
                   value={formData.googleMapUrl}
-                  onChange={(e) => setFormData({ ...formData, googleMapUrl: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, googleMapUrl: e.target.value })
+                  }
                   className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
                 />
               </div>
             </div>
           </div>
 
-          {/* 3. Clock Working Hours & Operating Days Section */}
+          {/* 3. Working Hours & Days */}
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-6">
             <h3 className="text-base font-heading font-extrabold text-slate-900 flex items-center gap-2">
-              <Clock className="w-5 h-5 text-indigo-600" /> Working Hours & Operating Days
+              <Clock className="w-5 h-5 text-indigo-600" /> Working Hours &
+              Operating Days
             </h3>
 
-            {/* Native Clock Time Pickers */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 space-y-2">
                 <label className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center justify-between">
@@ -559,9 +646,12 @@ export default function VendorStore() {
                 </label>
                 <input
                   type="time"
+                  name="openingTime"
                   required
                   value={formData.openingTime}
-                  onChange={(e) => setFormData({ ...formData, openingTime: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, openingTime: e.target.value })
+                  }
                   className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 focus:outline-none focus:border-indigo-600 cursor-pointer"
                 />
               </div>
@@ -575,19 +665,22 @@ export default function VendorStore() {
                 </label>
                 <input
                   type="time"
+                  name="closingTime"
                   required
                   value={formData.closingTime}
-                  onChange={(e) => setFormData({ ...formData, closingTime: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, closingTime: e.target.value })
+                  }
                   className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 focus:outline-none focus:border-indigo-600 cursor-pointer"
                 />
               </div>
             </div>
 
-            {/* Operating Days Picker */}
             <div className="space-y-3 pt-2">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                  <Calendar className="w-4 h-4 text-emerald-600" /> Operating Days
+                  <Calendar className="w-4 h-4 text-emerald-600" /> Operating
+                  Days
                 </label>
                 <div className="flex items-center gap-1.5">
                   <button
@@ -599,7 +692,16 @@ export default function VendorStore() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setSelectedDays(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"])}
+                    onClick={() =>
+                      setSelectedDays([
+                        "Monday",
+                        "Tuesday",
+                        "Wednesday",
+                        "Thursday",
+                        "Friday",
+                        "Saturday",
+                      ])
+                    }
                     className="text-[10px] font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
                   >
                     Mon - Sat
@@ -635,10 +737,14 @@ export default function VendorStore() {
             </div>
           </div>
 
-          {/* 4. Facilities & Amenities */}
+          {/* 4. Facilities */}
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
-            <h3 className="text-base font-heading font-extrabold text-slate-900">Facilities & Features</h3>
-            <p className="text-xs text-slate-500 font-medium">Select features available at your physical shop</p>
+            <h3 className="text-base font-heading font-extrabold text-slate-900">
+              Facilities & Features
+            </h3>
+            <p className="text-xs text-slate-500 font-medium">
+              Select features available at your physical shop
+            </p>
 
             <div className="flex flex-wrap gap-2.5 pt-2">
               {availableFacilities.map((fac) => {
@@ -653,7 +759,9 @@ export default function VendorStore() {
                       : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
                       }`}
                   >
-                    {isSelected && <Check className="w-3.5 h-3.5 text-white" />}
+                    {isSelected && (
+                      <Check className="w-3.5 h-3.5 text-white" />
+                    )}
                     <span>{fac}</span>
                   </button>
                 );
@@ -676,28 +784,37 @@ export default function VendorStore() {
 
             <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
               <span className="text-[10px] font-mono text-emerald-700 truncate block">
-                https://nearbuy.clothing/stores/{formData.businessName.toLowerCase().replace(/\s+/g, "-")}
+                https://nearbuy.clothing/stores/
+                {formData.businessName
+                  ? formData.businessName.toLowerCase().replace(/\s+/g, "-")
+                  : "your-store-slug"}
               </span>
               <h4 className="text-sm font-heading font-bold text-indigo-600 leading-tight">
-                {formData.businessName} - {formData.city}
+                {formData.businessName || "Store Name"} - {formData.city}
               </h4>
               <p className="text-[11px] text-slate-500 font-medium line-clamp-2 leading-relaxed">
-                {formData.description}
+                {formData.description ||
+                  "Your store description preview will show here..."}
               </p>
               <div className="pt-2 border-t border-slate-200/60 flex items-center justify-between text-[10px] font-bold text-slate-600">
                 <span className="flex items-center gap-1 text-emerald-700">
                   <Clock className="w-3 h-3 text-emerald-600" />
-                  {format12Hour(formData.openingTime)} - {format12Hour(formData.closingTime)}
+                  {format12Hour(formData.openingTime)} -{" "}
+                  {format12Hour(formData.closingTime)}
                 </span>
                 <span className="text-indigo-600">
-                  {selectedDays.length === 7 ? "Open Daily" : `${selectedDays.length} Days / Wk`}
+                  {selectedDays.length === 7
+                    ? "Open Daily"
+                    : `${selectedDays.length} Days / Wk`}
                 </span>
               </div>
             </div>
           </div>
 
           <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
-            <h3 className="text-base font-heading font-extrabold text-slate-900">Social & Web Links</h3>
+            <h3 className="text-base font-heading font-extrabold text-slate-900">
+              Social & Web Links
+            </h3>
 
             <div className="space-y-3">
               <div>
@@ -706,8 +823,12 @@ export default function VendorStore() {
                 </label>
                 <input
                   type="text"
+                  name="instagram"
+                  placeholder="@your_handle"
                   value={formData.instagram}
-                  onChange={(e) => setFormData({ ...formData, instagram: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, instagram: e.target.value })
+                  }
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-900 focus:outline-none"
                 />
               </div>
@@ -718,8 +839,12 @@ export default function VendorStore() {
                 </label>
                 <input
                   type="text"
+                  name="website"
+                  placeholder="https://yourwebsite.com"
                   value={formData.website}
-                  onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, website: e.target.value })
+                  }
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-900 focus:outline-none"
                 />
               </div>
