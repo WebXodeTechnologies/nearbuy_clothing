@@ -1,4 +1,5 @@
 import User from "@/models/User";
+import dbConnect from "@/lib/db";
 
 class UserRepository {
   async findById(id) {
@@ -33,6 +34,46 @@ class UserRepository {
       resetPasswordToken: token,
       resetPasswordExpires: expires,
     });
+  }
+
+  async findAll({ page = 1, limit = 10, search = "", role = "" } = {}) {
+    await dbConnect();
+    const query = { isDeleted: { $ne: true } };
+
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { email: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    if (role && role !== "ALL") {
+      query.role = role.toUpperCase();
+    }
+
+    const pageNum = Math.max(1, Number(page));
+    const limitNum = Math.max(1, Number(limit));
+    const skip = (pageNum - 1) * limitNum;
+
+    const [users, total] = await Promise.all([
+      User.find(query)
+        .select("-password")
+        .populate("vendorId", "businessName storeName status")
+        .skip(skip)
+        .limit(limitNum)
+        .sort({ createdAt: -1 }),
+      User.countDocuments(query),
+    ]);
+
+    return {
+      users,
+      pagination: {
+        total,
+        page: pageNum,
+        limit: limitNum,
+        totalPages: Math.ceil(total / limitNum),
+      },
+    };
   }
 
   async updatePasswordAndClearToken(id, hashedPassword) {

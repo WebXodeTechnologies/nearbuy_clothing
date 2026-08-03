@@ -5,7 +5,6 @@ const VendorSchema = new mongoose.Schema(
     // ==========================================
     // Owner Information
     // ==========================================
-
     ownerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -16,7 +15,6 @@ const VendorSchema = new mongoose.Schema(
     // ==========================================
     // Business Information
     // ==========================================
-
     businessName: {
       type: String,
       required: [true, "Business name is required"],
@@ -24,9 +22,13 @@ const VendorSchema = new mongoose.Schema(
       maxlength: 150,
     },
 
+    storeName: {
+      type: String,
+      trim: true,
+    },
+
     businessSlug: {
       type: String,
-      required: [true, "Business slug is required"],
       unique: true,
       lowercase: true,
       trim: true,
@@ -44,10 +46,21 @@ const VendorSchema = new mongoose.Schema(
       trim: true,
     },
 
+    tagline: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    bio: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
     // ==========================================
     // Contact Information
     // ==========================================
-
     email: {
       type: String,
       lowercase: true,
@@ -61,7 +74,19 @@ const VendorSchema = new mongoose.Schema(
       trim: true,
     },
 
+    businessPhone: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
     alternatePhone: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    whatsapp: {
       type: String,
       default: "",
       trim: true,
@@ -79,9 +104,18 @@ const VendorSchema = new mongoose.Schema(
     },
 
     // ==========================================
-    // Branding
+    // Location Details
     // ==========================================
+    address: { type: String, default: "" },
+    area: { type: String, default: "Salem Road" },
+    city: { type: String, default: "Namakkal" },
+    state: { type: String, default: "Tamil Nadu" },
+    pincode: { type: String, default: "" },
+    googleMapUrl: { type: String, default: "" },
 
+    // ==========================================
+    // Branding & Media
+    // ==========================================
     logo: {
       type: String,
       default: "",
@@ -99,9 +133,27 @@ const VendorSchema = new mongoose.Schema(
     },
 
     // ==========================================
+    // Operating Schedule & Amenities
+    // ==========================================
+    openingTime: { type: String, default: "09:30 AM" },
+    closingTime: { type: String, default: "09:00 PM" },
+    workingDays: {
+      type: [String],
+      default: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ],
+    },
+    facilities: { type: [String], default: [] },
+
+    // ==========================================
     // Business Details
     // ==========================================
-
     gstNumber: {
       type: String,
       default: "",
@@ -117,7 +169,6 @@ const VendorSchema = new mongoose.Schema(
     // ==========================================
     // Social Media
     // ==========================================
-
     instagram: {
       type: String,
       default: "",
@@ -131,7 +182,6 @@ const VendorSchema = new mongoose.Schema(
     // ==========================================
     // Subscription
     // ==========================================
-
     planId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Plan",
@@ -149,11 +199,10 @@ const VendorSchema = new mongoose.Schema(
     // ==========================================
     // Approval
     // ==========================================
-
     status: {
       type: String,
       enum: ["Pending", "Approved", "Rejected", "Suspended"],
-      default: "Approved",
+      default: "Pending", // 🚨 FIXED: Default to Pending for admin queue
       index: true,
     },
 
@@ -164,7 +213,7 @@ const VendorSchema = new mongoose.Schema(
 
     verifiedAt: {
       type: Date,
-      default: Date.now,
+      default: () => Date.now(), // 🚨 FIXED: Function reference for dynamic timestamp
     },
 
     approvedBy: {
@@ -176,7 +225,6 @@ const VendorSchema = new mongoose.Schema(
     // ==========================================
     // Statistics
     // ==========================================
-
     totalStores: {
       type: Number,
       default: 0,
@@ -203,9 +251,8 @@ const VendorSchema = new mongoose.Schema(
     },
 
     // ==========================================
-    // Status
+    // Status Toggles
     // ==========================================
-
     profileCompleted: {
       type: Boolean,
       default: true,
@@ -222,10 +269,17 @@ const VendorSchema = new mongoose.Schema(
 );
 
 // ==========================================
-// Pre-Validate Hook for Auto Slug
+// Pre-Validate Hook for Auto Slug Creation
 // ==========================================
-
 VendorSchema.pre("validate", function (next) {
+  // Sync storeName & businessName if either is provided
+  if (this.businessName && !this.storeName) {
+    this.storeName = this.businessName;
+  } else if (this.storeName && !this.businessName) {
+    this.businessName = this.storeName;
+  }
+
+  // Generate slug ONLY if businessSlug is empty
   if (!this.businessSlug || this.businessSlug.trim() === "") {
     const baseName = this.businessName || "boutique-vendor";
     this.businessSlug =
@@ -238,12 +292,12 @@ VendorSchema.pre("validate", function (next) {
       "-" +
       Math.floor(Math.random() * 10000);
   }
+  next();
 });
 
 // ==========================================
 // Indexes
 // ==========================================
-
 VendorSchema.index({ ownerId: 1 });
 VendorSchema.index({ businessSlug: 1 });
 VendorSchema.index({ status: 1 });
@@ -252,7 +306,6 @@ VendorSchema.index({ planId: 1 });
 // ==========================================
 // Hide Internal Fields
 // ==========================================
-
 VendorSchema.set("toJSON", {
   transform: (_, ret) => {
     delete ret.__v;
