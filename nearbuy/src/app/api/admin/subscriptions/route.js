@@ -11,7 +11,7 @@ export const GET = withErrorHandler(async (req) => {
   }
 
   const [rawSubscribers, plans] = await Promise.all([
-    subscriptionRepository.findAllSubscribers(),
+    subscriptionRepository.findAll({}, { limit: 100, skip: 0 }), // Fixed method call from findAllSubscribers to findAll
     subscriptionRepository.findAllPlans(),
   ]);
 
@@ -22,13 +22,14 @@ export const GET = withErrorHandler(async (req) => {
       sub.vendorId?.businessName ||
       sub.vendorId?.storeName ||
       "Boutique Merchant",
-    ownerName: sub.vendorId?.ownerName || "Merchant Owner",
+    ownerName:
+      sub.vendorId?.ownerName || sub.vendorId?.email || "Merchant Owner",
     email: sub.vendorId?.email || "N/A",
-    planName: sub.planId?.name || "Growth Pro",
+    planName: sub.planName || sub.planId?.name || "Growth Pro",
     amount: sub.amount,
     status: sub.status,
     startDate: sub.startDate,
-    nextBillingDate: sub.nextBillingDate,
+    nextBillingDate: sub.expiryDate, // Mapped schema expiryDate to frontend nextBillingDate
     paymentMethod: sub.paymentMethod,
   }));
 

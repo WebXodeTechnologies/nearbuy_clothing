@@ -14,6 +14,7 @@ import {
   Plus,
   Edit3,
   ShieldCheck,
+  Calendar,
 } from "lucide-react";
 
 export default function SubscriptionsPage() {
@@ -255,6 +256,7 @@ export default function SubscriptionsPage() {
                 <th className="py-4 px-6">Boutique</th>
                 <th className="py-4 px-6">Plan</th>
                 <th className="py-4 px-6">Amount</th>
+                <th className="py-4 px-6">Next Renewal</th>
                 <th className="py-4 px-6">Status</th>
                 <th className="py-4 px-6 text-right">Actions</th>
               </tr>
@@ -264,6 +266,9 @@ export default function SubscriptionsPage() {
                 <tr key={sub._id}>
                   <td className="py-4 px-6 font-bold text-slate-900">
                     {sub.businessName}
+                    <span className="block text-[10px] text-slate-400 font-normal">
+                      {sub.email}
+                    </span>
                   </td>
                   <td className="py-4 px-6">
                     <Badge variant="indigo" pill>
@@ -271,6 +276,12 @@ export default function SubscriptionsPage() {
                     </Badge>
                   </td>
                   <td className="py-4 px-6 font-mono">₹{sub.amount}</td>
+                  <td className="py-4 px-6 font-mono text-slate-600 flex items-center gap-1.5 pt-5">
+                    <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                    {sub.nextBillingDate
+                      ? new Date(sub.nextBillingDate).toLocaleDateString("en-IN")
+                      : "N/A"}
+                  </td>
                   <td className="py-4 px-6">
                     <Badge variant="emerald" pill>
                       {sub.status}

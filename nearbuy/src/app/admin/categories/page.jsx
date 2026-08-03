@@ -23,6 +23,7 @@ import {
   Eye,
   Shirt,
 } from "lucide-react";
+import Image from "next/image";
 
 // Client-specified category ordering hierarchy
 const MANDATED_CATEGORY_ORDER = [
@@ -281,15 +282,16 @@ export default function CategoriesPage() {
               >
                 {/* Visual Banner Container */}
                 <div className="relative h-36 bg-slate-100 overflow-hidden">
-                  <img
+                  <Image
                     src={
                       cat.image ||
                       "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80"
                     }
                     alt={cat.name}
+                    fill
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
 
                   {/* Sequence Position Tag */}
                   <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-white px-2.5 py-1 rounded-xl text-[10px] font-black font-mono shadow-xs border border-white/20">
@@ -303,8 +305,8 @@ export default function CategoriesPage() {
                       disabled={isProcessing}
                       onClick={() => handleToggleActive(cat)}
                       className={`px-2.5 py-1 rounded-xl text-[10px] font-black uppercase tracking-wider backdrop-blur-md border transition-all cursor-pointer ${activeState
-                          ? "bg-emerald-500/90 text-white border-emerald-400"
-                          : "bg-rose-500/90 text-white border-rose-400"
+                        ? "bg-emerald-500/90 text-white border-emerald-400"
+                        : "bg-rose-500/90 text-white border-rose-400"
                         }`}
                     >
                       {activeState ? "Live" : "Hidden"}
@@ -414,9 +416,10 @@ export default function CategoriesPage() {
           {/* Live Image Preview */}
           {image && (
             <div className="h-24 rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 relative">
-              <img
+              <Image
                 src={image}
                 alt="Preview"
+                fill
                 className="w-full h-full object-cover"
               />
               <span className="absolute bottom-1.5 right-2 bg-slate-900/80 text-white text-[9px] font-bold px-2 py-0.5 rounded-md backdrop-blur-xs">

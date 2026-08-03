@@ -20,6 +20,7 @@ import {
   ShieldCheck,
   CheckCircle2,
 } from "lucide-react";
+import Image from "next/image";
 
 export default function AdminUsersPage() {
   const { users, fetchUsers, loading, error } = useUserStore();
@@ -158,8 +159,8 @@ export default function AdminUsersPage() {
               type="button"
               onClick={() => setRoleFilter(role)}
               className={`px-3.5 py-2 text-xs font-bold rounded-2xl transition-all cursor-pointer whitespace-nowrap ${roleFilter === role
-                  ? "bg-indigo-600 text-white shadow-xs"
-                  : "bg-slate-100/80 text-slate-600 hover:bg-slate-200/70"
+                ? "bg-indigo-600 text-white shadow-xs"
+                : "bg-slate-100/80 text-slate-600 hover:bg-slate-200/70"
                 }`}
             >
               {role}
@@ -224,16 +225,17 @@ export default function AdminUsersPage() {
                         <div className="flex items-center gap-3">
                           <div className="h-10 w-10 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-700 font-black flex items-center justify-center text-xs uppercase shrink-0 shadow-2xs overflow-hidden">
                             {u.profileImage ? (
-                              <img
+                              <Image
                                 src={u.profileImage}
                                 alt={u.name}
+                                fill
                                 className="w-full h-full object-cover"
                               />
                             ) : (
                               <span>{(u.name || "U").charAt(0)}</span>
                             )}
                           </div>
-                          <div className="space-y-0.5 max-w-[180px]">
+                          <div className="space-y-0.5 max-w-45">
                             <button
                               type="button"
                               onClick={() => setSelectedUser(u)}
@@ -251,7 +253,7 @@ export default function AdminUsersPage() {
                       {/* Email Address & Auth Provider */}
                       <td className="py-4 px-6">
                         <div className="space-y-1">
-                          <span className="font-mono text-slate-800 text-[11px] flex items-center gap-1.5 truncate max-w-[200px]">
+                          <span className="font-mono text-slate-800 text-[11px] flex items-center gap-1.5 truncate max-w-50">
                             <Mail className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                             <span className="truncate">{u.email}</span>
                           </span>
@@ -347,8 +349,8 @@ export default function AdminUsersPage() {
                               isActive ? "Suspend Account" : "Activate Account"
                             }
                             className={`p-1.5 rounded-xl transition-all cursor-pointer border ${isActive
-                                ? "bg-amber-50 text-amber-600 border-amber-200 hover:bg-amber-100"
-                                : "bg-emerald-600 text-white border-emerald-500 hover:bg-emerald-500"
+                              ? "bg-amber-50 text-amber-600 border-amber-200 hover:bg-amber-100"
+                              : "bg-emerald-600 text-white border-emerald-500 hover:bg-emerald-500"
                               }`}
                           >
                             {isProcessing ? (
@@ -443,9 +445,10 @@ export default function AdminUsersPage() {
                 <div className="flex items-center gap-3">
                   <div className="h-12 w-12 rounded-2xl bg-indigo-100 text-indigo-700 font-black flex items-center justify-center text-base uppercase shrink-0 overflow-hidden">
                     {selectedUser.profileImage ? (
-                      <img
+                      <Image
                         src={selectedUser.profileImage}
                         alt={selectedUser.name}
+                        fill
                         className="w-full h-full object-cover"
                       />
                     ) : (

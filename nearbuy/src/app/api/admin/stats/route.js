@@ -1,4 +1,4 @@
-import adminController from "@/controllers/adminController";
+import adminController from "@/controllers/admin.controller";
 import { verifyAdmin } from "@/middleware/adminAuth";
 import { withErrorHandler } from "@/middleware/error.middleware";
 

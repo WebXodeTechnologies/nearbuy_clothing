@@ -27,13 +27,16 @@ export const GET = withErrorHandler(async (req) => {
     "name email image role",
   );
 
+  // If no vendor profile exists (e.g. Admin user checking), return null instead of 404 error
   if (!vendor) {
-    throw new ApiError(404, "Vendor store profile not found.");
+    return ApiResponse.success(
+      null,
+      "No vendor store profile associated with this account.",
+    );
   }
 
   return ApiResponse.success(vendor, "Vendor profile retrieved successfully");
 });
-
 // POST /api/vendors/me -> Setup initial vendor store & link user.vendorId
 export const POST = withErrorHandler(async (req) => {
   const user = await getVendorUser(req);

@@ -88,11 +88,32 @@ class UserRepository {
     return await User.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
   }
 
-  /**
-   * FIX: Added missing count method for Dashboard Stats calculation
-   */
   async count(query = {}) {
     return await User.countDocuments(query);
+  }
+
+  /**
+   * Added for Admin User Management: Update User Role
+   */
+  async updateRole(id, role) {
+    await dbConnect();
+    return await User.findByIdAndUpdate(
+      id,
+      { role: role.toUpperCase() },
+      { new: true, runValidators: true },
+    ).select("-password");
+  }
+
+  /**
+   * Added for Admin User Management: Update User Active/Suspended Status
+   */
+  async updateStatus(id, isActive) {
+    await dbConnect();
+    return await User.findByIdAndUpdate(
+      id,
+      { isActive },
+      { new: true, runValidators: true },
+    ).select("-password");
   }
 }
 

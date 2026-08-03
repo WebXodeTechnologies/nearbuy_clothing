@@ -276,12 +276,13 @@ export default function OffersPage() {
               >
                 {/* Image Banner */}
                 <div className="h-44 w-full relative bg-slate-900 overflow-hidden">
-                  <img
+                  <Image
                     src={bannerImage}
                     alt={off.title || "Offer Banner"}
+                    fill
                     className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
 
                   {/* Top Badges */}
                   <div className="absolute top-3 left-3 flex items-center gap-1.5">
@@ -332,7 +333,7 @@ export default function OffersPage() {
                   <div className="pt-3 border-t border-slate-100 space-y-3">
                     {/* Merchant Tag */}
                     <div className="flex items-center justify-between text-xs font-semibold text-slate-700 bg-slate-50 p-2.5 rounded-2xl border border-slate-200/80">
-                      <div className="flex items-center gap-2 truncate max-w-[200px]">
+                      <div className="flex items-center gap-2 truncate max-w-50">
                         <Building className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
                         <span className="truncate text-[11px] font-bold">
                           {off.vendorId?.businessName ||
