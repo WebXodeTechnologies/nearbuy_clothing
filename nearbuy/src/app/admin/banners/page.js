@@ -18,6 +18,7 @@ import {
   X,
   FileImage,
 } from "lucide-react";
+import Image from "next/image";
 
 export default function BannersPage() {
   const [banners, setBanners] = useState([]);
@@ -318,9 +319,10 @@ export default function BannersPage() {
                 {/* Banner Image Preview */}
                 <div className="w-full lg:w-72 h-36 rounded-2xl bg-slate-900 overflow-hidden relative shrink-0">
                   {srcUrl ? (
-                    <img
+                    <Image
                       src={srcUrl}
                       alt={b.title || "Banner"}
+                      fill
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90"
                     />
                   ) : (
@@ -329,7 +331,7 @@ export default function BannersPage() {
                       <span className="text-[10px]">No image attached</span>
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-transparent to-transparent" />
 
                   <span className="absolute top-2.5 left-2.5 bg-slate-900/80 text-white font-mono text-[9px] font-black px-2 py-0.5 rounded-lg border border-white/20">
                     Pos #{b.sortOrder || idx + 1}
@@ -523,9 +525,10 @@ export default function BannersPage() {
           {/* Live Image Banner Preview */}
           {imageUrl && (
             <div className="h-32 rounded-2xl overflow-hidden border border-slate-200 bg-slate-900 relative group">
-              <img
+              <Image
                 src={imageUrl}
                 alt="Preview"
+                fill
                 className="w-full h-full object-cover opacity-90"
               />
               <button
@@ -536,7 +539,7 @@ export default function BannersPage() {
               >
                 <X className="w-3.5 h-3.5" />
               </button>
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-3 text-white pointer-events-none">
+              <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-3 text-white pointer-events-none">
                 <div>
                   <p className="font-heading font-black text-sm">
                     {title || "Headline Preview"}

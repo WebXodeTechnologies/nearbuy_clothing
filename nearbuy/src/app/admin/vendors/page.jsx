@@ -20,6 +20,7 @@ import {
   Building,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function AdminVendors() {
   const { vendors, fetchVendors, updateVendorStatus, loading, error } =
@@ -121,8 +122,8 @@ export default function AdminVendors() {
               type="button"
               onClick={() => setStatusFilter(st)}
               className={`px-3.5 py-2 text-xs font-bold rounded-2xl transition-all cursor-pointer whitespace-nowrap ${statusFilter === st
-                  ? "bg-indigo-600 text-white shadow-xs"
-                  : "bg-slate-100/80 text-slate-600 hover:bg-slate-200/70"
+                ? "bg-indigo-600 text-white shadow-xs"
+                : "bg-slate-100/80 text-slate-600 hover:bg-slate-200/70"
                 }`}
             >
               {st}
@@ -189,16 +190,17 @@ export default function AdminVendors() {
                         <div className="flex items-center gap-3">
                           <div className="h-10 w-10 rounded-2xl bg-slate-100 border border-slate-200/80 overflow-hidden shrink-0 flex items-center justify-center font-black text-slate-400 text-xs uppercase shadow-2xs">
                             {v.logo ? (
-                              <img
+                              <Image
                                 src={v.logo}
                                 alt={businessTitle}
+                                fill
                                 className="w-full h-full object-cover"
                               />
                             ) : (
                               <span>{businessTitle.charAt(0)}</span>
                             )}
                           </div>
-                          <div className="space-y-0.5 truncate max-w-[180px]">
+                          <div className="space-y-0.5 truncate max-w-45">
                             <button
                               type="button"
                               onClick={() => setSelectedVendor(v)}
@@ -218,7 +220,7 @@ export default function AdminVendors() {
                       {/* Contact Info */}
                       <td className="py-4 px-6">
                         <div className="space-y-1 text-[11px]">
-                          <p className="text-slate-800 font-medium flex items-center gap-1.5 truncate max-w-[200px]">
+                          <p className="text-slate-800 font-medium flex items-center gap-1.5 truncate max-w-50">
                             <Mail className="w-3 h-3 text-slate-400 shrink-0" />
                             <span className="truncate">
                               {v.email || v.ownerId?.email || "No email"}
@@ -396,9 +398,10 @@ export default function AdminVendors() {
                 <div className="flex items-center gap-3">
                   <div className="h-12 w-12 rounded-2xl bg-white border border-slate-200/80 overflow-hidden shrink-0 flex items-center justify-center font-black text-slate-500 text-sm">
                     {selectedVendor.logo ? (
-                      <img
+                      <Image
                         src={selectedVendor.logo}
                         alt="Logo"
+                        fill
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -487,7 +490,7 @@ export default function AdminVendors() {
 
                 <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                   <span className="text-slate-400 font-medium">Website</span>
-                  <span className="font-mono text-indigo-600 truncate max-w-[180px]">
+                  <span className="font-mono text-indigo-600 truncate max-w-45">
                     {selectedVendor.website || "Not Provided"}
                   </span>
                 </div>

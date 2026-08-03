@@ -1,5 +1,8 @@
 import adminService from "@/services/adminService";
 import ApiResponse from "@/utils/apiResponse";
+import ApiError from "@/utils/apiError";
+import dbConnect from "@/lib/db";
+import Vendor from "@/models/Vendor";
 
 class AdminController {
   async getStats(req) {
@@ -17,18 +20,27 @@ class AdminController {
     return ApiResponse.success(vendors, "Vendors retrieved successfully");
   }
 
+  // FIXED: Removed 'function' keyword inside class scope & added proper async handling
   async updateVendorStatus(req, { params }) {
-    const { id } = params;
+    const { id } = await params;
+    await dbConnect();
+
     const body = await req.json();
-    const updatedVendor = await adminService.processVendorApproval(
+    const { status } = body;
+
+    const vendor = await Vendor.findByIdAndUpdate(
       id,
-      body.status,
+      { status },
+      { new: true, runValidators: true },
     );
-    return ApiResponse.success(
-      updatedVendor,
-      `Vendor status updated to ${body.status}`,
-    );
+
+    if (!vendor) {
+      throw new ApiError(404, "Vendor document not found");
+    }
+
+    return ApiResponse.success(vendor, "Vendor status updated successfully");
   }
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default new AdminController();

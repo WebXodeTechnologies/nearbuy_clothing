@@ -1,21 +1,21 @@
-import PlatformSetting from "@/models/PlatformSetting";
+import Setting from "@/models/Setting";
 import dbConnect from "@/lib/db";
 
 class PlatformSettingRepository {
   async getSettings() {
     await dbConnect();
-    let settings = await PlatformSetting.findOne();
+    let settings = await Setting.findOne();
     if (!settings) {
-      settings = await PlatformSetting.create({});
+      settings = await Setting.create({});
     }
     return settings;
   }
 
   async updateSettings(updateData) {
     await dbConnect();
-    let settings = await PlatformSetting.findOne();
+    let settings = await Setting.findOne();
     if (!settings) {
-      return await PlatformSetting.create(updateData);
+      return await Setting.create(updateData);
     }
     Object.assign(settings, updateData);
     await settings.save();
@@ -23,4 +23,5 @@ class PlatformSettingRepository {
   }
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default new PlatformSettingRepository();

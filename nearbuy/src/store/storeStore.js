@@ -142,21 +142,26 @@ export const useStoreStore = create((set, get) => ({
 
   // 5. Delete Store
   deleteStore: async (id) => {
-    set({ loading: true, error: null });
+    set({ loading: true });
     try {
-      const res = await fetch(`/api/vendors/${id}`, { method: "DELETE" });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to delete store");
+      // FIX: Changed from /api/vendors/${id} to /api/stores/${id}
+      const res = await fetch(`/api/stores/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to delete store outlet");
+      }
 
       set((state) => ({
-        stores: state.stores.filter((s) => s._id !== id),
-        currentStore: null,
+        stores: state.stores.filter((s) => (s._id || s.id) !== id),
         loading: false,
       }));
       return true;
-    } catch (error) {
-      set({ loading: false, error: error.message });
-      throw error;
+    } catch (err) {
+      set({ loading: false });
+      throw err;
     }
   },
 }));
