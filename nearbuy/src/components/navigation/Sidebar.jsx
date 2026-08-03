@@ -24,6 +24,8 @@ import {
   Zap,
   PanelLeftClose,
   PanelLeft,
+  Building2, // 👈 Added
+  Users,     // 👈 Added
 } from "lucide-react";
 
 export default function Sidebar({ type = "vendor" }) {
@@ -68,13 +70,13 @@ export default function Sidebar({ type = "vendor" }) {
   const adminMenu = [
     { label: "Dashboard Overview", href: "/admin/dashboard", icon: LayoutDashboard },
     { label: "Vendors & Approval", href: "/admin/vendors", icon: Store, badge: "Pending" },
-    { label: "Store Directory", href: "/admin/stores", icon: FolderOpen },
+    { label: "Store Directory", href: "/admin/stores", icon: Building2 },
     { label: "Categories Master", href: "/admin/categories", icon: Tag },
     { label: "Collections Lookbook", href: "/admin/collections", icon: FolderOpen },
     { label: "Offers & Coupons", href: "/admin/offers", icon: Tag },
     { label: "Banner Management", href: "/admin/banners", icon: ImageIcon },
     { label: "Homepage CMS", href: "/admin/cms", icon: LayoutDashboard },
-    { label: "Users Directory", href: "/admin/users", icon: ShieldCheck },
+    { label: "Users & Customers", href: "/admin/users", icon: Users },
     { label: "Payments & Subscriptions", href: "/admin/subscriptions", icon: CreditCard },
     { label: "Platform Analytics", href: "/admin/analytics", icon: BarChart3 },
     { label: "System Settings", href: "/admin/settings", icon: Settings },

@@ -3,18 +3,12 @@ import { PLAN_TYPES, BILLING_CYCLES } from "../constants/plans.js";
 
 const PlanSchema = new mongoose.Schema(
   {
-    // ==========================================
-    // Basic Information
-    // ==========================================
-
     name: {
       type: String,
       required: [true, "Plan name is required"],
       unique: true,
       trim: true,
-      enum: Object.values(PLAN_TYPES),
     },
-
     slug: {
       type: String,
       required: true,
@@ -23,118 +17,38 @@ const PlanSchema = new mongoose.Schema(
       trim: true,
       index: true,
     },
-
     description: {
       type: String,
       default: "",
       trim: true,
     },
-
-    // ==========================================
-    // Pricing
-    // ==========================================
-
     price: {
       type: Number,
       required: true,
       min: 0,
       default: 0,
     },
-
     billingCycle: {
       type: String,
-      enum: Object.values(BILLING_CYCLES),
-      default: BILLING_CYCLES.MONTHLY,
+      enum: ["Monthly", "Annual"],
+      default: "Monthly",
     },
-
-    // ==========================================
-    // Plan Limits
-    // ==========================================
-
-    maxStores: {
-      type: Number,
-      default: 1,
-      min: -1,
-    },
-
-    maxCollections: {
-      type: Number,
-      default: 20,
-      min: -1,
-    },
-
-    maxOffers: {
-      type: Number,
-      default: 10,
-      min: -1,
-    },
-
-    maxGalleryImages: {
-      type: Number,
-      default: 20,
-      min: -1,
-    },
-
-    // ==========================================
-    // Feature Access
-    // ==========================================
-
-    featuredStore: {
-      type: Boolean,
-      default: false,
-    },
-
-    prioritySupport: {
-      type: Boolean,
-      default: false,
-    },
-
-    analyticsAccess: {
-      type: Boolean,
-      default: false,
-    },
-
-    whatsappInsights: {
-      type: Boolean,
-      default: false,
-    },
-
-    promotionalBanners: {
-      type: Boolean,
-      default: false,
-    },
-
-    // ==========================================
-    // Status
-    // ==========================================
-
-    isActive: {
-      type: Boolean,
-      default: true,
-      index: true,
-    },
-
-    displayOrder: {
-      type: Number,
-      default: 1,
-    },
+    maxStores: { type: Number, default: 1, min: -1 },
+    maxCollections: { type: Number, default: 20, min: -1 },
+    maxOffers: { type: Number, default: 10, min: -1 },
+    maxGalleryImages: { type: Number, default: 20, min: -1 },
+    featuredStore: { type: Boolean, default: false },
+    prioritySupport: { type: Boolean, default: false },
+    analyticsAccess: { type: Boolean, default: false },
+    whatsappInsights: { type: Boolean, default: false },
+    promotionalBanners: { type: Boolean, default: false },
+    isActive: { type: Boolean, default: true, index: true },
+    displayOrder: { type: Number, default: 1 },
+    features: [{ type: String }],
+    isPopular: { type: Boolean, default: false },
   },
-  {
-    timestamps: true,
-  },
+  { timestamps: true },
 );
-
-// ==========================================
-// Indexes
-// ==========================================
-
-PlanSchema.index({ slug: 1 });
-PlanSchema.index({ name: 1 });
-PlanSchema.index({ isActive: 1 });
-
-// ==========================================
-// Hide Internal Fields
-// ==========================================
 
 PlanSchema.set("toJSON", {
   transform: (_, ret) => {
@@ -144,5 +58,4 @@ PlanSchema.set("toJSON", {
 });
 
 const Plan = mongoose.models.Plan || mongoose.model("Plan", PlanSchema);
-
 export default Plan;

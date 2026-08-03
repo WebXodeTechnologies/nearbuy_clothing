@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import StatsCard from "@/components/dashboard/StatsCard";
 import AnalyticsCard from "@/components/dashboard/AnalyticsCard";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
@@ -8,10 +8,30 @@ import Card, { CardHeader, CardBody } from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import useDashboardStore from "@/store/dashboardStore";
 import useVendorStore from "@/store/vendorStore";
+import {
+  Store,
+  Clock,
+  Eye,
+  Users,
+  CheckCircle2,
+  XCircle,
+  TrendingUp,
+  MapPin,
+  Building2,
+  Phone,
+  Mail,
+  RefreshCw,
+  ExternalLink,
+  ShieldAlert,
+  SlidersHorizontal,
+} from "lucide-react";
+import Link from "next/link";
 
 export default function AdminDashboard() {
   const { adminStats, fetchAdminStats, loading: statsLoading } = useDashboardStore();
   const { vendors, fetchVendors, updateVendorStatus, loading: vendorsLoading } = useVendorStore();
+
+  const [processingId, setProcessingId] = useState(null);
 
   useEffect(() => {
     fetchAdminStats();
@@ -19,118 +39,232 @@ export default function AdminDashboard() {
   }, [fetchAdminStats, fetchVendors]);
 
   const handleApprove = async (id) => {
-    await updateVendorStatus(id, "Approved");
-    fetchAdminStats();
+    setProcessingId(id);
+    try {
+      await updateVendorStatus(id, "Approved");
+      await fetchAdminStats();
+    } catch (err) {
+      console.error("Approve error:", err);
+    } finally {
+      setProcessingId(null);
+    }
   };
 
   const handleReject = async (id) => {
-    if (confirm("Are you sure you want to reject this vendor registration?")) {
-      await updateVendorStatus(id, "Rejected");
-      fetchAdminStats();
+    if (confirm("Are you sure you want to reject this merchant registration?")) {
+      setProcessingId(id);
+      try {
+        await updateVendorStatus(id, "Rejected");
+        await fetchAdminStats();
+      } catch (err) {
+        console.error("Reject error:", err);
+      } finally {
+        setProcessingId(null);
+      }
     }
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 font-body pb-12">
+      {/* 1. Header Section */}
       <DashboardHeader
         title="Administrative Command Center"
         description="Monitor system health, check listing request approvals, and manage merchant subscriptions."
-      />
+        badge="Platform v2.4 Live"
+      >
+        <button
+          type="button"
+          onClick={() => {
+            fetchAdminStats();
+            fetchVendors("Pending");
+          }}
+          className="px-4 py-2 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold shadow-xs transition-all cursor-pointer flex items-center gap-2"
+        >
+          <RefreshCw className={`w-3.5 h-3.5 ${statsLoading ? "animate-spin text-indigo-400" : ""}`} />
+          <span>Refresh Analytics</span>
+        </button>
+      </DashboardHeader>
 
-      {/* Stats Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* 2. Key Metrics Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <StatsCard
           title="Total Registered Stores"
-          value={statsLoading ? "..." : `${adminStats?.totalStores || 0} Stores`}
-          change={`${adminStats?.totalVendors || 0} Vendors`}
+          value={statsLoading ? "..." : `${adminStats?.totalStores || 0}`}
+          change={`${adminStats?.totalVendors || 0} Merchants`}
           changeType="increase"
-          icon={(props) => (
-            <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-            </svg>
-          )}
+          icon={Building2}
         />
         <StatsCard
           title="Pending Approvals"
-          value={statsLoading ? "..." : `${adminStats?.pendingVendors || 0} Requests`}
-          change="Requires action"
+          value={statsLoading ? "..." : `${adminStats?.pendingVendors || vendors?.length || 0}`}
+          change="Requires Action"
           changeType={adminStats?.pendingVendors > 0 ? "decrease" : "neutral"}
-          icon={(props) => (
-            <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
-          )}
+          icon={Clock}
         />
         <StatsCard
           title="Platform Visits"
-          value={statsLoading ? "..." : `${adminStats?.totalVisits || 0} Visits`}
+          value={statsLoading ? "..." : `${adminStats?.totalVisits || 0}`}
           change={`${adminStats?.totalStoreViews || 0} Store Views`}
           changeType="increase"
-          icon={(props) => (
-            <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-            </svg>
-          )}
+          icon={Eye}
         />
         <StatsCard
-          title="Total Users"
-          value={statsLoading ? "..." : `${adminStats?.totalUsers || 0} Registered`}
-          change="Platform Accounts"
+          title="Total Platform Users"
+          value={statsLoading ? "..." : `${adminStats?.totalUsers || 0}`}
+          change="Customer Accounts"
           changeType="increase"
-          icon={(props) => (
-            <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M12 16c1.22 0 2.22-.665 2.22-1.5S13.22 13 12 13c-1.22 0-2.22-.665-2.22-1.5s1-1.5 2.22-1.5" />
-            </svg>
-          )}
+          icon={Users}
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
+      {/* 3. Analytics & Pending Approvals Queue Split Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left Column: Analytics Chart & Quick Telemetry */}
+        <div className="lg:col-span-2 space-y-6">
           <AnalyticsCard
             title="Global Directory Traffic Trends"
             subtitle="Comparing click conversions and lookbook impressions on the platform."
           />
+
+          {/* Quick Platform Telemetry Strip */}
+          <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="space-y-1">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">
+                Active Markets
+              </span>
+              <p className="text-base font-heading font-black text-slate-900 flex items-center gap-1.5">
+                <MapPin className="w-4 h-4 text-indigo-600" /> Namakkal & Salem
+              </p>
+              <p className="text-[11px] text-slate-500 font-medium">92% Store Coverage</p>
+            </div>
+
+            <div className="space-y-1 border-t sm:border-t-0 sm:border-l border-slate-100 sm:pl-6 pt-3 sm:pt-0">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">
+                Lead Conversion Rate
+              </span>
+              <p className="text-base font-heading font-black text-emerald-700 flex items-center gap-1.5">
+                <TrendingUp className="w-4 h-4 text-emerald-600" /> 18.4%
+              </p>
+              <p className="text-[11px] text-slate-500 font-medium">WhatsApp Direct Enquiries</p>
+            </div>
+
+            <div className="space-y-1 border-t sm:border-t-0 sm:border-l border-slate-100 sm:pl-6 pt-3 sm:pt-0">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">
+                Approval SLA
+              </span>
+              <p className="text-base font-heading font-black text-slate-900 flex items-center gap-1.5">
+                <Clock className="w-4 h-4 text-indigo-600" /> &lt; 2 Hours
+              </p>
+              <p className="text-[11px] text-slate-500 font-medium">Merchant Onboarding Speed</p>
+            </div>
+          </div>
         </div>
 
+        {/* Right Column: Pending Merchant Approvals Feed */}
         <div className="space-y-6">
-          <Card className="bg-white">
-            <CardHeader>
-              <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wider">Pending Merchant Approvals</h3>
+          <Card className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
+            <CardHeader className="bg-slate-50/50 border-b border-slate-100 px-6 py-4 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4 text-amber-500" />
+                <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider">
+                  Pending Merchant Queue
+                </h3>
+              </div>
+              <span className="text-[10px] font-black text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-100">
+                {vendors?.length || 0} Pending
+              </span>
             </CardHeader>
-            <CardBody className="p-4 space-y-4">
+
+            <CardBody className="p-5 space-y-4">
               {vendorsLoading ? (
-                <p className="text-xs text-gray-400 py-4 text-center">Loading pending queue...</p>
+                <div className="flex flex-col items-center justify-center py-8 text-slate-400 space-y-2">
+                  <RefreshCw className="w-6 h-6 animate-spin text-indigo-600" />
+                  <span className="text-xs font-semibold">Loading pending approvals...</span>
+                </div>
               ) : vendors.length === 0 ? (
-                <p className="text-xs text-gray-500 text-center py-4">No pending applications. Clear queue!</p>
+                <div className="p-8 text-center space-y-2">
+                  <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
+                  <p className="text-xs font-bold text-slate-800">All caught up!</p>
+                  <p className="text-[11px] text-slate-500 font-medium">
+                    No pending merchant approval requests in the queue.
+                  </p>
+                </div>
               ) : (
                 <div className="space-y-3">
-                  {vendors.map((vendor) => (
-                    <div key={vendor._id} className="p-3 border border-gray-150 rounded-xl space-y-2.5 bg-gray-50/50">
-                      <div>
-                        <div className="flex justify-between items-start">
-                          <span className="font-bold text-gray-900 text-xs truncate max-w-[150px]">{vendor.businessName}</span>
-                          <Badge variant="blue" className="text-[9px] px-1 py-0">{vendor.status}</Badge>
+                  {vendors.map((vendor) => {
+                    const isProcessing = processingId === vendor._id;
+
+                    return (
+                      <div
+                        key={vendor._id}
+                        className="p-4 border border-slate-200/80 rounded-2xl space-y-3 bg-slate-50/60 hover:border-indigo-200 transition-all"
+                      >
+                        <div className="flex justify-between items-start gap-2">
+                          <div className="space-y-0.5 truncate">
+                            <h4 className="font-bold text-slate-900 text-xs truncate">
+                              {vendor.businessName || vendor.storeName || "New Merchant Store"}
+                            </h4>
+                            <p className="text-[11px] text-slate-500 font-medium flex items-center gap-1">
+                              <MapPin className="w-3 h-3 text-indigo-600 shrink-0" />
+                              {vendor.city || "Namakkal"}
+                            </p>
+                          </div>
+                          <Badge variant="yellow" pill className="text-[9px] font-bold shrink-0">
+                            Pending Review
+                          </Badge>
                         </div>
-                        <p className="text-[10px] text-gray-400 mt-0.5">By {vendor.ownerId?.name || vendor.email || "Vendor"}</p>
+
+                        {/* Merchant Details */}
+                        <div className="pt-2 border-t border-slate-200/60 space-y-1 text-[11px] text-slate-600">
+                          <p className="flex items-center gap-1.5 truncate">
+                            <Mail className="w-3 h-3 text-slate-400 shrink-0" />
+                            <span className="truncate">{vendor.ownerId?.email || vendor.email || "No email"}</span>
+                          </p>
+                          <p className="flex items-center gap-1.5 font-mono">
+                            <Phone className="w-3 h-3 text-slate-400 shrink-0" />
+                            <span>{vendor.businessPhone || vendor.phone || "+91 Mobile"}</span>
+                          </p>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex items-center justify-between gap-2 border-t border-slate-200/60 pt-2.5">
+                          <Link
+                            href={`/stores/${vendor.businessSlug || vendor.slug || vendor._id}`}
+                            target="_blank"
+                            className="text-[10px] font-bold text-indigo-600 hover:underline flex items-center gap-0.5"
+                          >
+                            <span>Inspect</span>
+                            <ExternalLink className="w-3 h-3" />
+                          </Link>
+
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              disabled={isProcessing}
+                              onClick={() => handleReject(vendor._id)}
+                              className="px-3 py-1.5 text-[10px] font-bold text-rose-600 hover:bg-rose-50 border border-rose-200 rounded-xl transition-all cursor-pointer disabled:opacity-50 flex items-center gap-1"
+                            >
+                              <XCircle className="w-3 h-3" />
+                              <span>Reject</span>
+                            </button>
+                            <button
+                              type="button"
+                              disabled={isProcessing}
+                              onClick={() => handleApprove(vendor._id)}
+                              className="px-3.5 py-1.5 text-[10px] font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-xs transition-all cursor-pointer disabled:opacity-50 flex items-center gap-1"
+                            >
+                              {isProcessing ? (
+                                <RefreshCw className="w-3 h-3 animate-spin" />
+                              ) : (
+                                <CheckCircle2 className="w-3 h-3" />
+                              )}
+                              <span>Approve</span>
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex justify-end gap-1.5 border-t border-gray-100 pt-2">
-                        <button
-                          onClick={() => handleReject(vendor._id)}
-                          className="px-2.5 py-1 text-[9px] font-bold text-red-600 hover:bg-red-50 rounded-md transition-colors cursor-pointer"
-                        >
-                          Reject
-                        </button>
-                        <button
-                          onClick={() => handleApprove(vendor._id)}
-                          className="px-2.5 py-1 text-[9px] font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors cursor-pointer"
-                        >
-                          Approve
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </CardBody>

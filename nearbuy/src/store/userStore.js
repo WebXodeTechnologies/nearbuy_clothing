@@ -1,14 +1,15 @@
 import { create } from "zustand";
 
-export const useUserStore = create((set) => ({
+const useUserStore = create((set) => ({
   users: [],
   profile: null,
   total: 0,
   loading: false,
+  error: null,
 
   // 1. Fetch User Profile
   fetchProfile: async () => {
-    set({ loading: true });
+    set({ loading: true, error: null });
     try {
       const res = await fetch("/api/users/profile");
       const data = await res.json();
@@ -21,15 +22,15 @@ export const useUserStore = create((set) => ({
       set({ profile: profileData, loading: false });
       return profileData;
     } catch (error) {
-      set({ loading: false });
+      set({ loading: false, error: error.message });
       console.error("fetchProfile error:", error);
       return null;
     }
   },
 
-  // 2. Update User Profile (Toast removed to prevent duplicate popups)
+  // 2. Update User Profile
   updateProfile: async (updateData) => {
-    set({ loading: true });
+    set({ loading: true, error: null });
     try {
       const res = await fetch("/api/users/profile", {
         method: "PUT",
@@ -50,14 +51,14 @@ export const useUserStore = create((set) => ({
 
       return updatedProfile;
     } catch (error) {
-      set({ loading: false });
-      throw error; // Let component handle toast.error
+      set({ loading: false, error: error.message });
+      throw error;
     }
   },
 
   // 3. Delete Account Profile
   deleteProfile: async () => {
-    set({ loading: true });
+    set({ loading: true, error: null });
     try {
       const res = await fetch("/api/users/profile", {
         method: "DELETE",
@@ -71,29 +72,49 @@ export const useUserStore = create((set) => ({
       set({ profile: null, loading: false });
       return true;
     } catch (error) {
-      set({ loading: false });
+      set({ loading: false, error: error.message });
       throw error;
     }
   },
 
-  // 4. Fetch Users List
-  fetchUsers: async (page = 1, limit = 10) => {
-    set({ loading: true });
+  // 4. Fetch Users List (Handles both object params and primitive args)
+  fetchUsers: async (params = {}) => {
+    set({ loading: true, error: null });
     try {
-      const res = await fetch(`/api/users?page=${page}&limit=${limit}`);
+      let queryStr = "";
+      if (typeof params === "object" && params !== null) {
+        const queryParams = new URLSearchParams(params).toString();
+        queryStr = queryParams ? `?${queryParams}` : "";
+      } else {
+        queryStr = `?page=${params || 1}&limit=10`;
+      }
+
+      const res = await fetch(`/api/users${queryStr}`);
       const data = await res.json();
+
       if (!res.ok) {
         throw new Error(data.message || "Failed to fetch users directory");
       }
 
-      const usersList = data.data?.users || data.users || [];
-      const totalCount = data.data?.total || data.total || 0;
+      // Safe extraction for all backend pagination formats
+      const usersList =
+        data.data?.users ||
+        (Array.isArray(data.data) ? data.data : null) ||
+        data.users ||
+        [];
+
+      const totalCount =
+        data.data?.pagination?.total ||
+        data.data?.total ||
+        data.total ||
+        usersList.length;
 
       set({ users: usersList, total: totalCount, loading: false });
       return { users: usersList, total: totalCount };
     } catch (error) {
-      set({ loading: false });
-      throw error;
+      console.error("fetchUsers store error:", error);
+      set({ loading: false, error: error.message });
+      return { users: [], total: 0 };
     }
   },
 }));
