@@ -1,4 +1,4 @@
-import Setting from "@/models/Setting";
+import Setting from "@/models/Settings";
 import dbConnect from "@/lib/db";
 
 class PlatformSettingRepository {
