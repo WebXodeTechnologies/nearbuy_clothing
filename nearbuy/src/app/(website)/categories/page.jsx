@@ -1,33 +1,20 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
+import useWebsiteStore from "@/store/websiteStore";
 import Breadcrumb from "@/components/navigation/Breadcrumb";
 import CategoriesGrid from "@/components/categories/CategoriesGrid";
 
 export default function CategoriesPage() {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { categories, loading, fetchPublicDirectory } = useWebsiteStore();
 
   useEffect(() => {
-    async function loadCategories() {
-      try {
-        setLoading(true);
-        const res = await fetch("/api/categories");
-        const data = await res.json();
-        if (data.success) {
-          setCategories(data.data);
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadCategories();
-  }, []);
+    // Ensures categories are fetched efficiently via global store caching
+    fetchPublicDirectory();
+  }, [fetchPublicDirectory]);
 
-  if (loading) {
+  if (loading && categories.length === 0) {
     return (
       <div className="flex-1 flex items-center justify-center min-h-screen bg-slate-50/50">
         <div className="relative flex items-center justify-center">
@@ -54,7 +41,7 @@ export default function CategoriesPage() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute top-12 right-1/4 w-[450px] h-[450px] bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute top-12 right-1/4 w-112.5 h-112.5 bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
       />
       <motion.div
         animate={{
@@ -67,7 +54,7 @@ export default function CategoriesPage() {
           ease: "easeInOut",
           delay: 3,
         }}
-        className="absolute bottom-20 left-10 w-[350px] h-[350px] bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute bottom-20 left-10 w-87.5 h-87.5 bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
@@ -98,14 +85,14 @@ export default function CategoriesPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="text-sm sm:text-base text-black font-body max-w-3xl leading-relaxed"
+            className="text-sm sm:text-base text-slate-500 font-body max-w-3xl leading-relaxed"
           >
             Discover local boutique catalogs, saree houses, footwear, and
             accessory stores grouped by dress style and departments in Namakkal.
           </motion.p>
         </div>
 
-        {/* Categories Grid */}
+        {/* Categories Grid (Dynamically rendered from DB) */}
         <CategoriesGrid categories={categories} />
       </div>
     </div>
