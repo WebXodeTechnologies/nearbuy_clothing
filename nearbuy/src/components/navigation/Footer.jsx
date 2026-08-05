@@ -53,11 +53,11 @@ export default function Footer() {
   return (
     <footer className="relative bg-gray-950 text-gray-200 text-sm mt-auto overflow-hidden border-t border-gray-800/80">
       {/* Ambient background blur glows */}
-      <div className="absolute top-0 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 translate-y-1/2 w-[500px] h-[500px] bg-indigo-600/15 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/4 -translate-y-1/2 w-125 h-125 bg-blue-600/15 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 translate-y-1/2 w-125 h-125 bg-indigo-600/15 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Main Container */}
-      <div className="w-full max-w-7xl 2xl:max-w-[1440px] 3xl:max-w-[1600px] 4xl:max-w-[2000px] 5xl:max-w-[2400px] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12 pt-16 sm:pt-20 pb-12 relative z-10">
+      <div className="w-full max-w-7xl 2xl:max-w-360 3xl:max-w-[1600px] 4xl:max-w-[2000px] 5xl:max-w-[2400px] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12 pt-16 sm:pt-20 pb-12 relative z-10">
 
         {subscribed && (
           <div className="mb-10 p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-sm font-bold text-center animate-fadeIn shadow-lg">
@@ -106,14 +106,27 @@ export default function Footer() {
             {/* Social Links */}
             <div className="flex items-center gap-3 pt-1">
               {[
-                { label: "Twitter", href: "#", icon: "M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" },
-                { label: "Instagram", href: "#", icon: "M16 4H8C5.79 4 4 5.79 4 8v8c0 2.21 1.79 4 4 4h8c2.21 0 4-1.79 4-4V8c0-2.21-1.79-4-4-4zm-4 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm4-7.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" },
-                { label: "LinkedIn", href: "#", icon: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" },
-                { label: "GitHub", href: "#", icon: "M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" },
+                {
+                  label: "Facebook",
+                  href: "https://www.facebook.com/share/1HLXEFqrAu/?mibextid=wwXIfr",
+                  icon: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z",
+                },
+                {
+                  label: "Instagram",
+                  href: "https://www.instagram.com/nearbuy.in?igsh=Yjd5d2dpYzVvYnlt&utm_source=qr",
+                  icon: "M16 4H8C5.79 4 4 5.79 4 8v8c0 2.21 1.79 4 4 4h8c2.21 0 4-1.79 4-4V8c0-2.21-1.79-4-4-4zm-4 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm4-7.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z",
+                },
+                {
+                  label: "LinkedIn",
+                  href: "#",
+                  icon: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z",
+                },
               ].map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={social.label}
                   className="h-9 w-9 rounded-xl bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 hover:border-blue-500/50 transition-all duration-200 shadow-2xs"
                 >
