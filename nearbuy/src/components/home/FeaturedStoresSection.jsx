@@ -18,7 +18,7 @@ export default function FeaturedStoresSection({ stores = [] }) {
 
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 lg:mb-14 gap-6">
-          <div className="max-w-2xl">
+          <div className="max-w-2xl text-left">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200/80 mb-3">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -34,7 +34,7 @@ export default function FeaturedStoresSection({ stores = [] }) {
               </span>
             </h2>
 
-            <p className="mt-3 text-base text-gray-600 leading-relaxed">
+            <p className="mt-3 text-base text-gray-600 leading-relaxed font-body">
               Explore local clothing boutiques, ethnic hubs, and designer outlets highly rated by walk-in shoppers in Namakkal.
             </p>
           </div>
@@ -55,16 +55,17 @@ export default function FeaturedStoresSection({ stores = [] }) {
           </Link>
         </div>
 
-        {/* Featured Stores Grid */}
-        {stores.length > 0 ? (
+        {/* Dynamic Featured Stores Grid */}
+        {stores && stores.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {stores.map((store) => (
-              <StoreCard key={store.id || store._id} store={store} />
+              <StoreCard key={store._id || store.id || store.storeSlug} store={store} />
             ))}
           </div>
         ) : (
-          <div className="text-center py-12 bg-white rounded-3xl border border-gray-200 shadow-xs">
-            <p className="text-gray-500 font-medium text-sm">No featured stores available at the moment.</p>
+          <div className="text-center py-16 bg-white rounded-3xl border border-gray-200/80 shadow-xs max-w-md mx-auto">
+            <p className="text-gray-500 font-medium text-sm">No featured stores found in the database.</p>
+            <p className="text-gray-400 text-xs mt-1">New store listings will appear here automatically.</p>
           </div>
         )}
 
