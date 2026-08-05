@@ -71,7 +71,7 @@ export default function FaqSection({ faqs, title, description }) {
           repeat: Infinity,
           ease: "easeInOut"
         }}
-        className="absolute top-10 right-1/4 w-[380px] h-[380px] bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute top-10 right-1/4 w-95 h-95 bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
       />
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
