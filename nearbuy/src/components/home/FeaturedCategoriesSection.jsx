@@ -1,10 +1,107 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import Link from "next/link";
 import CategoryCard from "../cards/CategoryCard";
 
-export default function FeaturedCategoriesSection({ categories }) {
+export default function FeaturedCategoriesSection({ categories = [] }) {
+
+  // Memoized sorting with customOrder and defaultCategories safely scoped inside
+  const sortedCategories = useMemo(() => {
+    // Define your exact custom order priority sequence (normalized)
+    const customOrder = [
+      "men",
+      "women",
+      "kid",
+      "ethnic",
+      "western",
+      "sport",
+      "footwear",
+      "accessor",
+    ];
+
+    // Fallback default categories if none or partial categories are passed
+    const defaultCategories = [
+      {
+        _id: "cat_1",
+        name: "Men",
+        image: "/images/categories/men.jpg",
+        displayOrder: 1,
+        count: "24+",
+      },
+      {
+        _id: "cat_2",
+        name: "Women",
+        image: "/images/categories/women.jpg",
+        displayOrder: 2,
+        count: "42+",
+      },
+      {
+        _id: "cat_3",
+        name: "Kids",
+        image: "/images/categories/kids.jpg",
+        displayOrder: 3,
+        count: "18+",
+      },
+      {
+        _id: "cat_4",
+        name: "Ethnic Wear",
+        image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=800&auto=format&fit=crop&q=80",
+        displayOrder: 4,
+        count: "28+",
+      },
+      {
+        _id: "cat_5",
+        name: "Western Wear",
+        image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800&auto=format&fit=crop&q=80",
+        displayOrder: 5,
+        count: "19+",
+      },
+      {
+        _id: "cat_6",
+        name: "Sportswear",
+        image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=800&auto=format&fit=crop&q=80",
+        displayOrder: 6,
+        count: "15+",
+      },
+      {
+        _id: "cat_7",
+        name: "Footwear",
+        image: "/images/categories/footwear.jpg",
+        displayOrder: 7,
+        count: "20+",
+      },
+      {
+        _id: "cat_8",
+        name: "Accessories",
+        image: "https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?w=800&auto=format&fit=crop&q=80",
+        displayOrder: 8,
+        count: "30+",
+      },
+    ];
+
+    const rawList = categories && categories.length > 0 ? categories : defaultCategories;
+
+    return [...rawList].sort((a, b) => {
+      // Primary check: sort by database displayOrder if available
+      if (a.displayOrder !== undefined && b.displayOrder !== undefined && a.displayOrder !== b.displayOrder) {
+        return a.displayOrder - b.displayOrder;
+      }
+
+      // Secondary check: keyword matching based on customOrder array
+      const cleanA = (a.name || "").toLowerCase().replace(/['\-\s]/g, "");
+      const cleanB = (b.name || "").toLowerCase().replace(/['\-\s]/g, "");
+
+      let indexA = customOrder.findIndex((keyword) => cleanA.includes(keyword));
+      let indexB = customOrder.findIndex((keyword) => cleanB.includes(keyword));
+
+      if (indexA === -1) indexA = 99;
+      if (indexB === -1) indexB = 99;
+
+      return indexA - indexB;
+    });
+  }, [categories]);
+
   return (
     <section className="relative py-20 sm:py-24 bg-linear-to-b from-white via-gray-50/40 to-blue-50/20 border-b border-gray-100/80 overflow-hidden">
       {/* Background Decorative Radial Grid Pattern */}
@@ -18,7 +115,7 @@ export default function FeaturedCategoriesSection({ categories }) {
 
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 lg:mb-14 gap-6">
-          <div className="max-w-2xl">
+          <div className="max-w-2xl text-left">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-blue-50 text-blue-700 border border-blue-200/80 shadow-2xs mb-3.5">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
@@ -60,9 +157,9 @@ export default function FeaturedCategoriesSection({ categories }) {
           </Link>
         </div>
 
-        {/* Categories Grid (Responsive xs to 7xl) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4 sm:gap-5">
-          {categories.map((cat) => (
+        {/* Categories Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-5">
+          {sortedCategories.map((cat) => (
             <CategoryCard key={cat._id || cat.id} category={cat} />
           ))}
         </div>

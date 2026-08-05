@@ -76,10 +76,10 @@ export default function WhyChooseUsSection() {
           duration: 2,
           ease: "easeInOut"
         }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[450px] bg-blue-600/30 blur-[130px] pointer-events-none rounded-full"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-112.5 bg-blue-600/30 blur-[130px] pointer-events-none rounded-full"
       />
 
-      <div className="w-full max-w-7xl 2xl:max-w-[1440px] 3xl:max-w-[1600px] 4xl:max-w-[2000px] 5xl:max-w-[2400px] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12 relative z-10">
+      <div className="w-full max-w-7xl 2xl:max-w-360 3xl:max-w-[1600px] 4xl:max-w-[2000px] 5xl:max-w-[2400px] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12 relative z-10">
 
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
@@ -129,7 +129,7 @@ export default function WhyChooseUsSection() {
             return (
               <div
                 key={feature.step}
-                className="relative group p-[2px] rounded-[26px] overflow-hidden transition-all duration-500"
+                className="relative group p-0.5 rounded-[26px] overflow-hidden transition-all duration-500"
               >
                 {/* Live Rotating Conic Border Animation */}
                 <motion.div
@@ -159,7 +159,7 @@ export default function WhyChooseUsSection() {
                 {/* Main Card Content Container */}
                 <div
                   style={{ backgroundColor: "#0b0f19" }}
-                  className={`relative z-10 p-8 sm:p-9 rounded-[24px] flex flex-col justify-between h-full border transition-all duration-500 ${isActive
+                  className={`relative z-10 p-8 sm:p-9 rounded-3xl flex flex-col justify-between h-full border transition-all duration-500 ${isActive
                     ? "border-blue-400/80 shadow-[0_0_30px_rgba(59,130,246,0.35)]"
                     : "border-slate-800/90 hover:border-slate-700 shadow-2xl"
                     }`}
