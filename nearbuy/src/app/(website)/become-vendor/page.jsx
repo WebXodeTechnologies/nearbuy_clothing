@@ -25,7 +25,7 @@ export default function BecomeVendorPage() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute top-12 right-1/4 w-[450px] h-[450px] bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute top-12 right-1/4 w-112.5 h-112.5 bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
       />
       <motion.div
         animate={{
@@ -38,7 +38,7 @@ export default function BecomeVendorPage() {
           ease: "easeInOut",
           delay: 3,
         }}
-        className="absolute bottom-20 left-10 w-[350px] h-[350px] bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute bottom-20 left-10 w-87.5 h-87.5 bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-20">
