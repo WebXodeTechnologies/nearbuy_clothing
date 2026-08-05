@@ -12,23 +12,23 @@ import StorePagination from "@/components/stores/StorePagination";
 const mapDbStoreToFrontend = (s) => ({
   id: s._id,
   name: s.storeName,
-  slug: s.vendorId?.businessSlug || "",
-  logo: s.vendorId?.logo || "",
-  banner: s.vendorId?.coverImage || "",
+  slug: s.storeSlug || s.vendorId?.businessSlug || "",
+  logo: s.logo || s.vendorId?.logo || "",
+  banner: s.coverImage || s.vendorId?.coverImage || "",
   rating: 4.8,
   reviewsCount: 12,
   description: s.description || "",
-  location: `${s.address}, ${s.city}`,
-  city: s.city,
+  location: s.address && s.city ? `${s.address}, ${s.city}` : s.city || "",
+  city: s.city || "",
   phone: s.phone || s.vendorId?.phone || "",
   whatsapp: s.whatsapp || s.phone || s.vendorId?.phone || "",
-  categories: s.categoryIds?.map(c => c.name) || ["Boutique"],
+  categories: s.categoryIds?.map((c) => c.name) || ["Boutique"],
 });
 
 function ExploreStoresContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { stores: dbStores, categories: dbCategories, fetchPublicDirectory } = useWebsiteStore();
+  const { stores: dbStores, categories: dbCategories, fetchPublicDirectory, loading } = useWebsiteStore();
 
   useEffect(() => {
     fetchPublicDirectory();
@@ -57,12 +57,12 @@ function ExploreStoresContent() {
 
   const categoriesList = [
     "All Categories",
-    ...dbCategories.map(c => c.name)
+    ...dbCategories.map((c) => c.name),
   ];
 
   const locationsList = [
     "All Locations",
-    ...new Set(dbStores.map(s => s.city).filter(Boolean))
+    ...new Set(dbStores.map((s) => s.city).filter(Boolean)),
   ];
 
   // Map stores to frontend representation
@@ -140,31 +140,31 @@ function ExploreStoresContent() {
       <motion.div
         animate={{
           scale: [1, 1.05, 1],
-          opacity: [0.15, 0.22, 0.15]
+          opacity: [0.15, 0.22, 0.15],
         }}
         transition={{
           duration: 15,
           repeat: Infinity,
-          ease: "easeInOut"
+          ease: "easeInOut",
         }}
-        className="absolute top-12 right-1/4 w-[450px] h-[450px] bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute top-12 right-1/4 w-112.5 h-112.5 bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
       />
       <motion.div
         animate={{
           scale: [1, 1.08, 1],
-          opacity: [0.2, 0.28, 0.2]
+          opacity: [0.2, 0.28, 0.2],
         }}
         transition={{
           duration: 12,
           repeat: Infinity,
           ease: "easeInOut",
-          delay: 3
+          delay: 3,
         }}
-        className="absolute bottom-20 left-10 w-[350px] h-[350px] bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute bottom-20 left-10 w-87.5 h-87.5 bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
-        
+
         {/* Breadcrumb & Results Badge Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <motion.div
@@ -174,7 +174,7 @@ function ExploreStoresContent() {
           >
             <Breadcrumb items={[{ label: "Explore Stores", href: "/stores" }]} />
           </motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
@@ -235,14 +235,28 @@ function ExploreStoresContent() {
           />
         </motion.div>
 
-        {/* Store Listings */}
-        <StoreListings
-          displayedStores={displayedStores}
-          viewMode={viewMode}
-          clearFilters={clearFilters}
-          search={search}
-          location={location}
-        />
+        {/* Conditional Store Listings or Instant Skeleton Loader */}
+        {loading && dbStores.length === 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-6">
+            {[1, 2, 3, 4, 5, 6].map((n) => (
+              <div key={n} className="bg-white rounded-3xl p-4 h-80 animate-pulse border border-slate-200/60 shadow-xs flex flex-col justify-between">
+                <div className="bg-slate-200 h-44 rounded-2xl w-full" />
+                <div className="space-y-2 py-2">
+                  <div className="bg-slate-200 h-4 rounded w-3/4" />
+                  <div className="bg-slate-200 h-3 rounded w-1/2" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <StoreListings
+            displayedStores={displayedStores}
+            viewMode={viewMode}
+            clearFilters={clearFilters}
+            search={search}
+            location={location}
+          />
+        )}
 
         {/* Pagination */}
         <StorePagination

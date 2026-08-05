@@ -10,6 +10,7 @@ import StoreCard from "@/components/cards/StoreCard";
 import Badge from "@/components/ui/Badge";
 import Breadcrumb from "@/components/navigation/Breadcrumb";
 import Modal from "@/components/ui/Modal";
+import Image from "next/image";
 
 const contentVariants = {
   hidden: { opacity: 0, y: 15 },
@@ -46,6 +47,7 @@ const gridItemVariants = {
     },
   },
 };
+
 export default function StoreDetailsPage({ params }) {
   const { slug } = use(params);
 
@@ -77,30 +79,38 @@ export default function StoreDetailsPage({ params }) {
           return;
         }
 
-        const vendorId = storeDoc.vendorId._id;
-        const [collectionsRes, offersRes, allStoresRes] = await Promise.all([
+        const vendorId = storeDoc.vendorId?._id || storeDoc.vendorId;
+        const city = storeDoc.city || "";
+
+        const [collectionsRes, offersRes, relatedRes] = await Promise.all([
           fetch(`/api/collections?vendorId=${vendorId}`),
           fetch(`/api/offers?vendorId=${vendorId}`),
-          fetch(`/api/stores`),
+          fetch(`/api/stores?city=${encodeURIComponent(city)}`),
         ]);
 
         const collectionsData = await collectionsRes.json();
         const offersData = await offersRes.json();
-        const allStoresData = await allStoresRes.json();
+        const relatedData = await relatedRes.json();
 
+        // Properly map all schema fields including hours and google maps
         const mappedStore = {
           id: storeDoc._id,
           name: storeDoc.storeName,
-          slug: storeDoc.vendorId?.businessSlug || "",
-          logo: storeDoc.vendorId?.logo || "",
-          banner: storeDoc.vendorId?.coverImage || "",
+          slug: storeDoc.storeSlug || storeDoc.vendorId?.businessSlug || "",
+          logo: storeDoc.logo || storeDoc.vendorId?.logo || "",
+          banner: storeDoc.coverImage || storeDoc.vendorId?.coverImage || "",
           rating: 4.8,
-          reviewsCount: 12,
+          reviewsCount: storeDoc.totalViews ? Math.floor(storeDoc.totalViews / 5) + 12 : 12,
           description: storeDoc.description || "",
-          location: `${storeDoc.address}, ${storeDoc.city}`,
-          city: storeDoc.city,
+          address: storeDoc.address || "",
+          city: storeDoc.city || "",
+          location: `${storeDoc.address || ""}, ${storeDoc.city || ""}`,
           phone: storeDoc.phone || storeDoc.vendorId?.phone || "",
           whatsapp: storeDoc.whatsapp || storeDoc.phone || storeDoc.vendorId?.phone || "",
+          hours: storeDoc.openingTime && storeDoc.closingTime
+            ? `${storeDoc.openingTime} - ${storeDoc.closingTime}`
+            : "09:30 AM - 09:00 PM",
+          mapEmbedUrl: storeDoc.location?.googleMapUrl || storeDoc.googleMapUrl || "",
           gallery: storeDoc.gallery || [],
           categories: storeDoc.categoryIds?.map(c => c.name) || ["Boutique"],
           collections: (collectionsData.data?.collections || []).map(c => ({
@@ -112,25 +122,25 @@ export default function StoreDetailsPage({ params }) {
           offers: (offersData.data?.offers || []).map(o => ({
             id: o._id,
             title: o.title,
-            code: o.code,
+            code: o.couponCode || o.code,
             discountType: o.discountType,
             discountValue: o.discountValue,
             endDate: o.endDate,
           })),
         };
 
-        const dbStores = allStoresData.data?.stores || [];
+        const dbStores = relatedData.data?.stores || relatedData.stores || [];
         const mappedRelated = dbStores
           .filter(s => s._id !== storeDoc._id)
           .map(s => ({
             id: s._id,
             name: s.storeName,
-            slug: s.vendorId?.businessSlug || "",
-            logo: s.vendorId?.logo || "",
-            banner: s.vendorId?.coverImage || "",
+            slug: s.storeSlug || s.vendorId?.businessSlug || "",
+            logo: s.logo || s.vendorId?.logo || "",
+            banner: s.coverImage || s.vendorId?.coverImage || "",
             rating: 4.8,
             reviewsCount: 12,
-            location: `${s.address}, ${s.city}`,
+            location: `${s.address || ""}, ${s.city || ""}`,
             categories: s.categoryIds?.map(c => c.name) || ["Boutique"],
           }))
           .slice(0, 3);
@@ -138,7 +148,7 @@ export default function StoreDetailsPage({ params }) {
         setStore(mappedStore);
         setRelatedStores(mappedRelated);
       } catch (err) {
-        console.error(err);
+        console.error("Failed to load store details:", err);
       } finally {
         setLoading(false);
       }
@@ -188,7 +198,7 @@ export default function StoreDetailsPage({ params }) {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute top-0 right-10 w-[450px] h-[450px] bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute top-0 right-10 w-112.5 h-112.5 bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
       />
       <motion.div
         animate={{
@@ -201,7 +211,7 @@ export default function StoreDetailsPage({ params }) {
           ease: "easeInOut",
           delay: 2,
         }}
-        className="absolute bottom-1/3 left-10 w-[350px] h-[350px] bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute bottom-1/3 left-10 w-87.5 h-87.5 bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
       />
 
       {/* Store Banner */}
@@ -210,7 +220,7 @@ export default function StoreDetailsPage({ params }) {
           initial={{ scale: 1.1, opacity: 0.8 }}
           animate={{ scale: 1.02, opacity: 1 }}
           transition={{ duration: 0.8 }}
-          src={store.banner}
+          src={store.banner || "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&auto=format&fit=crop&q=80"}
           alt={store.name}
           className="w-full h-full object-cover"
         />
@@ -222,7 +232,7 @@ export default function StoreDetailsPage({ params }) {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white/80 backdrop-blur-md px-4.5 py-2.5 rounded-2xl border border-slate-100/60 inline-block shadow-sm"
+          className="bg-white/85 backdrop-blur-md px-4.5 py-2.5 rounded-2xl border border-slate-100/60 inline-block shadow-xs"
         >
           <Breadcrumb
             items={[
@@ -241,7 +251,7 @@ export default function StoreDetailsPage({ params }) {
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white/95 backdrop-blur-md border border-slate-150 p-6 md:p-8 rounded-3xl shadow-xl shadow-slate-100/40 flex flex-col md:flex-row gap-6 justify-between items-start md:items-center relative overflow-hidden transition-all duration-300 hover:border-purple-200/50"
+          className="bg-white/95 backdrop-blur-md border border-slate-200/80 p-6 md:p-8 rounded-3xl shadow-xl shadow-slate-100/40 flex flex-col md:flex-row gap-6 justify-between items-start md:items-center relative overflow-hidden transition-all duration-300 hover:border-purple-200/50"
         >
           {/* Spotlight element */}
           <div
@@ -255,12 +265,14 @@ export default function StoreDetailsPage({ params }) {
           <div className="flex gap-4 sm:gap-6 items-center relative z-10">
             <motion.div
               whileHover={{ scale: 1.03 }}
-              className="h-20 w-20 md:h-24 md:w-24 border border-slate-150 bg-white rounded-2xl shadow-md overflow-hidden shrink-0 ring-4 ring-white"
+              className="h-20 w-20 md:h-24 md:w-24 border border-slate-200 bg-white rounded-2xl shadow-md overflow-hidden shrink-0 ring-4 ring-white"
             >
-              <img
-                src={store.logo}
+              <Image
+                src={store.logo || "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=200&auto=format&fit=crop&q=80"}
                 alt={`${store.name} Logo`}
                 className="w-full h-full object-cover"
+                width={200}
+                height={200}
               />
             </motion.div>
             <div className="space-y-1.5 font-body">
@@ -303,10 +315,10 @@ export default function StoreDetailsPage({ params }) {
             <motion.a
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              href={`https://wa.me/${store.whatsapp}?text=Hi%20${encodeURIComponent(store.name)},%20I%20saw%20your%20store%20on%20Nearby%20Clothing%2520and%20wanted%20to%20inquire%20about%20your%2520latest%2520collection.`}
+              href={`https://wa.me/${store.whatsapp}?text=Hi%20${encodeURIComponent(store.name)},%20I%20saw%20your%20store%20on%20Nearby%20Clothing%20and%20wanted%20to%20inquire%20about%20your%20latest%20collection.`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-linear-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold text-xs shadow-md hover:shadow-lg shadow-emerald-500/10 transition-all cursor-pointer select-none"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md hover:shadow-lg shadow-emerald-500/10 transition-all cursor-pointer select-none"
             >
               <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                 <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.003 5.37 5.378 0 12.013 0c3.213.001 6.234 1.253 8.508 3.527 2.275 2.274 3.526 5.298 3.525 8.514-.003 6.643-5.378 12.013-12.012 12.013-2.003-.001-3.973-.5-5.713-1.455L0 24zm6.26-4.577c1.642.975 3.256 1.488 4.887 1.489 5.405 0 9.803-4.397 9.805-9.804.001-2.618-1.018-5.08-2.871-6.934-1.854-1.854-4.318-2.873-6.936-2.874-5.41 0-9.81 4.4-9.813 9.807-.001 1.77.473 3.328 1.411 4.821L1.874 21.84l4.443-1.617z" />
@@ -351,7 +363,7 @@ export default function StoreDetailsPage({ params }) {
                     {isActive && (
                       <motion.div
                         layoutId="activeTabIndicator"
-                        className="absolute inset-0 bg-white border border-slate-200/10 shadow-xs rounded-xl"
+                        className="absolute inset-0 bg-white border border-slate-200/40 shadow-xs rounded-xl"
                         transition={{
                           type: "spring",
                           stiffness: 380,
@@ -386,7 +398,7 @@ export default function StoreDetailsPage({ params }) {
                     className="grid grid-cols-1 sm:grid-cols-2 gap-6"
                   >
                     {store.collections.length === 0 ? (
-                      <div className="col-span-2 text-center py-16 bg-white border border-slate-150 rounded-3xl shadow-xs">
+                      <div className="col-span-2 text-center py-16 bg-white border border-slate-200/80 rounded-3xl shadow-xs">
                         <p className="text-sm text-slate-400 font-body">
                           No lookbook collections posted yet.
                         </p>
@@ -409,7 +421,7 @@ export default function StoreDetailsPage({ params }) {
                     className="grid grid-cols-1 sm:grid-cols-2 gap-6"
                   >
                     {store.offers.length === 0 ? (
-                      <div className="col-span-2 text-center py-16 bg-white border border-slate-150 rounded-3xl shadow-xs">
+                      <div className="col-span-2 text-center py-16 bg-white border border-slate-200/80 rounded-3xl shadow-xs">
                         <p className="text-sm text-slate-400 font-body">
                           No promotional coupons available at the moment.
                         </p>
@@ -425,7 +437,7 @@ export default function StoreDetailsPage({ params }) {
                 )}
 
                 {activeTab === "gallery" && (
-                  <div className="bg-white border border-slate-150 p-6 rounded-3xl shadow-sm">
+                  <div className="bg-white border border-slate-200/80 p-6 rounded-3xl shadow-sm">
                     {store.gallery.length === 0 ? (
                       <p className="text-sm text-slate-400 text-center py-8 font-body">
                         No showcase photos uploaded.
@@ -438,12 +450,14 @@ export default function StoreDetailsPage({ params }) {
                             whileHover={{ scale: 1.03, y: -2 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => setSelectedGalleryImage(imgUrl)}
-                            className="h-28 sm:h-36 rounded-2xl overflow-hidden bg-slate-50 border border-slate-150 cursor-pointer shadow-xs hover:shadow-md transition-all duration-300"
+                            className="h-28 sm:h-36 rounded-2xl overflow-hidden bg-slate-50 border border-slate-200 cursor-pointer shadow-xs hover:shadow-md transition-all duration-300"
                           >
-                            <img
+                            <Image
                               src={imgUrl}
                               alt={`Store interior ${idx + 1}`}
                               className="w-full h-full object-cover"
+                              width={200}
+                              height={200}
                             />
                           </motion.div>
                         ))}
@@ -458,8 +472,8 @@ export default function StoreDetailsPage({ params }) {
           {/* Sidebar Area: Contact Details / Business Hours / Maps */}
           <div className="lg:col-span-4 space-y-6">
             {/* Store Information Card */}
-            <div className="bg-white border border-slate-150 p-6 rounded-3xl shadow-sm space-y-5">
-              <h3 className="text-base font-black text-slate-900 border-b border-slate-50 pb-3 font-heading">
+            <div className="bg-white border border-slate-200/80 p-6 rounded-3xl shadow-sm space-y-5">
+              <h3 className="text-base font-black text-slate-900 border-b border-slate-100 pb-3 font-heading">
                 Business Information
               </h3>
 
@@ -484,7 +498,7 @@ export default function StoreDetailsPage({ params }) {
                     <span className="font-extrabold block text-slate-800 text-xs uppercase tracking-wider mb-0.5">
                       Physical Address
                     </span>
-                    <span>{store.address}</span>
+                    <span>{store.address || store.location}</span>
                   </div>
                 </div>
 
@@ -532,7 +546,7 @@ export default function StoreDetailsPage({ params }) {
                     <span className="font-extrabold block text-slate-800 text-xs uppercase tracking-wider mb-0.5">
                       Phone Directory
                     </span>
-                    <span>{store.phone}</span>
+                    <span>{store.phone || "Not Provided"}</span>
                   </div>
                 </div>
               </div>
@@ -540,7 +554,7 @@ export default function StoreDetailsPage({ params }) {
 
             {/* Google Map Card */}
             {store.mapEmbedUrl && (
-              <div className="bg-white border border-slate-150 p-3 rounded-3xl shadow-sm overflow-hidden">
+              <div className="bg-white border border-slate-200/80 p-3 rounded-3xl shadow-sm overflow-hidden">
                 <div className="h-56 rounded-2xl overflow-hidden bg-slate-50 border border-slate-100">
                   <iframe
                     src={store.mapEmbedUrl}
@@ -609,10 +623,12 @@ export default function StoreDetailsPage({ params }) {
         size="lg"
       >
         {selectedGalleryImage && (
-          <div className="h-[450px] w-full rounded-2xl overflow-hidden bg-slate-950 flex items-center justify-center p-2">
-            <img
+          <div className="h-112.5 w-full rounded-2xl overflow-hidden bg-slate-950 flex items-center justify-center p-2">
+            <Image
               src={selectedGalleryImage}
               alt="Showcase Expanded"
+              width={500}
+              height={500}
               className="max-h-full max-w-full object-contain rounded-lg"
             />
           </div>
