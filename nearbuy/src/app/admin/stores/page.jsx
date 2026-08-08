@@ -17,11 +17,7 @@ import {
   Trash2,
   ExternalLink,
   Star,
-  CheckCircle2,
   X,
-  Phone,
-  Mail,
-  Navigation,
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
@@ -103,8 +99,11 @@ export default function AdminStores() {
     }
   };
 
+  // Safe array evaluation for stores
+  const storesArray = Array.isArray(stores) ? stores : [];
+
   // Filter based on search query & city
-  const filtered = (stores || []).filter((s) => {
+  const filtered = storesArray.filter((s) => {
     const query = search.toLowerCase();
     const nameMatch = (s.storeName || "").toLowerCase().includes(query);
     const cityMatch = (s.city || "").toLowerCase().includes(query);
@@ -118,13 +117,26 @@ export default function AdminStores() {
     return matchesSearch && matchesCity;
   });
 
+  const getStoreName = (store) => {
+    return (
+      store?.storeName ||
+      store?.name ||
+      store?.businessName ||
+      store?.vendorId?.storeName ||
+      store?.vendorId?.businessName ||
+      store?.vendorId?.name ||
+      (store?.email ? `Store (${store.email.split('@')[0]})` : null) ||
+      `Store ID: ${store?._id?.slice(-6) || "N/A"}`
+    );
+  };
+
   return (
     <div className="space-y-6 font-body pb-12">
       {/* 1. Header Section */}
       <DashboardHeader
         title="Directory Listings Management"
         description="Verify physical shop address coordinates, monitor operating status, and manage active outlet listings."
-        badge={`${stores?.length || 0} Outlets Total`}
+        badge={`${storesArray.length} Outlets Total`}
       >
         <button
           type="button"
@@ -174,7 +186,7 @@ export default function AdminStores() {
       {/* 3. Listings Table */}
       <Card className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
         <CardBody className="p-0 overflow-x-auto">
-          {loading && !stores?.length ? (
+          {loading && !storesArray.length ? (
             <div className="py-16 flex flex-col items-center justify-center space-y-3">
               <RefreshCw className="w-8 h-8 animate-spin text-indigo-600" />
               <span className="text-xs font-bold text-slate-500">
@@ -223,18 +235,19 @@ export default function AdminStores() {
                       className="hover:bg-slate-50/60 transition-colors"
                     >
                       {/* Store Details */}
+                      {/* Store Details */}
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="h-10 w-10 rounded-2xl bg-slate-100 border border-slate-200/80 overflow-hidden shrink-0 flex items-center justify-center font-black text-slate-400 text-xs uppercase shadow-2xs relative">
                             {logoSrc ? (
                               <Image
                                 src={logoSrc}
-                                alt={store.storeName || "Store"}
+                                alt={store.storeName || store.name || "Store"}
                                 fill
                                 className="w-full h-full object-cover"
                               />
                             ) : (
-                              <span>{(store.storeName || "S").charAt(0)}</span>
+                              <span>{(store.storeName || store.name || store.businessName || "S").charAt(0)}</span>
                             )}
                           </div>
                           <div className="min-w-0 max-w-50">
@@ -243,10 +256,10 @@ export default function AdminStores() {
                               onClick={() => setSelectedStore(store)}
                               className="font-bold text-slate-900 text-xs hover:text-indigo-600 block truncate transition-colors text-left cursor-pointer"
                             >
-                              {store.storeName || "Unnamed Store"}
+                              {getStoreName(store)}
                             </button>
                             <span className="text-[10px] text-slate-400 font-mono block truncate">
-                              Slug: {store.slug || "N/A"}
+                              Slug: {store.storeSlug || store.slug || "N/A"}
                             </span>
                           </div>
                         </div>
@@ -424,10 +437,10 @@ export default function AdminStores() {
                   </div>
                   <div className="truncate">
                     <h4 className="font-heading font-black text-slate-900 text-base truncate">
-                      {selectedStore.storeName}
+                      {getStoreName(selectedStore)}
                     </h4>
                     <span className="text-[10px] font-mono text-slate-400 block truncate">
-                      Slug: {selectedStore.slug || "N/A"}
+                      Slug: {selectedStore.storeSlug || selectedStore.slug || "N/A"}
                     </span>
                   </div>
                 </div>
@@ -533,7 +546,7 @@ export default function AdminStores() {
             {/* Bottom Actions */}
             <div className="pt-4 border-t border-slate-100 space-y-2">
               <Link
-                href={`/stores/${selectedStore.slug || selectedStore._id}`}
+                href={`/stores/${selectedStore.storeSlug || selectedStore.slug || selectedStore._id}`}
                 target="_blank"
                 className="w-full py-2.5 rounded-2xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
