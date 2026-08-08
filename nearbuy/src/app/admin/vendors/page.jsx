@@ -20,7 +20,6 @@ import {
   Building,
 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 
 export default function AdminVendors() {
   const { vendors, fetchVendors, updateVendorStatus, loading, error } =
@@ -122,8 +121,8 @@ export default function AdminVendors() {
               type="button"
               onClick={() => setStatusFilter(st)}
               className={`px-3.5 py-2 text-xs font-bold rounded-2xl transition-all cursor-pointer whitespace-nowrap ${statusFilter === st
-                ? "bg-indigo-600 text-white shadow-xs"
-                : "bg-slate-100/80 text-slate-600 hover:bg-slate-200/70"
+                  ? "bg-indigo-600 text-white shadow-xs"
+                  : "bg-slate-100/80 text-slate-600 hover:bg-slate-200/70"
                 }`}
             >
               {st}
@@ -190,10 +189,9 @@ export default function AdminVendors() {
                         <div className="flex items-center gap-3">
                           <div className="h-10 w-10 rounded-2xl bg-slate-100 border border-slate-200/80 overflow-hidden shrink-0 flex items-center justify-center font-black text-slate-400 text-xs uppercase shadow-2xs">
                             {v.logo ? (
-                              <Image
+                              <img
                                 src={v.logo}
                                 alt={businessTitle}
-                                fill
                                 className="w-full h-full object-cover"
                               />
                             ) : (
@@ -398,10 +396,9 @@ export default function AdminVendors() {
                 <div className="flex items-center gap-3">
                   <div className="h-12 w-12 rounded-2xl bg-white border border-slate-200/80 overflow-hidden shrink-0 flex items-center justify-center font-black text-slate-500 text-sm">
                     {selectedVendor.logo ? (
-                      <Image
+                      <img
                         src={selectedVendor.logo}
                         alt="Logo"
-                        fill
                         className="w-full h-full object-cover"
                       />
                     ) : (

@@ -7,6 +7,8 @@ import {
 } from "@/validations/auth.schema";
 import authService from "@/services/auth.service";
 import userRepository from "@/repositories/user.repository";
+import Vendor from "@/models/Vendor";
+import Store from "@/models/Store";
 import dbConnect from "@/lib/db";
 import ApiResponse from "@/utils/apiResponse";
 import ApiError from "@/utils/apiError";
@@ -17,8 +19,63 @@ class AuthController {
     const body = await req.json();
     const validatedData = validate(registerSchema, body);
 
+    // 1. Register the core user
     const user = await authService.registerUser(validatedData);
-    return ApiResponse.created(user, "User registered successfully");
+
+    // 2. AUTOMATIC VENDOR & STORE SETUP (If role is VENDOR)
+    const userRole = (user?.role || validatedData.role || "").toUpperCase();
+    if (userRole === "VENDOR") {
+      const userId = user._id || user.id;
+      const userName = user.name || validatedData.name || "Store";
+
+      const defaultSlug =
+        userName
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-z0-9]+/g, "-") +
+        "-" +
+        Date.now().toString().slice(-4);
+
+      // Check if vendor profile already exists to prevent duplicate creation
+      let existingVendor = await Vendor.findOne({ ownerId: userId });
+      if (!existingVendor) {
+        // Create Vendor Profile
+        existingVendor = await Vendor.create({
+          ownerId: userId,
+          businessName: `${userName}'s Store`,
+          storeName: `${userName}'s Store`,
+          slug: defaultSlug,
+          businessSlug: defaultSlug,
+          city: "Namakkal",
+          status: "Approved", // Auto-approved for instant publishing
+        });
+      }
+
+      // Check if store profile already exists
+      let existingStore = await Store.findOne({ vendorId: existingVendor._id });
+      if (!existingStore) {
+        // Create Store Profile for Frontend Directory
+        await Store.create({
+          vendorId: existingVendor._id,
+          storeName: existingVendor.businessName,
+          storeSlug: defaultSlug,
+          description: "Welcome to our local storefront on Nearbuy.",
+          city: "Namakkal",
+          isActive: true, // Instantly visible on the customer directory & homepage!
+        });
+      }
+
+      // Link vendorId back to User model
+      await userRepository.updateById(userId, {
+        vendorId: existingVendor._id,
+        profileCompleted: true,
+      });
+    }
+
+    return ApiResponse.created(
+      user,
+      "User registered and store published successfully",
+    );
   }
 
   async forgotPassword(req) {
