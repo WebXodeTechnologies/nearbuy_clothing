@@ -54,41 +54,27 @@ class StoreController {
     );
   }
 
-  async getStoreById(req, { params }) {
+  async getStoreById(req, context) {
     await dbConnect();
-    const resolvedParams = params instanceof Promise ? await params : params;
-    const { id } = resolvedParams;
 
-    let store;
-    if (mongoose.Types.ObjectId.isValid(id)) {
-      store = await storeService.getStoreById(id);
-    } else {
-      // 1. First attempt direct Store Slug lookup
-      store = await Store.findOne({ storeSlug: id.toLowerCase().trim() })
-        .populate(
-          "vendorId",
-          "businessName businessSlug logo coverImage phone email",
-        )
-        .populate("categoryIds", "name slug image")
-        .lean();
+    // Next.js App Router context parameters can be a promise or direct object
+    const resolvedParams = await context?.params;
+    const identifier = resolvedParams?.slug || resolvedParams?.id;
 
-      // 2. If not found by storeSlug, fallback to Vendor Slug lookup
-      if (!store) {
-        const vendor = await vendorRepository.findBySlug(id);
-        if (vendor) {
-          const stores = await storeService.getStoresByVendor(vendor._id);
-          if (stores && stores.length > 0) {
-            store = stores[0];
-          }
-        }
-      }
+    // Query by storeSlug, businessSlug, or _id, and POPULATE vendorId
+    const store = await Store.findOne({
+      $or: [
+        { storeSlug: identifier },
+        { businessSlug: identifier },
+        { _id: identifier.match(/^[0-9a-fA-F]{24}$/) ? identifier : null },
+      ],
+    }).populate("vendorId"); // 🔒 Crucial: Populates vendorId so vendorId._id is available!
 
-      if (!store) {
-        throw new ApiError(404, "Store listing not found.");
-      }
+    if (!store) {
+      throw new ApiError(404, "Store profile not found.");
     }
 
-    return ApiResponse.success(store, "Store listing retrieved successfully");
+    return ApiResponse.success(store, "Store retrieved successfully");
   }
 
   async updateStore(req, { params }) {

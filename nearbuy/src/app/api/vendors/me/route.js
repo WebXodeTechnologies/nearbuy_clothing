@@ -2,7 +2,7 @@ import { authenticate } from "@/middleware/auth.middleware";
 import dbConnect from "@/lib/db";
 import Vendor from "@/models/Vendor";
 import User from "@/models/User";
-import Store from "@/models/Store"; // Dual-sync support for Store model if present
+import Store from "@/models/Store";
 import ApiResponse from "@/utils/apiResponse";
 import ApiError from "@/utils/apiError";
 import { withErrorHandler } from "@/middleware/error.middleware";
@@ -17,17 +17,17 @@ async function getVendorUser(req) {
   return user;
 }
 
-// GET /api/vendors/me -> Get current vendor store profile
+// GET /api/vendors/me -> Get current vendor store profile securely
 export const GET = withErrorHandler(async (req) => {
   const user = await getVendorUser(req);
   await dbConnect();
 
+  // Confidentiality Check: Strictly scope to logged-in user's ID
   const vendor = await Vendor.findOne({ ownerId: user.id }).populate(
     "ownerId",
     "name email image role",
   );
 
-  // If no vendor profile exists (e.g. Admin user checking), return null instead of 404 error
   if (!vendor) {
     return ApiResponse.success(
       null,
@@ -37,6 +37,7 @@ export const GET = withErrorHandler(async (req) => {
 
   return ApiResponse.success(vendor, "Vendor profile retrieved successfully");
 });
+
 // POST /api/vendors/me -> Setup initial vendor store & link user.vendorId
 export const POST = withErrorHandler(async (req) => {
   const user = await getVendorUser(req);
@@ -51,7 +52,6 @@ export const POST = withErrorHandler(async (req) => {
   // 1. Check if store already exists for this owner
   let existingVendor = await Vendor.findOne({ ownerId: user.id });
   if (existingVendor) {
-    // Self-healing: If store exists, make sure User.vendorId is linked!
     await User.findByIdAndUpdate(user.id, {
       vendorId: existingVendor._id,
       profileCompleted: true,
@@ -96,14 +96,14 @@ export const POST = withErrorHandler(async (req) => {
   );
 });
 
-// PATCH /api/vendors/me -> Update active vendor store profile
+// PATCH /api/vendors/me -> Update active vendor store profile securely
 export const PATCH = withErrorHandler(async (req) => {
   const user = await getVendorUser(req);
   await dbConnect();
 
   const body = await req.json();
 
-  // 🔒 CRITICAL: Prevent vendors from modifying status field to prevent enum validation errors
+  // Prevent vendors from modifying status field directly
   delete body.status;
 
   // Sync alias key names across schemas
@@ -116,60 +116,86 @@ export const PATCH = withErrorHandler(async (req) => {
     body.bio = body.description;
   }
 
-  // 1. Update Vendor Collection
-  const updatedVendor = await Vendor.findOneAndUpdate(
-    { ownerId: user.id },
-    { $set: body },
-    { returnDocument: "after", new: true, runValidators: true },
-  ).populate("ownerId", "name email image role");
+  // 🛡️ CRITICAL FIX: Check if existing vendor already has a slug/businessSlug,
+  // or generate a safe unique one to prevent `null` duplicate key errors.
+  const existingVendorRecord = await Vendor.findOne({ ownerId: user.id });
 
-  if (!updatedVendor) {
-    throw new ApiError(404, "Vendor store profile not found to update.");
+  const targetName =
+    body.businessName ||
+    body.storeName ||
+    existingVendorRecord?.businessName ||
+    "store";
+  const fallbackSlug =
+    targetName
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-") +
+    "-" +
+    Date.now().toString().slice(-4);
+
+  if (!body.businessSlug && !existingVendorRecord?.businessSlug) {
+    body.businessSlug = fallbackSlug;
+  }
+  if (!body.slug && !existingVendorRecord?.slug) {
+    body.slug = fallbackSlug;
   }
 
-  // 2. Dual-Sync: Update linked Store collection document if present
+  // 1. Update or Auto-Create Vendor Collection scoped to user.id
+  const updatedVendor = await Vendor.findOneAndUpdate(
+    { ownerId: user.id },
+    { $set: { ...body, ownerId: user.id } },
+    { upsert: true, returnDocument: "after", runValidators: true },
+  ).populate("ownerId", "name email image role");
+
+  // 2. Ensure User document links to vendorId
+  await User.findByIdAndUpdate(user.id, {
+    vendorId: updatedVendor._id,
+    profileCompleted: true,
+  });
+
+  // 3. Dual-Sync: Update or Auto-Create linked Store document securely
   try {
     if (Store) {
+      const existingStore = await Store.findOne({
+        vendorId: updatedVendor._id,
+      });
+
+      const storeSlug =
+        existingStore?.storeSlug ||
+        updatedVendor.businessSlug ||
+        updatedVendor.slug ||
+        fallbackSlug;
+
       await Store.findOneAndUpdate(
         { vendorId: updatedVendor._id },
         {
           $set: {
+            vendorId: updatedVendor._id,
             storeName: updatedVendor.businessName || updatedVendor.storeName,
-            description: updatedVendor.description || updatedVendor.tagline,
-            tagline: updatedVendor.tagline || updatedVendor.description,
-            address: updatedVendor.address,
-            area: updatedVendor.area,
-            city: updatedVendor.city,
-            state: updatedVendor.state,
-            pincode: updatedVendor.pincode,
-            phone: updatedVendor.phone || updatedVendor.businessPhone,
-            whatsapp: updatedVendor.whatsapp || updatedVendor.whatsappNumber,
-            email: updatedVendor.email,
-            website: updatedVendor.website,
-            instagram: updatedVendor.instagram,
-            facebook: updatedVendor.facebook,
-            openingTime: updatedVendor.openingTime,
-            closingTime: updatedVendor.closingTime,
-            workingDays: updatedVendor.workingDays,
-            facilities: updatedVendor.facilities,
-            logo: updatedVendor.logo,
-            coverImage: updatedVendor.coverImage,
-            googleMapUrl: updatedVendor.googleMapUrl,
-            isActive: updatedVendor.isActive,
+            storeSlug: storeSlug,
+            description: updatedVendor.description || updatedVendor.bio || "",
+            tagline: updatedVendor.tagline || "",
+            address: updatedVendor.address || "",
+            city: updatedVendor.city || "Namakkal",
+            phone: updatedVendor.businessPhone || updatedVendor.phone || "",
+            whatsapp:
+              updatedVendor.whatsappNumber || updatedVendor.whatsapp || "",
+            email: updatedVendor.email || user.email || "",
+            website: updatedVendor.website || "",
+            logo: updatedVendor.logo || "",
+            coverImage: updatedVendor.coverImage || "",
+            isActive: true,
           },
         },
-        { returnDocument: "after", new: true },
+        { upsert: true, returnDocument: "after" },
       );
     }
   } catch (err) {
-    console.warn(
-      "Store collection sync skipped or model not active:",
-      err.message,
-    );
+    console.warn("Store collection sync error:", err.message);
   }
 
   return ApiResponse.success(
     updatedVendor,
-    "Store profile updated successfully",
+    "Store profile updated and published successfully",
   );
 });

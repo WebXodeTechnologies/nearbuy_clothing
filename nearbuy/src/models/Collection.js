@@ -139,7 +139,7 @@ const CollectionSchema = new mongoose.Schema(
 );
 
 // Pre-validate hook for auto slug generation
-CollectionSchema.pre("validate", function (next) {
+CollectionSchema.pre("validate", function () {
   if (!this.slug || this.slug.trim() === "") {
     const baseName = this.title || "collection";
     this.slug =

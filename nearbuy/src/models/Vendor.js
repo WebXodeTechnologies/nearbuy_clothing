@@ -271,7 +271,7 @@ const VendorSchema = new mongoose.Schema(
 // ==========================================
 // Pre-Validate Hook for Auto Slug Creation
 // ==========================================
-VendorSchema.pre("validate", function (next) {
+VendorSchema.pre("validate", function () {
   // Sync storeName & businessName if either is provided
   if (this.businessName && !this.storeName) {
     this.storeName = this.businessName;
@@ -292,7 +292,6 @@ VendorSchema.pre("validate", function (next) {
       "-" +
       Math.floor(Math.random() * 10000);
   }
-  next();
 });
 
 // ==========================================

@@ -8,15 +8,36 @@ export const useStoreStore = create((set, get) => ({
   error: null,
 
   // 1. Fetch Current Vendor Store Profile (/api/vendors/me)
+  // 1. Fetch Stores (Supports admin full listing or vendor profile)
   fetchStores: async (filters = {}) => {
     set({ loading: true, error: null });
     try {
+      // 🛠️ FIX: If admin requests all stores, hit the admin endpoint directly
+      if (filters && filters.all) {
+        const adminRes = await fetch("/api/admin/stores");
+        const adminData = await adminRes.json();
+
+        if (!adminRes.ok) {
+          throw new Error(
+            adminData.message || "Failed to fetch admin stores directory",
+          );
+        }
+
+        const storeList = adminData.data?.stores || adminData.stores || [];
+        set({
+          stores: storeList,
+          total: storeList.length,
+          loading: false,
+        });
+        return storeList;
+      }
+
+      // Otherwise, fetch the single vendor profile / marketplace listings
       const res = await fetch("/api/vendors/me");
       const data = await res.json();
 
       if (!res.ok) {
-        // Fallback for public marketplace directory pages passing query parameters
-        if (filters && (filters.city || filters.all)) {
+        if (filters && filters.city) {
           const queryParams = new URLSearchParams(filters).toString();
           const publicRes = await fetch(`/api/stores?${queryParams}`);
           const publicData = await publicRes.json();
@@ -54,7 +75,6 @@ export const useStoreStore = create((set, get) => ({
       return [];
     }
   },
-
   // 2. Fetch Store Details By ID
   fetchStoreById: async (id) => {
     set({ loading: true, error: null });
