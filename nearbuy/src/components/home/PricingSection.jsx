@@ -23,8 +23,8 @@ function PricingCard({ plan, index, billingCycle }) {
 
   // Simple price calculator if billing is yearly (20% off)
   const cleanPriceNum = parseInt(price.replace(/[^0-9]/g, ""), 10);
-  const displayPrice = billingCycle === "yearly" 
-    ? `₹${Math.round(cleanPriceNum * 0.8)}` 
+  const displayPrice = billingCycle === "yearly"
+    ? `₹${Math.round(cleanPriceNum * 0.8)}`
     : price;
 
   return (
@@ -38,11 +38,10 @@ function PricingCard({ plan, index, billingCycle }) {
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, delay: index * 0.15, ease: [0.215, 0.610, 0.355, 1.000] }}
       whileHover={{ y: -8 }}
-      className={`relative rounded-3xl p-8 flex flex-col justify-between transition-all duration-300 overflow-hidden cursor-default select-none border min-h-[580px] ${
-        popular 
-          ? "border-purple-600 bg-white shadow-xl shadow-purple-600/5 ring-1 ring-purple-600/30" 
+      className={`relative rounded-3xl p-8 flex flex-col justify-between transition-all duration-300 overflow-hidden cursor-default select-none border min-h-145 ${popular
+          ? "border-purple-600 bg-white shadow-xl shadow-purple-600/5 ring-1 ring-purple-600/30"
           : "border-slate-100 bg-white hover:border-slate-300 hover:shadow-xl shadow-xs"
-      }`}
+        }`}
     >
       {/* Interactive Cursor Spotlight Glow */}
       <div
@@ -67,7 +66,7 @@ function PricingCard({ plan, index, billingCycle }) {
       <div className="relative z-10 space-y-6">
         <div>
           <h3 className="text-xl font-bold tracking-tight text-slate-950 font-heading">{name}</h3>
-          <p className="text-sm text-slate-500 mt-2 leading-relaxed font-body min-h-[40px]">{description}</p>
+          <p className="text-sm text-slate-500 mt-2 leading-relaxed font-body min-h-10">{description}</p>
         </div>
 
         <div className="flex items-baseline gap-1 mt-4">
@@ -76,7 +75,7 @@ function PricingCard({ plan, index, billingCycle }) {
           </span>
           <span className="text-sm text-slate-500 font-semibold font-body">/{period}</span>
         </div>
-        
+
         {billingCycle === "yearly" && (
           <span className="text-[10px] text-purple-700 bg-purple-50 border border-purple-100 font-bold px-2.5 py-0.5 rounded-full inline-block">
             Billed annually (Save 20%)
@@ -100,11 +99,10 @@ function PricingCard({ plan, index, billingCycle }) {
 
       <div className="relative z-10 mt-8">
         <Link href={`/become-vendor?plan=${name.toLowerCase()}`} className="block w-full">
-          <span className={`block w-full py-4 rounded-xl text-center text-sm font-bold transition-all cursor-pointer ${
-            popular 
-              ? "bg-purple-600 hover:bg-purple-700 text-white shadow-md hover:shadow-lg hover:shadow-purple-600/15" 
+          <span className={`block w-full py-4 rounded-xl text-center text-sm font-bold transition-all cursor-pointer ${popular
+              ? "bg-purple-600 hover:bg-purple-700 text-white shadow-md hover:shadow-lg hover:shadow-purple-600/15"
               : "bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200"
-          }`}>
+            }`}>
             {cta}
           </span>
         </Link>
@@ -133,7 +131,7 @@ export default function PricingSection({ plans }) {
           repeat: Infinity,
           ease: "easeInOut"
         }}
-        className="absolute top-1/4 -right-10 w-[450px] h-[450px] bg-purple-200/30 blur-3xl pointer-events-none rounded-full"
+        className="absolute top-1/4 -right-10 w-112.5 h-112.5 bg-purple-200/30 blur-3xl pointer-events-none rounded-full"
       />
       <motion.div
         animate={{
@@ -146,11 +144,11 @@ export default function PricingSection({ plans }) {
           ease: "easeInOut",
           delay: 2
         }}
-        className="absolute bottom-1/4 -left-10 w-[350px] h-[350px] bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute bottom-1/4 -left-10 w-87.5 h-87.5 bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
           <motion.div
@@ -201,21 +199,19 @@ export default function PricingSection({ plans }) {
           <div className="bg-slate-100 p-1 rounded-xl flex items-center gap-1 border border-slate-200/60 font-body">
             <button
               onClick={() => setBillingCycle("monthly")}
-              className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                billingCycle === "monthly" 
-                  ? "bg-white text-purple-700 shadow-xs border border-purple-100" 
+              className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${billingCycle === "monthly"
+                  ? "bg-white text-purple-700 shadow-xs border border-purple-100"
                   : "text-slate-500 hover:text-slate-800"
-              }`}
+                }`}
             >
               Monthly billing
             </button>
             <button
               onClick={() => setBillingCycle("yearly")}
-              className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer relative ${
-                billingCycle === "yearly" 
-                  ? "bg-white text-purple-700 shadow-xs border border-purple-100" 
+              className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer relative ${billingCycle === "yearly"
+                  ? "bg-white text-purple-700 shadow-xs border border-purple-100"
                   : "text-slate-500 hover:text-slate-800"
-              }`}
+                }`}
             >
               Yearly billing
               <span className="absolute -top-3.5 -right-3 px-1.5 py-0.5 bg-emerald-500 text-white text-[7px] font-black uppercase rounded-md tracking-wider">
@@ -228,11 +224,11 @@ export default function PricingSection({ plans }) {
         {/* Pricing Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
           {displayPlans.map((plan, index) => (
-            <PricingCard 
-              key={plan.name} 
-              plan={plan} 
-              index={index} 
-              billingCycle={billingCycle} 
+            <PricingCard
+              key={plan.name}
+              plan={plan}
+              index={index}
+              billingCycle={billingCycle}
             />
           ))}
         </div>

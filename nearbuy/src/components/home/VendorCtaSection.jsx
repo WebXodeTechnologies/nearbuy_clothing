@@ -328,7 +328,7 @@ export default function VendorCtaSection() {
               </div>
 
               {/* Product Preview Card */}
-              <div className="mt-5 min-h-[160px]" style={{ transform: "translateZ(30px)" }}>
+              <div className="mt-5 min-h-40" style={{ transform: "translateZ(30px)" }}>
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={selectedCategory}
@@ -372,7 +372,7 @@ export default function VendorCtaSection() {
 
               {/* Floating Parallax Lead Center Activity Ticker */}
               <div
-                className="absolute -bottom-2 right-4 left-4 z-20 md:left-auto md:right-[-40px] md:bottom-[45px] md:max-w-[240px]"
+                className="absolute -bottom-2 right-4 left-4 z-20 md:left-auto md:-right-10 md:bottom-11.25 md:max-w-60"
                 style={{ transform: "translateZ(65px)" }}
               >
                 <AnimatePresence mode="wait">
