@@ -21,7 +21,7 @@ export default function TestimonialsSection({ testimonials }) {
           repeat: Infinity,
           ease: "easeInOut"
         }}
-        className="absolute top-1/4 -left-20 w-[350px] h-[350px] bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute top-1/4 -left-20 w-87.5 h-87.5 bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
       />
       <motion.div
         animate={{
@@ -34,7 +34,7 @@ export default function TestimonialsSection({ testimonials }) {
           ease: "easeInOut",
           delay: 4
         }}
-        className="absolute bottom-1/4 -right-20 w-[400px] h-[400px] bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute bottom-1/4 -right-20 w-100 h-100 bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
