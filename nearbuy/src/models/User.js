@@ -61,9 +61,22 @@ const UserSchema = new mongoose.Schema(
       index: true,
     },
 
-    emailVerified: {
+    // 🚀 Email Verification Fields (Resend Support)
+    isEmailVerified: {
       type: Boolean,
-      default: true,
+      default: false,
+    },
+
+    verificationToken: {
+      type: String,
+      default: null,
+      select: false,
+    },
+
+    verificationTokenExpiry: {
+      type: Date,
+      default: null,
+      select: false,
     },
 
     resetPasswordToken: {
@@ -93,6 +106,12 @@ const UserSchema = new mongoose.Schema(
       ref: "Vendor",
       default: null,
       index: true,
+    },
+
+    // 🚀 UploadThing Storage Quota Tracking (2GB per vendor allocation)
+    storageUsedBytes: {
+      type: Number,
+      default: 0,
     },
 
     // Account Status
@@ -142,6 +161,8 @@ UserSchema.set("toJSON", {
     delete ret.password;
     delete ret.resetPasswordToken;
     delete ret.resetPasswordExpires;
+    delete ret.verificationToken;
+    delete ret.verificationTokenExpiry;
     delete ret.__v;
     return ret;
   },
