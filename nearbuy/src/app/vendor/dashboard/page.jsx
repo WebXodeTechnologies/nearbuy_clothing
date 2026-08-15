@@ -26,6 +26,8 @@ import {
   CreditCard,
   Image as ImageIcon,
   Store,
+  HardDrive,
+  AlertTriangle,
 } from "lucide-react";
 
 export default function VendorDashboard() {
@@ -45,6 +47,13 @@ export default function VendorDashboard() {
   }, []);
 
   const vendorName = session?.user?.name || "Merchant Owner";
+
+  // Safe calculation for storage usage (defaults to 0 used of 2GB if stats are loading or missing)
+  const usedBytes = vendorStats?.storageUsedBytes || 0;
+  const limitBytes = vendorStats?.storageLimitBytes || 2 * 1024 * 1024 * 1024; // 2 GB default
+  const usedGB = (usedBytes / (1024 * 1024 * 1024)).toFixed(2);
+  const limitGB = (limitBytes / (1024 * 1024 * 1024)).toFixed(0);
+  const storagePercentage = Math.min(100, (usedBytes / limitBytes) * 100);
 
   const activities = [
     {
@@ -209,93 +218,136 @@ export default function VendorDashboard() {
         </div>
       </div>
 
-      {/* 2. Business Health & Metrics */}
+      {/* 2. Business Health, Storage & Metrics */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        {/* Score Card */}
-        <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-5 flex flex-col justify-between">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-base font-heading font-extrabold text-slate-900">Listing Completeness</h2>
-              <p className="text-xs text-slate-500 font-medium">Store visibility optimization rank</p>
-            </div>
-            <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200">
-              92% Score
-            </span>
-          </div>
+        {/* Left Column: Score Card & Cloud Storage Widget */}
+        <div className="space-y-6 flex flex-col justify-between">
 
-          <div className="flex items-center gap-5 py-2">
-            <div className="relative h-20 w-20 flex items-center justify-center shrink-0">
-              <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-                <path
-                  className="text-slate-100"
-                  strokeWidth="3.5"
-                  stroke="currentColor"
-                  fill="none"
-                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                />
-                <motion.path
-                  initial={{ strokeDasharray: "0, 100" }}
-                  animate={{ strokeDasharray: "92, 100" }}
-                  transition={{ duration: 1.2, ease: "easeOut" }}
-                  className="text-indigo-600"
-                  strokeWidth="3.5"
-                  strokeDasharray="92, 100"
-                  strokeLinecap="round"
-                  stroke="currentColor"
-                  fill="none"
-                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                />
-              </svg>
-              <div className="absolute text-center">
-                <span className="text-xl font-heading font-black text-slate-900">92%</span>
+          {/* Listing Completeness Score Card */}
+          <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-5">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-base font-heading font-extrabold text-slate-900">Listing Completeness</h2>
+                <p className="text-xs text-slate-500 font-medium">Store visibility optimization rank</p>
+              </div>
+              <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200">
+                92% Score
+              </span>
+            </div>
+
+            <div className="flex items-center gap-5 py-2">
+              <div className="relative h-20 w-20 flex items-center justify-center shrink-0">
+                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <path
+                    className="text-slate-100"
+                    strokeWidth="3.5"
+                    stroke="currentColor"
+                    fill="none"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <motion.path
+                    initial={{ strokeDasharray: "0, 100" }}
+                    animate={{ strokeDasharray: "92, 100" }}
+                    transition={{ duration: 1.2, ease: "easeOut" }}
+                    className="text-indigo-600"
+                    strokeWidth="3.5"
+                    strokeDasharray="92, 100"
+                    strokeLinecap="round"
+                    stroke="currentColor"
+                    fill="none"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                </svg>
+                <div className="absolute text-center">
+                  <span className="text-xl font-heading font-black text-slate-900">92%</span>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                  <span>Optimized for Namakkal</span>
+                </div>
+                <p className="text-xs text-slate-600 leading-snug">
+                  Your boutique ranks in the <span className="font-extrabold text-slate-900">Top 5% in Paramathi Road</span> for cotton outfit searches.
+                </p>
               </div>
             </div>
 
-            <div className="space-y-1">
-              <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                <span>Optimized for Namakkal</span>
+            {/* Checklist */}
+            <div className="space-y-2 border-t border-slate-100 pt-4 text-xs font-medium">
+              <div className="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">
+                Suggestions to Reach 100%
               </div>
-              <p className="text-xs text-slate-600 leading-snug">
-                Your boutique ranks in the <span className="font-extrabold text-slate-900">Top 5% in Paramathi Road</span> for cotton outfit searches.
-              </p>
+              <div className="flex items-center justify-between text-slate-700">
+                <span className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <span>Store Profile & GPS Location</span>
+                </span>
+                <span className="text-[10px] text-emerald-600 font-bold">Done</span>
+              </div>
+              <div className="flex items-center justify-between text-slate-700">
+                <span className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <span>Festive Lookbook Uploaded</span>
+                </span>
+                <span className="text-[10px] text-emerald-600 font-bold">Done</span>
+              </div>
+              <div className="flex items-center justify-between text-slate-900 font-bold bg-amber-50/60 p-2 rounded-xl border border-amber-200/60">
+                <span className="flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                  <span>Upload 2 Store Gallery Photos</span>
+                </span>
+                <span className="text-[10px] text-amber-700 bg-amber-100 px-2 py-0.5 rounded-md font-extrabold">
+                  +4% Score
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Checklist */}
-          <div className="space-y-2 border-t border-slate-100 pt-4 text-xs font-medium">
-            <div className="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">
-              Suggestions to Reach 100%
+          {/* 👈 NEW: Cloud Storage Usage Widget */}
+          <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="h-9 w-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                  <HardDrive className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider">Cloud Storage</h3>
+                  <p className="text-[11px] text-slate-500 font-medium">UploadThing 100GB Server Pool</p>
+                </div>
+              </div>
+              <span className="text-xs font-black text-indigo-600 bg-indigo-50 px-3 py-1 rounded-xl">
+                {usedGB} GB / {limitGB} GB
+              </span>
             </div>
-            <div className="flex items-center justify-between text-slate-700">
-              <span className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>Store Profile & GPS Location</span>
-              </span>
-              <span className="text-[10px] text-emerald-600 font-bold">Done</span>
+
+            {/* Progress Bar */}
+            <div className="w-full bg-slate-100 h-3 rounded-full overflow-hidden p-0.5">
+              <div
+                className={`h-full rounded-full transition-all duration-500 ${storagePercentage >= 90 ? "bg-rose-500" : "bg-indigo-600"
+                  }`}
+                style={{ width: `${Math.max(storagePercentage, 3)}%` }}
+              />
             </div>
-            <div className="flex items-center justify-between text-slate-700">
-              <span className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>Festive Lookbook Uploaded</span>
-              </span>
-              <span className="text-[10px] text-emerald-600 font-bold">Done</span>
-            </div>
-            <div className="flex items-center justify-between text-slate-900 font-bold bg-amber-50/60 p-2 rounded-xl border border-amber-200/60">
-              <span className="flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
-                <span>Upload 2 Store Gallery Photos</span>
-              </span>
-              <span className="text-[10px] text-amber-700 bg-amber-100 px-2 py-0.5 rounded-md font-extrabold">
-                +4% Score
-              </span>
+
+            <div className="flex items-center justify-between text-[11px] font-semibold">
+              <span className="text-slate-500">{storagePercentage.toFixed(1)}% Storage Used</span>
+              {storagePercentage >= 90 ? (
+                <span className="text-rose-600 font-bold flex items-center gap-1">
+                  <AlertTriangle className="w-3.5 h-3.5" /> Almost full!
+                </span>
+              ) : (
+                <span className="text-emerald-600">Free Tier (2GB Allocated)</span>
+              )}
             </div>
           </div>
+
         </div>
 
-        {/* 8 Metric Cards Grid */}
-        <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Right Column: 8 Metric Cards Grid */}
+        <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-4 content-start">
           {stats.map((s, idx) => {
             const IconComp = s.icon;
             return (
@@ -354,6 +406,7 @@ export default function VendorDashboard() {
                 src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80"
                 alt="Cotton Festive Shirts"
                 fill
+                sizes="(max-width: 640px) 100vw, 144px"
                 className="object-cover"
               />
               <span className="absolute top-2 left-2 bg-indigo-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full shadow-xs">

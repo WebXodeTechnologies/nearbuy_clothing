@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import useUserStore from "@/store/userStore";
 import { useSession, signOut } from "next-auth/react";
@@ -17,8 +17,10 @@ import {
   AlertTriangle,
   Building,
   RefreshCw,
+  Upload,
 } from "lucide-react";
 import Image from "next/image";
+import { useUploadThing } from "@/utils/uploadthing";
 
 export default function VendorUserProfile() {
   const { data: session, update: updateSession } = useSession();
@@ -35,15 +37,58 @@ export default function VendorUserProfile() {
 
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  // Safely hydrate profile data ONCE on mount without triggering infinite resets
+  // 👈 Initialize UploadThing and pass the active user's email header for 2GB storage verification
+  const { startUpload } = useUploadThing("vendorAssetUploader", {
+    headers: {
+      "x-user-email": session?.user?.email || "",
+    },
+    onClientUploadComplete: (res) => {
+      setIsUploading(false);
+      if (res && res[0]) {
+        const uploadedUrl = res[0].url || res[0].ufsUrl;
+        setFormData((prev) => ({ ...prev, image: uploadedUrl }));
+        toast.success("Profile picture uploaded to cloud server!");
+      }
+    },
+    onUploadError: (err) => {
+      setIsUploading(false);
+      toast.error(err?.message || "Storage limit of 2GB reached or upload failed.");
+    },
+  });
+
+  // Handle local file selection from PC
+  const handleFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!session?.user?.email) {
+      toast.error("Session email missing. Please re-login.");
+      return;
+    }
+
+    setIsUploading(true);
+    const toastId = toast.loading("Uploading image to UploadThing server...");
+
+    try {
+      await startUpload([file]);
+      toast.dismiss(toastId);
+    } catch (err) {
+      toast.dismiss(toastId);
+      setIsUploading(false);
+      toast.error(err.message || "Failed to upload file");
+    }
+  };
+
+  // Safely hydrate profile data ONCE on mount
   useEffect(() => {
     let isMounted = true;
 
     async function loadData() {
-      if (isDataLoaded) return; // Prevent overwriting user's active edits
+      if (isDataLoaded) return;
 
       const data = await fetchProfile();
       if (!isMounted) return;
@@ -78,7 +123,6 @@ export default function VendorUserProfile() {
     };
   }, [fetchProfile, session, isDataLoaded]);
 
-  // Handle Input Changes cleanly
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -87,13 +131,12 @@ export default function VendorUserProfile() {
     }));
   };
 
-  // Update Profile CRUD Handler
+  // Update Profile & Sync with DB and NextAuth Session
   const handleSaveProfile = async (e) => {
     if (e) e.preventDefault();
     setIsSaving(true);
 
     try {
-      // Map keys cleanly for both User model (profileImage) and Vendor model (phone)
       const updatedData = {
         name: formData.name,
         phone: formData.phone,
@@ -103,10 +146,10 @@ export default function VendorUserProfile() {
         bio: formData.bio,
       };
 
-      // 1. Call Zustand API Service
+      // 1. Save changes to MongoDB via Zustand store API
       const result = await updateProfile(updatedData);
 
-      // 2. Refresh NextAuth Client Session Header
+      // 2. Refresh NextAuth session so public home/store pages reflect the new image instantly
       if (updateSession) {
         await updateSession({
           ...session,
@@ -118,7 +161,6 @@ export default function VendorUserProfile() {
         });
       }
 
-      // 3. Keep local state aligned with updated response
       if (result) {
         setFormData((prev) => ({
           ...prev,
@@ -130,7 +172,7 @@ export default function VendorUserProfile() {
         }));
       }
 
-      toast.success("profile updated successfully!");
+      toast.success("Profile details & avatar updated successfully!");
     } catch (err) {
       toast.error(err?.message || "Failed to update profile details.");
     } finally {
@@ -138,7 +180,6 @@ export default function VendorUserProfile() {
     }
   };
 
-  // Delete Account Handler
   const handleDeleteAccount = async () => {
     setIsDeleting(true);
     try {
@@ -162,8 +203,8 @@ export default function VendorUserProfile() {
         <button
           type="button"
           onClick={handleSaveProfile}
-          disabled={loading || isSaving}
-          className="px-6 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/20 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+          disabled={loading || isSaving || isUploading}
+          className="px-6 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/25 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
         >
           {loading || isSaving ? (
             <RefreshCw className="w-4 h-4 animate-spin" />
@@ -183,9 +224,9 @@ export default function VendorUserProfile() {
                 <Image
                   src={formData.image}
                   alt={formData.name}
-                  width={96}
-                  height={96}
-                  className="w-full h-full object-cover rounded-[20px]"
+                  fill
+                  sizes="96px"
+                  className="object-cover rounded-[20px]"
                 />
               ) : (
                 <div className="w-full h-full bg-slate-900 text-white font-black text-2xl flex items-center justify-center rounded-[20px]">
@@ -193,16 +234,24 @@ export default function VendorUserProfile() {
                 </div>
               )}
             </div>
-            <button
-              type="button"
-              onClick={() => {
-                const url = prompt("Enter Avatar Image URL:", formData.image);
-                if (url !== null) setFormData((prev) => ({ ...prev, image: url }));
-              }}
-              className="absolute inset-0 bg-slate-950/50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1 cursor-pointer"
-            >
-              <Camera className="w-4 h-4" /> Edit
-            </button>
+
+            {/* Hidden file input triggered by camera overlay click */}
+            <label className="absolute inset-0 bg-slate-950/60 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-[11px] font-bold gap-1 cursor-pointer">
+              {isUploading ? (
+                <RefreshCw className="w-4 h-4 animate-spin" />
+              ) : (
+                <>
+                  <Camera className="w-4 h-4" /> Change DP
+                </>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileChange}
+                disabled={isUploading}
+              />
+            </label>
           </div>
 
           <div className="space-y-1">
@@ -303,18 +352,29 @@ export default function VendorUserProfile() {
                 </div>
               </div>
 
+              {/* PC Upload via UploadThing */}
               <div>
                 <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
-                  Avatar Picture URL
+                  Profile Display Picture (PC Upload & Cloud Storage)
                 </label>
-                <input
-                  type="text"
-                  name="image"
-                  value={formData.image}
-                  onChange={handleChange}
-                  placeholder="https://cloudinary.com/..."
-                  className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600 font-mono"
-                />
+                <div className="flex items-center gap-4">
+                  <label className="flex-1 flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-slate-200 hover:border-indigo-600 bg-slate-50 rounded-2xl cursor-pointer transition-all text-xs font-bold text-slate-700">
+                    <Upload className="w-4 h-4 text-indigo-600" />
+                    <span>{isUploading ? "Uploading to UploadThing..." : "Choose image from PC"}</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleFileChange}
+                      disabled={isUploading}
+                    />
+                  </label>
+                  {formData.image && (
+                    <span className="text-[11px] font-semibold text-emerald-600 flex items-center gap-1 shrink-0">
+                      <CheckCircle2 className="w-3.5 h-3.5" /> Synced to Server
+                    </span>
+                  )}
+                </div>
               </div>
 
               <div>
@@ -334,7 +394,7 @@ export default function VendorUserProfile() {
             <div className="pt-2 flex justify-end">
               <button
                 type="submit"
-                disabled={loading || isSaving}
+                disabled={loading || isSaving || isUploading}
                 className="px-6 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-md transition-all cursor-pointer flex items-center gap-2 disabled:opacity-50"
               >
                 {isSaving ? (

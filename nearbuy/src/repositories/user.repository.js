@@ -29,6 +29,10 @@ class UserRepository {
     return await User.findByIdAndUpdate(id, updateData, { new: true });
   }
 
+  async updateById(id, updateData) {
+    return await this.updateProfile(id, updateData);
+  }
+
   async updateResetToken(id, token, expires) {
     return await User.findByIdAndUpdate(id, {
       resetPasswordToken: token,

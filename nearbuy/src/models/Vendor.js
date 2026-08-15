@@ -9,7 +9,6 @@ const VendorSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: [true, "Owner ID is required"],
-      index: true,
     },
 
     // ==========================================
@@ -32,7 +31,6 @@ const VendorSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
-      index: true,
     },
 
     businessType: {
@@ -133,6 +131,24 @@ const VendorSchema = new mongoose.Schema(
     },
 
     // ==========================================
+    // Cloud Storage Tracking (UploadThing 2GB Limit)
+    // ==========================================
+    storageUsedBytes: {
+      type: Number,
+      default: 0,
+    },
+
+    storageLimitBytes: {
+      type: Number,
+      default: 2 * 1024 * 1024 * 1024, // 2 GB default limit in bytes
+    },
+
+    storagePlan: {
+      type: String,
+      default: "Free Tier (2GB)",
+    },
+
+    // ==========================================
     // Operating Schedule & Amenities
     // ==========================================
     openingTime: { type: String, default: "09:30 AM" },
@@ -186,14 +202,12 @@ const VendorSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Plan",
       default: null,
-      index: true,
     },
 
     subscriptionId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Subscription",
       default: null,
-      index: true,
     },
 
     // ==========================================
@@ -202,8 +216,7 @@ const VendorSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["Pending", "Approved", "Rejected", "Suspended"],
-      default: "Pending", // 🚨 FIXED: Default to Pending for admin queue
-      index: true,
+      default: "Pending",
     },
 
     isVerified: {
@@ -213,7 +226,7 @@ const VendorSchema = new mongoose.Schema(
 
     verifiedAt: {
       type: Date,
-      default: () => Date.now(), // 🚨 FIXED: Function reference for dynamic timestamp
+      default: () => Date.now(),
     },
 
     approvedBy: {
@@ -272,14 +285,12 @@ const VendorSchema = new mongoose.Schema(
 // Pre-Validate Hook for Auto Slug Creation
 // ==========================================
 VendorSchema.pre("validate", function () {
-  // Sync storeName & businessName if either is provided
   if (this.businessName && !this.storeName) {
     this.storeName = this.businessName;
   } else if (this.storeName && !this.businessName) {
     this.businessName = this.storeName;
   }
 
-  // Generate slug ONLY if businessSlug is empty
   if (!this.businessSlug || this.businessSlug.trim() === "") {
     const baseName = this.businessName || "boutique-vendor";
     this.businessSlug =
@@ -295,12 +306,13 @@ VendorSchema.pre("validate", function () {
 });
 
 // ==========================================
-// Indexes
+// Clean Indexes (Defined Once)
 // ==========================================
 VendorSchema.index({ ownerId: 1 });
 VendorSchema.index({ businessSlug: 1 });
 VendorSchema.index({ status: 1 });
 VendorSchema.index({ planId: 1 });
+VendorSchema.index({ subscriptionId: 1 });
 
 // ==========================================
 // Hide Internal Fields

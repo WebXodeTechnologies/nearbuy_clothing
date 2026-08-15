@@ -5,6 +5,7 @@ import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import { toast } from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 import useStoreStore from "@/store/storeStore";
+import { useUploadThing } from "@/utils/uploadthing"; // 👈 Import UploadThing client helper
 import {
   Store,
   MapPin,
@@ -39,6 +40,8 @@ export default function VendorStore() {
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [isUploadingLogo, setIsUploadingLogo] = useState(false);
+  const [isUploadingCover, setIsUploadingCover] = useState(false);
   const [storeId, setStoreId] = useState(null);
 
   // Hidden File Input Refs
@@ -72,6 +75,44 @@ export default function VendorStore() {
     status: "Active",
     logo: "",
     coverImage: "",
+  });
+
+  // 👈 Initialize UploadThing for Logo Upload
+  const { startUpload: startLogoUpload } = useUploadThing("vendorAssetUploader", {
+    headers: {
+      "x-user-email": user?.email || "",
+    },
+    onClientUploadComplete: (res) => {
+      setIsUploadingLogo(false);
+      if (res && res[0]) {
+        const uploadedUrl = res[0].url || res[0].fileUrl;
+        setFormData((prev) => ({ ...prev, logo: uploadedUrl }));
+        toast.success("Store logo uploaded to cloud storage!");
+      }
+    },
+    onUploadError: (err) => {
+      setIsUploadingLogo(false);
+      toast.error(err?.message || "Storage limit of 2GB reached or upload failed.");
+    },
+  });
+
+  // 👈 Initialize UploadThing for Cover Banner Upload
+  const { startUpload: startCoverUpload } = useUploadThing("vendorAssetUploader", {
+    headers: {
+      "x-user-email": user?.email || "",
+    },
+    onClientUploadComplete: (res) => {
+      setIsUploadingCover(false);
+      if (res && res[0]) {
+        const uploadedUrl = res[0].url || res[0].fileUrl;
+        setFormData((prev) => ({ ...prev, coverImage: uploadedUrl }));
+        toast.success("Cover banner uploaded to cloud storage!");
+      }
+    },
+    onUploadError: (err) => {
+      setIsUploadingCover(false);
+      toast.error(err?.message || "Storage limit of 2GB reached or upload failed.");
+    },
   });
 
   // Helper to parse 12hr/24hr times to 24hr format for <input type="time">
@@ -112,7 +153,6 @@ export default function VendorStore() {
           const store = json.data;
           setStoreId(store._id);
 
-          // Full DB field fallback mapping
           setFormData({
             businessName: store.businessName || store.storeName || "",
             description: store.description || store.tagline || store.bio || "",
@@ -197,31 +237,39 @@ export default function VendorStore() {
     }
   };
 
-  const handleFileUpload = (e, field) => {
+  // Handle UploadThing PC file selection for Logo or Cover
+  const handleFileUpload = async (e, field) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith("image/")) {
-      toast.error("Please upload a valid image file (PNG, JPG, WEBP)");
+    if (!user?.email) {
+      toast.error("User session email missing. Please re-login.");
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Image file size should be less than 5MB");
-      return;
+    if (field === "logo") {
+      setIsUploadingLogo(true);
+      const toastId = toast.loading("Uploading logo to UploadThing server...");
+      try {
+        await startLogoUpload([file]);
+        toast.dismiss(toastId);
+      } catch (err) {
+        toast.dismiss(toastId);
+        setIsUploadingLogo(false);
+        toast.error(err.message || "Failed to upload logo");
+      }
+    } else {
+      setIsUploadingCover(true);
+      const toastId = toast.loading("Uploading banner to UploadThing server...");
+      try {
+        await startCoverUpload([file]);
+        toast.dismiss(toastId);
+      } catch (err) {
+        toast.dismiss(toastId);
+        setIsUploadingCover(false);
+        toast.error(err.message || "Failed to upload banner");
+      }
     }
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setFormData((prev) => ({
-        ...prev,
-        [field]: reader.result,
-      }));
-      toast.success(
-        `${field === "logo" ? "Store Logo" : "Cover Banner"} loaded!`
-      );
-    };
-    reader.readAsDataURL(file);
   };
 
   // 2. Save Handler
@@ -306,7 +354,7 @@ export default function VendorStore() {
         <button
           type="button"
           onClick={handleSave}
-          disabled={saving}
+          disabled={saving || isUploadingLogo || isUploadingCover}
           className="px-6 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/20 transition-all cursor-pointer flex items-center gap-2 disabled:opacity-50"
         >
           {saving ? (
@@ -326,12 +374,12 @@ export default function VendorStore() {
               src={formData.coverImage}
               alt="Store Cover"
               fill
-              className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
+              className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
             <div className="w-full h-full bg-linear-to-r from-slate-900 to-indigo-950 flex items-center justify-center text-slate-400 text-xs font-bold flex-col gap-2">
               <ImageIcon className="w-8 h-8 text-slate-500" />
-              <span>No Cover Banner Selected. Click button to upload from PC.</span>
+              <span>No Cover Banner Selected. Click to upload from PC.</span>
             </div>
           )}
           <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-transparent to-transparent" />
@@ -339,13 +387,20 @@ export default function VendorStore() {
           <button
             type="button"
             onClick={() => coverInputRef.current?.click()}
-            className="absolute top-4 right-4 bg-slate-950/70 hover:bg-slate-950/90 text-white rounded-2xl px-4 py-2 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer border border-white/20 backdrop-blur-md shadow-md"
+            disabled={isUploadingCover}
+            className="absolute top-4 right-4 bg-slate-950/70 hover:bg-slate-950/90 text-white rounded-2xl px-4 py-2 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer border border-white/20 backdrop-blur-md shadow-md disabled:opacity-50"
           >
-            <Upload className="w-4 h-4 text-indigo-400" />
+            {isUploadingCover ? (
+              <RefreshCw className="w-4 h-4 animate-spin text-indigo-400" />
+            ) : (
+              <Upload className="w-4 h-4 text-indigo-400" />
+            )}
             <span>
-              {formData.coverImage
-                ? "Change Cover Banner"
-                : "Upload Banner from PC"}
+              {isUploadingCover
+                ? "Uploading..."
+                : formData.coverImage
+                  ? "Change Cover Banner"
+                  : "Upload Banner from PC"}
             </span>
           </button>
         </div>
@@ -368,10 +423,17 @@ export default function VendorStore() {
               <button
                 type="button"
                 onClick={() => logoInputRef.current?.click()}
+                disabled={isUploadingLogo}
                 className="absolute inset-0 bg-slate-950/60 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-bold gap-1 cursor-pointer flex-col"
               >
-                <Camera className="w-4 h-4 text-indigo-300" />
-                <span>Upload Logo</span>
+                {isUploadingLogo ? (
+                  <RefreshCw className="w-4 h-4 animate-spin text-indigo-300" />
+                ) : (
+                  <>
+                    <Camera className="w-4 h-4 text-indigo-300" />
+                    <span>Upload Logo</span>
+                  </>
+                )}
               </button>
             </div>
             <div className="space-y-1">
@@ -407,8 +469,8 @@ export default function VendorStore() {
                 })
               }
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${formData.status === "Active"
-                ? "bg-emerald-600 text-white shadow-xs"
-                : "bg-amber-500 text-white shadow-xs"
+                  ? "bg-emerald-600 text-white shadow-xs"
+                  : "bg-amber-500 text-white shadow-xs"
                 }`}
             >
               {formData.status === "Active" ? "🟢 Live on Nearbuy" : "⏸️ Paused"}
@@ -718,8 +780,8 @@ export default function VendorStore() {
                       key={day}
                       onClick={() => toggleDay(day)}
                       className={`py-3 px-2 rounded-2xl text-xs font-bold transition-all cursor-pointer flex flex-col items-center gap-1 border ${isSelected
-                        ? "bg-indigo-600 text-white border-indigo-600 shadow-sm"
-                        : "bg-slate-50 text-slate-400 border-slate-200 hover:bg-slate-100"
+                          ? "bg-indigo-600 text-white border-indigo-600 shadow-sm"
+                          : "bg-slate-50 text-slate-400 border-slate-200 hover:bg-slate-100"
                         }`}
                     >
                       <span className="text-[10px] font-black uppercase tracking-wider opacity-80">
@@ -755,8 +817,8 @@ export default function VendorStore() {
                     key={fac}
                     onClick={() => toggleFacility(fac)}
                     className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border ${isSelected
-                      ? "bg-indigo-600 text-white border-indigo-600 shadow-xs"
-                      : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
+                        ? "bg-indigo-600 text-white border-indigo-600 shadow-xs"
+                        : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
                       }`}
                   >
                     {isSelected && (

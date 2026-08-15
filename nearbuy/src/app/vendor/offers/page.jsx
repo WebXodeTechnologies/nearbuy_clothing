@@ -6,6 +6,7 @@ import Modal from "@/components/ui/Modal";
 import { toast } from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 import useOfferStore from "@/store/offerStore";
+import { useUploadThing } from "@/utils/uploadthing"; // 👈 Import UploadThing client helper
 import {
   Tag,
   Plus,
@@ -29,6 +30,7 @@ export default function VendorOffers() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingOffer, setEditingOffer] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [isUploading, setIsUploading] = useState(false); // 👈 Upload tracking state
 
   // File Upload Ref
   const bannerInputRef = useRef(null);
@@ -44,6 +46,25 @@ export default function VendorOffers() {
   const [banner, setBanner] = useState("");
   const [status, setStatus] = useState("Active");
 
+  // 👈 Initialize UploadThing for campaign banner uploads with 2GB server limit validation
+  const { startUpload } = useUploadThing("vendorAssetUploader", {
+    headers: {
+      "x-user-email": user?.email || "",
+    },
+    onClientUploadComplete: (res) => {
+      setIsUploading(false);
+      if (res && res[0]) {
+        const uploadedUrl = res[0].url || res[0].fileUrl;
+        setBanner(uploadedUrl);
+        toast.success("Offer banner uploaded to cloud server!");
+      }
+    },
+    onUploadError: (err) => {
+      setIsUploading(false);
+      toast.error(err?.message || "Storage limit of 2GB reached or upload failed.");
+    },
+  });
+
   useEffect(() => {
     if (user?.vendorId) {
       fetchOffers(user.vendorId);
@@ -57,7 +78,6 @@ export default function VendorOffers() {
     setDiscountValue(20);
     setMinPurchase("");
 
-    // Default valid until date: 30 days from now
     const defaultDate = new Date();
     defaultDate.setDate(defaultDate.getDate() + 30);
     setValidUntil(defaultDate.toISOString().split("T")[0]);
@@ -91,26 +111,27 @@ export default function VendorOffers() {
     setIsModalOpen(true);
   };
 
-  const handleBannerUpload = (e) => {
+  // 👈 Handle PC File Upload via UploadThing Server
+  const handleBannerUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith("image/")) {
-      toast.error("Please select a valid image file (JPG, PNG, WEBP)");
+    if (!user?.email) {
+      toast.error("User session email missing. Please re-login.");
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Banner photo size should be under 5MB");
-      return;
-    }
+    setIsUploading(true);
+    const toastId = toast.loading("Uploading banner to UploadThing server...");
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setBanner(reader.result);
-      toast.success("Offer banner loaded cleanly!");
-    };
-    reader.readAsDataURL(file);
+    try {
+      await startUpload([file]);
+      toast.dismiss(toastId);
+    } catch (err) {
+      toast.dismiss(toastId);
+      setIsUploading(false);
+      toast.error(err.message || "Failed to upload file");
+    }
   };
 
   const handleDelete = (id) => {
@@ -292,8 +313,8 @@ export default function VendorOffers() {
                     src={bannerImg}
                     alt={off.title}
                     fill
-                    unoptimized={bannerImg.startsWith("data:")}
-                    className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
 
@@ -393,10 +414,10 @@ export default function VendorOffers() {
           {/* Banner Photo Upload */}
           <div>
             <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
-              Campaign Banner Photo (Optional)
+              Campaign Banner Photo (UploadThing Cloud)
             </label>
             <div
-              onClick={() => bannerInputRef.current?.click()}
+              onClick={() => !isUploading && bannerInputRef.current?.click()}
               className="h-36 rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 hover:bg-slate-100 transition-all flex flex-col items-center justify-center cursor-pointer relative overflow-hidden group"
             >
               {banner ? (
@@ -405,20 +426,33 @@ export default function VendorOffers() {
                     src={banner}
                     alt="Banner Preview"
                     fill
-                    unoptimized={banner.startsWith("data:")}
+                    sizes="400px"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-slate-950/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5">
-                    <Camera className="w-4 h-4" /> Change Banner
+                    {isUploading ? (
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <>
+                        <Camera className="w-4 h-4" /> Change Banner
+                      </>
+                    )}
                   </div>
                 </>
               ) : (
                 <div className="flex flex-col items-center gap-1.5 text-slate-400 p-4 text-center">
                   <div className="p-2.5 rounded-full bg-indigo-50 text-indigo-600">
-                    <Camera className="w-5 h-5" />
+                    {isUploading ? (
+                      <RefreshCw className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <Camera className="w-5 h-5" />
+                    )}
                   </div>
                   <span className="text-xs font-bold text-slate-700">
-                    Click to choose banner image from Mobile/PC
+                    {isUploading ? "Uploading to UploadThing server..." : "Click to choose banner image from PC"}
+                  </span>
+                  <span className="text-[10px] text-slate-400">
+                    Saved to 2GB Cloud Storage Pool
                   </span>
                 </div>
               )}
@@ -570,7 +604,7 @@ export default function VendorOffers() {
 
             <button
               type="submit"
-              disabled={submitting}
+              disabled={submitting || isUploading}
               className="px-6 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black shadow-md cursor-pointer flex items-center gap-2 disabled:opacity-50"
             >
               {submitting ? (

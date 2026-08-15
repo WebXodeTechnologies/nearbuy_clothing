@@ -1,24 +1,17 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import CollectionCard from "@/components/cards/CollectionCard";
 import OfferCard from "@/components/cards/OfferCard";
-import StoreCard from "@/components/cards/StoreCard";
 import Badge from "@/components/ui/Badge";
 import Breadcrumb from "@/components/navigation/Breadcrumb";
-import Modal from "@/components/ui/Modal";
 import Image from "next/image";
 
 const contentVariants = {
   hidden: { opacity: 0, y: 15 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring", stiffness: 100, damping: 15 },
-  },
+  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 15 } },
 };
 
 const gridContainerVariants = {
@@ -28,11 +21,7 @@ const gridContainerVariants = {
 
 const gridItemVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring", stiffness: 85, damping: 14 },
-  },
+  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 85, damping: 14 } },
 };
 
 export default function StoreDetailsPage({ params }) {
@@ -40,15 +29,11 @@ export default function StoreDetailsPage({ params }) {
   const slug = resolvedParams?.slug;
 
   const [store, setStore] = useState(null);
-  const [relatedStores, setRelatedStores] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [activeTab, setActiveTab] = useState("collections");
   const [selectedGalleryImage, setSelectedGalleryImage] = useState(null);
 
   const headerRef = useRef(null);
-  const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });
-  const [isHoveringHeader, setIsHoveringHeader] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
@@ -73,25 +58,16 @@ export default function StoreDetailsPage({ params }) {
         const storeId = storeDoc._id;
         const city = storeDoc.city || "";
 
-        console.log("🔍 [FRONTEND] Store Doc Loaded:", storeDoc);
-        console.log("🔍 [FRONTEND] Extracted vendorId:", vendorId);
-        console.log("🔍 [FRONTEND] Extracted storeId:", storeId);
-
-        const [collectionsRes, offersRes, relatedRes] = await Promise.all([
+        const [collectionsRes, offersRes] = await Promise.all([
           fetch(`/api/vendors/collections?vendorId=${vendorId}&storeId=${storeId}`),
           fetch(`/api/offers?vendorId=${vendorId}`),
-          fetch(`/api/stores?city=${encodeURIComponent(city)}`),
         ]);
 
         const collectionsData = await collectionsRes.json().catch(() => ({}));
-        console.log("📦 [FRONTEND] Collections API Response:", collectionsData);
-
         const offersData = await offersRes.json().catch(() => ({}));
-        const relatedData = await relatedRes.json().catch(() => ({}));
 
         const rawCollections = collectionsData?.data?.collections || collectionsData?.collections || [];
         const rawOffers = offersData?.data?.offers || offersData?.offers || [];
-        const rawRelated = relatedData?.data?.stores || relatedData?.stores || [];
 
         const mappedStore = {
           id: storeDoc._id,
@@ -111,7 +87,6 @@ export default function StoreDetailsPage({ params }) {
           hours: storeDoc.openingTime && storeDoc.closingTime
             ? `${storeDoc.openingTime} - ${storeDoc.closingTime}`
             : "09:30 AM - 09:00 PM",
-          mapEmbedUrl: storeDoc.location?.googleMapUrl || storeDoc.googleMapUrl || "",
           gallery: Array.isArray(storeDoc.gallery) ? storeDoc.gallery : [],
           categories: storeDoc.categoryIds?.map(c => c.name) || ["Boutique"],
           collections: rawCollections.map(c => ({
@@ -119,6 +94,7 @@ export default function StoreDetailsPage({ params }) {
             title: c.title,
             description: c.description || "",
             image: c.images?.[0] || c.coverImage || "",
+            price: c.price || 0,
           })),
           offers: rawOffers.map(o => ({
             id: o._id,
@@ -130,23 +106,7 @@ export default function StoreDetailsPage({ params }) {
           })),
         };
 
-        const mappedRelated = rawRelated
-          .filter(s => s._id !== storeDoc._id)
-          .map(s => ({
-            id: s._id,
-            name: s.storeName,
-            slug: s.storeSlug || s.vendorId?.businessSlug || "",
-            logo: s.logo || s.vendorId?.logo || "",
-            banner: s.coverImage || s.vendorId?.coverImage || "",
-            rating: 4.8,
-            reviewsCount: 12,
-            location: `${s.address || ""}, ${s.city || ""}`.replace(/^,\s*/, ""),
-            categories: s.categoryIds?.map(c => c.name) || ["Boutique"],
-          }))
-          .slice(0, 3);
-
         setStore(mappedStore);
-        setRelatedStores(mappedRelated);
       } catch (err) {
         console.error("Failed to load store details:", err);
       } finally {
@@ -157,22 +117,10 @@ export default function StoreDetailsPage({ params }) {
     loadStoreData();
   }, [slug]);
 
-  const handleHeaderMouseMove = (e) => {
-    if (!headerRef.current) return;
-    const rect = headerRef.current.getBoundingClientRect();
-    setHoverPos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-
   if (loading) {
     return (
       <div className="flex-1 flex items-center justify-center min-h-screen bg-slate-50/50">
-        <div className="relative flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600" />
-          <div className="absolute h-6 w-6 rounded-full bg-purple-50 animate-pulse" />
-        </div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600" />
       </div>
     );
   }
@@ -200,42 +148,32 @@ export default function StoreDetailsPage({ params }) {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 md:-mt-24 relative z-10 space-y-8">
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white/85 backdrop-blur-md px-4.5 py-2.5 rounded-2xl border border-slate-100/60 inline-block shadow-xs"
-        >
+        <div className="bg-white/85 backdrop-blur-md px-4.5 py-2.5 rounded-2xl border border-slate-100/60 inline-block shadow-xs">
           <Breadcrumb
             items={[
               { label: "Stores", href: "/stores" },
               { label: store.name, href: `/stores/${store.slug}` },
             ]}
           />
-        </motion.div>
+        </div>
 
         {/* Store Header Block */}
         <motion.div
           ref={headerRef}
-          onMouseMove={handleHeaderMouseMove}
-          onMouseEnter={() => setIsHoveringHeader(true)}
-          onMouseLeave={() => setIsHoveringHeader(false)}
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white/95 backdrop-blur-md border border-slate-200/80 p-6 md:p-8 rounded-3xl shadow-xl shadow-slate-100/40 flex flex-col md:flex-row gap-6 justify-between items-start md:items-center relative overflow-hidden"
+          className="bg-white/95 backdrop-blur-md border border-slate-200/80 p-6 md:p-8 rounded-3xl shadow-xl flex flex-col md:flex-row gap-6 justify-between items-start md:items-center relative overflow-hidden"
         >
           <div className="flex gap-4 sm:gap-6 items-center relative z-10">
-            <motion.div
-              whileHover={{ scale: 1.03 }}
-              className="h-20 w-20 md:h-24 md:w-24 border border-slate-200 bg-white rounded-2xl shadow-md overflow-hidden shrink-0 ring-4 ring-white relative"
-            >
+            <div className="h-20 w-20 md:h-24 md:w-24 border border-slate-200 bg-white rounded-2xl shadow-md overflow-hidden shrink-0 ring-4 ring-white relative">
               <Image
                 src={store.logo || "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=200&auto=format&fit=crop&q=80"}
                 alt={`${store.name} Logo`}
                 fill
                 className="object-cover"
               />
-            </motion.div>
+            </div>
             <div className="space-y-1.5">
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-heading">
@@ -268,7 +206,7 @@ export default function StoreDetailsPage({ params }) {
           </div>
         </motion.div>
 
-        {/* Tabbed Content: Collections mapped strictly to this vendor */}
+        {/* Tabbed Content */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-8 space-y-6">
             <div className="flex bg-slate-100/60 p-1.5 rounded-2xl border border-slate-200/50 relative z-10">

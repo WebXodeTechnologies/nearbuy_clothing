@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 import useCollectionStore from "@/store/collectionStore";
 import useCategoryStore from "@/store/categoryStore";
+import { useUploadThing } from "@/utils/uploadthing"; // 👈 Import UploadThing client helper
 import {
   Plus,
   Search,
@@ -37,6 +38,7 @@ export default function VendorCollections() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCollection, setEditingCollection] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [isUploading, setIsUploading] = useState(false); // 👈 Upload state tracking
 
   // Hidden File Input Ref
   const imageInputRef = useRef(null);
@@ -48,6 +50,25 @@ export default function VendorCollections() {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const [inStock, setInStock] = useState(true);
+
+  // 👈 Initialize UploadThing hook matching your backend router endpoint & passing user session header for 2GB enforcement
+  const { startUpload } = useUploadThing("vendorAssetUploader", {
+    headers: {
+      "x-user-email": user?.email || "",
+    },
+    onClientUploadComplete: (res) => {
+      setIsUploading(false);
+      if (res && res[0]) {
+        const uploadedUrl = res[0].url || res[0].fileUrl;
+        setImage(uploadedUrl);
+        toast.success("Photo uploaded to cloud server successfully!");
+      }
+    },
+    onUploadError: (err) => {
+      setIsUploading(false);
+      toast.error(err?.message || "Storage limit of 2GB reached or upload failed.");
+    },
+  });
 
   useEffect(() => {
     fetchCategories();
@@ -104,26 +125,27 @@ export default function VendorCollections() {
     setIsModalOpen(true);
   };
 
-  const handleImageUpload = (e) => {
+  // 👈 Handle PC File Upload via UploadThing Server
+  const handleImageUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith("image/")) {
-      toast.error("Please select a valid image file (JPG, PNG, WEBP)");
+    if (!user?.email) {
+      toast.error("User session email missing. Please re-login.");
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Photo size should be under 5MB");
-      return;
-    }
+    setIsUploading(true);
+    const toastId = toast.loading("Uploading photo to UploadThing server...");
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImage(reader.result);
-      toast.success("Photo loaded cleanly!");
-    };
-    reader.readAsDataURL(file);
+    try {
+      await startUpload([file]);
+      toast.dismiss(toastId);
+    } catch (err) {
+      toast.dismiss(toastId);
+      setIsUploading(false);
+      toast.error(err.message || "Failed to upload file");
+    }
   };
 
   const handleDelete = (id) => {
@@ -332,7 +354,7 @@ export default function VendorCollections() {
                     src={cardImg}
                     alt={coll.title || "Collection photo"}
                     fill
-                    unoptimized={cardImg.startsWith("data:")}
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
 
@@ -434,7 +456,7 @@ export default function VendorCollections() {
               Album / Outfit Photo
             </label>
             <div
-              onClick={() => imageInputRef.current?.click()}
+              onClick={() => !isUploading && imageInputRef.current?.click()}
               className="h-44 rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 hover:bg-slate-100 transition-all flex flex-col items-center justify-center cursor-pointer relative overflow-hidden group"
             >
               {image ? (
@@ -443,23 +465,33 @@ export default function VendorCollections() {
                     src={image}
                     alt="Preview"
                     fill
-                    unoptimized={image.startsWith("data:")}
+                    sizes="400px"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-slate-950/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5">
-                    <Camera className="w-4 h-4" /> Change Photo
+                    {isUploading ? (
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <>
+                        <Camera className="w-4 h-4" /> Change Photo
+                      </>
+                    )}
                   </div>
                 </>
               ) : (
                 <div className="flex flex-col items-center gap-2 text-slate-400 p-4 text-center">
                   <div className="p-3 rounded-full bg-indigo-50 text-indigo-600">
-                    <Camera className="w-6 h-6" />
+                    {isUploading ? (
+                      <RefreshCw className="w-6 h-6 animate-spin" />
+                    ) : (
+                      <Camera className="w-6 h-6" />
+                    )}
                   </div>
                   <span className="text-xs font-bold text-slate-700">
-                    Click here to choose photo from Mobile/PC
+                    {isUploading ? "Uploading to UploadThing Server..." : "Click here to choose photo from PC"}
                   </span>
                   <span className="text-[10px] text-slate-400">
-                    JPG, PNG or WEBP (Max 5MB)
+                    JPG, PNG or WEBP (Saved to 2GB Cloud Storage)
                   </span>
                 </div>
               )}
@@ -560,7 +592,7 @@ export default function VendorCollections() {
 
             <button
               type="submit"
-              disabled={submitting}
+              disabled={submitting || isUploading}
               className="px-6 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black shadow-md cursor-pointer flex items-center gap-2 disabled:opacity-50"
             >
               {submitting ? (

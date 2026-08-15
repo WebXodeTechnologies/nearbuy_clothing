@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 import useGalleryStore from "@/store/galleryStore";
+import { useUploadThing } from "@/utils/uploadthing"; // 👈 Import UploadThing client helper
 import {
   Image as ImageIcon,
   Folder,
@@ -29,6 +30,7 @@ export default function VendorGallery() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [isUploading, setIsUploading] = useState(false); // 👈 Upload tracking state
 
   // Upload Form State
   const [assetName, setAssetName] = useState("");
@@ -44,6 +46,25 @@ export default function VendorGallery() {
     "Offers",
     "Logo & Banners",
   ];
+
+  // 👈 Initialize UploadThing hook with 2GB storage middleware tracking
+  const { startUpload } = useUploadThing("vendorAssetUploader", {
+    headers: {
+      "x-user-email": user?.email || "",
+    },
+    onClientUploadComplete: (res) => {
+      setIsUploading(false);
+      if (res && res[0]) {
+        const uploadedUrl = res[0].url || res[0].fileUrl;
+        setImagePreview(uploadedUrl);
+        toast.success("Photo uploaded to cloud server!");
+      }
+    },
+    onUploadError: (err) => {
+      setIsUploading(false);
+      toast.error(err?.message || "Storage limit of 2GB reached or upload failed.");
+    },
+  });
 
   useEffect(() => {
     if (user?.vendorId) {
@@ -66,29 +87,30 @@ export default function VendorGallery() {
     setIsUploadOpen(true);
   };
 
-  const handleFileSelect = (e) => {
+  // 👈 Handle PC File Upload via UploadThing Server
+  const handleFileSelect = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith("image/")) {
-      toast.error("Please select a valid photo file (JPG, PNG, WEBP)");
+    if (!user?.email) {
+      toast.error("User session email missing. Please re-login.");
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Photo size should be under 5MB");
-      return;
-    }
+    setIsUploading(true);
+    const toastId = toast.loading("Uploading photo to UploadThing server...");
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImagePreview(reader.result);
+    try {
       if (!assetName) {
         setAssetName(file.name.split(".")[0].replace(/[-_]/g, " "));
       }
-      toast.success("Photo loaded cleanly!");
-    };
-    reader.readAsDataURL(file);
+      await startUpload([file]);
+      toast.dismiss(toastId);
+    } catch (err) {
+      toast.dismiss(toastId);
+      setIsUploading(false);
+      toast.error(err.message || "Failed to upload file");
+    }
   };
 
   const handleDelete = (id) => {
@@ -151,7 +173,7 @@ export default function VendorGallery() {
     }
 
     setSubmitting(true);
-    const toastId = toast.loading("Uploading photo to gallery...");
+    const toastId = toast.loading("Saving photo details to gallery...");
 
     try {
       await createAsset({
@@ -204,8 +226,8 @@ export default function VendorGallery() {
               key={f}
               onClick={() => setActiveFolder(f)}
               className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 border ${activeFolder === f
-                ? "bg-indigo-600 text-white border-indigo-600 shadow-xs"
-                : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
+                  ? "bg-indigo-600 text-white border-indigo-600 shadow-xs"
+                  : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
                 }`}
             >
               <Folder className="w-3.5 h-3.5" />
@@ -216,7 +238,7 @@ export default function VendorGallery() {
 
         <div className="flex items-center gap-2 text-xs font-bold text-teal-700 bg-teal-50 px-3.5 py-2 rounded-2xl border border-teal-100 shrink-0 w-full md:w-auto justify-center">
           <Zap className="w-4 h-4 text-teal-600" />
-          <span>WebP Auto-Compression Active</span>
+          <span>UploadThing Cloud Storage Active</span>
         </div>
       </div>
 
@@ -260,7 +282,7 @@ export default function VendorGallery() {
                     src={assetUrl}
                     alt={item.name || "Gallery Photo"}
                     fill
-                    unoptimized={assetUrl.startsWith("data:")}
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
 
@@ -299,12 +321,12 @@ export default function VendorGallery() {
                       {item.name}
                     </h4>
                     <span className="text-[10px] font-bold text-slate-400">
-                      Auto-Optimized
+                      Cloud Synced
                     </span>
                   </div>
 
                   <span className="text-[10px] font-black text-teal-700 bg-teal-50 px-2.5 py-1 rounded-xl border border-teal-200">
-                    ⚡ {item.compressed || "300 KB"}
+                    ⚡ UploadThing
                   </span>
                 </div>
               </div>
@@ -327,10 +349,10 @@ export default function VendorGallery() {
           {/* File Picker Box */}
           <div>
             <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
-              Select Image File
+              Select Image File (UploadThing Cloud)
             </label>
             <div
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() => !isUploading && fileInputRef.current?.click()}
               className="h-44 rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 hover:bg-slate-100 transition-all flex flex-col items-center justify-center cursor-pointer relative overflow-hidden group"
             >
               {imagePreview ? (
@@ -339,23 +361,33 @@ export default function VendorGallery() {
                     src={imagePreview}
                     alt="Preview"
                     fill
-                    unoptimized={imagePreview.startsWith("data:")}
+                    sizes="400px"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-slate-950/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5">
-                    <Camera className="w-4 h-4" /> Change Photo
+                    {isUploading ? (
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <>
+                        <Camera className="w-4 h-4" /> Change Photo
+                      </>
+                    )}
                   </div>
                 </>
               ) : (
                 <div className="flex flex-col items-center gap-2 text-slate-400 p-4 text-center">
                   <div className="p-3 rounded-full bg-indigo-50 text-indigo-600">
-                    <Camera className="w-6 h-6" />
+                    {isUploading ? (
+                      <RefreshCw className="w-6 h-6 animate-spin" />
+                    ) : (
+                      <Camera className="w-6 h-6" />
+                    )}
                   </div>
                   <span className="text-xs font-bold text-slate-700">
-                    Click here to pick photo from Mobile/PC
+                    {isUploading ? "Uploading to UploadThing server..." : "Click here to pick photo from PC"}
                   </span>
                   <span className="text-[10px] text-slate-400">
-                    JPG, PNG or WEBP (Max 5MB)
+                    Saved to 2GB Cloud Storage Pool
                   </span>
                 </div>
               )}
@@ -412,7 +444,7 @@ export default function VendorGallery() {
 
             <button
               type="submit"
-              disabled={submitting}
+              disabled={submitting || isUploading}
               className="px-6 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black shadow-md cursor-pointer flex items-center gap-2 disabled:opacity-50"
             >
               {submitting ? (
@@ -445,12 +477,12 @@ export default function VendorGallery() {
               <X className="w-6 h-6" />
             </button>
 
-            <div className="relative w-full max-w-4xl h-[80vh] rounded-3xl overflow-hidden shadow-2xl border border-white/20">
+            <div className="relative w-full max-w-4xl h-[80vh] rounded-3xl overflow-hidden shadow-2xl border border-white/25">
               <Image
                 src={selectedImage}
                 alt="Fullscreen Preview"
                 fill
-                unoptimized={selectedImage.startsWith("data:")}
+                sizes="(max-width: 1200px) 100vw, 1200px"
                 className="object-contain w-full h-full"
               />
             </div>

@@ -60,7 +60,6 @@ const useStoreStore = create((set) => ({
         queryStr = `?page=${params || 1}&limit=10`;
       }
 
-      // 🔍 Notice: Automatically switches between admin route or public route if needed
       const endpoint = params.all
         ? "/api/admin/stores"
         : `/api/stores${queryStr}`;
@@ -71,7 +70,6 @@ const useStoreStore = create((set) => ({
         throw new Error(data.message || "Failed to fetch stores directory");
       }
 
-      // Safe extraction for all backend pagination/response formats
       const storesList =
         data.data?.stores ||
         (Array.isArray(data.data) ? data.data : null) ||
@@ -142,6 +140,69 @@ const useStoreStore = create((set) => ({
         loading: false,
       }));
 
+      return true;
+    } catch (error) {
+      set({ loading: false, error: error.message });
+      throw error;
+    }
+  },
+
+  // 4. Fetch User Profile
+  fetchProfile: async () => {
+    set({ loading: true, error: null });
+    try {
+      const res = await fetch("/api/auth/profile");
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to fetch profile");
+      }
+
+      const profileData = data.data || data;
+      set({ profile: profileData, loading: false });
+      return profileData;
+    } catch (error) {
+      console.error("fetchProfile store error:", error);
+      set({ loading: false, error: error.message });
+      return null;
+    }
+  },
+
+  // 5. Update User Profile
+  updateProfile: async (updateData) => {
+    set({ loading: true, error: null });
+    try {
+      const res = await fetch("/api/auth/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updateData),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to update profile");
+      }
+
+      const updated = data.data || data;
+      set({ profile: updated, loading: false });
+      return updated;
+    } catch (error) {
+      set({ loading: false, error: error.message });
+      throw error;
+    }
+  },
+
+  // 6. Delete User Profile
+  deleteProfile: async () => {
+    set({ loading: true, error: null });
+    try {
+      const res = await fetch("/api/auth/profile", {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to delete profile");
+      }
+
+      set({ profile: null, loading: false });
       return true;
     } catch (error) {
       set({ loading: false, error: error.message });
