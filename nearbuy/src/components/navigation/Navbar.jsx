@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import logoImg from "@public/logos/nearbuy.png";
+import logoImg from "@public/logos/logo2.png";
 
 import { useAuth } from "@/context/AuthContext";
 
@@ -106,37 +106,28 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full bg-white/85 backdrop-blur-xl border-b border-gray-100 shadow-2xs transition-all duration-300">
+      <header className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-xl border-b border-gray-100 shadow-2xs transition-all duration-300">
         {/* Top micro gradient line */}
         <div className="h-0.5 w-full bg-linear-to-r from-blue-600 via-indigo-600 to-sky-500" />
 
-        <div className="w-full max-w-7xl 2xl:max-w-[1440px] 3xl:max-w-[1600px] 4xl:max-w-[2000px] 5xl:max-w-[2400px] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12">
-          <div className="flex justify-between h-16 sm:h-20 items-center gap-2 lg:gap-4 xl:gap-8">
+        <div className="w-full max-w-7xl 2xl:max-w-360 3xl:max-w-[1600px] 4xl:max-w-[2000px] 5xl:max-w-[2400px] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12">
+          <div className="flex justify-between items-center h-16 sm:h-20 gap-2 lg:gap- xl:gap-6">
 
-            {/* Logo Section */}
-            <div className="shrink-0 flex items-center">
+            {/* Logo Section - Larger, Borderless & Clean */}
+            <div className="shrink-0 flex items-center justify-center ">
               <Link
                 href="/"
-                className="flex items-center gap-2.5 sm:gap-3 group focus:outline-none rounded-2xl p-1 -m-1"
+                className="group focus:outline-none flex items-center"
+                aria-label="Nearbuy Clothing"
               >
-                <div className="relative h-9 w-9 sm:h-11 sm:w-11 2xl:h-12 2xl:w-12 rounded-2xl bg-linear-to-tr from-blue-50 via-white to-indigo-50 border border-blue-100/80 p-1 flex items-center justify-center shadow-xs group-hover:scale-105 group-hover:shadow-md group-hover:border-blue-300 transition-all duration-300 overflow-hidden shrink-0">
-                  <Image
-                    src={logoImg}
-                    alt="Nearbuy Clothing Logo"
-                    width={48}
-                    height={48}
-                    priority
-                    className="h-full w-full object-contain rounded-xl transform group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-heading font-extrabold text-gray-950 tracking-tight text-lg sm:text-xl xl:text-2xl 2xl:text-3xl group-hover:text-blue-600 transition-colors duration-200 leading-none">
-                    Nearbuy
-                  </span>
-                  <span className="text-[9px] xl:text-[10px] 2xl:text-xs font-extrabold tracking-widest text-blue-600/80 uppercase hidden xl:block mt-1">
-                    Hyperlocal Fashion
-                  </span>
-                </div>
+                <Image
+                  src={logoImg}
+                  alt="Nearbuy Clothing"
+                  width={612}
+                  height={408}
+                  priority
+                  className="h-8 sm:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                />
               </Link>
             </div>
 
@@ -254,25 +245,16 @@ export default function Navbar() {
             <Link
               href="/"
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 group"
+              className="group focus:outline-none flex items-center"
+              aria-label="Nearbuy Clothing"
             >
-              <div className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-2xl bg-white p-1 shadow-xs border border-blue-100 shrink-0">
-                <Image
-                  src={logoImg}
-                  alt="Nearbuy Logo"
-                  width={40}
-                  height={40}
-                  className="h-full w-full object-contain"
-                />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-heading font-extrabold text-sm sm:text-base text-gray-950 leading-tight">
-                  Nearbuy<span className="text-blue-600 ml-0.5">Clothing</span>
-                </span>
-                <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">
-                  Hyperlocal Market
-                </span>
-              </div>
+              <Image
+                src={logoImg}
+                alt="Nearbuy Clothing"
+                width={600}
+                height={400}
+                className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
+              />
             </Link>
 
             <button

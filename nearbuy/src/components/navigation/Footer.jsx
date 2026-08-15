@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import logoImg from "@public/logos/nearbuy.png";
+import logoImg from "@public/logos/logo2.png";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -51,54 +51,47 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative bg-gray-950 text-gray-200 text-sm mt-auto overflow-hidden border-t border-gray-800/80">
+    <footer className="relative bg-slate-950 text-blue-100 text-sm mt-auto overflow-hidden border-t border-white/10">
       {/* Ambient background blur glows */}
-      <div className="absolute top-0 left-1/4 -translate-y-1/2 w-125 h-125 bg-blue-600/15 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 translate-y-1/2 w-125 h-125 bg-indigo-600/15 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/4 -translate-y-1/2 w-125 h-125 bg-blue-500/20 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 translate-y-1/2 w-125 h-125 bg-indigo-500/20 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Main Container */}
-      <div className="w-full max-w-7xl 2xl:max-w-360 3xl:max-w-[1600px] 4xl:max-w-[2000px] 5xl:max-w-[2400px] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12 pt-16 sm:pt-20 pb-12 relative z-10">
+      <div className="w-full max-w-7xl 2xl:max-w-360 3xl:max-w-[1600px] 4xl:max-w-[2000px] 5xl:max-w-[2400px] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12 pt-20 pb-12 relative z-10">
 
         {subscribed && (
-          <div className="mb-10 p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-sm font-bold text-center animate-fadeIn shadow-lg">
+          <div className="mb-10 p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-emerald-300 text-sm font-bold text-center shadow-lg">
             🎉 Thank you for subscribing! Check your inbox for your first local boutique discount code.
           </div>
         )}
 
         {/* Primary Footer Links Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12 pb-16 border-b border-gray-800/80">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12 pb-16">
 
           {/* Brand Info Column */}
           <div className="lg:col-span-1 space-y-5">
-            <Link href="/" className="flex items-center gap-3 group focus:outline-none">
-              <div className="relative h-11 w-11 rounded-2xl bg-linear-to-tr from-blue-900/60 via-gray-900 to-indigo-900/60 border border-blue-500/40 p-1 flex items-center justify-center shadow-md group-hover:border-blue-400 transition-all duration-300 shrink-0">
+            <Link href="/" className="inline-block group focus:outline-none" aria-label="Nearbuy Clothing">
+              {/* White Glassmorphic Card Container for Logo Visibility */}
+              <div className="flex items-center justify-center px-5 py-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-white shadow-xl group-hover:scale-105 transition-all duration-300">
                 <Image
                   src={logoImg}
-                  alt="Nearbuy Clothing Logo"
-                  width={44}
-                  height={44}
-                  className="h-full w-full object-contain rounded-xl"
+                  alt="Nearbuy Clothing"
+                  width={612}
+                  height={408}
+                  className="h-14 sm:h-16 w-auto object-contain transition-transform duration-300"
                 />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-heading font-extrabold text-white text-2xl tracking-tight leading-none group-hover:text-blue-400 transition-colors">
-                  Nearbuy
-                </span>
-                <span className="text-[10px] font-extrabold text-blue-400 uppercase tracking-widest mt-1">
-                  Hyperlocal SaaS Platform
-                </span>
               </div>
             </Link>
 
-            <p className="text-sm text-gray-300 leading-relaxed font-normal">
+            <p className="text-sm text-blue-200/90 leading-relaxed font-normal">
               Empowering independent fashion boutiques with real-time digital lookbooks, instant walk-in coupons, and seamless local style discovery.
             </p>
 
             {/* Live Operational Status Badge */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl bg-gray-900/90 border border-gray-800 text-xs font-semibold text-gray-200 shadow-2xs">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold text-blue-100 shadow-xs">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400" />
               </span>
               All Systems Operational
             </div>
@@ -128,7 +121,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="h-9 w-9 rounded-xl bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 hover:border-blue-500/50 transition-all duration-200 shadow-2xs"
+                  className="h-10 w-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-center text-blue-100 hover:text-white hover:bg-white/20 hover:scale-105 transition-all duration-200 shadow-xs"
                 >
                   <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d={social.icon} />
@@ -148,11 +141,11 @@ export default function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="group inline-flex items-center gap-2 text-sm text-gray-300 hover:text-blue-400 hover:translate-x-1.5 transition-all duration-200 font-medium"
+                    className="group inline-flex items-center gap-2 text-sm text-blue-200/80 hover:text-white hover:translate-x-1 transition-all duration-200 font-medium"
                   >
                     <span>{link.label}</span>
                     {link.badge && (
-                      <span className="px-2 py-0.5 rounded-md bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[10px] font-extrabold uppercase shadow-2xs">
+                      <span className="px-2 py-0.5 rounded-md bg-white/15 backdrop-blur-sm border border-white/20 text-white text-[10px] font-extrabold uppercase shadow-xs">
                         {link.badge}
                       </span>
                     )}
@@ -172,11 +165,11 @@ export default function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="group inline-flex items-center gap-2 text-sm text-gray-300 hover:text-blue-400 hover:translate-x-1.5 transition-all duration-200 font-medium"
+                    className="group inline-flex items-center gap-2 text-sm text-blue-200/80 hover:text-white hover:translate-x-1 transition-all duration-200 font-medium"
                   >
                     <span>{link.label}</span>
                     {link.badge && (
-                      <span className="px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] font-extrabold uppercase shadow-2xs">
+                      <span className="px-2 py-0.5 rounded-md bg-white/15 backdrop-blur-sm border border-white/20 text-white text-[10px] font-extrabold uppercase shadow-xs">
                         {link.badge}
                       </span>
                     )}
@@ -196,11 +189,11 @@ export default function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="group inline-flex items-center gap-2 text-sm text-gray-300 hover:text-blue-400 hover:translate-x-1.5 transition-all duration-200 font-medium"
+                    className="group inline-flex items-center gap-2 text-sm text-blue-200/80 hover:text-white hover:translate-x-1 transition-all duration-200 font-medium"
                   >
                     <span>{link.label}</span>
                     {link.badge && (
-                      <span className="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-extrabold uppercase shadow-2xs">
+                      <span className="px-2 py-0.5 rounded-md bg-white/15 backdrop-blur-sm border border-white/20 text-white text-[10px] font-extrabold uppercase shadow-xs">
                         {link.badge}
                       </span>
                     )}
@@ -220,11 +213,11 @@ export default function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="group inline-flex items-center gap-2 text-sm text-gray-300 hover:text-blue-400 hover:translate-x-1.5 transition-all duration-200 font-medium"
+                    className="group inline-flex items-center gap-2 text-sm text-blue-200/80 hover:text-white hover:translate-x-1 transition-all duration-200 font-medium"
                   >
                     <span>{link.label}</span>
                     {link.badge && (
-                      <span className="px-2 py-0.5 rounded-md bg-gray-800 text-gray-300 border border-gray-700 text-[10px] font-extrabold uppercase shadow-2xs">
+                      <span className="px-2 py-0.5 rounded-md bg-white/15 backdrop-blur-sm border border-white/20 text-white text-[10px] font-extrabold uppercase shadow-xs">
                         {link.badge}
                       </span>
                     )}
@@ -237,30 +230,30 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar: Copyright & WebXode Technologies Credit */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-gray-400 font-medium">
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 text-xs sm:text-sm text-blue-200/80 font-medium">
 
           {/* Copyright Line */}
-          <div className="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 text-center sm:text-left">
+          <div className="text-center md:text-left">
             <span>&copy; {currentYear} <strong className="text-white font-bold">Nearbuy Clothing</strong>. All rights reserved.</span>
           </div>
 
           {/* WebXode Technologies Attribution & Credit */}
-          <div className="flex items-center gap-2 bg-gray-900/80 px-4 py-2 rounded-2xl border border-gray-800/90 shadow-2xs">
-            <span className="text-white">Designed & Developed with</span>
-            <span className="text-red-500 animate-pulse">❤️</span>
-            <span className="text-white">by</span>
+          <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/15 shadow-xs">
+            <span className="text-blue-100">Designed & Developed with</span>
+            <span className="text-red-400 animate-pulse">❤️</span>
+            <span className="text-blue-100">by</span>
             <a
               href="https://webxode.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-extrabold text-transparent bg-clip-text bg-linear-to-r from-blue-400 via-indigo-300 to-sky-400 hover:from-blue-300 hover:to-indigo-200 transition-all decoration-blue-500/40 underline-offset-4"
+              className="font-extrabold text-white hover:text-blue-200 transition-all underline decoration-white/40 underline-offset-4"
             >
               Webxode Technologies
             </a>
           </div>
 
           {/* Legal Quicklinks */}
-          <div className="flex items-center gap-6 text-xs text-white">
+          <div className="flex items-center gap-6 text-xs text-blue-200/80">
             <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
             <Link href="/contact" className="hover:text-white transition-colors">Support</Link>
