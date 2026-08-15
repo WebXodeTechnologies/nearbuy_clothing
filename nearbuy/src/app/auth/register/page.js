@@ -9,6 +9,7 @@ import Card, { CardBody } from "@/components/ui/Card";
 import Select from "@/components/ui/Select";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
+import logoImg from "@public/logos/logo2.png";
 
 function RegisterContent() {
   const router = useRouter();
@@ -94,26 +95,24 @@ function RegisterContent() {
         className="absolute bottom-10 left-1/4 w-[350px] h-[350px] bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
       />
 
-      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center space-y-4 relative z-10">
-        {/* Logo */}
+      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center space-y-4 relative z-10 px-4">
+        {/* Larger, Clean, Glassmorphic Logo Container */}
         <Link
           href="/"
-          className="inline-flex items-center gap-2.5 group justify-center"
+          className="inline-flex flex-col items-center gap-3 group focus:outline-none"
         >
-          <div className="relative h-10 w-10 shrink-0">
+          <div className="flex items-center justify-center px-6 py-3 rounded-2xl bg-white/90 backdrop-blur-md border border-slate-200/85 shadow-md group-hover:scale-105 group-hover:border-purple-300 transition-all duration-300">
             <Image
-              src="/logos/nearbuy.png"
+              src={logoImg}
               alt="Nearbuy Logo"
-              width={40}
-              height={40}
+              width={612}
+              height={408}
               priority
-              className="h-full w-full object-contain transform group-hover:scale-105 transition-transform duration-300"
+              className="h-16 sm:h-20 w-auto object-contain transition-transform duration-300"
             />
           </div>
-          <span className="font-heading font-black text-slate-900 text-2xl tracking-tight leading-none">
-            Nearby<span className="text-purple-600">Clothing</span>
-          </span>
         </Link>
+
         <h2 className="text-3xl font-heading font-black text-slate-950 tracking-tight leading-tight">
           Create Your Account
         </h2>
@@ -128,18 +127,18 @@ function RegisterContent() {
         </p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10">
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10 px-4">
         <Card className="bg-white/95 backdrop-blur-md border border-slate-100/70 rounded-3xl shadow-xl">
           <CardBody className="p-8 space-y-6">
             {/* Account Role Selector */}
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-700">
+              <label className="text-xs font-semibold text-slate-700 block">
                 Register as:
               </label>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-3 gap-2">
                 {[
-                  { value: "vendor", label: "Merchant Vendor" },
-                  { value: "customer", label: "Regular Customer" },
+                  { value: "vendor", label: "Merchant" },
+                  { value: "customer", label: "Customer" },
                   { value: "admin", label: "Admin" },
                 ].map((role) => {
                   const isSelected = selectedRole === role.value;
@@ -148,7 +147,7 @@ function RegisterContent() {
                       type="button"
                       key={role.value}
                       onClick={() => setSelectedRole(role.value)}
-                      className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all border cursor-pointer select-none ${
+                      className={`py-2 px-2 rounded-xl text-xs font-bold transition-all border cursor-pointer select-none ${
                         isSelected
                           ? "bg-purple-600 border-purple-600 text-white shadow-sm"
                           : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"

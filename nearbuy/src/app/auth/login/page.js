@@ -9,6 +9,7 @@ import LoginForm from "@/components/forms/LoginForm";
 import Card, { CardBody } from "@/components/ui/Card";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
+import logoImg from "@public/logos/logo2.png";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -27,7 +28,6 @@ export default function LoginPage() {
     try {
       setError("");
       const targetUrl = getCallbackUrl();
-      // ✅ Dynamic callback URL based on selected tab
       await signIn("google", { callbackUrl: targetUrl });
     } catch (err) {
       setError(err.message || "Failed to sign in with Google.");
@@ -39,7 +39,6 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      // Direct NextAuth Credentials Sign-In
       const result = await signIn("credentials", {
         email: formData.email,
         password: formData.password,
@@ -51,8 +50,6 @@ export default function LoginPage() {
       }
 
       toast.success("Login successful!");
-
-      // ✅ Clean Role Routing
       const targetUrl = getCallbackUrl();
       router.push(targetUrl);
     } catch (err) {
@@ -91,29 +88,24 @@ export default function LoginPage() {
         className="absolute bottom-10 left-1/4 w-[350px] h-[350px] bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
       />
 
-      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center space-y-4 relative z-10">
-        {/* Logo */}
+      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center space-y-4 relative z-10 px-4">
+        {/* Larger, Clean, Glassmorphic Logo Container */}
         <Link
           href="/"
-          className="inline-flex items-center gap-3 group justify-center focus:outline-none"
+          className="inline-flex flex-col items-center gap-3 group focus:outline-none"
         >
-          <div className="relative h-10 w-10 rounded-xl bg-gradient-to-tr from-blue-50 via-white to-indigo-50 border border-blue-100/50 p-1 flex items-center justify-center shadow-xs group-hover:scale-105 group-hover:shadow-md group-hover:border-purple-300 transition-all duration-300 overflow-hidden shrink-0">
+          <div className="flex items-center justify-center px-6 py-3 rounded-2xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-md group-hover:scale-105 group-hover:border-purple-300 transition-all duration-300">
             <Image
-              src="/logos/nearbuy.png"
+              src={logoImg}
               alt="Nearbuy Logo"
-              width={40}
-              height={40}
+              width={612}
+              height={408}
               priority
-              className="h-full w-full object-contain transform group-hover:scale-105 transition-transform duration-300"
+              className="h-16 sm:h-20 w-auto object-contain transition-transform duration-300"
             />
           </div>
-          <span className="font-heading font-black text-slate-900 text-2xl tracking-tight leading-none group-hover:text-purple-600 transition-colors duration-200">
-            Nearbuy
-            <span className="text-purple-600 group-hover:text-purple-700">
-              Clothing
-            </span>
-          </span>
         </Link>
+
         <h2 className="text-3xl font-heading font-black text-slate-950 tracking-tight leading-tight">
           Sign In to Your Account
         </h2>
@@ -128,7 +120,7 @@ export default function LoginPage() {
         </p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10">
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10 px-4">
         <Card className="bg-white/95 backdrop-blur-md border border-slate-100/70 rounded-3xl shadow-xl">
           <CardBody className="p-8 space-y-6">
             {/* Quick Testing Role Switcher */}
@@ -174,6 +166,16 @@ export default function LoginPage() {
               role={selectedRole}
               loading={loading}
             />
+
+            {/* Forgot Password Link Integration */}
+            <div className="flex items-center justify-end text-xs -mt-2">
+              <Link
+                href="/auth/forgot-password"
+                className="font-bold text-purple-600 hover:text-purple-700 transition-colors"
+              >
+                Forgot password?
+              </Link>
+            </div>
 
             {/* Social Separator */}
             <div className="relative my-4">

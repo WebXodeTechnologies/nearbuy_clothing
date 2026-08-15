@@ -1,7 +1,11 @@
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import { Resend } from "resend";
 import userRepository from "@/repositories/user.repository";
 import ApiError from "@/utils/apiError";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+const EMAIL_FROM = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 
 class AuthService {
   async registerUser({ name, email, password, role = "USER" }) {
@@ -12,8 +16,11 @@ class AuthService {
     let normalizedRole = (role || "USER").toUpperCase().trim();
     if (normalizedRole === "CUSTOMER") normalizedRole = "USER";
 
+    // Generate Verification Token
+    const verificationToken = crypto.randomBytes(32).toString("hex");
+    const verificationTokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
     if (user) {
-      // User exists with password already set
       if (user.password) {
         throw new ApiError(
           400,
@@ -25,6 +32,8 @@ class AuthService {
       user.password = hashedPassword;
       user.role = normalizedRole;
       user.provider = "credentials";
+      user.verificationToken = verificationToken;
+      user.verificationTokenExpiry = verificationTokenExpiry;
       await user.save();
     } else {
       // New registration
@@ -34,7 +43,32 @@ class AuthService {
         password: hashedPassword,
         provider: "credentials",
         role: normalizedRole,
+        isEmailVerified: false,
+        verificationToken,
+        verificationTokenExpiry,
+        storageUsedBytes: 0,
       });
+    }
+
+    // 🚀 Send Email Verification via Resend
+    const verificationLink = `${process.env.NEXTAUTH_URL}/api/auth/verify-email?token=${verificationToken}`;
+
+    try {
+      await resend.emails.send({
+        from: EMAIL_FROM,
+        to: [normalizedEmail],
+        subject: "Verify Your Nearbuy Account",
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #f8fafc;">
+            <h2 style="color: #0f172a;">Welcome to Nearbuy, ${name}!</h2>
+            <p style="color: #334155;">Please verify your email address to activate your account by clicking below:</p>
+            <a href="${verificationLink}" style="background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block; margin: 20px 0;">Verify Email</a>
+            <p style="color: #64748b; font-size: 12px;">If you didn't request this, please ignore this email.</p>
+          </div>
+        `,
+      });
+    } catch (emailErr) {
+      console.error("Failed to send verification email:", emailErr);
     }
 
     const userObj = user.toObject ? user.toObject() : { ...user };
@@ -82,6 +116,26 @@ class AuthService {
     const expires = new Date(Date.now() + 3600000); // 1 hour token expiration
 
     await userRepository.updateResetToken(user._id, token, expires);
+
+    // 🚀 Send Password Reset Email via Resend
+    const resetLink = `${process.env.NEXTAUTH_URL}/auth/reset-password?token=${token}`;
+
+    try {
+      await resend.emails.send({
+        from: EMAIL_FROM,
+        to: [normalizedEmail],
+        subject: "Reset Your Nearbuy Password",
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
+            <h2>Password Reset Request</h2>
+            <p>Click the link below to reset your password. This link is valid for 1 hour.</p>
+            <a href="${resetLink}" style="background-color: #2563eb; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; display: inline-block; margin: 15px 0;">Reset Password</a>
+          </div>
+        `,
+      });
+    } catch (emailErr) {
+      console.error("Failed to send password reset email:", emailErr);
+    }
 
     return { token, email: user.email };
   }
