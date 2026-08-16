@@ -17,7 +17,6 @@ import {
   Power,
   X,
   Building2,
-  ShieldCheck,
   CheckCircle2,
 } from "lucide-react";
 import Image from "next/image";
@@ -139,7 +138,6 @@ export default function AdminUsersPage() {
 
       {/* 2. Toolbar & Role Filter Pills */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white p-4 rounded-3xl border border-slate-200/80 shadow-xs">
-        {/* Search Input */}
         <div className="relative w-full md:w-80">
           <input
             type="text"
@@ -151,7 +149,6 @@ export default function AdminUsersPage() {
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
         </div>
 
-        {/* Role Filters */}
         <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 custom-scrollbar">
           {["ALL", "USER", "VENDOR", "ADMIN"].map((role) => (
             <button
@@ -159,8 +156,8 @@ export default function AdminUsersPage() {
               type="button"
               onClick={() => setRoleFilter(role)}
               className={`px-3.5 py-2 text-xs font-bold rounded-2xl transition-all cursor-pointer whitespace-nowrap ${roleFilter === role
-                ? "bg-indigo-600 text-white shadow-xs"
-                : "bg-slate-100/80 text-slate-600 hover:bg-slate-200/70"
+                  ? "bg-indigo-600 text-white shadow-xs"
+                  : "bg-slate-100/80 text-slate-600 hover:bg-slate-200/70"
                 }`}
             >
               {role}
@@ -223,13 +220,15 @@ export default function AdminUsersPage() {
                       {/* Avatar & Name */}
                       <td className="py-4 px-6">
                         <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-700 font-black flex items-center justify-center text-xs uppercase shrink-0 shadow-2xs overflow-hidden">
+                          {/* Fixed Avatar Container with relative positioning */}
+                          <div className="relative h-10 w-10 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-700 font-black flex items-center justify-center text-xs uppercase shrink-0 overflow-hidden">
                             {u.profileImage ? (
                               <Image
                                 src={u.profileImage}
-                                alt={u.name}
+                                alt={u.name || "User"}
                                 fill
-                                className="w-full h-full object-cover"
+                                sizes="40px"
+                                className="object-cover"
                               />
                             ) : (
                               <span>{(u.name || "U").charAt(0)}</span>
@@ -271,29 +270,17 @@ export default function AdminUsersPage() {
                       {/* Role Badge */}
                       <td className="py-4 px-6">
                         {role === "ADMIN" && (
-                          <Badge
-                            variant="purple"
-                            pill
-                            className="text-[9px] font-bold"
-                          >
+                          <Badge variant="purple" pill className="text-[9px] font-bold">
                             Administrator
                           </Badge>
                         )}
                         {role === "VENDOR" && (
-                          <Badge
-                            variant="yellow"
-                            pill
-                            className="text-[9px] font-bold"
-                          >
+                          <Badge variant="yellow" pill className="text-[9px] font-bold">
                             Merchant Vendor
                           </Badge>
                         )}
                         {role === "USER" && (
-                          <Badge
-                            variant="indigo"
-                            pill
-                            className="text-[9px] font-bold"
-                          >
+                          <Badge variant="indigo" pill className="text-[9px] font-bold">
                             Shopper
                           </Badge>
                         )}
@@ -320,7 +307,6 @@ export default function AdminUsersPage() {
                       {/* Action Buttons */}
                       <td className="py-4 px-6 text-right">
                         <div className="flex items-center justify-end gap-1.5">
-                          {/* Inspect Modal Trigger */}
                           <button
                             type="button"
                             onClick={() => setSelectedUser(u)}
@@ -330,7 +316,6 @@ export default function AdminUsersPage() {
                             <Eye className="w-4 h-4" />
                           </button>
 
-                          {/* Edit Role Button */}
                           <button
                             type="button"
                             onClick={() => handleOpenRoleModal(u)}
@@ -340,17 +325,14 @@ export default function AdminUsersPage() {
                             <span>Edit Role</span>
                           </button>
 
-                          {/* Toggle Active / Suspended */}
                           <button
                             type="button"
                             disabled={isProcessing}
                             onClick={() => handleToggleStatus(u)}
-                            title={
-                              isActive ? "Suspend Account" : "Activate Account"
-                            }
+                            title={isActive ? "Suspend Account" : "Activate Account"}
                             className={`p-1.5 rounded-xl transition-all cursor-pointer border ${isActive
-                              ? "bg-amber-50 text-amber-600 border-amber-200 hover:bg-amber-100"
-                              : "bg-emerald-600 text-white border-emerald-500 hover:bg-emerald-500"
+                                ? "bg-amber-50 text-amber-600 border-amber-200 hover:bg-amber-100"
+                                : "bg-emerald-600 text-white border-emerald-500 hover:bg-emerald-500"
                               }`}
                           >
                             {isProcessing ? (
@@ -423,7 +405,6 @@ export default function AdminUsersPage() {
         <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex justify-end transition-opacity">
           <div className="w-full max-w-md bg-white h-full shadow-2xl p-6 overflow-y-auto space-y-6 flex flex-col justify-between">
             <div className="space-y-6">
-              {/* Header */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                 <div className="flex items-center gap-2">
                   <UserIcon className="w-5 h-5 text-indigo-600" />
@@ -440,16 +421,17 @@ export default function AdminUsersPage() {
                 </button>
               </div>
 
-              {/* Identity Box */}
               <div className="p-4 bg-slate-50/80 rounded-2xl border border-slate-200/80 space-y-3">
                 <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-2xl bg-indigo-100 text-indigo-700 font-black flex items-center justify-center text-base uppercase shrink-0 overflow-hidden">
+                  {/* Fixed Drawer Avatar Container */}
+                  <div className="relative h-12 w-12 rounded-2xl bg-indigo-100 text-indigo-700 font-black flex items-center justify-center text-base uppercase shrink-0 overflow-hidden">
                     {selectedUser.profileImage ? (
                       <Image
                         src={selectedUser.profileImage}
-                        alt={selectedUser.name}
+                        alt={selectedUser.name || "User"}
                         fill
-                        className="w-full h-full object-cover"
+                        sizes="48px"
+                        className="object-cover"
                       />
                     ) : (
                       <span>{(selectedUser.name || "U").charAt(0)}</span>
@@ -466,11 +448,7 @@ export default function AdminUsersPage() {
                 </div>
 
                 <div className="pt-1 flex items-center gap-2">
-                  <Badge
-                    variant="indigo"
-                    pill
-                    className="text-[10px] font-bold"
-                  >
+                  <Badge variant="indigo" pill className="text-[10px] font-bold">
                     Role: {selectedUser.role || "USER"}
                   </Badge>
                   <Badge
@@ -486,7 +464,6 @@ export default function AdminUsersPage() {
                 </div>
               </div>
 
-              {/* Account Details List */}
               <div className="space-y-3 text-xs text-slate-700">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                   <span className="text-slate-400 font-medium">

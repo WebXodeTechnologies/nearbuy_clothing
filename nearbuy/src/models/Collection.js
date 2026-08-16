@@ -105,6 +105,15 @@ const CollectionSchema = new mongoose.Schema(
       index: true,
     },
 
+    comments: [
+      {
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        userName: { type: String },
+        text: { type: String, required: true },
+        createdAt: { type: Date, default: Date.now },
+      },
+    ],
+
     // ==========================================
     // Analytics
     // ==========================================

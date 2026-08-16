@@ -25,6 +25,7 @@ import {
   PanelLeft,
   Building2,
   Users,
+  HardDrive,
 } from "lucide-react";
 
 export default function Sidebar({ type = "vendor" }) {
@@ -70,6 +71,7 @@ export default function Sidebar({ type = "vendor" }) {
     { label: "Dashboard Overview", href: "/admin/dashboard", icon: LayoutDashboard },
     { label: "Vendors & Approval", href: "/admin/vendors", icon: Store, badge: "Pending" },
     { label: "Store Directory", href: "/admin/stores", icon: Building2 },
+    { label: "Cloud Storage Server", href: "/admin/storage", icon: HardDrive, badge: "100GB Pool" }, // 👈 2. Add Storage menu item here
     { label: "Categories Master", href: "/admin/categories", icon: Tag },
     { label: "Collections Lookbook", href: "/admin/collections", icon: FolderOpen },
     { label: "Offers & Coupons", href: "/admin/offers", icon: Tag },
@@ -163,8 +165,8 @@ export default function Sidebar({ type = "vendor" }) {
                       {item.badge && !item.unread && (
                         <span
                           className={`text-[10px] px-2 py-0.5 rounded-lg font-bold transition-colors ${isActive
-                              ? "bg-white/20 text-white border border-white/30"
-                              : "bg-slate-800 text-slate-400 border border-slate-700/50 group-hover:border-slate-600"
+                            ? "bg-white/20 text-white border border-white/30"
+                            : "bg-slate-800 text-slate-400 border border-slate-700/50 group-hover:border-slate-600"
                             }`}
                         >
                           {item.badge}
