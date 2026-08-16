@@ -131,7 +131,7 @@ const VendorSchema = new mongoose.Schema(
     },
 
     // ==========================================
-    // Cloud Storage Tracking (UploadThing 2GB Limit)
+    // Cloud Storage Tracking (UploadThing & Quotas)
     // ==========================================
     storageUsedBytes: {
       type: Number,
@@ -146,6 +146,22 @@ const VendorSchema = new mongoose.Schema(
     storagePlan: {
       type: String,
       default: "Free Tier (2GB)",
+    },
+
+    // 👇 Add these two fields for the manual storage request workflow:
+    storageRequestPending: {
+      type: Boolean,
+      default: false,
+    },
+
+    requestedStorageGB: {
+      type: Number,
+      default: 0,
+    },
+
+    extraStorageGBAllocated: {
+      type: Number,
+      default: 0,
     },
 
     // ==========================================

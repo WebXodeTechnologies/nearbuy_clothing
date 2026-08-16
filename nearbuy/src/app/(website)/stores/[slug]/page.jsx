@@ -1,13 +1,17 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSession } from "next-auth/react";
 import CollectionCard from "@/components/cards/CollectionCard";
 import OfferCard from "@/components/cards/OfferCard";
 import Badge from "@/components/ui/Badge";
 import Breadcrumb from "@/components/navigation/Breadcrumb";
 import Image from "next/image";
+import { Heart, MessageCircle, Share2, X } from "lucide-react";
+import toast from "react-hot-toast";
 
 const contentVariants = {
   hidden: { opacity: 0, y: 15 },
@@ -27,11 +31,17 @@ const gridItemVariants = {
 export default function StoreDetailsPage({ params }) {
   const resolvedParams = React.use(params);
   const slug = resolvedParams?.slug;
+  const { data: session } = useSession();
 
   const [store, setStore] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("collections");
   const [selectedGalleryImage, setSelectedGalleryImage] = useState(null);
+
+  // Sign-in Modal & Social Interaction States
+  const [showSignInModal, setShowSignInModal] = useState(false);
+  const [activeCommentItem, setActiveCommentItem] = useState(null);
+  const [commentText, setCommentText] = useState("");
 
   const headerRef = useRef(null);
 
@@ -56,7 +66,6 @@ export default function StoreDetailsPage({ params }) {
 
         const vendorId = storeDoc.vendorId?._id || storeDoc.vendorId;
         const storeId = storeDoc._id;
-        const city = storeDoc.city || "";
 
         const [collectionsRes, offersRes] = await Promise.all([
           fetch(`/api/vendors/collections?vendorId=${vendorId}&storeId=${storeId}`),
@@ -95,6 +104,10 @@ export default function StoreDetailsPage({ params }) {
             description: c.description || "",
             image: c.images?.[0] || c.coverImage || "",
             price: c.price || 0,
+            status: c.status !== false,
+            isLiked: false,
+            likesCount: c.likesCount || 0,
+            comments: c.comments || [],
           })),
           offers: rawOffers.map(o => ({
             id: o._id,
@@ -116,6 +129,120 @@ export default function StoreDetailsPage({ params }) {
 
     loadStoreData();
   }, [slug]);
+
+  // Social Interaction Handlers
+  const handleLikeToggle = async (collId) => {
+    if (!session) {
+      setShowSignInModal(true);
+      return;
+    }
+
+    setStore((prev) => ({
+      ...prev,
+      collections: prev.collections.map((item) => {
+        if (item.id === collId) {
+          const nextLiked = !item.isLiked;
+          return {
+            ...item,
+            isLiked: nextLiked,
+            likesCount: nextLiked ? item.likesCount + 1 : item.likesCount - 1,
+          };
+        }
+        return item;
+      }),
+    }));
+
+    try {
+      await fetch(`/api/user/wishlist`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ itemId: collId }),
+      });
+    } catch (err) {
+      toast.error("Failed to sync like");
+    }
+  };
+
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    if (!session) {
+      setShowSignInModal(true);
+      return;
+    }
+    if (!commentText.trim() || !activeCommentItem) return;
+
+    try {
+      const res = await fetch(`/api/collections/${activeCommentItem.id}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: commentText }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStore((prev) => ({
+          ...prev,
+          collections: prev.collections.map((item) => {
+            if (item.id === activeCommentItem.id) {
+              return {
+                ...item,
+                comments: [...item.comments, data.comment],
+              };
+            }
+            return item;
+          }),
+        }));
+        setCommentText("");
+        setActiveCommentItem(null);
+        toast.success("Comment added!");
+      }
+    } catch (err) {
+      toast.error("Failed to post comment");
+    }
+  };
+
+  // Unified Share Handler: Shares image file on mobile, or text/link card on desktop
+  const handleUnifiedShare = async (item) => {
+    const stockStatus = item.status ? "In Stock & Ready" : "Out of Stock";
+    const itemPrice = item.price ? `Rs. ${item.price.toLocaleString("en-IN")}` : "Price on Enquiry";
+
+    const activeOffer = store.offers && store.offers.length > 0
+      ? `Special Offer: Use code *${store.offers[0].code}* for ${store.offers[0].discountValue}% OFF!`
+      : "Direct Store Collection";
+
+    const shareText =
+      `*${item.title}*\n` +
+      `Description: ${item.description || "Exclusive boutique collection item."}\n\n` +
+      `Store: *${store.name}* (${store.location})\n` +
+      `Price: *${itemPrice}*\n` +
+      `Status: [ ${stockStatus} ]\n` +
+      `${activeOffer}\n\n` +
+      `View Item Image:\n${item.image}\n\n` +
+      `Explore full catalog on Streetunics: ${window.location.href}`;
+
+    try {
+      // Attempt native file sharing if supported (Mobile devices)
+      if (navigator.canShare && item.image) {
+        const response = await fetch(item.image);
+        const blob = await response.blob();
+        const file = new File([blob], "collection-item.jpg", { type: blob.type });
+
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            title: item.title,
+            text: shareText,
+            files: [file],
+          });
+          return;
+        }
+      }
+    } catch (err) {
+      console.log("Native file share fallback triggered:", err);
+    }
+
+    // Fallback for Desktop / browsers without file-share support (Opens WhatsApp Web with full text card)
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    window.open(whatsappUrl, "_blank");
+  };
 
   if (loading) {
     return (
@@ -196,7 +323,7 @@ export default function StoreDetailsPage({ params }) {
             <motion.a
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              href={`https://wa.me/${store.whatsapp}?text=Hi%20${encodeURIComponent(store.name)},%20I%20saw%20your%20store%20on%20Nearby%20Clothing.`}
+              href={`https://wa.me/${(store.whatsapp || store.phone || "").replace(/\D/g, "")}?text=Hi%20${encodeURIComponent(store.name)},%20I%20saw%20your%20store%20on%20Streetunics.`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition-all cursor-pointer select-none"
@@ -247,8 +374,56 @@ export default function StoreDetailsPage({ params }) {
                       </div>
                     ) : (
                       store.collections.map((coll) => (
-                        <motion.div key={coll.id} variants={gridItemVariants}>
-                          <CollectionCard collection={coll} />
+                        <motion.div key={coll.id} variants={gridItemVariants} className="bg-white rounded-3xl border border-slate-200/80 p-4 shadow-xs space-y-3 flex flex-col justify-between">
+                          <div>
+                            <CollectionCard collection={coll} />
+                          </div>
+
+                          {/* Instagram-Style Interaction Toolbar */}
+                          <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-slate-700 px-1">
+                            <div className="flex items-center gap-4">
+                              {/* Red Heart / Like Button */}
+                              <button
+                                type="button"
+                                onClick={() => handleLikeToggle(coll.id)}
+                                className="flex items-center gap-1.5 cursor-pointer group transition-transform active:scale-90"
+                              >
+                                <Heart
+                                  className={`w-5 h-5 transition-colors ${coll.isLiked ? "fill-rose-500 text-rose-500" : "text-slate-600 group-hover:text-rose-500"
+                                    }`}
+                                />
+                                <span className="text-xs font-bold">{coll.likesCount}</span>
+                              </button>
+
+                              {/* Comment Button */}
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  if (!session) {
+                                    setShowSignInModal(true);
+                                  } else {
+                                    setActiveCommentItem(coll);
+                                  }
+                                }}
+                                className="flex items-center gap-1.5 cursor-pointer group transition-transform active:scale-90"
+                              >
+                                <MessageCircle className="w-5 h-5 text-slate-600 group-hover:text-blue-500 transition-colors" />
+                                <span className="text-xs font-bold">{coll.comments?.length || 0}</span>
+                              </button>
+                            </div>
+
+                            {/* WhatsApp Direct Share Button */}
+                            {/* WhatsApp / Native Image Share Button */}
+                            <button
+                              type="button"
+                              onClick={() => handleUnifiedShare(coll)}
+                              className="p-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-600 transition-colors cursor-pointer border border-emerald-200 flex items-center gap-1.5 px-3 text-[11px] font-bold"
+                              title="Share Image & Details to WhatsApp"
+                            >
+                              <Share2 className="w-3.5 h-3.5" />
+                              <span>Share to WhatsApp</span>
+                            </button>
+                          </div>
                         </motion.div>
                       ))
                     )}
@@ -319,6 +494,86 @@ export default function StoreDetailsPage({ params }) {
           </div>
         </div>
       </div>
+
+      {/* Sign-In Guard Modal Popup */}
+      {showSignInModal && (
+        <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 md:p-8 max-w-sm w-full shadow-2xl text-center space-y-5 font-body">
+            <div className="h-12 w-12 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center mx-auto">
+              <Heart className="w-6 h-6 fill-rose-500" />
+            </div>
+            <div className="space-y-1">
+              <h3 className="font-heading font-black text-slate-900 text-base">Sign In Required</h3>
+              <p className="text-xs text-slate-500">
+                Please sign in to like collections, leave comments, and save items to your shopper profile wishlist.
+              </p>
+            </div>
+
+            <div className="space-y-2 pt-2">
+              <Link
+                href="/auth/login"
+                className="w-full py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black shadow-md block transition-all text-center"
+              >
+                Sign In Now
+              </Link>
+              <button
+                type="button"
+                onClick={() => setShowSignInModal(false)}
+                className="w-full py-2.5 rounded-2xl text-xs font-bold text-slate-400 hover:text-slate-700 cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Comment Modal / Drawer */}
+      {activeCommentItem && (
+        <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4 font-body">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <h3 className="font-heading font-black text-slate-900 text-sm">Comments</h3>
+              <button
+                type="button"
+                onClick={() => setActiveCommentItem(null)}
+                className="text-xs font-bold text-slate-400 hover:text-slate-700 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="max-h-60 overflow-y-auto space-y-3">
+              {activeCommentItem.comments?.length === 0 ? (
+                <p className="text-xs text-slate-400 text-center py-6">No comments yet. Start the conversation!</p>
+              ) : (
+                activeCommentItem.comments?.map((c, i) => (
+                  <div key={i} className="p-3 bg-slate-50 rounded-2xl space-y-1">
+                    <span className="text-[10px] font-bold text-indigo-600 block">{c.userName || "Shopper"}</span>
+                    <p className="text-xs text-slate-700">{c.text}</p>
+                  </div>
+                ))
+              )}
+            </div>
+
+            <form onSubmit={handleCommentSubmit} className="flex gap-2 pt-2 border-t border-slate-100">
+              <input
+                type="text"
+                placeholder="Add a comment..."
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                className="flex-1 px-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-600"
+              />
+              <button
+                type="submit"
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl cursor-pointer"
+              >
+                Post
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
