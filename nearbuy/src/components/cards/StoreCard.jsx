@@ -21,7 +21,7 @@ export default function StoreCard({ store }) {
   const handleWhatsAppClick = (e) => {
     e.stopPropagation();
     const message = encodeURIComponent(
-      `Hi ${name}, I discovered your store on Nearbuy and would like to check your latest collection!`
+      `Hi ${name}, I discovered your store on Streetunics and would like to check your latest collection!`
     );
     window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
   };
@@ -69,6 +69,7 @@ export default function StoreCard({ store }) {
             src={logo || "/placeholder-logo.jpg"}
             alt={`${name} Logo`}
             fill
+            sizes="64px"
             className="object-cover"
           />
         </div>

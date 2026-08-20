@@ -18,8 +18,8 @@ export default function AdminSettingsPage() {
   const [saving, setSaving] = useState(false);
 
   const [settings, setSettings] = useState({
-    platformName: "Nearbuy Boutiques",
-    supportEmail: "support@nearbuy.com",
+    platformName: "Streetunics Boutiques",
+    supportEmail: "support@streetunics.com",
     contactPhone: "+91 98765 43210",
     platformCurrency: "INR (₹)",
     maintenanceMode: false,

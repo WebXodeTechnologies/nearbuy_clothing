@@ -473,7 +473,7 @@ export default function VendorStore() {
                   : "bg-amber-500 text-white shadow-xs"
                 }`}
             >
-              {formData.status === "Active" ? "🟢 Live on Nearbuy" : "⏸️ Paused"}
+              {formData.status === "Active" ? "🟢 Live on Streetunics" : "⏸️ Paused"}
             </button>
           </div>
         </div>
@@ -840,13 +840,13 @@ export default function VendorStore() {
                 <Eye className="w-4 h-4 text-indigo-600" /> Search Card Preview
               </h3>
               <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                Nearbuy Live
+                Streetunics Live
               </span>
             </div>
 
             <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
               <span className="text-[10px] font-mono text-emerald-700 truncate block">
-                https://nearbuy.clothing/stores/
+                https://streetunics.clothing/stores/
                 {formData.businessName
                   ? formData.businessName.toLowerCase().replace(/\s+/g, "-")
                   : "your-store-slug"}

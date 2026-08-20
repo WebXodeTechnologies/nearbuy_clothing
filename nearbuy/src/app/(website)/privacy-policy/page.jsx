@@ -24,7 +24,7 @@ export default function PrivacyPolicyPage() {
         <Card className="bg-white">
           <CardBody className="p-6 sm:p-8 space-y-6 text-xs sm:text-sm text-gray-600 leading-relaxed">
             <p>
-              At Nearby Clothing Platform, we value the trust you place in us. This Privacy Policy describes how we collect, use, share, and protect your personal information when you use our hyperlocal clothing discovery directory website.
+              At Streetunics Platform, we value the trust you place in us. This Privacy Policy describes how we collect, use, share, and protect your personal information when you use our hyperlocal clothing discovery directory website.
             </p>
 
             <div className="space-y-2">
@@ -42,7 +42,7 @@ export default function PrivacyPolicyPage() {
             <div className="space-y-2">
               <h3 className="font-bold text-gray-950 text-sm">2. How We Use Your Information</h3>
               <p>
-                Nearby Clothing is a hyperlocal directory. We do NOT run e-commerce checkouts. We use the collected data to:
+                Streetunics is a hyperlocal directory. We do NOT run e-commerce checkouts. We use the collected data to:
               </p>
               <ul className="list-disc pl-5 space-y-1">
                 <li>Present nearby clothing stores and design collections to customers searching in their area.</li>
@@ -54,14 +54,14 @@ export default function PrivacyPolicyPage() {
             <div className="space-y-2">
               <h3 className="font-bold text-gray-950 text-sm">3. Location Information</h3>
               <p>
-                Since Nearby Clothing is a hyperlocal platform, we may request your browser&apos;s location coordinates to display clothing shops closest to you. You can enable or disable location tracking anytime via your browser settings.
+                Since Streetunics is a hyperlocal platform, we may request your browser&apos;s location coordinates to display clothing shops closest to you. You can enable or disable location tracking anytime via your browser settings.
               </p>
             </div>
 
             <div className="space-y-2">
               <h3 className="font-bold text-gray-950 text-sm">4. Contact Information</h3>
               <p>
-                If you have any questions or concerns regarding our privacy policies, please write to us at <span className="font-bold text-gray-950">privacy@nearbyclothing.com</span>.
+                If you have any questions or concerns regarding our privacy policies, please write to us at <span className="font-bold text-gray-950">privacy@streetunics.com</span>.
               </p>
             </div>
           </CardBody>

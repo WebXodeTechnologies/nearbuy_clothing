@@ -11,7 +11,7 @@ async function deleteUser() {
     if (!email) {
       console.log("\n❌ Please provide an email address.");
       console.log("\nExample:");
-      console.log("npm run delete-user admin@nearbuy.com\n");
+      console.log("npm run delete-user admin@streetunics.com\n");
       process.exit(1);
     }
 

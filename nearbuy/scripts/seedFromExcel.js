@@ -257,7 +257,7 @@ async function seedExcelData() {
       const idx = i + 1;
 
       // Create user
-      const email = `vendor.${s.slug}.${idx}@nearbuy.com`;
+      const email = `vendor.${s.slug}.${idx}@streetunics.com`;
       const user = await User.create({
         name: `${s.name} Owner`,
         email,
@@ -371,9 +371,9 @@ async function seedExcelData() {
       `\n🎉 Successfully Seeded all ${storesList.length} store items and related entities into MongoDB!`,
     );
     console.log("-----------------------------------------");
-    console.log("Admin Account:   admin@nearbuy.com / Admin@123456");
+    console.log("Admin Account:   admin@streetunics.com / Admin@123456");
     console.log(
-      "Vendor Account:  vendor.hunter-mens@nearbuy.com / Password123!",
+      "Vendor Account:  vendor.hunter-mens@streetunics.com / Password123!",
     );
     console.log("-----------------------------------------");
   } catch (error) {

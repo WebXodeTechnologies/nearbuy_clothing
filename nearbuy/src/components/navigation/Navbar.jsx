@@ -118,11 +118,11 @@ export default function Navbar() {
               <Link
                 href="/"
                 className="group focus:outline-none flex items-center"
-                aria-label="Nearbuy Clothing"
+                aria-label="Streetunics Clothing"
               >
                 <Image
                   src={logoImg}
-                  alt="Nearbuy Clothing"
+                  alt="Streetunics Clothing"
                   width={612}
                   height={408}
                   priority
@@ -246,11 +246,11 @@ export default function Navbar() {
               href="/"
               onClick={() => setIsOpen(false)}
               className="group focus:outline-none flex items-center"
-              aria-label="Nearbuy Clothing"
+              aria-label="Streetunics Clothing"
             >
               <Image
                 src={logoImg}
-                alt="Nearbuy Clothing"
+                alt="Streetunics Clothing"
                 width={600}
                 height={400}
                 className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"

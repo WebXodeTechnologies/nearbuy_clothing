@@ -183,7 +183,7 @@ export default function VendorBenefits() {
         viewport={{ once: true }}
         className="text-2xl font-extrabold tracking-tight text-center font-heading bg-clip-text text-transparent bg-linear-to-r from-purple-600 via-indigo-600 to-purple-800 sm:text-3xl"
       >
-        Why List with Nearby Clothing?
+        Why List with Streetunics Clothing?
       </motion.h2>
 
       <motion.div

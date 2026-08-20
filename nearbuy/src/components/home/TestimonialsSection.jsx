@@ -74,7 +74,7 @@ export default function TestimonialsSection({ testimonials }) {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-base sm:text-lg text-slate-500 leading-relaxed font-body max-w-2xl mx-auto"
           >
-            Discover how Nearbuy is empowering shoppers to find zero-fit-error apparel while boosting digital visibility and walk-in sales for local store merchants.
+            Discover how Streetunics is empowering shoppers to find zero-fit-error apparel while boosting digital visibility and walk-in sales for local store merchants.
           </motion.p>
         </div>
 

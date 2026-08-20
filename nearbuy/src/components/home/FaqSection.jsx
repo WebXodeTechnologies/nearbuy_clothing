@@ -5,27 +5,27 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const defaultBrandFaqs = [
   {
-    question: "What is Nearbuy Clothing and how does it work?",
-    answer: "Nearbuy is a hyperlocal fashion discovery platform. We bridge the gap between digital convenience and physical retail by showcasing seasonal inventory catalogs of local clothing boutiques online. Shoppers can search for apparel nearby, verify real-time stock availability, claim walk-in discount coupons, and visit the physical store to try on and buy with zero fit-errors."
+    question: "What is Streetunics Clothing and how does it work?",
+    answer: "Streetunics is a hyperlocal fashion discovery platform. We bridge the gap between digital convenience and physical retail by showcasing seasonal inventory catalogs of local clothing boutiques online. Shoppers can search for apparel nearby, verify real-time stock availability, claim walk-in discount coupons, and visit the physical store to try on and buy with zero fit-errors."
   },
   {
-    question: "Can I buy clothes directly from the Nearbuy website?",
-    answer: "No, Nearbuy is not an e-commerce transaction site. We believe in the power of touch-and-feel, fit verification, and supporting local retail. You discover products and claim discounts online, then visit the physical storefront to experience the clothing and finalize your purchase."
+    question: "Can I buy clothes directly from the Streetunics website?",
+    answer: "No, Streetunics is not an e-commerce transaction site. We believe in the power of touch-and-feel, fit verification, and supporting local retail. You discover products and claim discounts online, then visit the physical storefront to experience the clothing and finalize your purchase."
   },
   {
     question: "How do I claim a discount offer or walk-in coupon?",
-    answer: "Simply find a store profile with an active offer on Nearbuy, click 'Claim Coupon' to generate a digital coupon badge. When you walk into that store, show this badge at the billing counter to instantly apply your discount."
+    answer: "Simply find a store profile with an active offer on Streetunics, click 'Claim Coupon' to generate a digital coupon badge. When you walk into that store, show this badge at the billing counter to instantly apply your discount."
   },
   {
-    question: "I am a local boutique owner. How does Nearbuy help my business?",
-    answer: "Nearbuy acts as a digital magnet for your brick-and-mortar store. By listing your live location, WhatsApp query hotlines, and latest collections, we direct local buyers straight to your counter, helping increase walk-in traffic by up to 35%."
+    question: "I am a local boutique owner. How does Streetunics help my business?",
+    answer: "Streetunics acts as a digital magnet for your brick-and-mortar store. By listing your live location, WhatsApp query hotlines, and latest collections, we direct local buyers straight to your counter, helping increase walk-in traffic by up to 35%."
   },
   {
-    question: "Is listing my store on Nearbuy free?",
+    question: "Is listing my store on Streetunics free?",
     answer: "Yes! We offer a Free Starter tier that allows you to list your basic storefront location, contact details, and a small catalog of products. For premium features like featured homepage placement, banner uploads, and unlimited coupon campaigns, we offer simple monthly subscription plans."
   },
   {
-    question: "How do I contact a local store through Nearbuy?",
+    question: "How do I contact a local store through Streetunics?",
     answer: "Every storefront profile features direct phone numbers, an interactive Google Maps location finder, and a direct 'WhatsApp Inquiry' shortcut button that lets you message the merchant immediately to ask about sizes or store hours."
   },
   {
@@ -33,12 +33,12 @@ const defaultBrandFaqs = [
     answer: "While we sync inventory details with stores, we recommend clicking the 'WhatsApp Inquiry' button on the store's profile page. This allows you to message the merchant directly to verify exact size and color availability in seconds before making the trip."
   },
   {
-    question: "Can I return or exchange items purchased through Nearbuy?",
+    question: "Can I return or exchange items purchased through Streetunics?",
     answer: "All transactions, returns, and exchanges are handled directly at the merchant's physical storefront under their store policies. Since you try on the apparel in-person before paying, return rates are virtually zero!"
   },
   {
-    question: "Does Nearbuy provide home delivery services?",
-    answer: "Nearbuy does not handle shipping or home delivery directly, as our platform is designed to promote local in-person shopping. However, many individual boutiques offer home delivery via local courier services which you can arrange directly with them via our WhatsApp chat link."
+    question: "Does Streetunics provide home delivery services?",
+    answer: "Streetunics does not handle shipping or home delivery directly, as our platform is designed to promote local in-person shopping. However, many individual boutiques offer home delivery via local courier services which you can arrange directly with them via our WhatsApp chat link."
   },
   {
     question: "How often are the store catalogs and discounts updated?",
@@ -115,7 +115,7 @@ export default function FaqSection({ faqs, title, description }) {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-base text-slate-500 leading-relaxed font-body"
           >
-            {description || "Everything you need to know about the Nearbuy hyperlocal fashion discovery experience."}
+            {description || "Everything you need to know about the Streetunics hyperlocal fashion discovery experience."}
           </motion.p>
         </div>
 

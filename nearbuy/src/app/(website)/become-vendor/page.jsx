@@ -84,7 +84,7 @@ export default function BecomeVendorPage() {
               transition={{ duration: 0.5, delay: 0.15 }}
               className="text-sm sm:text-base text-slate-900 leading-relaxed max-w-2xl mx-auto font-body"
             >
-              Nearby Clothing connects local boutique retailers directly with
+              Streetunics Clothing connects local boutique retailers directly with
               local shoppers looking to purchase offline. No courier logistics,
               just walk-in sales.
             </motion.p>

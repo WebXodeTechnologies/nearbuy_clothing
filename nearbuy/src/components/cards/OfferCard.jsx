@@ -10,7 +10,7 @@ export default function OfferCard({ offer, onEdit, onDelete, isManageMode = fals
   const [copied, setCopied] = useState(false);
 
   const handleClaim = () => {
-    const couponCode = code || `NEARBY${discount.replace(/[^0-9]/g, "") || "OFF"}`;
+    const couponCode = code || `STREETUNICS${discount.replace(/[^0-9]/g, "") || "OFF"}`;
     if (navigator.clipboard) {
       navigator.clipboard.writeText(couponCode);
     }
@@ -63,7 +63,7 @@ export default function OfferCard({ offer, onEdit, onDelete, isManageMode = fals
             {storeName ? (
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50/90 text-blue-700 border border-blue-200/60 text-[10px] font-extrabold tracking-wider uppercase">
                 <span>🏬</span>
-                <span className="truncate max-w-[140px]">{storeName}</span>
+                <span className="truncate max-w-35">{storeName}</span>
               </span>
             ) : isManageMode ? (
               <Badge variant={status === "Active" ? "emerald" : "gray"} pill>

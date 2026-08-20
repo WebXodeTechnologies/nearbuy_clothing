@@ -469,7 +469,7 @@ export default function VendorStoreSettings() {
           <ShieldAlert className="w-4 h-4 text-rose-600" /> Danger Zone
         </h3>
         <p className="text-xs text-rose-700 font-medium">
-          Permanently unlist your clothing store profile, collections, and promotions from Nearbuy.
+          Permanently unlist your clothing store profile, collections, and promotions from Streetunics.
         </p>
         <button
           onClick={() => {

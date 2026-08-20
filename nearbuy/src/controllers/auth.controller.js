@@ -73,7 +73,7 @@ class AuthController {
           vendorId: existingVendor._id,
           storeName: existingVendor.businessName,
           storeSlug: defaultSlug,
-          description: "Welcome to our local storefront on Nearbuy.",
+          description: "Welcome to our local storefront on Streetunics.",
           address: "Namakkal Main Road", // 👈 Required field in Store schema
           city: "Namakkal",
           isActive: true, // Instantly visible on the customer directory & homepage!

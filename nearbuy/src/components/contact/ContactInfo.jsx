@@ -6,7 +6,7 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 const INFO_ITEMS = [
   {
     title: "HQ Address",
-    description: "Nearby Clothing Platforms Pvt Ltd, 45, Salem Main Road, Opposite Collectorate, Namakkal, Tamil Nadu 637001",
+    description: "Streetunics Platforms Pvt Ltd, 45, Salem Main Road, Opposite Collectorate, Namakkal, Tamil Nadu 637001",
     icon: (
       <svg className="w-5 h-5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -15,7 +15,7 @@ const INFO_ITEMS = [
   },
   {
     title: "Support Desk",
-    description: "support@nearbyclothing.com",
+    description: "support@streetunics.com",
     icon: (
       <svg className="w-5 h-5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L22 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />

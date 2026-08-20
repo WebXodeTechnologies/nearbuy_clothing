@@ -138,13 +138,13 @@ export default function HeroSection() {
             <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full text-xs font-semibold bg-white text-slate-700 border border-slate-200 shadow-md backdrop-blur-md">
               <div className="flex -space-x-2 overflow-hidden">
                 <div className="relative h-6 w-6 rounded-full ring-2 ring-white overflow-hidden">
-                  <Image src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Shopper 1" fill className="object-cover" />
+                  <Image src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Shopper 1" fill sizes="24px" className="object-cover" />
                 </div>
                 <div className="relative h-6 w-6 rounded-full ring-2 ring-white overflow-hidden">
-                  <Image src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="Shopper 2" fill className="object-cover" />
+                  <Image src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="Shopper 2" fill sizes="24px" className="object-cover" />
                 </div>
                 <div className="relative h-6 w-6 rounded-full ring-2 ring-white overflow-hidden">
-                  <Image src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Shopper 3" fill className="object-cover" />
+                  <Image src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Shopper 3" fill sizes="24px" className="object-cover" />
                 </div>
               </div>
               <span className="font-medium">Trusted by <strong className="text-slate-900">15,000+</strong> Namakkal Shoppers</span>
@@ -199,7 +199,7 @@ export default function HeroSection() {
               {/* Top-Right Floating Shopper Avatar */}
               <div className="absolute -top-6 -right-6 z-30 hidden sm:flex items-center gap-3 bg-white/95 backdrop-blur-xl border border-slate-200 px-3.5 py-2 rounded-2xl shadow-xl animate-bounce duration-4500">
                 <div className="relative h-10 w-10 rounded-xl ring-2 ring-amber-400/50 overflow-hidden shadow-xs">
-                  <Image src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&auto=format&fit=crop&q=80" alt="Priya Namakkal" fill className="object-cover" />
+                  <Image src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&auto=format&fit=crop&q=80" alt="Priya Namakkal" fill sizes="40px" className="object-cover" />
                 </div>
                 <div className="text-left">
                   <div className="flex items-center gap-1">
@@ -213,7 +213,7 @@ export default function HeroSection() {
               {/* Bottom-Right Floating Shopper Avatar */}
               <div className="absolute -bottom-6 -right-8 z-30 hidden sm:flex items-center gap-3 bg-white/95 backdrop-blur-xl border border-slate-200 px-3.5 py-2 rounded-2xl shadow-xl animate-bounce duration-5500">
                 <div className="relative h-10 w-10 rounded-xl ring-2 ring-emerald-400/50 overflow-hidden shadow-xs">
-                  <Image src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&auto=format&fit=crop&q=80" alt="Karthik Namakkal" fill className="object-cover" />
+                  <Image src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&auto=format&fit=crop&q=80" alt="Karthik Namakkal" fill sizes="40px" className="object-cover" />
                 </div>
                 <div className="text-left">
                   <div className="flex items-center gap-1">
@@ -227,7 +227,7 @@ export default function HeroSection() {
               {/* Mid-Left Floating Shopper Avatar */}
               <div className="absolute top-1/2 -left-8 z-30 hidden sm:flex items-center gap-2.5 bg-white/95 backdrop-blur-xl border border-slate-200 px-3.5 py-2 rounded-2xl shadow-xl animate-pulse duration-3000">
                 <div className="relative h-8 w-8 rounded-xl ring-2 ring-purple-400/50 overflow-hidden shadow-xs">
-                  <Image src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Divya" fill className="object-cover" />
+                  <Image src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Divya" fill sizes="32px" className="object-cover" />
                 </div>
                 <div className="text-left">
                   <p className="text-[10px] font-bold text-slate-900">Divya K.</p>

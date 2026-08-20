@@ -57,10 +57,10 @@ class AuthService {
       await resend.emails.send({
         from: EMAIL_FROM,
         to: [normalizedEmail],
-        subject: "Verify Your Nearbuy Account",
+        subject: "Verify Your Streetunics Account",
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #f8fafc;">
-            <h2 style="color: #0f172a;">Welcome to Nearbuy, ${name}!</h2>
+            <h2 style="color: #0f172a;">Welcome to Streetunics, ${name}!</h2>
             <p style="color: #334155;">Please verify your email address to activate your account by clicking below:</p>
             <a href="${verificationLink}" style="background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block; margin: 20px 0;">Verify Email</a>
             <p style="color: #64748b; font-size: 12px;">If you didn't request this, please ignore this email.</p>
@@ -124,7 +124,7 @@ class AuthService {
       await resend.emails.send({
         from: EMAIL_FROM,
         to: [normalizedEmail],
-        subject: "Reset Your Nearbuy Password",
+        subject: "Reset Your Streetunics Password",
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
             <h2>Password Reset Request</h2>

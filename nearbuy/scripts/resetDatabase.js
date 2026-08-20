@@ -15,7 +15,7 @@ import Analytics from "../src/models/Analytics.js";
 
 async function resetDatabase() {
   try {
-    console.log("\n🚀 Resetting Nearbuy Database...\n");
+    console.log("\n🚀 Resetting Streetunics Database...\n");
 
     await dbConnect();
 

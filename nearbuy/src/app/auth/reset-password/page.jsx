@@ -57,7 +57,7 @@ function ResetPasswordContent() {
             <div className="sm:mx-auto sm:w-full sm:max-w-md text-center space-y-4 relative z-10 px-4">
                 <Link href="/" className="inline-flex flex-col items-center gap-3 group focus:outline-none">
                     <div className="flex items-center justify-center px-6 py-3 rounded-2xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-md">
-                        <Image src={logoImg} alt="Nearbuy Logo" width={612} height={408} priority className="h-16 sm:h-20 w-auto object-contain" />
+                        <Image src={logoImg} alt="Streetunics Logo" width={612} height={408} priority className="h-16 sm:h-20 w-auto object-contain" />
                     </div>
                 </Link>
                 <h2 className="text-3xl font-heading font-black text-slate-950 tracking-tight">

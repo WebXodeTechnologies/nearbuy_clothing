@@ -70,12 +70,12 @@ export default function Footer() {
 
           {/* Brand Info Column */}
           <div className="lg:col-span-1 space-y-5">
-            <Link href="/" className="inline-block group focus:outline-none" aria-label="Nearbuy Clothing">
+            <Link href="/" className="inline-block group focus:outline-none" aria-label="Streetunics Clothing">
               {/* White Glassmorphic Card Container for Logo Visibility */}
               <div className="flex items-center justify-center px-5 py-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-white shadow-xl group-hover:scale-105 transition-all duration-300">
                 <Image
                   src={logoImg}
-                  alt="Nearbuy Clothing"
+                  alt="Streetunics Clothing"
                   width={612}
                   height={408}
                   className="h-14 sm:h-16 w-auto object-contain transition-transform duration-300"
@@ -234,7 +234,7 @@ export default function Footer() {
 
           {/* Copyright Line */}
           <div className="text-center md:text-left">
-            <span>&copy; {currentYear} <strong className="text-white font-bold">Nearbuy Clothing</strong>. All rights reserved.</span>
+            <span>&copy; {currentYear} <strong className="text-white font-bold">Streetunics</strong>. All rights reserved.</span>
           </div>
 
           {/* WebXode Technologies Attribution & Credit */}

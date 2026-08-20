@@ -101,6 +101,7 @@ export default function Sidebar({ type = "vendor" }) {
                 src="/logos/logo2.png"
                 alt="Streetunics Logo"
                 fill
+                sizes="(max-width: 768px) 100vw, 250px"
                 className="object-contain p-1.5"
                 unoptimized
               />

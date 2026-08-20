@@ -5,12 +5,12 @@ const cmsPages = [
     title: "About Us",
     slug: "about-us",
     content: `
-      <h1>About Nearbuy</h1>
-      <p>Nearbuy is a hyperlocal clothing discovery platform that helps customers discover nearby fashion stores, latest collections, and exclusive offers.</p>
+      <h1>About Streetunics</h1>
+      <p>Streetunics is a hyperlocal clothing discovery platform that helps customers discover nearby fashion stores, latest collections, and exclusive offers.</p>
     `,
-    metaTitle: "About Nearbuy",
+    metaTitle: "About Streetunics",
     metaDescription:
-      "Learn more about Nearbuy and our mission to connect customers with local fashion stores.",
+      "Learn more about Streetunics and our mission to connect customers with local fashion stores.",
     isActive: true,
   },
 
@@ -19,11 +19,11 @@ const cmsPages = [
     slug: "contact-us",
     content: `
       <h1>Contact Us</h1>
-      <p>Need help? Reach out to our support team for any queries regarding Nearbuy.</p>
+      <p>Need help? Reach out to our support team for any queries regarding Streetunics.</p>
     `,
-    metaTitle: "Contact Nearbuy",
+    metaTitle: "Contact Streetunics",
     metaDescription:
-      "Contact Nearbuy support for assistance regarding stores, vendors, and platform services.",
+      "Contact Streetunics support for assistance regarding stores, vendors, and platform services.",
     isActive: true,
   },
 
@@ -36,7 +36,7 @@ const cmsPages = [
     `,
     metaTitle: "Privacy Policy",
     metaDescription:
-      "Read Nearbuy's privacy policy and understand how your personal information is protected.",
+      "Read Streetunics's privacy policy and understand how your personal information is protected.",
     isActive: true,
   },
 
@@ -45,11 +45,11 @@ const cmsPages = [
     slug: "terms-and-conditions",
     content: `
       <h1>Terms & Conditions</h1>
-      <p>Please read these terms carefully before using the Nearbuy platform.</p>
+      <p>Please read these terms carefully before using the Streetunics platform.</p>
     `,
     metaTitle: "Terms & Conditions",
     metaDescription:
-      "Read the terms and conditions for using the Nearbuy platform.",
+      "Read the terms and conditions for using the Streetunics platform.",
     isActive: true,
   },
 
@@ -58,11 +58,11 @@ const cmsPages = [
     slug: "refund-policy",
     content: `
       <h1>Refund Policy</h1>
-      <p>Subscription refunds are governed by the refund policy published by Nearbuy.</p>
+      <p>Subscription refunds are governed by the refund policy published by Streetunics.</p>
     `,
     metaTitle: "Refund Policy",
     metaDescription:
-      "Read Nearbuy's refund policy for subscription payments and cancellations.",
+      "Read Streetunics's refund policy for subscription payments and cancellations.",
     isActive: true,
   },
 
@@ -71,10 +71,10 @@ const cmsPages = [
     slug: "faq",
     content: `
       <h1>Frequently Asked Questions</h1>
-      <p>Find answers to common questions about Nearbuy, vendor subscriptions, stores, and offers.</p>
+      <p>Find answers to common questions about Streetunics, vendor subscriptions, stores, and offers.</p>
     `,
     metaTitle: "FAQ",
-    metaDescription: "Frequently asked questions about Nearbuy.",
+    metaDescription: "Frequently asked questions about Streetunics.",
     isActive: true,
   },
 ];

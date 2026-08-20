@@ -114,7 +114,7 @@ export default function WhyChooseUsSection() {
             style={{ color: "#cbd5e1" }}
             className="mt-4 text-base sm:text-lg text-slate-300! leading-relaxed font-body max-w-2xl mx-auto font-medium"
           >
-            Online shopping is convenient, but apparel requires tactile quality, exact sizing, and immediate availability. Here is how Nearbuy bridges the physical-digital gap in Namakkal.
+            Online shopping is convenient, but apparel requires tactile quality, exact sizing, and immediate availability. Here is how Streetunics bridges the physical-digital gap in Namakkal.
           </p>
         </div>
 

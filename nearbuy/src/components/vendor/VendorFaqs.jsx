@@ -6,7 +6,7 @@ import FaqSection from "../home/FaqSection";
 const VENDOR_FAQS = [
   {
     question: "Do you charge commissions on my store sales?",
-    answer: "No! Nearby Clothing is a listing directory, not an e-commerce marketplace. Customers discover your store here but purchase physically at your shop. We charge 0% sales commission. You only pay the flat subscription fee for premium visibility."
+    answer: "No! Streetunics Clothing is a listing directory, not an e-commerce marketplace. Customers discover your store here but purchase physically at your shop. We charge 0% sales commission. You only pay the flat subscription fee for premium visibility."
   },
   {
     question: "How long does vendor registration and approval take?",

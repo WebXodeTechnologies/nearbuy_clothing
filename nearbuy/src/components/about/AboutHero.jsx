@@ -71,13 +71,13 @@ export default function AboutHero() {
         </h1>
         <div className="space-y-4 text-black text-md sm:text-lg leading-relaxed">
           <p>
-            Nearby Clothing was founded with a simple realization: local brick-and-mortar clothing stores possess incredible design talent and unique collections, yet struggle to compete against multi-billion dollar online retailers.
+            Streetunics Clothing was founded with a simple realization: local brick-and-mortar clothing stores possess incredible design talent and unique collections, yet struggle to compete against multi-billion dollar online retailers.
           </p>
           <p>
             We asked ourselves: why wait for package deliveries and deal with size returns when the perfect dress or suit might be hanging in a boutique just 500 meters down your street?
           </p>
           <p>
-            Nearby Clothing is not an e-commerce platform. We don&apos;t believe in adding shipping trucks to streets. Instead, we showcase physical merchant inventories digitally, allowing shoppers to discover fashion locally, try sizes physically, and support neighborhood boutique stores.
+            Streetunics Clothing is not an e-commerce platform. We don&apos;t believe in adding shipping trucks to streets. Instead, we showcase physical merchant inventories digitally, allowing shoppers to discover fashion locally, try sizes physically, and support neighborhood boutique stores.
           </p>
         </div>
       </motion.div>
@@ -102,7 +102,7 @@ export default function AboutHero() {
               rotateY,
               transformStyle: "preserve-3d",
             }}
-            className="relative transition-all duration-300 h-[360px] group cursor-pointer"
+            className="relative transition-all duration-300 h-90 group cursor-pointer"
           >
             {/* Image card with overflow hidden - separates visual boundaries from float badge */}
             <div

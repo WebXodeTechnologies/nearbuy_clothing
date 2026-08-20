@@ -1,4 +1,4 @@
-// High-fidelity mock data for Nearby Clothing hyperlocal listing platform localized for Namakkal
+// High-fidelity mock data for Streetunics Clothing hyperlocal listing platform localized for Namakkal
 
 export const categories = [
   {
@@ -5599,7 +5599,7 @@ export const testimonials = [
     id: 1,
     name: "Rohan Malhotra",
     role: "Regular Shopper",
-    text: "Nearby Clothing has changed how I shop in Namakkal. Instead of ordering online and waiting for returns because of size issues, I discovered boutiques like Hunter Mens & Bivol on Salem Road. I can walk in, try them on, and support local shops directly!",
+    text: "Streetunics Clothing has changed how I shop in Namakkal. Instead of ordering online and waiting for returns because of size issues, I discovered boutiques like Hunter Mens & Bivol on Salem Road. I can walk in, try them on, and support local shops directly!",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80"
   },
   {
@@ -5613,15 +5613,15 @@ export const testimonials = [
     id: 3,
     name: "Vikram R.",
     role: "Store Owner, Unlimited Fashion Store",
-    text: "As a vendor in Namakkal R.P Pudur, our footfall has increased by 35% since listing on Nearby Clothing. Customers frequently show us our offers on their phones that they discovered through the platform. Highly recommended!",
+    text: "As a vendor in Namakkal R.P Pudur, our footfall has increased by 35% since listing on Streetunics Clothing. Customers frequently show us our offers on their phones that they discovered through the platform. Highly recommended!",
     avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&h=100&q=80"
   }
 ];
 
 export const faqs = [
   {
-    question: "Is Nearby Clothing an e-commerce website?",
-    answer: "No, Nearby Clothing is a hyperlocal business directory. You cannot buy clothing directly on our website. Instead, you can discover local stores in your neighborhood, browse their latest collections, view current discounts, and visit their physical stores to purchase."
+    question: "Is Streetunics Clothing an e-commerce website?",
+    answer: "No, Streetunics Clothing is a hyperlocal business directory. You cannot buy clothing directly on our website. Instead, you can discover local stores in your neighborhood, browse their latest collections, view current discounts, and visit their physical stores to purchase."
   },
   {
     question: "How do I contact a vendor?",

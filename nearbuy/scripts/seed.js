@@ -10,7 +10,7 @@ import seedCMS from "./seedCMS.js";
 
 async function seedDatabase() {
   try {
-    console.log("\n🚀 Starting Nearbuy Database Seeder...\n");
+    console.log("\n🚀 Starting Streetunics Database Seeder...\n");
 
     await dbConnect();
 

@@ -5,10 +5,11 @@ import Image from "next/image";
 
 export default function OptimizedImage({
     src,
-    alt = "Nearbuy vendor asset",
+    alt = "Streetunics vendor asset",
     fill = false,
     width,
     height,
+    sizes,
     className = "",
     fallbackSrc = "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80",
 }) {
@@ -22,7 +23,7 @@ export default function OptimizedImage({
                 fill={fill}
                 width={!fill ? width || 400 : undefined}
                 height={!fill ? height || 400 : undefined}
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                sizes={sizes || "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
                 loading="lazy"
                 quality={85} // Perfect balance between compression quality and blazing fast speed
                 onError={() => setImgSrc(fallbackSrc)}

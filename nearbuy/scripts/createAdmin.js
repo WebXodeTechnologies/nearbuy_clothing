@@ -9,7 +9,7 @@ async function createAdmin() {
   try {
     await dbConnect();
 
-    const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@nearbuy.com";
+    const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@streetunics.com";
     const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Admin@123456";
 
     let admin = await User.findOne({

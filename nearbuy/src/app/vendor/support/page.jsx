@@ -39,16 +39,16 @@ export default function VendorSupport() {
 
   const faqs = [
     {
-      q: "How do customers discover my clothing store on Nearbuy?",
-      a: "Nearbuy ranks physical stores based on customer distance (hyperlocal GPS), store completeness score, and active lookbook collections. Gold Pro vendors rank in the top 5% of neighborhood search.",
+      q: "How do customers discover my clothing store on Streetunics?",
+      a: "Streetunics ranks physical stores based on customer distance (hyperlocal GPS), store completeness score, and active lookbook collections. Gold Pro vendors rank in the top 5% of neighborhood search.",
     },
     {
-      q: "Do I sell my clothing items directly online through Nearbuy?",
-      a: "No! Nearbuy is designed specifically for offline clothing stores. Customers view your lookbooks, check stock availability, click WhatsApp or phone call, and walk into your physical store to purchase.",
+      q: "Do I sell my clothing items directly online through Streetunics?",
+      a: "No! Streetunics is designed specifically for offline clothing stores. Customers view your lookbooks, check stock availability, click WhatsApp or phone call, and walk into your physical store to purchase.",
     },
     {
       q: "How do promotional coupon codes work?",
-      a: "When you launch a promotion (e.g. FLAT 20% OFF), shoppers claim the code on Nearbuy and show the digital coupon on their phone when paying at your store register.",
+      a: "When you launch a promotion (e.g. FLAT 20% OFF), shoppers claim the code on Streetunics and show the digital coupon on their phone when paying at your store register.",
     },
     {
       q: "How can I change my store address or Google Maps pin location?",
@@ -67,7 +67,7 @@ export default function VendorSupport() {
       for (const file of files) {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("upload_preset", "nearbuy_preset"); // Replace with your Cloudinary preset
+        formData.append("upload_preset", "streetunics_preset"); // Replace with your Cloudinary preset
 
         const res = await fetch(
           `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
@@ -112,9 +112,9 @@ export default function VendorSupport() {
   };
 
   const openWhatsAppSupport = () => {
-    const phone = "919820012345"; // Replace with Nearbuy Admin Support Phone Number
+    const phone = "919820012345"; // Replace with Streetunics Admin Support Phone Number
     const text = encodeURIComponent(
-      "Hello Nearbuy Support! I need assistance with my merchant store account."
+      "Hello Streetunics Support! I need assistance with my merchant store account."
     );
     window.open(`https://wa.me/${phone}?text=${text}`, "_blank");
   };
@@ -143,7 +143,7 @@ export default function VendorSupport() {
           </div>
           <h3 className="text-base font-bold text-slate-900">WhatsApp Merchant Chat</h3>
           <p className="text-xs text-slate-500 font-medium">
-            Connect directly with your dedicated local Nearbuy account advisor.
+            Connect directly with your dedicated local Streetunics account advisor.
           </p>
           <button
             onClick={openWhatsAppSupport}

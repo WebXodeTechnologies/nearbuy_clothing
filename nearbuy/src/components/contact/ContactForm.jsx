@@ -184,7 +184,7 @@ export default function ContactForm() {
             </div>
 
             <h3 className="font-heading font-black text-slate-900 text-2xl tracking-tight leading-tight">
-              {formType === "onboarding" ? "List Your Store On Nearbuy" : "General Questions & Assistance"}
+              {formType === "onboarding" ? "List Your Store On Streetunics" : "General Questions & Assistance"}
             </h3>
             <p className="text-slate-500 text-xs sm:text-sm leading-relaxed font-semibold">
               {formType === "onboarding"

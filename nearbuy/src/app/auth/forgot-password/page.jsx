@@ -59,7 +59,7 @@ function ForgotPasswordContent() {
   return (
     <div className="min-h-screen bg-slate-50/40 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden font-body">
       {/* Decorative Background dot patterns */}
-      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_2px)] bg-[size:24px_24px] opacity-75 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_2px)] bg-size-[24px_24px] opacity-75 pointer-events-none" />
 
       {/* Floating Ambient Mesh Glows */}
       <motion.div
@@ -68,7 +68,7 @@ function ForgotPasswordContent() {
           opacity: [0.15, 0.22, 0.15],
         }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-10 right-1/4 w-[400px] h-[400px] bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute top-10 right-1/4 w-100 h-100 bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
       />
       <motion.div
         animate={{
@@ -81,7 +81,7 @@ function ForgotPasswordContent() {
           ease: "easeInOut",
           delay: 2,
         }}
-        className="absolute bottom-10 left-1/4 w-[350px] h-[350px] bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute bottom-10 left-1/4 w-87.5 h-87.5 bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
       />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center space-y-4 relative z-10 px-4">
@@ -93,7 +93,7 @@ function ForgotPasswordContent() {
           <div className="flex items-center justify-center px-6 py-3 rounded-2xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-md group-hover:scale-105 group-hover:border-purple-300 transition-all duration-300">
             <Image
               src={logoImg}
-              alt="Nearbuy Logo"
+              alt="Streetunics Logo"
               width={612}
               height={408}
               priority

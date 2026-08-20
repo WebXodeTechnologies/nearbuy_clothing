@@ -9,7 +9,7 @@ export async function sendTestEmail() {
       from: "onboarding@resend.dev",
       to: "streetunics@gmail.com",
       subject: "Hello World",
-      html: "<p>Congrats on sending your <strong>first email</strong> through Nearbuy SaaS!</p>",
+      html: "<p>Congrats on sending your <strong>first email</strong> through Streetunics SaaS!</p>",
     });
 
     if (error) {

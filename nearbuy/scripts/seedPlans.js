@@ -5,7 +5,7 @@ const plans = [
     name: "FREE",
     slug: "free",
     description:
-      "Perfect for small clothing stores getting started on Nearbuy.",
+      "Perfect for small clothing stores getting started on Streetunics.",
 
     price: 0,
     billingCycle: "Monthly",

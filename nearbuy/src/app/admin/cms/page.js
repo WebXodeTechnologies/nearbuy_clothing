@@ -74,7 +74,7 @@ export default function CmsPage() {
           slug: "privacy-policy",
           category: "Legal",
           content:
-            "Nearbuy Privacy Policy details data retention and location telemetry...",
+            "Streetunics Privacy Policy details data retention and location telemetry...",
           updatedAt: new Date().toISOString(),
           isActive: true,
         },

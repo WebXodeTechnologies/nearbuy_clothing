@@ -24,13 +24,13 @@ export default function TermsPage() {
         <Card className="bg-white">
           <CardBody className="p-6 sm:p-8 space-y-6 text-xs sm:text-sm text-gray-600 leading-relaxed">
             <p>
-              Welcome to Nearby Clothing. By accessing or using our directory platform, you agree to comply with and be bound by the following terms of use. Please read them carefully.
+              Welcome to Streetunics. By accessing or using our directory platform, you agree to comply with and be bound by the following terms of use. Please read them carefully.
             </p>
 
             <div className="space-y-2">
               <h3 className="font-bold text-gray-950 text-sm">1. Non-E-Commerce Platform Scope</h3>
               <p>
-                Nearby Clothing is a hyperlocal directory directory platform that assists customers in discovering local physical apparel outlets, catalog lookbooks, and active coupons. 
+                Streetunics is a hyperlocal directory platform that assists customers in discovering local physical apparel outlets, catalog lookbooks, and active coupons. 
               </p>
               <p className="font-semibold text-gray-800">
                 You cannot buy, check out, pay for, or ship clothing items through this website. All financial transactions must take place physically at the vendor&apos;s retail shop.
@@ -47,14 +47,14 @@ export default function TermsPage() {
             <div className="space-y-2">
               <h3 className="font-bold text-gray-950 text-sm">3. Merchant Content Integrity</h3>
               <p>
-                Merchants registered under our subscription tiers are responsible for the accuracy of their catalog lookbooks, pricing details, operational hours, and gallery images. Nearby Clothing does not guarantee stock availability at any physical store location.
+                Merchants registered under our subscription tiers are responsible for the accuracy of their catalog lookbooks, pricing details, operational hours, and gallery images. Streetunics does not guarantee stock availability at any physical store location.
               </p>
             </div>
 
             <div className="space-y-2">
               <h3 className="font-bold text-gray-950 text-sm">4. Limitation of Liability</h3>
               <p>
-                Nearby Clothing shall not be liable for any disputes, size mismatches, garment quality defects, or transactions taking place at the physical retail shops. We act solely as a discovery link between buyers and boutiques.
+                Streetunics shall not be liable for any disputes, size mismatches, garment quality defects, or transactions taking place at the physical retail shops. We act solely as a discovery link between buyers and boutiques.
               </p>
             </div>
           </CardBody>

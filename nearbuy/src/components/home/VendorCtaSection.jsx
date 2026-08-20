@@ -202,7 +202,7 @@ export default function VendorCtaSection() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-base sm:text-lg text-slate-600 leading-relaxed font-body"
             >
-              Join 150+ clothing store vendors on Nearbuy. Showcase seasonal inventory lookbooks, publish walk-in discount deals, and drive nearby shoppers straight to your storefront.
+              Join 150+ clothing store vendors on Streetunics. Showcase seasonal inventory lookbooks, publish walk-in discount deals, and drive nearby shoppers straight to your storefront.
             </motion.p>
 
             {/* Benefit Cards Spotlight Grid */}
