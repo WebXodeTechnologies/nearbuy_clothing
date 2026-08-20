@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -11,57 +10,24 @@ import Image from "next/image";
 import { toast } from "react-hot-toast";
 import logoImg from "@public/logos/logo2.png";
 
-function ResetPasswordContent() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const tokenParam = searchParams.get("token") || "";
-  const emailParam = searchParams.get("email") || "";
-
-  const [token, setToken] = useState(tokenParam);
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+function ForgotPasswordContent() {
+  const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [feedback, setFeedback] = useState("");
-  const [isSuccess, setIsSuccess] = useState(false);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (tokenParam) setToken(tokenParam);
-  }, [tokenParam]);
+  const [message, setMessage] = useState("");
+  const [resetToken, setResetToken] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setFeedback("");
-
-    if (!token) {
-      setFeedback("Password reset token is missing or invalid.");
-      return;
-    }
-
-    if (newPassword !== confirmPassword) {
-      setFeedback("Passwords do not match.");
-      return;
-    }
-
-    if (newPassword.length < 6) {
-      setFeedback("Password must be at least 6 characters long.");
-      return;
-    }
-
     setIsLoading(true);
+    setMessage("");
 
     try {
-      const res = await fetch("/api/auth/reset-password", {
+      const res = await fetch("/api/auth/forget-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          token,
-          newPassword: newPassword, // 👈 Fixed: matches backend Zod schema field name
-        }),
+        body: JSON.stringify({ email }),
       });
 
-      // Safely parse text response to prevent JSON parsing crashes on server errors
       const responseText = await res.text();
       let data;
       try {
@@ -72,22 +38,19 @@ function ResetPasswordContent() {
 
       if (!res.ok) {
         throw new Error(
-          data.message || data.error || "Failed to reset password.",
+          data.message || data.error || "Failed to process request.",
         );
       }
 
-      setIsSuccess(true);
-      setFeedback(
-        "Your password has been successfully reset! Redirecting to login...",
+      setMessage(
+        "Password reset email sent successfully via Resend! Check your inbox.",
       );
-      toast.success("Password reset successfully!");
-
-      setTimeout(() => {
-        router.push("/auth/login");
-      }, 2000);
+      if (data.data?.token || data.token) {
+        setResetToken(data.data?.token || data.token);
+      }
+      toast.success("Reset email sent successfully!");
     } catch (err) {
-      setFeedback(err.message || "Error resetting password.");
-      toast.error(err.message || "Reset failed");
+      toast.error(err.message || "Failed to send reset link");
     } finally {
       setIsLoading(false);
     }
@@ -140,56 +103,45 @@ function ResetPasswordContent() {
         </Link>
 
         <h2 className="text-3xl font-heading font-black text-slate-950 tracking-tight leading-tight">
-          Reset Your Password
+          Forgot Your Password?
         </h2>
         <p className="text-xs text-slate-500 font-semibold">
-          {emailParam ? (
-            <span>
-              Setting new password for{" "}
-              <strong className="text-slate-700">{emailParam}</strong>
-            </span>
-          ) : (
-            "Enter your secure new password below to regain access."
-          )}
+          Enter your registered email address below, and we&apos;ll send a
+          password reset link via Resend.
         </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10 px-4">
         <Card className="bg-white/95 backdrop-blur-md border border-slate-100/70 rounded-3xl shadow-xl">
           <CardBody className="p-8 space-y-6">
-            {feedback && (
-              <div
-                className={`p-4 text-xs rounded-2xl border font-bold ${
-                  isSuccess
-                    ? "text-emerald-700 bg-emerald-50 border-emerald-200"
-                    : "text-red-600 bg-red-50 border-red-200"
-                }`}
-              >
-                {feedback}
+            {message && (
+              <div className="p-4 rounded-2xl bg-emerald-50 text-emerald-800 text-xs border border-emerald-100 space-y-2">
+                <p className="font-bold">{message}</p>
+                <div className="pt-2">
+                  <Link
+                    href={
+                      resetToken
+                        ? `/auth/reset-password?token=${resetToken}`
+                        : `/auth/reset-password?email=${encodeURIComponent(email)}`
+                    }
+                    className="font-bold text-purple-600 hover:text-purple-700 underline"
+                  >
+                    Proceed to Reset Password Page →
+                  </Link>
+                </div>
               </div>
             )}
 
-            {!isSuccess && (
+            {!message && (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <Input
-                  label="New Password"
-                  name="newPassword"
-                  type="password"
-                  placeholder="••••••••"
+                  label="Email Address"
+                  name="email"
+                  type="email"
+                  placeholder="you@example.com"
                   required
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  className="border-slate-200 focus:border-purple-500 focus:ring-purple-100"
-                />
-
-                <Input
-                  label="Confirm New Password"
-                  name="confirmPassword"
-                  type="password"
-                  placeholder="••••••••"
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="border-slate-200 focus:border-purple-500 focus:ring-purple-100"
                 />
 
@@ -198,7 +150,7 @@ function ResetPasswordContent() {
                   isLoading={isLoading}
                   className="w-full mt-2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-purple-600/20 cursor-pointer"
                 >
-                  Update Password
+                  Send Reset Details
                 </Button>
               </form>
             )}
@@ -218,7 +170,7 @@ function ResetPasswordContent() {
   );
 }
 
-export default function ResetPasswordPage() {
+export default function ForgotPasswordPage() {
   return (
     <Suspense
       fallback={
@@ -227,7 +179,7 @@ export default function ResetPasswordPage() {
         </div>
       }
     >
-      <ResetPasswordContent />
+      <ForgotPasswordContent />
     </Suspense>
   );
 }

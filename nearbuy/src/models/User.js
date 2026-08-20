@@ -151,11 +151,6 @@ const UserSchema = new mongoose.Schema(
   },
 );
 
-UserSchema.index({ email: 1 });
-UserSchema.index({ role: 1 });
-UserSchema.index({ providerId: 1 });
-UserSchema.index({ vendorId: 1 });
-
 UserSchema.set("toJSON", {
   transform: (_, ret) => {
     delete ret.password;

@@ -17,6 +17,20 @@ class AuthController {
   async register(req) {
     await dbConnect();
     const body = await req.json();
+
+    // 🔒 STRICT SECURITY CHECK: Block public registration of ADMIN roles
+    if (body.role && body.role.toUpperCase() === "ADMIN") {
+      throw new ApiError(
+        403,
+        "Administrators cannot be created through public registration.",
+      );
+    }
+
+    // Force role to be strictly VENDOR or USER
+    if (body.role) {
+      body.role = body.role.toUpperCase() === "VENDOR" ? "VENDOR" : "USER";
+    }
+
     const validatedData = validate(registerSchema, body);
 
     // 1. Register the core user
@@ -54,12 +68,13 @@ class AuthController {
       // Check if store profile already exists
       let existingStore = await Store.findOne({ vendorId: existingVendor._id });
       if (!existingStore) {
-        // Create Store Profile for Frontend Directory
+        // Create Store Profile for Frontend Directory (address included to satisfy Store schema requirement)
         await Store.create({
           vendorId: existingVendor._id,
           storeName: existingVendor.businessName,
           storeSlug: defaultSlug,
           description: "Welcome to our local storefront on Nearbuy.",
+          address: "Namakkal Main Road", // 👈 Required field in Store schema
           city: "Namakkal",
           isActive: true, // Instantly visible on the customer directory & homepage!
         });
