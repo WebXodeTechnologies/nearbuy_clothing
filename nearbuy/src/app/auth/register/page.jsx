@@ -25,12 +25,8 @@ function RegisterContent() {
         name: formData.name,
         email: formData.email,
         password: formData.password,
-        role:
-          selectedRole === "vendor"
-            ? "VENDOR"
-            : selectedRole === "admin"
-              ? "ADMIN"
-              : "USER",
+        // Role is strictly restricted to VENDOR or USER
+        role: selectedRole === "vendor" ? "VENDOR" : "USER",
         plan: selectedRole === "vendor" ? selectedPlan : undefined,
       };
 
@@ -49,9 +45,7 @@ function RegisterContent() {
       toast.success("Account created successfully!");
 
       const userRole = data.data?.role || payload.role;
-      if (userRole === "ADMIN") {
-        router.push("/admin/dashboard");
-      } else if (userRole === "VENDOR") {
+      if (userRole === "VENDOR") {
         router.push("/vendor/dashboard?setup=store");
       } else {
         router.push("/");
@@ -130,16 +124,15 @@ function RegisterContent() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10 px-4">
         <Card className="bg-white/95 backdrop-blur-md border border-slate-100/70 rounded-3xl shadow-xl">
           <CardBody className="p-8 space-y-6">
-            {/* Account Role Selector */}
+            {/* Account Role Selector (Admin removed) */}
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-slate-700 block">
                 Register as:
               </label>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 gap-3">
                 {[
                   { value: "vendor", label: "Merchant" },
                   { value: "customer", label: "Customer" },
-                  { value: "admin", label: "Admin" },
                 ].map((role) => {
                   const isSelected = selectedRole === role.value;
                   return (
@@ -147,11 +140,10 @@ function RegisterContent() {
                       type="button"
                       key={role.value}
                       onClick={() => setSelectedRole(role.value)}
-                      className={`py-2 px-2 rounded-xl text-xs font-bold transition-all border cursor-pointer select-none ${
-                        isSelected
+                      className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all border cursor-pointer select-none ${isSelected
                           ? "bg-purple-600 border-purple-600 text-white shadow-sm"
                           : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
-                      }`}
+                        }`}
                     >
                       {role.label}
                     </button>
