@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚀 Nearby Clothing Platform
+# 🚀 Streetunics Clothing Platform
 
 ### Discover Local Fashion. Empower Local Businesses.
 
@@ -33,11 +33,11 @@ A modern **Hyperlocal Business Listing SaaS Platform** built for apparel busines
 
 # 📖 About the Project
 
-**Nearby Clothing Platform** is a modern Hyperlocal Business Listing SaaS application developed by **Webxode Technologies** to help local clothing and apparel businesses establish a strong digital presence.
+**Streetunics Clothing Platform** is a modern Hyperlocal Business Listing SaaS application developed by **Webxode Technologies** to help local clothing and apparel businesses establish a strong digital presence.
 
 The platform enables clothing store owners to create and manage their business profiles, showcase the latest collections, publish seasonal offers, and connect with nearby customers through an intuitive and user-friendly interface.
 
-Unlike traditional eCommerce platforms, Nearby focuses on increasing foot traffic to physical stores by helping customers discover nearby fashion businesses, explore their collections, and navigate directly to the store.
+Unlike traditional eCommerce platforms, Streetunics focuses on increasing foot traffic to physical stores by helping customers discover nearby fashion businesses, explore their collections, and navigate directly to the store.
 
 The platform is designed with scalability in mind, allowing expansion from a single city to multiple cities while supporting vendor subscriptions, content management, and business analytics.
 
@@ -45,9 +45,9 @@ The platform is designed with scalability in mind, allowing expansion from a sin
 
 Our vision is to build India's leading hyperlocal fashion discovery platform that empowers local clothing businesses through digital transformation.
 
-Nearby aims to bridge the gap between customers searching for fashion products and local apparel stores looking to increase their visibility, customer engagement, and sales.
+Streetunics aims to bridge the gap between customers searching for fashion products and local apparel stores looking to increase their visibility, customer engagement, and sales.
 
-By providing an easy-to-use business listing platform with subscription-based vendor management, Nearby creates value for both business owners and customers.
+By providing an easy-to-use business listing platform with subscription-based vendor management, Streetunics creates value for both business owners and customers.
 
 # ✨ Core Features
 
@@ -191,7 +191,7 @@ Upload Collections & Offers
 Store Published
         │
         ▼
-Customer Visits Nearby Platform
+Customer Visits Streetunics Platform
         │
         ▼
 Browse Nearby Stores
@@ -444,12 +444,12 @@ Deployment
 | Module | Status |
 |---------|--------|
 | Planning | ✅ Completed |
-| Research | 🚧 In Progress |
-| UI Design | ⏳ Pending |
-| Frontend | ⏳ Pending |
-| Backend | ⏳ Pending |
-| Testing | ⏳ Pending |
-| Deployment | ⏳ Pending |
+| Research | ✅ Completed  |
+| UI Design | ✅ Completed  |
+| Frontend | ✅ Completed  |
+| Backend | ✅ Completed  |
+| Testing | ✅ Completed  |
+| Deployment | ✅ Completed  |
 
 ---
 
@@ -491,7 +491,7 @@ without prior written permission.
 
 For licensing inquiries:
 
-📧 contact@webxode.com
+📧 contact.webxodetechnolgies@gmail.com
 🌐 https://webxode.com
 ```
 
