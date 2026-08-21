@@ -9,6 +9,18 @@ import ContactInfo from "@/components/contact/ContactInfo";
 import ContactMap from "@/components/contact/ContactMap";
 
 export default function ContactPage() {
+  const handleSubmit = async (formData) => {
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    toast.success("Message sent successfully!");
+  };
+
   return (
     <div className="flex-1 bg-slate-50/30 py-12 pt-28 sm:pt-32 relative overflow-hidden min-h-screen">
       {/* Decorative Radial dot pattern */}
@@ -18,31 +30,30 @@ export default function ContactPage() {
       <motion.div
         animate={{
           scale: [1, 1.05, 1],
-          opacity: [0.15, 0.22, 0.15]
+          opacity: [0.15, 0.22, 0.15],
         }}
         transition={{
           duration: 15,
           repeat: Infinity,
-          ease: "easeInOut"
+          ease: "easeInOut",
         }}
         className="absolute top-12 right-1/4 w-112.5 h-112.5 bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
       />
       <motion.div
         animate={{
           scale: [1, 1.08, 1],
-          opacity: [0.2, 0.28, 0.2]
+          opacity: [0.2, 0.28, 0.2],
         }}
         transition={{
           duration: 12,
           repeat: Infinity,
           ease: "easeInOut",
-          delay: 3
+          delay: 3,
         }}
         className="absolute bottom-20 left-10 w-87.5 h-87.5 bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-20 pb-20">
-
         {/* Breadcrumb glassmorphic pill */}
         <motion.div
           initial={{ opacity: 0, x: -10 }}
@@ -70,7 +81,6 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto w-full">
           <ContactForm />
         </div>
-
       </div>
     </div>
   );
