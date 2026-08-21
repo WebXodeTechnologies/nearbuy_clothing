@@ -60,7 +60,7 @@ export default function LoginForm({ onSubmit, mode = "login", role, loading }) {
       <Button
         type="submit"
         isLoading={loading}
-        className="w-full mt-2 bg-purple-600 hover:bg-purple-700 text-white font-bold"
+        className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-blue-600/20 cursor-pointer"
       >
         {mode === "register" ? "Create Account" : "Sign In"}
       </Button>

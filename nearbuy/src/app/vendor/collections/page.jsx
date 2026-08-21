@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 import useCollectionStore from "@/store/collectionStore";
 import useCategoryStore from "@/store/categoryStore";
-import { useUploadThing } from "@/utils/uploadthing"; // 👈 Import UploadThing client helper
+import { useUploadThing } from "@/utils/uploadthing";
 import {
   Plus,
   Search,
@@ -38,7 +38,7 @@ export default function VendorCollections() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCollection, setEditingCollection] = useState(null);
   const [submitting, setSubmitting] = useState(false);
-  const [isUploading, setIsUploading] = useState(false); // 👈 Upload state tracking
+  const [isUploading, setIsUploading] = useState(false);
 
   // Hidden File Input Ref
   const imageInputRef = useRef(null);
@@ -51,7 +51,35 @@ export default function VendorCollections() {
   const [image, setImage] = useState("");
   const [inStock, setInStock] = useState(true);
 
-  // 👈 Initialize UploadThing hook matching your backend router endpoint & passing user session header for 2GB enforcement
+  // 👈 Define custom category priority order
+  const categoryPriority = [
+    "men",
+    "women",
+    "kids",
+    "ethnic wear",
+    "western wear",
+    "sportswear",
+    "accessories",
+    "footwear",
+  ];
+  // Sort categories based on custom priority map
+  const sortedCategories = [...categories].sort((a, b) => {
+    const nameA = a.name?.toLowerCase().trim() || "";
+    const nameB = b.name?.toLowerCase().trim() || "";
+
+    const indexA = categoryPriority.findIndex((p) => nameA.includes(p));
+    const indexB = categoryPriority.findIndex((p) => nameB.includes(p));
+
+    // If both exist in priority list, sort by their index
+    if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+    // If only A exists, it comes first
+    if (indexA !== -1) return -1;
+    // If only B exists, it comes first
+    if (indexB !== -1) return 1;
+    // Fallback to alphabetical for any unlisted categories
+    return nameA.localeCompare(nameB);
+  });
+
   const { startUpload } = useUploadThing("vendorAssetUploader", {
     headers: {
       "x-user-email": user?.email || "",
@@ -66,7 +94,9 @@ export default function VendorCollections() {
     },
     onUploadError: (err) => {
       setIsUploading(false);
-      toast.error(err?.message || "Storage limit of 2GB reached or upload failed.");
+      toast.error(
+        err?.message || "Storage limit of 2GB reached or upload failed.",
+      );
     },
   });
 
@@ -82,7 +112,7 @@ export default function VendorCollections() {
 
   const resetForm = () => {
     setName("");
-    setCategory(categories[0]?._id || "");
+    setCategory(sortedCategories[0]?._id || "");
     setPrice("");
     setDescription("");
     setImage("");
@@ -103,7 +133,7 @@ export default function VendorCollections() {
 
   const handleOpenAdd = () => {
     resetForm();
-    setCategory(categories[0]?._id || "");
+    setCategory(sortedCategories[0]?._id || "");
     setIsModalOpen(true);
   };
 
@@ -115,17 +145,18 @@ export default function VendorCollections() {
       coll.categoryId ||
       (coll.categoryIds && coll.categoryIds[0]?._id) ||
       (coll.categoryIds && coll.categoryIds[0]) ||
-      categories[0]?._id ||
+      sortedCategories[0]?._id ||
       "";
     setCategory(catId);
-    setPrice(coll.price !== undefined && coll.price !== null ? String(coll.price) : "");
+    setPrice(
+      coll.price !== undefined && coll.price !== null ? String(coll.price) : "",
+    );
     setDescription(coll.description || "");
     setImage(coll.images?.[0] || coll.coverImage || "");
     setInStock(coll.status !== false);
     setIsModalOpen(true);
   };
 
-  // 👈 Handle PC File Upload via UploadThing Server
   const handleImageUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -170,9 +201,13 @@ export default function VendorCollections() {
                 const toastId = toast.loading("Deleting design album...");
                 try {
                   await deleteCollection(id);
-                  toast.success("Design album deleted successfully!", { id: toastId });
+                  toast.success("Design album deleted successfully!", {
+                    id: toastId,
+                  });
                 } catch (err) {
-                  toast.error(err?.message || "Failed to delete album", { id: toastId });
+                  toast.error(err?.message || "Failed to delete album", {
+                    id: toastId,
+                  });
                 }
               }}
               className="px-3 py-1.5 rounded-xl bg-rose-600 text-white text-xs font-bold hover:bg-rose-500 transition-colors cursor-pointer shadow-xs"
@@ -193,7 +228,7 @@ export default function VendorCollections() {
           padding: "16px",
           boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.1)",
         },
-      }
+      },
     );
   };
 
@@ -203,8 +238,10 @@ export default function VendorCollections() {
     try {
       await updateCollection(coll._id, { status: newStatus });
       toast.success(
-        newStatus ? "Marked as Available in Shop! 🟢" : "Marked as Out of Stock 🔴",
-        { id: toastId }
+        newStatus
+          ? "Marked as Available in Shop! 🟢"
+          : "Marked as Out of Stock 🔴",
+        { id: toastId },
       );
     } catch (err) {
       toast.error(err?.message || "Failed to update status", { id: toastId });
@@ -225,7 +262,7 @@ export default function VendorCollections() {
 
     setSubmitting(true);
     const toastId = toast.loading(
-      editingCollection ? "Saving changes..." : "Publishing album to shop..."
+      editingCollection ? "Saving changes..." : "Publishing album to shop...",
     );
 
     const payload = {
@@ -249,7 +286,9 @@ export default function VendorCollections() {
       setIsModalOpen(false);
       resetForm();
     } catch (err) {
-      toast.error(err?.message || "Failed to save design album", { id: toastId });
+      toast.error(err?.message || "Failed to save design album", {
+        id: toastId,
+      });
     } finally {
       setSubmitting(false);
     }
@@ -269,19 +308,19 @@ export default function VendorCollections() {
       {/* Header */}
       <DashboardHeader
         title="Shop Collections & New Arrivals"
-        description="Upload photos of your latest sarees, shirts, and festive collections so local Namakkal buyers can see what is inside your shop."
+        description="Upload photos of your latest sarees, shirts, and festive collections so local buyers can see what is inside your shop."
         badge="Design Showcase"
       >
         <button
           onClick={handleOpenAdd}
-          className="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black shadow-lg shadow-indigo-600/20 transition-all flex items-center gap-2 cursor-pointer"
+          className="px-6 py-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-lg shadow-blue-600/20 transition-all flex items-center gap-2 cursor-pointer"
         >
           <Plus className="w-5 h-5" />
           <span>Add New Design Album</span>
         </button>
       </DashboardHeader>
 
-      {/* Search & Category Filter Toolbar */}
+      {/* Search & Custom Sorted Category Filter Toolbar */}
       <div className="bg-white p-4 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Search Input */}
         <div className="flex items-center gap-2.5 w-full md:w-80 bg-slate-50 border border-slate-200 px-4 py-3 rounded-2xl">
@@ -295,16 +334,17 @@ export default function VendorCollections() {
           />
         </div>
 
-        {/* Category Pills */}
+        {/* Custom Sorted Category Pills */}
         <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto scrollbar-none py-1">
-          {["All", ...categories.map((c) => c.name)].map((cat) => (
+          {["All", ...sortedCategories.map((c) => c.name)].map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${selectedCategory === cat
-                  ? "bg-indigo-600 text-white border-indigo-600 shadow-xs"
+              className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
+                selectedCategory === cat
+                  ? "bg-blue-600 text-white border-blue-600 shadow-xs"
                   : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
-                }`}
+              }`}
             >
               {cat}
             </button>
@@ -315,22 +355,23 @@ export default function VendorCollections() {
       {/* Collections Grid */}
       {loading ? (
         <div className="py-20 flex justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
         </div>
       ) : filtered.length === 0 ? (
         <div className="text-center py-16 bg-white border border-slate-200/80 rounded-3xl max-w-md mx-auto shadow-xs p-8">
-          <div className="h-16 w-16 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-4 border border-indigo-100">
+          <div className="h-16 w-16 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-4 border border-blue-100">
             <ShoppingBag className="w-8 h-8" />
           </div>
           <h3 className="font-heading font-black text-slate-900 text-lg">
             No Collections Added Yet
           </h3>
           <p className="text-xs text-slate-500 mt-1.5 font-medium leading-relaxed">
-            Upload photos of your latest dresses, sarees, or festive wear to showcase them to local shoppers in Namakkal.
+            Upload photos of your latest dresses, sarees, or festive wear to
+            showcase them to local shoppers.
           </p>
           <button
             onClick={handleOpenAdd}
-            className="mt-6 px-6 py-3 rounded-2xl bg-indigo-600 text-white text-xs font-black shadow-md hover:bg-indigo-500 transition-colors cursor-pointer"
+            className="mt-6 px-6 py-3 rounded-2xl bg-blue-600 text-white text-xs font-black shadow-md hover:bg-blue-500 transition-colors cursor-pointer"
           >
             Add Your First Album
           </button>
@@ -363,10 +404,11 @@ export default function VendorCollections() {
                     <button
                       type="button"
                       onClick={() => handleToggleStock(coll)}
-                      className={`px-3 py-1 rounded-full text-[10px] font-black border backdrop-blur-md flex items-center gap-1 cursor-pointer transition-all ${coll.status !== false
+                      className={`px-3 py-1 rounded-full text-[10px] font-black border backdrop-blur-md flex items-center gap-1 cursor-pointer transition-all ${
+                        coll.status !== false
                           ? "bg-emerald-500/90 text-white border-emerald-400"
                           : "bg-rose-600/90 text-white border-rose-400"
-                        }`}
+                      }`}
                     >
                       {coll.status !== false ? (
                         <>
@@ -385,7 +427,7 @@ export default function VendorCollections() {
                     <button
                       type="button"
                       onClick={() => handleOpenEdit(coll)}
-                      className="p-2 bg-slate-950/70 hover:bg-indigo-600 text-white rounded-xl transition-colors cursor-pointer backdrop-blur-md"
+                      className="p-2 bg-slate-950/70 hover:bg-blue-600 text-white rounded-xl transition-colors cursor-pointer backdrop-blur-md"
                       title="Edit Product"
                     >
                       <Edit className="w-4 h-4" />
@@ -404,7 +446,7 @@ export default function VendorCollections() {
                 {/* Card Body */}
                 <div className="p-5 space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black text-indigo-600 uppercase tracking-wider bg-indigo-50 px-2.5 py-1 rounded-full">
+                    <span className="text-[10px] font-black text-blue-600 uppercase tracking-wider bg-blue-50 px-2.5 py-1 rounded-full">
                       {coll.categoryId?.name ||
                         (coll.categoryIds && coll.categoryIds[0]?.name) ||
                         "Apparel Collection"}
@@ -446,7 +488,11 @@ export default function VendorCollections() {
           setIsModalOpen(false);
           resetForm();
         }}
-        title={editingCollection ? "Edit Product Album" : "Add New Design / Saree Album"}
+        title={
+          editingCollection
+            ? "Edit Product Album"
+            : "Add New Design / Saree Album"
+        }
         size="md"
       >
         <form onSubmit={handleSubmit} className="space-y-4 font-body pt-2">
@@ -480,7 +526,7 @@ export default function VendorCollections() {
                 </>
               ) : (
                 <div className="flex flex-col items-center gap-2 text-slate-400 p-4 text-center">
-                  <div className="p-3 rounded-full bg-indigo-50 text-indigo-600">
+                  <div className="p-3 rounded-full bg-blue-50 text-blue-600">
                     {isUploading ? (
                       <RefreshCw className="w-6 h-6 animate-spin" />
                     ) : (
@@ -488,7 +534,9 @@ export default function VendorCollections() {
                     )}
                   </div>
                   <span className="text-xs font-bold text-slate-700">
-                    {isUploading ? "Uploading to UploadThing Server..." : "Click here to choose photo from PC"}
+                    {isUploading
+                      ? "Uploading to UploadThing Server..."
+                      : "Click here to choose photo from PC"}
                   </span>
                   <span className="text-[10px] text-slate-400">
                     JPG, PNG or WEBP (Saved to 2GB Cloud Storage)
@@ -509,7 +557,7 @@ export default function VendorCollections() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Wedding Kanchipuram Silk Sarees"
-              className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-bold text-slate-900 focus:outline-none focus:border-indigo-600"
+              className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-bold text-slate-900 focus:outline-none focus:border-blue-600"
             />
           </div>
 
@@ -522,9 +570,9 @@ export default function VendorCollections() {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-bold text-slate-900 focus:outline-none focus:border-indigo-600 cursor-pointer"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-bold text-slate-900 focus:outline-none focus:border-blue-600 cursor-pointer"
               >
-                {categories.map((cat) => (
+                {sortedCategories.map((cat) => (
                   <option key={cat._id} value={cat._id}>
                     {cat.name}
                   </option>
@@ -541,7 +589,7 @@ export default function VendorCollections() {
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 placeholder="e.g. 4500"
-                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-bold text-slate-900 focus:outline-none focus:border-indigo-600"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-bold text-slate-900 focus:outline-none focus:border-blue-600"
               />
             </div>
           </div>
@@ -556,7 +604,7 @@ export default function VendorCollections() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="e.g. Pure Zari silk, available in Red, Maroon and Gold colors."
-              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-600"
+              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs font-semibold text-slate-900 focus:outline-none focus:border-blue-600"
             />
           </div>
 
@@ -568,10 +616,11 @@ export default function VendorCollections() {
             <button
               type="button"
               onClick={() => setInStock(!inStock)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${inStock
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                inStock
                   ? "bg-emerald-600 text-white"
                   : "bg-slate-400 text-white"
-                }`}
+              }`}
             >
               {inStock ? "🟢 Available" : "🔴 Out of Stock"}
             </button>
@@ -593,7 +642,7 @@ export default function VendorCollections() {
             <button
               type="submit"
               disabled={submitting || isUploading}
-              className="px-6 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black shadow-md cursor-pointer flex items-center gap-2 disabled:opacity-50"
+              className="px-6 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-md cursor-pointer flex items-center gap-2 disabled:opacity-50"
             >
               {submitting ? (
                 <RefreshCw className="w-4 h-4 animate-spin" />

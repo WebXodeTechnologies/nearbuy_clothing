@@ -61,14 +61,14 @@ function ForgotPasswordContent() {
       {/* Decorative Background dot patterns */}
       <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_2px)] bg-size-[24px_24px] opacity-75 pointer-events-none" />
 
-      {/* Floating Ambient Mesh Glows */}
+      {/* Floating Ambient Mesh Glows - Swapped to Blue & Sky */}
       <motion.div
         animate={{
           scale: [1, 1.05, 1],
           opacity: [0.15, 0.22, 0.15],
         }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-10 right-1/4 w-100 h-100 bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute top-10 right-1/4 w-100 h-100 bg-blue-200/40 blur-3xl pointer-events-none rounded-full"
       />
       <motion.div
         animate={{
@@ -81,16 +81,16 @@ function ForgotPasswordContent() {
           ease: "easeInOut",
           delay: 2,
         }}
-        className="absolute bottom-10 left-1/4 w-87.5 h-87.5 bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute bottom-10 left-1/4 w-87.5 h-87.5 bg-sky-200/40 blur-3xl pointer-events-none rounded-full"
       />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center space-y-4 relative z-10 px-4">
-        {/* Larger, Clean, Glassmorphic Logo Container */}
+        {/* Logo Container with Blue Hover Accents */}
         <Link
           href="/"
           className="inline-flex flex-col items-center gap-3 group focus:outline-none"
         >
-          <div className="flex items-center justify-center px-6 py-3 rounded-2xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-md group-hover:scale-105 group-hover:border-purple-300 transition-all duration-300">
+          <div className="flex items-center justify-center px-6 py-3 rounded-2xl bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-md group-hover:scale-105 group-hover:border-blue-300 transition-all duration-300">
             <Image
               src={logoImg}
               alt="Streetunics Logo"
@@ -124,7 +124,7 @@ function ForgotPasswordContent() {
                         ? `/auth/reset-password?token=${resetToken}`
                         : `/auth/reset-password?email=${encodeURIComponent(email)}`
                     }
-                    className="font-bold text-purple-600 hover:text-purple-700 underline"
+                    className="font-bold text-blue-600 hover:text-blue-700 underline"
                   >
                     Proceed to Reset Password Page →
                   </Link>
@@ -142,13 +142,13 @@ function ForgotPasswordContent() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="border-slate-200 focus:border-purple-500 focus:ring-purple-100"
+                  className="border-slate-200 focus:border-blue-500 focus:ring-blue-100"
                 />
 
                 <Button
                   type="submit"
                   isLoading={isLoading}
-                  className="w-full mt-2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-purple-600/20 cursor-pointer"
+                  className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-blue-600/20 cursor-pointer"
                 >
                   Send Reset Details
                 </Button>
@@ -158,7 +158,7 @@ function ForgotPasswordContent() {
             <div className="text-center pt-2">
               <Link
                 href="/auth/login"
-                className="text-xs font-bold text-purple-600 hover:text-purple-700 transition-colors"
+                className="text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors"
               >
                 ← Back to Sign In
               </Link>
@@ -175,7 +175,7 @@ export default function ForgotPasswordPage() {
     <Suspense
       fallback={
         <div className="min-h-screen bg-slate-50 flex items-center justify-center p-12">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600" />
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
         </div>
       }
     >

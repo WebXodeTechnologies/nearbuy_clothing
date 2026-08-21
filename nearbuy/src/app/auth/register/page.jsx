@@ -25,7 +25,6 @@ function RegisterContent() {
         name: formData.name,
         email: formData.email,
         password: formData.password,
-        // Role is strictly restricted to VENDOR or USER
         role: selectedRole === "vendor" ? "VENDOR" : "USER",
         plan: selectedRole === "vendor" ? selectedPlan : undefined,
       };
@@ -66,14 +65,14 @@ function RegisterContent() {
       {/* Decorative Background dot patterns */}
       <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_2px)] bg-size-[24px_24px] opacity-75 pointer-events-none" />
 
-      {/* Floating Ambient Mesh Glows */}
+      {/* Floating Ambient Mesh Glows - Swapped to Blue & Sky */}
       <motion.div
         animate={{
           scale: [1, 1.05, 1],
           opacity: [0.15, 0.22, 0.15],
         }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-10 right-1/4 w-100 h-100 bg-purple-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute top-10 right-1/4 w-100 h-100 bg-blue-200/40 blur-3xl pointer-events-none rounded-full"
       />
       <motion.div
         animate={{
@@ -86,16 +85,16 @@ function RegisterContent() {
           ease: "easeInOut",
           delay: 2,
         }}
-        className="absolute bottom-10 left-1/4 w-87.5 h-87.5 bg-indigo-200/40 blur-3xl pointer-events-none rounded-full"
+        className="absolute bottom-10 left-1/4 w-87.5 h-87.5 bg-sky-200/40 blur-3xl pointer-events-none rounded-full"
       />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center space-y-4 relative z-10 px-4">
-        {/* Larger, Clean, Glassmorphic Logo Container */}
+        {/* Logo Container with Blue Hover Accents */}
         <Link
           href="/"
           className="inline-flex flex-col items-center gap-3 group focus:outline-none"
         >
-          <div className="flex items-center justify-center px-6 py-3 rounded-2xl bg-white/90 backdrop-blur-md border border-slate-200/85 shadow-md group-hover:scale-105 group-hover:border-purple-300 transition-all duration-300">
+          <div className="flex items-center justify-center px-6 py-3 rounded-2xl bg-white/90 backdrop-blur-md border border-slate-200/85 shadow-md group-hover:scale-105 group-hover:border-blue-300 transition-all duration-300">
             <Image
               src={logoImg}
               alt="Streetunics Logo"
@@ -114,7 +113,7 @@ function RegisterContent() {
           Or{" "}
           <Link
             href="/auth/login"
-            className="font-bold text-purple-600 hover:text-purple-700 underline"
+            className="font-bold text-blue-600 hover:text-blue-700 underline"
           >
             sign in to your existing portal
           </Link>
@@ -124,7 +123,7 @@ function RegisterContent() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10 px-4">
         <Card className="bg-white/95 backdrop-blur-md border border-slate-100/70 rounded-3xl shadow-xl">
           <CardBody className="p-8 space-y-6">
-            {/* Account Role Selector (Admin removed) */}
+            {/* Account Role Selector */}
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-slate-700 block">
                 Register as:
@@ -140,10 +139,11 @@ function RegisterContent() {
                       type="button"
                       key={role.value}
                       onClick={() => setSelectedRole(role.value)}
-                      className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all border cursor-pointer select-none ${isSelected
-                          ? "bg-purple-600 border-purple-600 text-white shadow-sm"
+                      className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all border cursor-pointer select-none ${
+                        isSelected
+                          ? "bg-blue-600 border-blue-600 text-white shadow-sm"
                           : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
-                        }`}
+                      }`}
                     >
                       {role.label}
                     </button>
@@ -160,7 +160,7 @@ function RegisterContent() {
                 onChange={(e) => setSelectedPlan(e.target.value)}
                 options={planOptions}
                 placeholder={null}
-                className="border-slate-200 focus:border-purple-500 focus:ring-purple-100"
+                className="border-slate-200 focus:border-blue-500 focus:ring-blue-100"
               />
             )}
 
@@ -182,7 +182,7 @@ export default function RegisterPage() {
     <Suspense
       fallback={
         <div className="min-h-screen bg-slate-50 flex items-center justify-center p-12">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600" />
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
         </div>
       }
     >
