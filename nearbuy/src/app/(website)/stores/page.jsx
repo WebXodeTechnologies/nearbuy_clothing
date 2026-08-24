@@ -11,24 +11,31 @@ import StorePagination from "@/components/stores/StorePagination";
 
 const mapDbStoreToFrontend = (s) => ({
   id: s._id,
-  name: s.storeName,
+  name: s.storeName || s.name || "Unnamed Store",
   slug: s.storeSlug || s.vendorId?.businessSlug || "",
   logo: s.logo || s.vendorId?.logo || "",
   banner: s.coverImage || s.vendorId?.coverImage || "",
   rating: 4.8,
   reviewsCount: 12,
-  description: s.description || "",
+  description: s.description || s.tagline || "",
   location: s.address && s.city ? `${s.address}, ${s.city}` : s.city || "",
   city: s.city || "",
   phone: s.phone || s.vendorId?.phone || "",
   whatsapp: s.whatsapp || s.phone || s.vendorId?.phone || "",
-  categories: s.categoryIds?.map((c) => c.name) || ["Boutique"],
+  categories: Array.isArray(s.categoryIds)
+    ? s.categoryIds.map((c) => c?.name || c).filter(Boolean)
+    : ["Boutique"],
 });
 
 function ExploreStoresContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { stores: dbStores, categories: dbCategories, fetchPublicDirectory, loading } = useWebsiteStore();
+  const {
+    stores: dbStores,
+    categories: dbCategories,
+    fetchPublicDirectory,
+    loading,
+  } = useWebsiteStore();
 
   useEffect(() => {
     fetchPublicDirectory();
@@ -45,31 +52,56 @@ function ExploreStoresContent() {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSearch(urlQuery);
     setLocation(urlLoc);
     setCategory(urlCat);
     setCurrentPage(1);
   }, [urlQuery, urlLoc, urlCat]);
 
-  const categoriesList = ["All Categories", ...dbCategories.map((c) => c.name)];
-  const locationsList = ["All Locations", ...new Set(dbStores.map((s) => s.city).filter(Boolean))];
+  const categoriesList = [
+    "All Categories",
+    ...(Array.isArray(dbCategories)
+      ? dbCategories.map((c) => c?.name).filter(Boolean)
+      : []),
+  ];
+  const locationsList = [
+    "All Locations",
+    ...new Set(
+      (Array.isArray(dbStores) ? dbStores : [])
+        .map((s) => s.city)
+        .filter(Boolean),
+    ),
+  ];
 
-  const mappedStores = dbStores.map(mapDbStoreToFrontend);
+  const mappedStores = (Array.isArray(dbStores) ? dbStores : []).map(
+    mapDbStoreToFrontend,
+  );
 
   const filteredStores = mappedStores.filter((store) => {
+    const storeName = (store.name || "").toLowerCase();
+    const storeDesc = (store.description || "").toLowerCase();
+    const storeCategories = Array.isArray(store.categories)
+      ? store.categories
+      : [];
+    const searchLower = (search || "").toLowerCase();
+
     const matchesSearch =
-      store.name.toLowerCase().includes(search.toLowerCase()) ||
-      store.description.toLowerCase().includes(search.toLowerCase()) ||
-      store.categories.some((cat) => cat.toLowerCase().includes(search.toLowerCase()));
+      storeName.includes(searchLower) ||
+      storeDesc.includes(searchLower) ||
+      storeCategories.some((cat) =>
+        (cat || "").toLowerCase().includes(searchLower),
+      );
 
     const matchesLocation =
-      location === "All Locations" || store.city.toLowerCase() === location.toLowerCase();
+      location === "All Locations" ||
+      (store.city || "").toLowerCase() === location.toLowerCase();
 
     const matchesCategory =
       !category ||
       category === "All Categories" ||
-      store.categories.some((cat) => cat.toLowerCase() === category.toLowerCase());
+      storeCategories.some(
+        (cat) => (cat || "").toLowerCase() === category.toLowerCase(),
+      );
 
     return matchesSearch && matchesLocation && matchesCategory;
   });
@@ -110,12 +142,12 @@ function ExploreStoresContent() {
   const totalPages = Math.ceil(filteredStores.length / storesPerPage) || 1;
   const displayedStores = filteredStores.slice(
     (currentPage - 1) * storesPerPage,
-    currentPage * storesPerPage
+    currentPage * storesPerPage,
   );
 
   return (
     <div className="flex-1 bg-slate-50/30 py-12 pt-28 sm:pt-32 relative overflow-hidden min-h-screen">
-      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_2px)] bg-[size:24px_24px] opacity-75 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_2px)] bg-size-[24px_24px] opacity-75 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -131,10 +163,15 @@ function ExploreStoresContent() {
 
         <div className="space-y-2">
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl md:text-5xl font-heading leading-tight">
-            Explore Local <span className="bg-clip-text text-transparent bg-linear-to-r from-purple-600 via-indigo-600 to-purple-800">Clothing Stores</span> in Namakkal
+            Explore Local{" "}
+            <span className="bg-clip-text text-transparent bg-linear-to-r from-purple-600 via-indigo-600 to-purple-800">
+              Clothing Stores
+            </span>{" "}
+            in Namakkal
           </h1>
           <p className="text-sm sm:text-base text-slate-500 font-body max-w-3xl leading-relaxed">
-            Discover and support local boutiques, saree houses, footwear outlets, and fashion stores in your neighborhood.
+            Discover and support local boutiques, saree houses, footwear
+            outlets, and fashion stores in your neighborhood.
           </p>
         </div>
 
@@ -153,10 +190,13 @@ function ExploreStoresContent() {
           locationsList={locationsList}
         />
 
-        {loading && dbStores.length === 0 ? (
+        {loading && (!dbStores || dbStores.length === 0) ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-6">
             {[1, 2, 3, 4, 5, 6].map((n) => (
-              <div key={n} className="bg-white rounded-3xl p-4 h-80 animate-pulse border border-slate-200/60 shadow-xs flex flex-col justify-between">
+              <div
+                key={n}
+                className="bg-white rounded-3xl p-4 h-80 animate-pulse border border-slate-200/60 shadow-xs flex flex-col justify-between"
+              >
                 <div className="bg-slate-200 h-44 rounded-2xl w-full" />
                 <div className="space-y-2 py-2">
                   <div className="bg-slate-200 h-4 rounded w-3/4" />
