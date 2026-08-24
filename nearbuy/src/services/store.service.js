@@ -171,22 +171,38 @@ class StoreService {
     return store;
   }
 
-  async deleteStore(storeId, ownerId) {
-    const vendor = await vendorRepository.findByOwnerId(ownerId);
-    if (!vendor) {
-      throw new ApiError(404, "Vendor profile not found.");
-    }
-
+  async deleteStore(storeId, ownerId, userRole = "VENDOR") {
     const store = await storeRepository.findById(storeId);
     if (!store) {
       throw new ApiError(404, "Store listing not found.");
     }
 
-    const storeVendorId = (store.vendorId?._id || store.vendorId).toString();
-    if (storeVendorId !== vendor._id.toString()) {
-      throw new ApiError(403, "Unauthorized to delete this store listing.");
+    const isAdmin = userRole?.toUpperCase() === "ADMIN";
+
+    if (!isAdmin) {
+      const vendor = await vendorRepository.findByOwnerId(ownerId);
+      if (!vendor) {
+        throw new ApiError(404, "Vendor profile not found.");
+      }
+
+      const storeVendorId = (store.vendorId?._id || store.vendorId).toString();
+      if (storeVendorId !== vendor._id.toString()) {
+        throw new ApiError(403, "Unauthorized to delete this store listing.");
+      }
+    } else {
+      // 🔒 Cascading Delete for Admin: Automatically delete the associated vendor profile
+      // so they disappear from the Storage Registry & Database completely.
+      const vendorId = store.vendorId?._id || store.vendorId;
+      if (vendorId) {
+        try {
+          await vendorRepository.delete(vendorId);
+        } catch (e) {
+          console.error("Cascading vendor deletion warning:", e.message);
+        }
+      }
     }
 
+    // Finally, delete the store listing itself
     return await storeRepository.delete(storeId);
   }
 
