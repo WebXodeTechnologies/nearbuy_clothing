@@ -1,4 +1,3 @@
-import { requireVendor } from "@/middleware/vendor.middleware";
 import { validate } from "@/middleware/validate.middleware";
 import { storeSchema, updateStoreSchema } from "@/validations/store.schema";
 import storeService from "@/services/store.service";
@@ -9,16 +8,24 @@ import dbConnect from "@/lib/db";
 import ApiResponse from "@/utils/apiResponse";
 import mongoose from "mongoose";
 import ApiError from "@/utils/apiError";
+import { getServerSession } from "next-auth"; // 👈 Required import
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"; // 👈 Adjust path if needed
 
 class StoreController {
   async createStore(req) {
-    const user = await requireVendor(req);
     await dbConnect();
+    const session = await getServerSession(authOptions);
+    if (!session || !session.user) {
+      throw new ApiError(401, "Unauthorized");
+    }
 
     const body = await req.json();
     const validatedData = validate(storeSchema, body);
 
-    const store = await storeService.createStore(user.id, validatedData);
+    const store = await storeService.createStore(
+      session.user.id || session.user.vendorId,
+      validatedData,
+    );
     return ApiResponse.created(store, "Store listing created successfully");
   }
 
@@ -78,8 +85,12 @@ class StoreController {
   }
 
   async updateStore(req, { params }) {
-    const user = await requireVendor(req);
     await dbConnect();
+    const session = await getServerSession(authOptions);
+    if (!session || !session.user) {
+      throw new ApiError(401, "Unauthorized");
+    }
+
     const resolvedParams = params instanceof Promise ? await params : params;
     const { id } = resolvedParams;
 
@@ -88,7 +99,7 @@ class StoreController {
 
     const updatedStore = await storeService.updateStore(
       id,
-      user.id,
+      session.user.id || session.user.vendorId,
       validatedData,
     );
 
@@ -99,12 +110,24 @@ class StoreController {
   }
 
   async deleteStore(req, { params }) {
-    const user = await requireVendor(req);
     await dbConnect();
+
+    // Authenticate session to check roles and support Admin override
+    const session = await getServerSession(authOptions);
+    if (!session || !session.user) {
+      throw new ApiError(401, "Unauthorized");
+    }
+
     const resolvedParams = params instanceof Promise ? await params : params;
     const { id } = resolvedParams;
 
-    await storeService.deleteStore(id, user.id);
+    // Pass user ID and role so the service layer can allow ADMIN overrides
+    await storeService.deleteStore(
+      id,
+      session.user.id || session.user.vendorId,
+      session.user.role,
+    );
+
     return ApiResponse.success(null, "Store listing deleted successfully");
   }
 

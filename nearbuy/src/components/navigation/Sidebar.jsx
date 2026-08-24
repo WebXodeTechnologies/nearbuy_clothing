@@ -28,10 +28,13 @@ import {
   HardDrive,
 } from "lucide-react";
 
-export default function Sidebar({ type = "vendor" }) {
+export default function Sidebar({ type = "vendor", isMobile = false }) {
   const pathname = usePathname();
   const { data: session } = useSession();
+
+  // On mobile screens, force isCollapsed to false completely
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const collapsedState = isMobile ? false : isCollapsed;
 
   const vendorMenu = [
     { label: "Dashboard", href: "/vendor/dashboard", icon: LayoutDashboard },
@@ -68,17 +71,39 @@ export default function Sidebar({ type = "vendor" }) {
   ];
 
   const adminMenu = [
-    { label: "Dashboard Overview", href: "/admin/dashboard", icon: LayoutDashboard },
-    { label: "Vendors & Approval", href: "/admin/vendors", icon: Store, badge: "Pending" },
+    {
+      label: "Dashboard Overview",
+      href: "/admin/dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      label: "Vendors & Approval",
+      href: "/admin/vendors",
+      icon: Store,
+      badge: "Pending",
+    },
     { label: "Store Directory", href: "/admin/stores", icon: Building2 },
-    { label: "Cloud Storage Server", href: "/admin/storage", icon: HardDrive, badge: "100GB Pool" }, // 👈 2. Add Storage menu item here
+    {
+      label: "Cloud Storage Server",
+      href: "/admin/storage",
+      icon: HardDrive,
+      badge: "100GB Pool",
+    },
     { label: "Categories Master", href: "/admin/categories", icon: Tag },
-    { label: "Collections Lookbook", href: "/admin/collections", icon: FolderOpen },
+    {
+      label: "Collections Lookbook",
+      href: "/admin/collections",
+      icon: FolderOpen,
+    },
     { label: "Offers & Coupons", href: "/admin/offers", icon: Tag },
     { label: "Banner Management", href: "/admin/banners", icon: ImageIcon },
     { label: "Homepage CMS", href: "/admin/cms", icon: LayoutDashboard },
     { label: "Users & Customers", href: "/admin/users", icon: Users },
-    { label: "Payments & Subscriptions", href: "/admin/subscriptions", icon: CreditCard },
+    {
+      label: "Payments & Subscriptions",
+      href: "/admin/subscriptions",
+      icon: CreditCard,
+    },
     { label: "Platform Analytics", href: "/admin/analytics", icon: BarChart3 },
     { label: "System Settings", href: "/admin/settings", icon: Settings },
   ];
@@ -87,16 +112,20 @@ export default function Sidebar({ type = "vendor" }) {
 
   return (
     <motion.aside
-      animate={{ width: isCollapsed ? "80px" : "288px" }}
+      animate={{ width: isMobile ? "100%" : collapsedState ? "80px" : "288px" }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="bg-slate-950 border-r border-slate-800/80 flex flex-col justify-between shrink-0 h-screen sticky top-0 text-slate-300 z-30 select-none shadow-2xl font-body"
+      className="bg-slate-950 border-r border-slate-800/80 flex flex-col justify-between shrink-0 h-full text-slate-300 z-30 select-none shadow-2xl font-body w-full"
     >
       <div className="flex flex-col h-[calc(100vh-85px)] overflow-hidden">
-
-        {/* Brand Header with Larger Rectangular Logo & No Text */}
+        {/* Brand Header */}
         <div className="h-24 flex items-center px-4 sm:px-6 border-b border-slate-800/80 bg-slate-900/50 backdrop-blur-md justify-between shrink-0">
-          <Link href="/" className="flex items-center gap-3 group cursor-pointer overflow-hidden w-full">
-            <div className={`relative ${isCollapsed ? "w-12 h-10" : "w-full h-12"} rounded-2xl bg-white p-2 flex items-center justify-center shadow-md shadow-slate-900/50 group-hover:scale-[1.02] transition-transform duration-200 border border-slate-200`}>
+          <Link
+            href="/"
+            className="flex items-center gap-3 group cursor-pointer overflow-hidden w-full"
+          >
+            <div
+              className={`relative ${collapsedState ? "w-12 h-10" : "w-full h-12"} rounded-2xl bg-white p-2 flex items-center justify-center shadow-md shadow-slate-900/50 group-hover:scale-[1.02] transition-transform duration-200 border border-slate-200`}
+            >
               <Image
                 src="/logos/logo2.png"
                 alt="Streetunics Logo"
@@ -108,22 +137,30 @@ export default function Sidebar({ type = "vendor" }) {
             </div>
           </Link>
 
-          {/* Toggle Sidebar Button */}
-          <button
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-colors cursor-pointer border border-slate-800/60 shrink-0 ml-2"
-            title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-          >
-            {isCollapsed ? <PanelLeft className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
-          </button>
+          {/* Toggle Sidebar Button - Completely hidden if on mobile */}
+          {!isMobile && (
+            <button
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-colors cursor-pointer border border-slate-800/60 shrink-0 ml-2"
+              title={collapsedState ? "Expand Sidebar" : "Collapse Sidebar"}
+            >
+              {collapsedState ? (
+                <PanelLeft className="w-4 h-4" />
+              ) : (
+                <PanelLeftClose className="w-4 h-4" />
+              )}
+            </button>
+          )}
         </div>
 
         {/* Navigation Items */}
         <div className="px-3 py-5 space-y-1.5 overflow-y-auto flex-1 custom-scrollbar">
-          {!isCollapsed && (
+          {!collapsedState && (
             <div className="px-3 mb-3 text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center justify-between">
               <span>Main Menu</span>
-              <span className="text-[9px] text-blue-400 font-mono tracking-normal">Streetunics</span>
+              <span className="text-[9px] text-blue-400 font-mono tracking-normal">
+                Streetunics
+              </span>
             </div>
           )}
 
@@ -136,27 +173,37 @@ export default function Sidebar({ type = "vendor" }) {
                 pathname.startsWith(item.href));
 
             return (
-              <Link key={item.href} href={item.href} className="block relative group">
+              <Link
+                key={item.href}
+                href={item.href}
+                className="block relative group"
+              >
                 <div
                   className={`
-                    flex items-center ${isCollapsed ? "justify-center" : "justify-between"} px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition-all duration-200 cursor-pointer relative overflow-hidden
-                    ${isActive
-                      ? "bg-linear-to-r from-blue-600 to-indigo-600 text-white font-bold shadow-lg shadow-blue-500/25"
-                      : "text-slate-400 hover:text-slate-100 hover:bg-slate-900/80"
+                    flex items-center ${collapsedState ? "justify-center" : "justify-between"} px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition-all duration-200 cursor-pointer relative overflow-hidden
+                    ${
+                      isActive
+                        ? "bg-linear-to-r from-blue-600 to-indigo-600 text-white font-bold shadow-lg shadow-blue-500/25"
+                        : "text-slate-400 hover:text-slate-100 hover:bg-slate-900/80"
                     }
                   `}
                 >
                   <div className="flex items-center gap-3 relative z-10">
                     <IconComponent
-                      className={`w-4 h-4 transition-transform duration-200 group-hover:scale-110 shrink-0 ${isActive ? "text-white" : "text-slate-400 group-hover:text-blue-400"
-                        }`}
+                      className={`w-4 h-4 transition-transform duration-200 group-hover:scale-110 shrink-0 ${
+                        isActive
+                          ? "text-white"
+                          : "text-slate-400 group-hover:text-blue-400"
+                      }`}
                     />
-                    {!isCollapsed && (
-                      <span className="tracking-tight truncate font-bold">{item.label}</span>
+                    {!collapsedState && (
+                      <span className="tracking-tight truncate font-bold">
+                        {item.label}
+                      </span>
                     )}
                   </div>
 
-                  {!isCollapsed && (
+                  {!collapsedState && (
                     <div className="flex items-center gap-1.5 relative z-10">
                       {item.unread && (
                         <span className="bg-emerald-500 text-slate-950 font-black text-[10px] px-2 py-0.5 rounded-full shadow-xs">
@@ -165,10 +212,11 @@ export default function Sidebar({ type = "vendor" }) {
                       )}
                       {item.badge && !item.unread && (
                         <span
-                          className={`text-[10px] px-2 py-0.5 rounded-lg font-bold transition-colors ${isActive
-                            ? "bg-white/20 text-white border border-white/30"
-                            : "bg-slate-800 text-slate-400 border border-slate-700/50 group-hover:border-slate-600"
-                            }`}
+                          className={`text-[10px] px-2 py-0.5 rounded-lg font-bold transition-colors ${
+                            isActive
+                              ? "bg-white/20 text-white border border-white/30"
+                              : "bg-slate-800 text-slate-400 border border-slate-700/50 group-hover:border-slate-600"
+                          }`}
                         >
                           {item.badge}
                         </span>
@@ -176,17 +224,16 @@ export default function Sidebar({ type = "vendor" }) {
                     </div>
                   )}
 
-                  {/* Active Indicator Glow */}
                   {isActive && (
                     <motion.div
-                      layoutId="activeSideGlow"
+                      layoutId={isMobile ? undefined : "activeSideGlow"}
                       className="absolute inset-0 bg-linear-to-r from-blue-500/30 to-indigo-500/10 pointer-events-none rounded-2xl"
                     />
                   )}
                 </div>
 
-                {/* Tooltip for Collapsed Mode */}
-                {isCollapsed && (
+                {/* Tooltip for Collapsed Mode (Desktop only) */}
+                {collapsedState && !isMobile && (
                   <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-3 py-1.5 bg-slate-900 text-white text-xs font-bold rounded-xl shadow-2xl border border-slate-800 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-50 whitespace-nowrap">
                     {item.label}
                   </div>
@@ -199,17 +246,19 @@ export default function Sidebar({ type = "vendor" }) {
 
       {/* Bottom Footer Section */}
       <div className="p-3.5 border-t border-slate-800/80 bg-slate-900/60 space-y-3 shrink-0">
-
-        {/* Subscription Banner (Only in Vendor & Expanded Mode) */}
-        {type !== "admin" && !isCollapsed && (
+        {type !== "admin" && !collapsedState && (
           <div className="p-3 rounded-2xl bg-linear-to-br from-slate-900 via-slate-900 to-blue-950/40 border border-blue-500/20 flex items-center justify-between shadow-xs">
             <div className="flex items-center gap-2.5">
               <div className="h-8 w-8 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold text-xs border border-blue-500/20 shrink-0">
                 <Zap className="w-4 h-4 text-blue-400 fill-blue-400/20" />
               </div>
               <div className="flex flex-col truncate">
-                <span className="text-[11px] font-extrabold text-white">Pro Plan</span>
-                <span className="text-[9px] text-slate-400">Renews in 18 days</span>
+                <span className="text-[11px] font-extrabold text-white">
+                  Pro Plan
+                </span>
+                <span className="text-[9px] text-slate-400">
+                  Renews in 18 days
+                </span>
               </div>
             </div>
             <Link
@@ -222,8 +271,9 @@ export default function Sidebar({ type = "vendor" }) {
           </div>
         )}
 
-        {/* User Session Profile Card */}
-        <div className={`flex items-center ${isCollapsed ? "justify-center" : "justify-between"} pt-1`}>
+        <div
+          className={`flex items-center ${collapsedState ? "justify-center" : "justify-between"} pt-1`}
+        >
           <div className="flex items-center gap-3 truncate">
             <div className="h-10 w-10 rounded-2xl bg-linear-to-tr from-blue-600 to-indigo-500 p-0.5 shadow-md shrink-0">
               <div className="w-full h-full rounded-[14px] bg-slate-950 flex items-center justify-center font-black text-white text-xs uppercase overflow-hidden">
@@ -236,12 +286,14 @@ export default function Sidebar({ type = "vendor" }) {
                     className="object-cover w-full h-full"
                   />
                 ) : (
-                  <span>{session?.user?.name ? session.user.name.charAt(0) : "V"}</span>
+                  <span>
+                    {session?.user?.name ? session.user.name.charAt(0) : "V"}
+                  </span>
                 )}
               </div>
             </div>
 
-            {!isCollapsed && (
+            {!collapsedState && (
               <div className="flex flex-col truncate max-w-32">
                 <span className="font-extrabold text-white text-xs truncate">
                   {session?.user?.name || "Merchant Owner"}
@@ -253,7 +305,7 @@ export default function Sidebar({ type = "vendor" }) {
             )}
           </div>
 
-          {!isCollapsed && (
+          {!collapsedState && (
             <button
               onClick={() => signOut({ callbackUrl: "/auth/login" })}
               title="Log Out"

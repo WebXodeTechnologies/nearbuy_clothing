@@ -45,7 +45,10 @@ export default function AdminStores() {
       });
       toast.success(`Store status set to ${newStatus}`);
       await fetchStores({ all: true });
-      if (selectedStore && (selectedStore._id === id || selectedStore.id === id)) {
+      if (
+        selectedStore &&
+        (selectedStore._id === id || selectedStore.id === id)
+      ) {
         setSelectedStore((prev) => ({
           ...prev,
           status: newStatus,
@@ -66,7 +69,7 @@ export default function AdminStores() {
       toast.success(
         !currentFeatured
           ? "Store pinned to Featured Directory!"
-          : "Store removed from Featured."
+          : "Store removed from Featured.",
       );
       await fetchStores({ all: true });
     } catch (err) {
@@ -76,26 +79,25 @@ export default function AdminStores() {
     }
   };
 
+  // Replaced native window.confirm with smooth Toast notification lifecycle
   const handleDelete = async (id, name) => {
-    if (
-      confirm(
-        `Are you sure you want to permanently delete "${name || "this store"
-        }" from the directory?`
-      )
-    ) {
-      setActionLoadingId(id);
-      try {
-        await deleteStore(id);
-        toast.success("Store deleted successfully.");
-        await fetchStores({ all: true });
-        if (selectedStore && (selectedStore._id === id || selectedStore.id === id)) {
-          setSelectedStore(null);
-        }
-      } catch (err) {
-        toast.error(err.message || "Failed to delete store");
-      } finally {
-        setActionLoadingId(null);
+    const toastId = toast.loading(`Deleting "${name || "this store"}"...`);
+    setActionLoadingId(id);
+
+    try {
+      await deleteStore(id);
+      toast.success("Store deleted successfully.", { id: toastId });
+      await fetchStores({ all: true });
+      if (
+        selectedStore &&
+        (selectedStore._id === id || selectedStore.id === id)
+      ) {
+        setSelectedStore(null);
       }
+    } catch (err) {
+      toast.error(err.message || "Failed to delete store", { id: toastId });
+    } finally {
+      setActionLoadingId(null);
     }
   };
 
@@ -125,7 +127,7 @@ export default function AdminStores() {
       store?.vendorId?.storeName ||
       store?.vendorId?.businessName ||
       store?.vendorId?.name ||
-      (store?.email ? `Store (${store.email.split('@')[0]})` : null) ||
+      (store?.email ? `Store (${store.email.split("@")[0]})` : null) ||
       `Store ID: ${store?._id?.slice(-6) || "N/A"}`
     );
   };
@@ -144,8 +146,9 @@ export default function AdminStores() {
           className="px-4 py-2 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold shadow-xs transition-all cursor-pointer flex items-center gap-2"
         >
           <RefreshCw
-            className={`w-3.5 h-3.5 ${loading ? "animate-spin text-indigo-400" : ""
-              }`}
+            className={`w-3.5 h-3.5 ${
+              loading ? "animate-spin text-indigo-400" : ""
+            }`}
           />
           <span>Refresh Listings</span>
         </button>
@@ -172,10 +175,11 @@ export default function AdminStores() {
               key={ct}
               type="button"
               onClick={() => setCityFilter(ct)}
-              className={`px-3.5 py-2 text-xs font-bold rounded-2xl transition-all cursor-pointer whitespace-nowrap ${cityFilter === ct
-                ? "bg-indigo-600 text-white shadow-xs"
-                : "bg-slate-100/80 text-slate-600 hover:bg-slate-200/70"
-                }`}
+              className={`px-3.5 py-2 text-xs font-bold rounded-2xl transition-all cursor-pointer whitespace-nowrap ${
+                cityFilter === ct
+                  ? "bg-indigo-600 text-white shadow-xs"
+                  : "bg-slate-100/80 text-slate-600 hover:bg-slate-200/70"
+              }`}
             >
               {ct}
             </button>
@@ -202,7 +206,8 @@ export default function AdminStores() {
                 No Store Listings Found
               </h3>
               <p className="text-xs text-slate-500 max-w-sm mx-auto">
-                No outlet records match your active search terms or city filters.
+                No outlet records match your active search terms or city
+                filters.
               </p>
             </div>
           ) : (
@@ -218,23 +223,21 @@ export default function AdminStores() {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {filtered.map((store, index) => {
-                  const storeId = store._id || store.id || `store-fallback-${index}`;
+                  const storeId =
+                    store._id || store.id || `store-fallback-${index}`;
                   const isProcessing = actionLoadingId === storeId;
                   const isActive =
                     store.status === "Active" ||
                     store.isActive === true ||
                     !store.status;
                   const logoSrc =
-                    store.logo ||
-                    store.vendorId?.logo ||
-                    store.coverImage;
+                    store.logo || store.vendorId?.logo || store.coverImage;
 
                   return (
                     <tr
                       key={storeId}
                       className="hover:bg-slate-50/60 transition-colors"
                     >
-                      {/* Store Details */}
                       {/* Store Details */}
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
@@ -247,7 +250,14 @@ export default function AdminStores() {
                                 className="w-full h-full object-cover"
                               />
                             ) : (
-                              <span>{(store.storeName || store.name || store.businessName || "S").charAt(0)}</span>
+                              <span>
+                                {(
+                                  store.storeName ||
+                                  store.name ||
+                                  store.businessName ||
+                                  "S"
+                                ).charAt(0)}
+                              </span>
                             )}
                           </div>
                           <div className="min-w-0 max-w-50">
@@ -329,20 +339,18 @@ export default function AdminStores() {
                             type="button"
                             disabled={isProcessing}
                             onClick={() =>
-                              handleToggleFeatured(
-                                storeId,
-                                store.isFeatured
-                              )
+                              handleToggleFeatured(storeId, store.isFeatured)
                             }
                             title={
                               store.isFeatured
                                 ? "Unpin from Featured"
                                 : "Pin as Featured Outlet"
                             }
-                            className={`p-1.5 rounded-xl transition-all cursor-pointer border ${store.isFeatured
-                              ? "bg-amber-50 text-amber-600 border-amber-200 hover:bg-amber-100"
-                              : "text-slate-400 hover:text-amber-500 hover:bg-slate-100 border-transparent"
-                              }`}
+                            className={`p-1.5 rounded-xl transition-all cursor-pointer border ${
+                              store.isFeatured
+                                ? "bg-amber-50 text-amber-600 border-amber-200 hover:bg-amber-100"
+                                : "text-slate-400 hover:text-amber-500 hover:bg-slate-100 border-transparent"
+                            }`}
                           >
                             <Sparkles className="w-4 h-4" />
                           </button>
@@ -354,18 +362,17 @@ export default function AdminStores() {
                             onClick={() =>
                               handleStatusChange(
                                 storeId,
-                                isActive ? "Active" : "Inactive"
+                                isActive ? "Active" : "Inactive",
                               )
                             }
                             title={
-                              isActive
-                                ? "Deactivate Outlet"
-                                : "Activate Outlet"
+                              isActive ? "Deactivate Outlet" : "Activate Outlet"
                             }
-                            className={`px-2.5 py-1.5 font-bold rounded-xl text-[10px] cursor-pointer shadow-2xs transition-all disabled:opacity-50 flex items-center gap-1 ${isActive
-                              ? "bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200"
-                              : "bg-emerald-600 hover:bg-emerald-500 text-white"
-                              }`}
+                            className={`px-2.5 py-1.5 font-bold rounded-xl text-[10px] cursor-pointer shadow-2xs transition-all disabled:opacity-50 flex items-center gap-1 ${
+                              isActive
+                                ? "bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200"
+                                : "bg-emerald-600 hover:bg-emerald-500 text-white"
+                            }`}
                           >
                             {isProcessing ? (
                               <RefreshCw className="w-3 h-3 animate-spin" />
@@ -380,7 +387,7 @@ export default function AdminStores() {
                             type="button"
                             disabled={isProcessing}
                             onClick={() =>
-                              handleDelete(storeId, store.storeName)
+                              handleDelete(storeId, getStoreName(store))
                             }
                             title="Delete Store Permanently"
                             className="p-1.5 rounded-xl text-rose-600 hover:bg-rose-50 hover:border-rose-200 border border-transparent transition-all cursor-pointer disabled:opacity-50"
@@ -440,7 +447,8 @@ export default function AdminStores() {
                       {getStoreName(selectedStore)}
                     </h4>
                     <span className="text-[10px] font-mono text-slate-400 block truncate">
-                      Slug: {selectedStore.storeSlug || selectedStore.slug || "N/A"}
+                      Slug:{" "}
+                      {selectedStore.storeSlug || selectedStore.slug || "N/A"}
                     </span>
                   </div>
                 </div>
@@ -455,7 +463,7 @@ export default function AdminStores() {
                   <Badge
                     variant={
                       selectedStore.status === "Active" ||
-                        selectedStore.isActive
+                      selectedStore.isActive
                         ? "emerald"
                         : "red"
                     }
@@ -466,7 +474,11 @@ export default function AdminStores() {
                   </Badge>
 
                   {selectedStore.isFeatured && (
-                    <Badge variant="yellow" pill className="text-[10px] font-bold">
+                    <Badge
+                      variant="yellow"
+                      pill
+                      className="text-[10px] font-bold"
+                    >
                       Featured Outlet
                     </Badge>
                   )}
@@ -485,7 +497,9 @@ export default function AdminStores() {
                 </div>
 
                 <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                  <span className="text-slate-400 font-medium">Street Address</span>
+                  <span className="text-slate-400 font-medium">
+                    Street Address
+                  </span>
                   <span className="font-medium text-slate-800 text-right max-w-50 truncate">
                     {selectedStore.address || "Main Road"}
                   </span>
