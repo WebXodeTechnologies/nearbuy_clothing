@@ -371,7 +371,7 @@ async function seedExcelData() {
       `\n🎉 Successfully Seeded all ${storesList.length} store items and related entities into MongoDB!`,
     );
     console.log("-----------------------------------------");
-    console.log("Admin Account:   admin@streetunics.com / Admin@123456");
+    console.log("Admin Account:    streetunics@gmail.com/ UKO@230512");
     console.log(
       "Vendor Account:  vendor.hunter-mens@streetunics.com / Password123!",
     );
