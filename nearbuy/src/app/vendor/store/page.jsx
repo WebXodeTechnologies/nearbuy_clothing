@@ -23,6 +23,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import Image from "next/image";
+import ImageCropModal from "@/components/modals/ImageCropModal";
 
 const ALL_DAYS = [
   "Monday",
@@ -43,6 +44,12 @@ export default function VendorStore() {
   const [isUploadingLogo, setIsUploadingLogo] = useState(false);
   const [isUploadingCover, setIsUploadingCover] = useState(false);
   const [storeId, setStoreId] = useState(null);
+
+  // Image Cropper Modal State
+  const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [rawImageSrc, setRawImageSrc] = useState(null);
+  const [cropField, setCropField] = useState("logo"); // 'logo' | 'coverImage'
+  const [cropAspect, setCropAspect] = useState("1:1"); // '1:1' | '16:9'
 
   // Hidden File Input Refs
   const logoInputRef = useRef(null);
@@ -237,8 +244,8 @@ export default function VendorStore() {
     }
   };
 
-  // Handle UploadThing PC file selection for Logo or Cover
-  const handleFileUpload = async (e, field) => {
+  // Handle PC File Selection -> Opens ImageCropModal for editing & cropping
+  const handleFileUpload = (e, field) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -247,11 +254,28 @@ export default function VendorStore() {
       return;
     }
 
-    if (field === "logo") {
+    const reader = new FileReader();
+    reader.onload = () => {
+      setRawImageSrc(reader.result);
+      setCropField(field);
+      setCropAspect(field === "logo" ? "1:1" : "16:9");
+      setCropModalOpen(true);
+    };
+    reader.readAsDataURL(file);
+
+    // Reset input value so selecting the same file triggers onChange
+    e.target.value = "";
+  };
+
+  // Called when user finishes cropping in ImageCropModal
+  const handleCropComplete = async (croppedFile) => {
+    setCropModalOpen(false);
+
+    if (cropField === "logo") {
       setIsUploadingLogo(true);
-      const toastId = toast.loading("Uploading logo to UploadThing server...");
+      const toastId = toast.loading("Uploading cropped store logo...");
       try {
-        await startLogoUpload([file]);
+        await startLogoUpload([croppedFile]);
         toast.dismiss(toastId);
       } catch (err) {
         toast.dismiss(toastId);
@@ -260,9 +284,9 @@ export default function VendorStore() {
       }
     } else {
       setIsUploadingCover(true);
-      const toastId = toast.loading("Uploading banner to UploadThing server...");
+      const toastId = toast.loading("Uploading cropped cover banner...");
       try {
-        await startCoverUpload([file]);
+        await startCoverUpload([croppedFile]);
         toast.dismiss(toastId);
       } catch (err) {
         toast.dismiss(toastId);
@@ -914,6 +938,22 @@ export default function VendorStore() {
           </div>
         </div>
       </form>
+
+      {/* Store Logo & Cover Banner Crop Modal */}
+      <ImageCropModal
+        isOpen={cropModalOpen}
+        onClose={() => setCropModalOpen(false)}
+        imageSrc={rawImageSrc}
+        onCropComplete={handleCropComplete}
+        isUploading={isUploadingLogo || isUploadingCover}
+        title={
+          cropField === "logo"
+            ? "Crop & Edit Store Logo (1:1 Ratio)"
+            : "Crop & Edit Cover Banner (16:9 Ratio)"
+        }
+        defaultAspect={cropAspect}
+        defaultShape={cropField === "logo" ? "square" : "square"}
+      />
     </div>
   );
 }

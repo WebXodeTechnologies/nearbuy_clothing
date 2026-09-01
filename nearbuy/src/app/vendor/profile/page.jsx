@@ -21,10 +21,12 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useUploadThing } from "@/utils/uploadthing";
+import ImageCropModal from "@/components/modals/ImageCropModal";
 
 export default function VendorUserProfile() {
   const { data: session, update: updateSession } = useSession();
-  const { profile, fetchProfile, updateProfile, deleteProfile, loading } = useUserStore();
+  const { profile, fetchProfile, updateProfile, deleteProfile, loading } =
+    useUserStore();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -41,6 +43,10 @@ export default function VendorUserProfile() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+  // Image Cropper Modal State
+  const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [rawImageSrc, setRawImageSrc] = useState(null);
+
   // 👈 Initialize UploadThing and pass the active user's email header for 2GB storage verification
   const { startUpload } = useUploadThing("vendorAssetUploader", {
     headers: {
@@ -56,12 +62,14 @@ export default function VendorUserProfile() {
     },
     onUploadError: (err) => {
       setIsUploading(false);
-      toast.error(err?.message || "Storage limit of 2GB reached or upload failed.");
+      toast.error(
+        err?.message || "Storage limit of 2GB reached or upload failed.",
+      );
     },
   });
 
-  // Handle local file selection from PC
-  const handleFileChange = async (e) => {
+  // Handle local file selection from PC -> opens Crop & Edit Modal
+  const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -70,11 +78,25 @@ export default function VendorUserProfile() {
       return;
     }
 
+    const reader = new FileReader();
+    reader.onload = () => {
+      setRawImageSrc(reader.result);
+      setCropModalOpen(true);
+    };
+    reader.readAsDataURL(file);
+
+    // Reset input value so re-selecting same file works
+    e.target.value = "";
+  };
+
+  // Called when user finishes cropping in modal
+  const handleCropComplete = async (croppedFile) => {
+    setCropModalOpen(false);
     setIsUploading(true);
-    const toastId = toast.loading("Uploading image to UploadThing server...");
+    const toastId = toast.loading("Uploading cropped image...");
 
     try {
-      await startUpload([file]);
+      await startUpload([croppedFile]);
       toast.dismiss(toastId);
     } catch (err) {
       toast.dismiss(toastId);
@@ -219,7 +241,7 @@ export default function VendorUserProfile() {
       <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="flex items-center gap-5">
           <div className="relative group">
-            <div className="h-24 w-24 rounded-3xl bg-linear-to-tr from-indigo-500 to-teal-400 p-1 shadow-xl shrink-0 overflow-hidden relative">
+            <div className="h-24 w-24 rounded-3xl p-1 shadow-xl shrink-0 overflow-hidden relative">
               {formData.image ? (
                 <Image
                   src={formData.image}
@@ -267,14 +289,17 @@ export default function VendorUserProfile() {
               <Mail className="w-3.5 h-3.5 text-indigo-600" /> {formData.email}
             </p>
             <p className="text-[11px] text-slate-500 font-medium flex items-center gap-1.5 pt-0.5">
-              <Building className="w-3.5 h-3.5 text-teal-600" /> {formData.designation}
+              <Building className="w-3.5 h-3.5 text-teal-600" />{" "}
+              {formData.designation}
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-200/80 shrink-0">
           <div className="text-right">
-            <span className="text-[10px] font-black text-slate-400 uppercase block">Account Status</span>
+            <span className="text-[10px] font-black text-slate-400 uppercase block">
+              Account Status
+            </span>
             <span className="text-xs font-bold text-emerald-600 flex items-center justify-end gap-1 mt-0.5">
               <CheckCircle2 className="w-3.5 h-3.5" /> Verified Merchant
             </span>
@@ -285,12 +310,18 @@ export default function VendorUserProfile() {
       {/* Profile Form */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <form onSubmit={handleSaveProfile} className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-5">
+          <form
+            onSubmit={handleSaveProfile}
+            className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-5"
+          >
             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
               <h3 className="text-base font-heading font-extrabold text-slate-900 flex items-center gap-2">
-                <User className="w-5 h-5 text-indigo-600" /> Personal Identity Details
+                <User className="w-5 h-5 text-indigo-600" /> Personal Identity
+                Details
               </h3>
-              <span className="text-xs font-bold text-slate-400">Merchant Settings</span>
+              <span className="text-xs font-bold text-slate-400">
+                Merchant Settings
+              </span>
             </div>
 
             <div className="space-y-4">
@@ -360,7 +391,11 @@ export default function VendorUserProfile() {
                 <div className="flex items-center gap-4">
                   <label className="flex-1 flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-slate-200 hover:border-indigo-600 bg-slate-50 rounded-2xl cursor-pointer transition-all text-xs font-bold text-slate-700">
                     <Upload className="w-4 h-4 text-indigo-600" />
-                    <span>{isUploading ? "Uploading to UploadThing..." : "Choose image from PC"}</span>
+                    <span>
+                      {isUploading
+                        ? "Uploading to UploadThing..."
+                        : "Choose image from PC"}
+                    </span>
                     <input
                       type="file"
                       accept="image/*"
@@ -425,7 +460,9 @@ export default function VendorUserProfile() {
               <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                 <span>Auth Provider</span>
                 <span className="font-bold text-slate-900">
-                  {session?.user?.email?.includes("gmail") ? "Google OAuth" : "Email / Password"}
+                  {session?.user?.email?.includes("gmail")
+                    ? "Google OAuth"
+                    : "Email / Password"}
                 </span>
               </div>
             </div>
@@ -436,7 +473,8 @@ export default function VendorUserProfile() {
               <Trash2 className="w-5 h-5 text-rose-600" /> Delete Profile
             </h3>
             <p className="text-xs text-rose-700 font-medium leading-relaxed">
-              Deleting your profile will erase your login account settings from the database.
+              Deleting your profile will erase your login account settings from
+              the database.
             </p>
             <button
               type="button"
@@ -448,6 +486,17 @@ export default function VendorUserProfile() {
           </div>
         </div>
       </div>
+
+      {/* Image Drag, Crop & Edit Modal */}
+      <ImageCropModal
+        isOpen={cropModalOpen}
+        onClose={() => setCropModalOpen(false)}
+        imageSrc={rawImageSrc}
+        onCropComplete={handleCropComplete}
+        isUploading={isUploading}
+        title="Crop & Edit Customer Logo / Profile Picture"
+        defaultShape="circle"
+      />
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
@@ -462,7 +511,9 @@ export default function VendorUserProfile() {
             </div>
 
             <div className="text-center space-y-1">
-              <h3 className="text-lg font-heading font-bold text-slate-900">Delete Account Profile?</h3>
+              <h3 className="text-lg font-heading font-bold text-slate-900">
+                Delete Account Profile?
+              </h3>
               <p className="text-xs text-slate-500 font-medium">
                 This action is permanent and will remove your owner settings.
               </p>
