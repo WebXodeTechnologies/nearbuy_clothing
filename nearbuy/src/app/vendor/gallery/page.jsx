@@ -47,7 +47,7 @@ export default function VendorGallery() {
     "Logo & Banners",
   ];
 
-  // 👈 Initialize UploadThing hook with 2GB storage middleware tracking
+  // 👈 Initialize UploadThing hook with vendor storage middleware tracking
   const { startUpload } = useUploadThing("vendorAssetUploader", {
     headers: {
       "x-user-email": user?.email || "",
@@ -62,7 +62,7 @@ export default function VendorGallery() {
     },
     onUploadError: (err) => {
       setIsUploading(false);
-      toast.error(err?.message || "Storage limit of 2GB reached or upload failed.");
+      toast.error(err?.message || "Storage limit reached or upload failed.");
     },
   });
 
@@ -387,7 +387,7 @@ export default function VendorGallery() {
                     {isUploading ? "Uploading to UploadThing server..." : "Click here to pick photo from PC"}
                   </span>
                   <span className="text-[10px] text-slate-400">
-                    Saved to 2GB Cloud Storage Pool
+                    Saved to Cloud Storage Pool
                   </span>
                 </div>
               )}

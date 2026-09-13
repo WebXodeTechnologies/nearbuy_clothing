@@ -3,7 +3,6 @@ import dbConnect from "@/lib/db";
 import Vendor from "@/models/Vendor";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import ApiError from "@/utils/apiError";
 
 export async function GET(req) {
   try {
@@ -24,15 +23,20 @@ export async function GET(req) {
     // Fetch all vendors from MongoDB
     const vendors = await Vendor.find({}).lean();
 
-    const formattedVendors = vendors.map((v) => ({
-      _id: v._id,
-      storeName: v.businessName || v.storeName || "Unnamed Store",
-      businessName: v.businessName,
-      storageUsedBytes: v.storageUsedBytes || 0,
-      storageLimitBytes:
-        (2 + (v.extraStorageGBAllocated || 0)) * 1024 * 1024 * 1024,
-      extraStorageGBAllocated: v.extraStorageGBAllocated || 0,
-    }));
+    const formattedVendors = vendors.map((v) => {
+      const extraGB = v.extraStorageGBAllocated || 0;
+      // Strictly enforce 1GB baseline + extra allocated GB
+      const calculatedLimitBytes = (1 + extraGB) * 1024 * 1024 * 1024;
+
+      return {
+        _id: v._id,
+        storeName: v.businessName || v.storeName || "Unnamed Store",
+        businessName: v.businessName,
+        storageUsedBytes: v.storageUsedBytes || 0,
+        storageLimitBytes: calculatedLimitBytes,
+        extraStorageGBAllocated: extraGB,
+      };
+    });
 
     return NextResponse.json({ success: true, data: formattedVendors });
   } catch (err) {

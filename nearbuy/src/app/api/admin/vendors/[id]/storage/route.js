@@ -1,15 +1,31 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import Vendor from "@/models/Vendor";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export async function PATCH(req, { params }) {
+export async function PATCH(req, context) {
   await dbConnect();
   try {
+    const session = await getServerSession(authOptions);
+
+    if (
+      !session ||
+      !session.user ||
+      session.user.role?.toUpperCase() !== "ADMIN"
+    ) {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized Admin access" },
+        { status: 403 },
+      );
+    }
+
+    const params = await context.params;
     const { id } = params;
     const { extraStorageGB } = await req.json();
 
     const bytesPerGB = 1024 * 1024 * 1024;
-    const defaultBaseLimit = 2 * bytesPerGB; // 2GB default
+    const defaultBaseLimit = 1 * bytesPerGB;
     const newStorageLimitBytes =
       defaultBaseLimit + Number(extraStorageGB) * bytesPerGB;
 
@@ -18,7 +34,7 @@ export async function PATCH(req, { params }) {
       {
         storageLimitBytes: newStorageLimitBytes,
         extraStorageGBAllocated: Number(extraStorageGB),
-        storageRequestPending: false, // Clear request after allocation
+        storageRequestPending: false,
         requestedStorageGB: 0,
       },
       { new: true },

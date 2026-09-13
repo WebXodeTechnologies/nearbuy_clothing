@@ -46,7 +46,7 @@ export default function VendorOffers() {
   const [banner, setBanner] = useState("");
   const [status, setStatus] = useState("Active");
 
-  // 👈 Initialize UploadThing for campaign banner uploads with 2GB server limit validation
+  // 👈 Initialize UploadThing for campaign banner uploads with vendor server limit validation
   const { startUpload } = useUploadThing("vendorAssetUploader", {
     headers: {
       "x-user-email": user?.email || "",
@@ -61,7 +61,7 @@ export default function VendorOffers() {
     },
     onUploadError: (err) => {
       setIsUploading(false);
-      toast.error(err?.message || "Storage limit of 2GB reached or upload failed.");
+      toast.error(err?.message || "Storage limit reached or upload failed.");
     },
   });
 
@@ -452,7 +452,7 @@ export default function VendorOffers() {
                     {isUploading ? "Uploading to UploadThing server..." : "Click to choose banner image from PC"}
                   </span>
                   <span className="text-[10px] text-slate-400">
-                    Saved to 2GB Cloud Storage Pool
+                    Saved to Cloud Storage Pool
                   </span>
                 </div>
               )}

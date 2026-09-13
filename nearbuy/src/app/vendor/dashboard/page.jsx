@@ -48,12 +48,17 @@ export default function VendorDashboard() {
 
   const vendorName = session?.user?.name || "Merchant Owner";
 
-  // Real data calculations from backend stats
   const usedBytes = vendorStats?.storageUsedBytes || 0;
-  const limitBytes = vendorStats?.storageLimitBytes || 2 * 1024 * 1024 * 1024; // 2 GB default
+  const baseLimitBytes = 1 * 1024 * 1024 * 1024; // 1 GB baseline
+  const extraAllocatedBytes =
+    (vendorStats?.extraStorageGBAllocated || 0) * 1024 * 1024 * 1024;
+  const totalLimitBytes = Math.max(
+    vendorStats?.storageLimitBytes || baseLimitBytes,
+    baseLimitBytes + extraAllocatedBytes,
+  );
   const usedGB = (usedBytes / (1024 * 1024 * 1024)).toFixed(2);
-  const limitGB = (limitBytes / (1024 * 1024 * 1024)).toFixed(0);
-  const storagePercentage = Math.min(100, (usedBytes / limitBytes) * 100);
+  const totalGB = (totalLimitBytes / (1024 * 1024 * 1024)).toFixed(1);
+  const storagePercentage = Math.min(100, (usedBytes / totalLimitBytes) * 100);
 
   // Fallback to real activities if provided by store, otherwise empty state array
   const activities = vendorStats?.recentActivities || [];
@@ -289,6 +294,7 @@ export default function VendorDashboard() {
           </div>
 
           {/* Cloud Storage Usage Widget */}
+          {/* Cloud Storage Usage Widget */}
           <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
@@ -300,12 +306,12 @@ export default function VendorDashboard() {
                     Cloud Storage
                   </h3>
                   <p className="text-[11px] text-slate-500 font-medium">
-                    UploadThing 2GB Server Pool
+                    UploadThing Server Pool
                   </p>
                 </div>
               </div>
               <span className="text-xs font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-xl">
-                {usedGB} GB / {limitGB} GB
+                {usedGB} GB / {totalGB} GB
               </span>
             </div>
 
@@ -329,7 +335,9 @@ export default function VendorDashboard() {
                 </span>
               ) : (
                 <span className="text-emerald-600">
-                  Free Tier (2GB Allocated)
+                  {vendorStats?.extraStorageGBAllocated
+                    ? `1GB Base + ${vendorStats.extraStorageGBAllocated}GB Add-on`
+                    : "Free Tier (1GB Allocated)"}
                 </span>
               )}
             </div>

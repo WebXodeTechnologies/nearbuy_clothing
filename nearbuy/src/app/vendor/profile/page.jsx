@@ -47,7 +47,7 @@ export default function VendorUserProfile() {
   const [cropModalOpen, setCropModalOpen] = useState(false);
   const [rawImageSrc, setRawImageSrc] = useState(null);
 
-  // 👈 Initialize UploadThing and pass the active user's email header for 2GB storage verification
+  // 👈 Initialize UploadThing and pass the active user's email header for storage verification
   const { startUpload } = useUploadThing("vendorAssetUploader", {
     headers: {
       "x-user-email": session?.user?.email || "",
@@ -63,7 +63,7 @@ export default function VendorUserProfile() {
     onUploadError: (err) => {
       setIsUploading(false);
       toast.error(
-        err?.message || "Storage limit of 2GB reached or upload failed.",
+        err?.message || "Storage limit reached or upload failed.",
       );
     },
   });

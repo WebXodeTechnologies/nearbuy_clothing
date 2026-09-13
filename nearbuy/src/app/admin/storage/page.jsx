@@ -14,7 +14,7 @@ export default function AdminStoragePage() {
   const fetchVendorsStorage = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/admin/storage"); // 👈 Updated to real storage endpoint
+      const res = await fetch("/api/admin/storage");
       const data = await res.json();
       if (data.success) {
         setVendors(data.data || []);
@@ -91,7 +91,7 @@ export default function AdminStoragePage() {
             Vendor Storage Allocation Registry
           </h3>
           <span className="text-xs text-slate-500">
-            Default Quota: 2 GB / vendor
+            Default Quota: 1 GB / vendor
           </span>
         </div>
 
@@ -123,7 +123,7 @@ export default function AdminStoragePage() {
                 vendors.map((v) => {
                   const usedBytes = v.storageUsedBytes || 0;
                   const limitBytes =
-                    v.storageLimitBytes || 2 * 1024 * 1024 * 1024;
+                    v.storageLimitBytes || 1 * 1024 * 1024 * 1024;
                   const usedMB = (usedBytes / (1024 * 1024)).toFixed(1);
                   const limitGB = (limitBytes / (1024 * 1024 * 1024)).toFixed(
                     1,
@@ -211,7 +211,7 @@ export default function AdminStoragePage() {
                   min="1"
                   max="100"
                   required
-                  placeholder="e.g. 5"
+                  placeholder="e.g. 2 or 3"
                   value={extraGB}
                   onChange={(e) => setExtraGB(e.target.value)}
                   className="w-full px-4 py-3 rounded-2xl border border-slate-200 text-sm font-bold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"

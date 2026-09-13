@@ -140,15 +140,15 @@ const VendorSchema = new mongoose.Schema(
 
     storageLimitBytes: {
       type: Number,
-      default: 2 * 1024 * 1024 * 1024, // 2 GB default limit in bytes
+      default: 1 * 1024 * 1024 * 1024, // 1 GB default base limit in bytes
     },
 
     storagePlan: {
       type: String,
-      default: "Free Tier (2GB)",
+      default: "Free Tier (1GB)",
     },
 
-    // 👇 Add these two fields for the manual storage request workflow:
+    // Extra Storage & Purchase Request Workflow Fields:
     storageRequestPending: {
       type: Boolean,
       default: false,
@@ -161,9 +161,8 @@ const VendorSchema = new mongoose.Schema(
 
     extraStorageGBAllocated: {
       type: Number,
-      default: 0,
+      default: 0, // Tracks additional purchased storage in GB (e.g., +2GB or +3GB packs)
     },
-
     // ==========================================
     // Operating Schedule & Amenities
     // ==========================================
@@ -333,7 +332,14 @@ VendorSchema.index({ subscriptionId: 1 });
 // ==========================================
 // Hide Internal Fields
 // ==========================================
+VendorSchema.virtual("totalStorageLimitBytes").get(function () {
+  const base = 1 * 1024 * 1024 * 1024;
+  const extra = (this.extraStorageGBAllocated || 0) * 1024 * 1024 * 1024;
+  return Math.max(this.storageLimitBytes || base, base + extra);
+});
+
 VendorSchema.set("toJSON", {
+  virtuals: true,
   transform: (_, ret) => {
     delete ret.__v;
     return ret;

@@ -95,7 +95,7 @@ export default function VendorCollections() {
     onUploadError: (err) => {
       setIsUploading(false);
       toast.error(
-        err?.message || "Storage limit of 2GB reached or upload failed.",
+        err?.message || "Storage limit reached or upload failed.",
       );
     },
   });
@@ -539,7 +539,7 @@ export default function VendorCollections() {
                       : "Click here to choose photo from PC"}
                   </span>
                   <span className="text-[10px] text-slate-400">
-                    JPG, PNG or WEBP (Saved to 2GB Cloud Storage)
+                    JPG, PNG or WEBP (Saved to Cloud Storage)
                   </span>
                 </div>
               )}

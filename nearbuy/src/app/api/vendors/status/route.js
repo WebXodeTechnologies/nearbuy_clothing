@@ -76,8 +76,9 @@ export async function GET(req) {
       activeOffersCount,
       conversionRate: "6.8%",
       completenessScore: vendor.profileCompleted ? 100 : 85,
-      storageUsedBytes: session.user.storageUsedBytes || 0,
-      storageLimitBytes: 2 * 1024 * 1024 * 1024, // 2GB
+      storageUsedBytes: vendor.storageUsedBytes || 0,
+      storageLimitBytes: vendor.storageLimitBytes || (1 * 1024 * 1024 * 1024),
+      extraStorageGBAllocated: vendor.extraStorageGBAllocated || 0,
       topLookbook,
       recentActivities: vendor.recentActivities || [
         {

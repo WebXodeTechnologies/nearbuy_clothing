@@ -39,13 +39,16 @@ export const ourFileRouter = {
           throw new Error(`Vendor profile not found for user: ${userEmail}`);
         }
 
-        // 4. Enforce 2GB Storage Limit Rule
+        // 4. Enforce 1GB Baseline + Extra Storage Add-on Limit Rule
         const currentUsage = vendor.storageUsedBytes || 0;
-        const storageLimit = vendor.storageLimitBytes || 2 * 1024 * 1024 * 1024; // 2GB default
+        const baseLimit = 1 * 1024 * 1024 * 1024; // 1GB baseline
+        const extraLimit = (vendor.extraStorageGBAllocated || 0) * 1024 * 1024 * 1024;
+        const totalStorageLimit = Math.max(vendor.storageLimitBytes || baseLimit, baseLimit + extraLimit);
 
-        if (currentUsage >= storageLimit) {
+        if (currentUsage >= totalStorageLimit) {
+          const limitInGB = (totalStorageLimit / (1024 * 1024 * 1024)).toFixed(0);
           throw new Error(
-            "Storage limit of 2GB reached. Please upgrade your plan to upload more assets.",
+            `Storage limit of ${limitInGB}GB reached. Please upgrade your plan or purchase extra storage add-ons to upload more assets.`,
           );
         }
 

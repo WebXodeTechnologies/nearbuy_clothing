@@ -108,10 +108,20 @@ const UserSchema = new mongoose.Schema(
       index: true,
     },
 
-    // 🚀 UploadThing Storage Quota Tracking (2GB per vendor allocation)
+    // 🚀 UploadThing Storage Quota Tracking (1GB base allocation + add-ons)
     storageUsedBytes: {
       type: Number,
       default: 0,
+    },
+
+    storageLimitBytes: {
+      type: Number,
+      default: 1 * 1024 * 1024 * 1024, // 1 GB default base limit
+    },
+
+    extraStorageGBAllocated: {
+      type: Number,
+      default: 0, // Tracks purchased extra storage packs (+2GB / +3GB)
     },
 
     // Account Status
@@ -151,7 +161,14 @@ const UserSchema = new mongoose.Schema(
   },
 );
 
+UserSchema.virtual("totalStorageLimitBytes").get(function () {
+  const base = 1 * 1024 * 1024 * 1024;
+  const extra = (this.extraStorageGBAllocated || 0) * 1024 * 1024 * 1024;
+  return Math.max(this.storageLimitBytes || base, base + extra);
+});
+
 UserSchema.set("toJSON", {
+  virtuals: true,
   transform: (_, ret) => {
     delete ret.password;
     delete ret.resetPasswordToken;

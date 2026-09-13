@@ -99,7 +99,7 @@ export default function VendorStore() {
     },
     onUploadError: (err) => {
       setIsUploadingLogo(false);
-      toast.error(err?.message || "Storage limit of 2GB reached or upload failed.");
+      toast.error(err?.message || "Storage limit reached or upload failed.");
     },
   });
 
@@ -118,7 +118,7 @@ export default function VendorStore() {
     },
     onUploadError: (err) => {
       setIsUploadingCover(false);
-      toast.error(err?.message || "Storage limit of 2GB reached or upload failed.");
+      toast.error(err?.message || "Storage limit reached or upload failed.");
     },
   });
 

@@ -45,7 +45,7 @@ export default function VendorStoreSettings() {
     monthlyReports: false,
   });
 
-  // 👈 Initialize UploadThing hook for avatar profile picture (enforces 2GB vendor limit pool)
+  // 👈 Initialize UploadThing hook for avatar profile picture (enforces vendor storage limit pool)
   const { startUpload } = useUploadThing("vendorAssetUploader", {
     headers: {
       "x-user-email": user?.email || "",
@@ -60,7 +60,7 @@ export default function VendorStoreSettings() {
     },
     onUploadError: (err) => {
       setIsUploading(false);
-      toast.error(err?.message || "Storage limit of 2GB reached or upload failed.");
+      toast.error(err?.message || "Storage limit reached or upload failed.");
     },
   });
 
@@ -260,7 +260,7 @@ export default function VendorStoreSettings() {
             <div>
               <h4 className="text-xs font-bold text-slate-900">Owner Profile Photo (UploadThing Cloud)</h4>
               <p className="text-[11px] text-slate-500 font-medium">
-                {isUploading ? "Uploading to server..." : "JPG or PNG. Stored against your 2GB storage quota."}
+                {isUploading ? "Uploading to server..." : "JPG or PNG. Stored against your cloud storage quota."}
               </p>
             </div>
           </div>
