@@ -26,7 +26,7 @@ export default function VendorSubscription() {
     },
     {
       name: "Growth Pro",
-      price: "₹499",
+      price: "₹899",
       period: "month",
       desc: "For growing fashion stores looking to drive local foot traffic and scale billing.",
       features: [
@@ -42,7 +42,7 @@ export default function VendorSubscription() {
     },
     {
       name: "Enterprise Elite",
-      price: "₹1,499",
+      price: "₹1199",
       period: "month",
       desc: "For established boutiques and multi-branch chains needing maximum visibility.",
       features: [
@@ -159,7 +159,7 @@ export default function VendorSubscription() {
                     <h4 className="text-lg font-heading font-bold text-slate-900">
                       {p.name}
                     </h4>
-                    <p className="text-xs text-slate-500 font-medium mt-1 min-h-[32px]">
+                    <p className="text-xs text-slate-500 font-medium mt-1 min-h-8">
                       {p.desc}
                     </p>
                   </div>
@@ -251,56 +251,3 @@ export default function VendorSubscription() {
     </div>
   );
 }
-
-export const plans = [
-  {
-    name: "Starter",
-    price: "₹0",
-    period: "month",
-    description:
-      "For new local boutiques testing digital cataloging and basic directory presence.",
-    popular: false,
-    features: [
-      "Basic Directory Listing",
-      "Up to 10 Products / Items",
-      "10 Digital Invoices / Month",
-      "Click-to-WhatsApp Button",
-      "Standard Local Search",
-    ],
-    cta: "Get Started Free",
-  },
-  {
-    name: "Growth Pro",
-    price: "₹499",
-    period: "month",
-    description:
-      "For growing fashion stores looking to drive local foot traffic and scale billing.",
-    popular: true,
-    features: [
-      "Everything in Starter, plus:",
-      "Up to 100 Products / Inventory Items",
-      "Unlimited Digital Invoices & Tax Support",
-      "Verified 'Trusted Store' Badge",
-      "Featured Search Placement",
-      "Customer Inquiry Analytics",
-    ],
-    cta: "Choose Growth Pro",
-  },
-  {
-    name: "Enterprise Elite",
-    price: "₹1,499",
-    period: "month",
-    description:
-      "For established boutiques and multi-branch chains needing maximum visibility.",
-    popular: false,
-    features: [
-      "Everything in Growth Pro, plus:",
-      "Unlimited Products & Collections",
-      "Multi-Branch Store Management",
-      "Top Banner City Page Placement",
-      "Priority Support & Setup Assistance",
-      "Dedicated Account Manager",
-    ],
-    cta: "Contact Enterprise",
-  },
-];

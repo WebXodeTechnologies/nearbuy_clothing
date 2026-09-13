@@ -80,8 +80,8 @@ export default function TestimonialsSection({ testimonials }) {
 
         {/* Testimonials Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((test, index) => (
-            <TestimonialCard key={test.id} testimonial={test} index={index} />
+          {(testimonials || []).map((test, index) => (
+            <TestimonialCard key={test?.id || index} testimonial={test} index={index} />
           ))}
         </div>
 

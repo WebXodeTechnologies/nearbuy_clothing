@@ -1,14 +1,15 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function TestimonialCard({ testimonial, index }) {
-  const { text, avatar, name, role } = testimonial;
+  const { text = "", avatar = "", name = "Anonymous", role = "Customer" } = testimonial || {};
   const cardRef = useRef(null);
   const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   const handleMouseMove = (e) => {
     if (!cardRef.current) return;
@@ -19,8 +20,17 @@ export default function TestimonialCard({ testimonial, index }) {
     });
   };
 
+  // Helper to extract initials (e.g., "Rohan Malhotra" -> "RM")
+  const getInitials = (str) => {
+    if (!str) return "U";
+    const parts = str.trim().split(" ");
+    if (parts.length >= 2) return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+    return parts[0][0].toUpperCase();
+  };
+
   // Determine user type / badge
-  const isMerchant = role.toLowerCase().includes("owner") || role.toLowerCase().includes("partner") || role.toLowerCase().includes("merchant");
+  const roleLower = (role || "").toLowerCase();
+  const isMerchant = roleLower.includes("owner") || roleLower.includes("partner") || roleLower.includes("merchant");
 
   return (
     <motion.div
@@ -33,7 +43,7 @@ export default function TestimonialCard({ testimonial, index }) {
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, delay: index * 0.15, ease: [0.215, 0.610, 0.355, 1.000] }}
       whileHover={{ y: -6 }}
-      className="relative border border-slate-100 p-8 rounded-3xl bg-white flex flex-col justify-between shadow-xs hover:shadow-2xl hover:border-purple-200/50 transition-all duration-300 overflow-hidden group cursor-default select-none min-h-[260px]"
+      className="relative border border-slate-100 p-8 rounded-3xl bg-white flex flex-col justify-between shadow-xs hover:shadow-2xl hover:border-purple-200/50 transition-all duration-300 overflow-hidden group cursor-default select-none min-h-65"
     >
       {/* Interactive Cursor Spotlight Glow */}
       <div
@@ -80,14 +90,26 @@ export default function TestimonialCard({ testimonial, index }) {
 
       {/* User Information */}
       <div className="mt-8 pt-6 border-t border-slate-100/80 flex items-center gap-4 relative z-10">
-        <div className="relative shrink-0">
-          {/* Avatar Ring */}
-          <div className="absolute -inset-0.5 bg-linear-to-r from-purple-500 to-indigo-500 rounded-full blur-[1px] opacity-75 group-hover:scale-105 transition-transform duration-300" />
-          <img
-            src={avatar}
-            alt={name}
-            className="relative h-10 w-10 rounded-full object-cover border border-white shadow-xs"
-          />
+        <div className="relative shrink-0 flex items-center justify-center">
+          {/* Avatar Ring Container */}
+          <div className="relative p-0.5 rounded-full bg-linear-to-r from-purple-500 via-indigo-500 to-purple-600 group-hover:scale-105 transition-transform duration-300 shadow-xs">
+            <div className="bg-white rounded-full p-0.5">
+              {imgError || !avatar ? (
+                <div className="h-9 w-9 rounded-full bg-linear-to-br from-purple-600 to-indigo-600 flex items-center justify-center text-white text-xs font-black tracking-wider shadow-inner">
+                  {getInitials(name)}
+                </div>
+              ) : (
+                <Image
+                  src={avatar}
+                  alt={name || "User avatar"}
+                  width={36}
+                  height={36}
+                  onError={() => setImgError(true)}
+                  className="h-9 w-9 rounded-full object-cover"
+                />
+              )}
+            </div>
+          </div>
         </div>
         <div className="flex flex-col min-w-0">
           <span className="font-heading font-black text-slate-900 text-sm tracking-tight truncate group-hover:text-purple-600 transition-colors">

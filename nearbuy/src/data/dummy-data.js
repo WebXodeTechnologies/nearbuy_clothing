@@ -5934,7 +5934,7 @@ export const plans = [
   },
   {
     name: "Growth Pro",
-    price: "₹499",
+    price: "₹899",
     period: "month",
     description:
       "For growing fashion stores looking to drive local foot traffic and scale billing.",
@@ -5951,7 +5951,7 @@ export const plans = [
   },
   {
     name: "Enterprise Elite",
-    price: "₹1,499",
+    price: "₹1,199",
     period: "month",
     description:
       "For established boutiques and multi-branch chains needing maximum visibility.",
