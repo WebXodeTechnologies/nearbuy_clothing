@@ -1,4 +1,3 @@
-// models/Offer.js
 import mongoose from "mongoose";
 import "@/models/Vendor";
 import "@/models/Store";
@@ -9,13 +8,13 @@ const OfferSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vendor",
       required: [true, "Offer must belong to a Vendor profile"],
-      index: true,
+      // 🔄 Removed inline index: true
     },
     storeId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Store",
       default: null,
-      index: true,
+      // 🔄 Removed inline index: true
     },
 
     title: {
@@ -30,7 +29,7 @@ const OfferSchema = new mongoose.Schema(
       required: true,
       lowercase: true,
       trim: true,
-      index: true,
+      // 🔄 Removed inline index: true
     },
 
     couponCode: {
@@ -48,7 +47,7 @@ const OfferSchema = new mongoose.Schema(
 
     discountType: {
       type: String,
-      enum: ["Percentage", "Flat", "BOGO"], // 🟢 Allows 'Flat'
+      enum: ["Percentage", "Flat", "BOGO"],
       default: "Percentage",
     },
 
@@ -81,7 +80,7 @@ const OfferSchema = new mongoose.Schema(
       type: String,
       enum: ["Active", "Paused", "Expired"],
       default: "Active",
-      index: true,
+      // 🔄 Removed inline index: true
     },
 
     views: {
@@ -97,8 +96,8 @@ const OfferSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-// 🟢 Pre-validate Hook to auto-generate slug before saving!
-OfferSchema.pre("validate", function () {
+// Pre-validate Hook to auto-generate slug before saving!
+OfferSchema.pre("validate", function (next) {
   if (!this.slug || this.slug.trim() === "") {
     const baseName = this.title || "offer";
     this.slug =
@@ -111,10 +110,14 @@ OfferSchema.pre("validate", function () {
       "-" +
       Math.floor(Math.random() * 10000);
   }
+  next();
 });
 
-// Indexes
+// ==========================================
+// Indexes (Single Source of Truth)
+// ==========================================
 OfferSchema.index({ vendorId: 1 });
+OfferSchema.index({ storeId: 1 });
 OfferSchema.index({ slug: 1 });
 OfferSchema.index({ status: 1 });
 

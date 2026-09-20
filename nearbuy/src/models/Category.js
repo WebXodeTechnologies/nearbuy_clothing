@@ -20,7 +20,7 @@ const CategorySchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
-      index: true,
+      // 🔄 Removed inline index: true to prevent duplication with CategorySchema.index({ slug: 1 })
     },
 
     description: {
@@ -79,7 +79,7 @@ const CategorySchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true,
-      index: true,
+      // 🔄 Removed inline index: true to prevent duplication with CategorySchema.index({ isActive: 1 })
     },
   },
   {
@@ -97,10 +97,11 @@ CategorySchema.pre("validate", function (next) {
       .replace(/[\s_-]+/g, "-")
       .replace(/^-+|-+$/g, "");
   }
+  next();
 });
 
 // ==========================================
-// Indexes
+// Indexes (Single Source of Truth)
 // ==========================================
 
 CategorySchema.index({ slug: 1 });

@@ -10,7 +10,7 @@ const StoreSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vendor",
       required: [true, "Store must belong to an active Vendor profile"],
-      index: true,
+      // 🔄 Removed inline index: true
     },
 
     categoryIds: [
@@ -43,7 +43,7 @@ const StoreSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
-      index: true,
+      // 🔄 Removed inline index: true
     },
 
     description: {
@@ -71,7 +71,6 @@ const StoreSchema = new mongoose.Schema(
       default: [],
     },
 
-    // Facilities & Tags (Sarees, AC, Parking, Trial Room)
     facilities: {
       type: [String],
       default: [],
@@ -98,7 +97,7 @@ const StoreSchema = new mongoose.Schema(
       required: [true, "City is required"],
       default: "Namakkal",
       trim: true,
-      index: true,
+      // 🔄 Removed inline index: true
     },
 
     state: {
@@ -119,7 +118,6 @@ const StoreSchema = new mongoose.Schema(
       trim: true,
     },
 
-    // GeoJSON Point for GPS Location Searching
     location: {
       type: {
         type: String,
@@ -127,8 +125,8 @@ const StoreSchema = new mongoose.Schema(
         default: "Point",
       },
       coordinates: {
-        type: [Number], // [longitude, latitude]
-        default: [78.1674, 11.2189], // Namakkal Default Coords
+        type: [Number],
+        default: [78.1674, 11.2189],
       },
     },
 
@@ -234,7 +232,7 @@ const StoreSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true,
-      index: true,
+      // 🔄 Removed inline index: true
     },
 
     profileCompleted: {
@@ -285,10 +283,7 @@ const StoreSchema = new mongoose.Schema(
   },
 );
 
-// ==========================================
 // Auto-Generate Slug Pre-Validate Hook
-// ==========================================
-
 StoreSchema.pre("validate", function (next) {
   if (!this.storeSlug || this.storeSlug.trim() === "") {
     const baseName = this.storeName || "store";
@@ -302,9 +297,11 @@ StoreSchema.pre("validate", function (next) {
       "-" +
       Math.floor(Math.random() * 10000);
   }
+  next();
 });
+
 // ==========================================
-// Compound Indexes
+// Compound & Single Indexes (Single Source of Truth)
 // ==========================================
 
 StoreSchema.index({ vendorId: 1 });
@@ -312,10 +309,6 @@ StoreSchema.index({ city: 1, area: 1 });
 StoreSchema.index({ storeSlug: 1 });
 StoreSchema.index({ location: "2dsphere" });
 StoreSchema.index({ isFeatured: 1, isActive: 1 });
-
-// ==========================================
-// Hide Internal Fields
-// ==========================================
 
 StoreSchema.set("toJSON", {
   transform: (_, ret) => {

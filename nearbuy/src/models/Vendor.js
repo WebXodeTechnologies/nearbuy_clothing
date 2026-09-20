@@ -9,6 +9,7 @@ const VendorSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: [true, "Owner ID is required"],
+      // 🔄 Removed inline index: true
     },
 
     // ==========================================
@@ -31,6 +32,7 @@ const VendorSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
+      // 🔄 Removed inline index: true
     },
 
     businessType: {
@@ -140,7 +142,7 @@ const VendorSchema = new mongoose.Schema(
 
     storageLimitBytes: {
       type: Number,
-      default: 1 * 1024 * 1024 * 1024, // 1 GB default base limit in bytes
+      default: 1 * 1024 * 1024 * 1024,
     },
 
     storagePlan: {
@@ -148,7 +150,6 @@ const VendorSchema = new mongoose.Schema(
       default: "Free Tier (1GB)",
     },
 
-    // Extra Storage & Purchase Request Workflow Fields:
     storageRequestPending: {
       type: Boolean,
       default: false,
@@ -161,8 +162,9 @@ const VendorSchema = new mongoose.Schema(
 
     extraStorageGBAllocated: {
       type: Number,
-      default: 0, // Tracks additional purchased storage in GB (e.g., +2GB or +3GB packs)
+      default: 0,
     },
+
     // ==========================================
     // Operating Schedule & Amenities
     // ==========================================
@@ -217,12 +219,14 @@ const VendorSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Plan",
       default: null,
+      // 🔄 Removed inline index: true
     },
 
     subscriptionId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Subscription",
       default: null,
+      // 🔄 Removed inline index: true
     },
 
     // ==========================================
@@ -232,6 +236,7 @@ const VendorSchema = new mongoose.Schema(
       type: String,
       enum: ["Pending", "Approved", "Rejected", "Suspended"],
       default: "Pending",
+      // 🔄 Removed inline index: true
     },
 
     isVerified: {
@@ -296,10 +301,8 @@ const VendorSchema = new mongoose.Schema(
   },
 );
 
-// ==========================================
 // Pre-Validate Hook for Auto Slug Creation
-// ==========================================
-VendorSchema.pre("validate", function () {
+VendorSchema.pre("validate", function (next) {
   if (this.businessName && !this.storeName) {
     this.storeName = this.businessName;
   } else if (this.storeName && !this.businessName) {
@@ -318,10 +321,11 @@ VendorSchema.pre("validate", function () {
       "-" +
       Math.floor(Math.random() * 10000);
   }
+  next();
 });
 
 // ==========================================
-// Clean Indexes (Defined Once)
+// Clean Indexes (Single Source of Truth)
 // ==========================================
 VendorSchema.index({ ownerId: 1 });
 VendorSchema.index({ businessSlug: 1 });
@@ -330,7 +334,7 @@ VendorSchema.index({ planId: 1 });
 VendorSchema.index({ subscriptionId: 1 });
 
 // ==========================================
-// Hide Internal Fields
+// Hide Internal Fields & Virtuals
 // ==========================================
 VendorSchema.virtual("totalStorageLimitBytes").get(function () {
   const base = 1 * 1024 * 1024 * 1024;

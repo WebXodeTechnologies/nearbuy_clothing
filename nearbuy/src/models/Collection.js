@@ -5,22 +5,16 @@ import "@/models/Category";
 
 const CollectionSchema = new mongoose.Schema(
   {
-    // ==========================================
-    // Relationships
-    // ==========================================
-
     vendorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vendor",
       required: [true, "Collection must belong to a Vendor profile"],
-      index: true,
     },
 
     storeId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Store",
       required: [true, "Collection must belong to a Store"],
-      index: true,
     },
 
     categoryIds: [
@@ -29,10 +23,6 @@ const CollectionSchema = new mongoose.Schema(
         ref: "Category",
       },
     ],
-
-    // ==========================================
-    // Collection Information
-    // ==========================================
 
     title: {
       type: String,
@@ -47,7 +37,6 @@ const CollectionSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
-      index: true,
     },
 
     price: {
@@ -61,10 +50,6 @@ const CollectionSchema = new mongoose.Schema(
       trim: true,
     },
 
-    // ==========================================
-    // Media
-    // ==========================================
-
     coverImage: {
       type: String,
       default: "",
@@ -75,10 +60,6 @@ const CollectionSchema = new mongoose.Schema(
       default: [],
     },
 
-    // ==========================================
-    // Search & Status
-    // ==========================================
-
     tags: {
       type: [String],
       default: [],
@@ -86,7 +67,7 @@ const CollectionSchema = new mongoose.Schema(
 
     status: {
       type: Boolean,
-      default: true, // true = In Stock / Available in Shop
+      default: true,
     },
 
     isFeatured: {
@@ -102,8 +83,15 @@ const CollectionSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true,
-      index: true,
     },
+
+    // 🔒 Persistent Likes Array
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
 
     comments: [
       {
@@ -114,10 +102,6 @@ const CollectionSchema = new mongoose.Schema(
       },
     ],
 
-    // ==========================================
-    // Analytics
-    // ==========================================
-
     totalViews: {
       type: Number,
       default: 0,
@@ -127,10 +111,6 @@ const CollectionSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-
-    // ==========================================
-    // SEO
-    // ==========================================
 
     seoTitle: {
       type: String,
@@ -147,7 +127,6 @@ const CollectionSchema = new mongoose.Schema(
   },
 );
 
-// Pre-validate hook for auto slug generation
 CollectionSchema.pre("validate", function () {
   if (!this.slug || this.slug.trim() === "") {
     const baseName = this.title || "collection";
@@ -162,10 +141,6 @@ CollectionSchema.pre("validate", function () {
       Math.floor(Math.random() * 10000);
   }
 });
-
-// ==========================================
-// Indexes
-// ==========================================
 
 CollectionSchema.index({ vendorId: 1 });
 CollectionSchema.index({ storeId: 1 });

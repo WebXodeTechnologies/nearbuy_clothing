@@ -5,7 +5,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSession } from "next-auth/react";
-import CollectionCard from "@/components/cards/CollectionCard";
 import OfferCard from "@/components/cards/OfferCard";
 import Badge from "@/components/ui/Badge";
 import Breadcrumb from "@/components/navigation/Breadcrumb";
@@ -15,7 +14,11 @@ import toast from "react-hot-toast";
 
 const contentVariants = {
   hidden: { opacity: 0, y: 15 },
-  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 15 } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 100, damping: 15 },
+  },
 };
 
 const gridContainerVariants = {
@@ -25,13 +28,19 @@ const gridContainerVariants = {
 
 const gridItemVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 85, damping: 14 } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 85, damping: 14 },
+  },
 };
 
 export default function StoreDetailsPage({ params }) {
   const resolvedParams = React.use(params);
   const slug = resolvedParams?.slug;
   const { data: session } = useSession();
+  const currentUserId =
+    session?.user?.id || session?.user?._id || session?.user?.sub;
 
   const [store, setStore] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -45,6 +54,7 @@ export default function StoreDetailsPage({ params }) {
 
   const headerRef = useRef(null);
 
+  // 🔒 STABLE DEPENDENCY: Tracks [slug, session?.user?.id] to evaluate likes correctly once session resolves
   useEffect(() => {
     if (!slug) return;
 
@@ -68,14 +78,19 @@ export default function StoreDetailsPage({ params }) {
         const storeId = storeDoc._id;
 
         const [collectionsRes, offersRes] = await Promise.all([
-          fetch(`/api/vendors/collections?vendorId=${vendorId}&storeId=${storeId}`),
+          fetch(
+            `/api/vendors/collections?vendorId=${vendorId}&storeId=${storeId}`,
+          ),
           fetch(`/api/offers?vendorId=${vendorId}`),
         ]);
 
         const collectionsData = await collectionsRes.json().catch(() => ({}));
         const offersData = await offersRes.json().catch(() => ({}));
 
-        const rawCollections = collectionsData?.data?.collections || collectionsData?.collections || [];
+        const rawCollections =
+          collectionsData?.data?.collections ||
+          collectionsData?.collections ||
+          [];
         const rawOffers = offersData?.data?.offers || offersData?.offers || [];
 
         const mappedStore = {
@@ -86,30 +101,47 @@ export default function StoreDetailsPage({ params }) {
           logo: storeDoc.logo || storeDoc.vendorId?.logo || "",
           banner: storeDoc.coverImage || storeDoc.vendorId?.coverImage || "",
           rating: 4.8,
-          reviewsCount: storeDoc.totalViews ? Math.floor(storeDoc.totalViews / 5) + 12 : 12,
+          reviewsCount: storeDoc.totalViews
+            ? Math.floor(storeDoc.totalViews / 5) + 12
+            : 12,
           description: storeDoc.description || "",
           address: storeDoc.address || "",
           city: storeDoc.city || "",
-          location: `${storeDoc.address || ""}, ${storeDoc.city || ""}`.replace(/^,\s*/, ""),
+          location: `${storeDoc.address || ""}, ${storeDoc.city || ""}`.replace(
+            /^,\s*/,
+            "",
+          ),
           phone: storeDoc.phone || storeDoc.vendorId?.phone || "",
-          whatsapp: storeDoc.whatsapp || storeDoc.phone || storeDoc.vendorId?.phone || "",
-          hours: storeDoc.openingTime && storeDoc.closingTime
-            ? `${storeDoc.openingTime} - ${storeDoc.closingTime}`
-            : "09:30 AM - 09:00 PM",
+          whatsapp:
+            storeDoc.whatsapp ||
+            storeDoc.phone ||
+            storeDoc.vendorId?.phone ||
+            "",
+          hours:
+            storeDoc.openingTime && storeDoc.closingTime
+              ? `${storeDoc.openingTime} - ${storeDoc.closingTime}`
+              : "09:30 AM - 09:00 PM",
           gallery: Array.isArray(storeDoc.gallery) ? storeDoc.gallery : [],
-          categories: storeDoc.categoryIds?.map(c => c.name) || ["Boutique"],
-          collections: rawCollections.map(c => ({
-            id: c._id,
-            title: c.title,
-            description: c.description || "",
-            image: c.images?.[0] || c.coverImage || "",
-            price: c.price || 0,
-            status: c.status !== false,
-            isLiked: false,
-            likesCount: c.likesCount || 0,
-            comments: c.comments || [],
-          })),
-          offers: rawOffers.map(o => ({
+          categories: storeDoc.categoryIds?.map((c) => c.name) || ["Boutique"],
+          collections: rawCollections.map((c) => {
+            const isUserLiked = currentUserId
+              ? c.likes?.some(
+                  (id) => id && id.toString() === currentUserId.toString(),
+                )
+              : false;
+            return {
+              id: c._id,
+              title: c.title,
+              description: c.description || "",
+              image: c.images?.[0] || c.coverImage || "",
+              price: c.price || 0,
+              status: c.status !== false,
+              isLiked: isUserLiked,
+              likesCount: c.likes?.length || 0,
+              comments: c.comments || [],
+            };
+          }),
+          offers: rawOffers.map((o) => ({
             id: o._id,
             title: o.title,
             code: o.couponCode || o.code,
@@ -128,7 +160,7 @@ export default function StoreDetailsPage({ params }) {
     }
 
     loadStoreData();
-  }, [slug]);
+  }, [slug, currentUserId]);
 
   // Social Interaction Handlers
   const handleLikeToggle = async (collId) => {
@@ -137,6 +169,7 @@ export default function StoreDetailsPage({ params }) {
       return;
     }
 
+    // Optimistic UI Update
     setStore((prev) => ({
       ...prev,
       collections: prev.collections.map((item) => {
@@ -153,16 +186,20 @@ export default function StoreDetailsPage({ params }) {
     }));
 
     try {
-      await fetch(`/api/user/wishlist`, {
+      // 🔄 Explicitly using plural /api/users/wishlist to match your folder
+      const res = await fetch(`/api/users/wishlist`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ itemId: collId }),
       });
+      const data = await res.json();
+      if (!data.success) {
+        toast.error(data.message || "Failed to sync like");
+      }
     } catch (err) {
-      toast.error("Failed to sync like");
+      toast.error("Network error syncing like");
     }
   };
-
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (!session) {
@@ -172,27 +209,34 @@ export default function StoreDetailsPage({ params }) {
     if (!commentText.trim() || !activeCommentItem) return;
 
     try {
-      const res = await fetch(`/api/collections/${activeCommentItem.id}/comments`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: commentText }),
-      });
+      const res = await fetch(
+        `/api/collections/${activeCommentItem.id}/comments`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: commentText }),
+        },
+      );
       const data = await res.json();
       if (data.success) {
         setStore((prev) => ({
           ...prev,
           collections: prev.collections.map((item) => {
             if (item.id === activeCommentItem.id) {
+              const updatedComments = [...item.comments, data.comment];
+              setActiveCommentItem((prevActive) => ({
+                ...prevActive,
+                comments: updatedComments,
+              }));
               return {
                 ...item,
-                comments: [...item.comments, data.comment],
+                comments: updatedComments,
               };
             }
             return item;
           }),
         }));
         setCommentText("");
-        setActiveCommentItem(null);
         toast.success("Comment added!");
       }
     } catch (err) {
@@ -200,14 +244,16 @@ export default function StoreDetailsPage({ params }) {
     }
   };
 
-  // Unified Share Handler: Shares image file on mobile, or text/link card on desktop
   const handleUnifiedShare = async (item) => {
     const stockStatus = item.status ? "In Stock & Ready" : "Out of Stock";
-    const itemPrice = item.price ? `Rs. ${item.price.toLocaleString("en-IN")}` : "Price on Enquiry";
+    const itemPrice = item.price
+      ? `Rs. ${item.price.toLocaleString("en-IN")}`
+      : "Price on Enquiry";
 
-    const activeOffer = store.offers && store.offers.length > 0
-      ? `Special Offer: Use code *${store.offers[0].code}* for ${store.offers[0].discountValue}% OFF!`
-      : "Direct Store Collection";
+    const activeOffer =
+      store.offers && store.offers.length > 0
+        ? `Special Offer: Use code *${store.offers[0].code}* for ${store.offers[0].discountValue}% OFF!`
+        : "Direct Store Collection";
 
     const shareText =
       `*${item.title}*\n` +
@@ -220,11 +266,12 @@ export default function StoreDetailsPage({ params }) {
       `Explore full catalog on Streetunics: ${window.location.href}`;
 
     try {
-      // Attempt native file sharing if supported (Mobile devices)
       if (navigator.canShare && item.image) {
         const response = await fetch(item.image);
         const blob = await response.blob();
-        const file = new File([blob], "collection-item.jpg", { type: blob.type });
+        const file = new File([blob], "collection-item.jpg", {
+          type: blob.type,
+        });
 
         if (navigator.canShare({ files: [file] })) {
           await navigator.share({
@@ -239,7 +286,6 @@ export default function StoreDetailsPage({ params }) {
       console.log("Native file share fallback triggered:", err);
     }
 
-    // Fallback for Desktop / browsers without file-share support (Opens WhatsApp Web with full text card)
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
     window.open(whatsappUrl, "_blank");
   };
@@ -259,7 +305,7 @@ export default function StoreDetailsPage({ params }) {
 
   return (
     <div className="flex-1 bg-slate-50/30 pb-20 pt-24 relative overflow-hidden min-h-screen font-body">
-      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_2px)] bg-[size:24px_24px] opacity-75 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_2px)] bg-size-[24px_24px] opacity-75 pointer-events-none" />
 
       {/* Store Banner */}
       <div className="relative h-64 md:h-80 w-full overflow-hidden bg-slate-900 z-0">
@@ -267,11 +313,14 @@ export default function StoreDetailsPage({ params }) {
           initial={{ scale: 1.1, opacity: 0.8 }}
           animate={{ scale: 1.02, opacity: 1 }}
           transition={{ duration: 0.8 }}
-          src={store.banner || "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&auto=format&fit=crop&q=80"}
+          src={
+            store.banner ||
+            "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&auto=format&fit=crop&q=80"
+          }
           alt={store.name}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-900/40 to-transparent" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 md:-mt-24 relative z-10 space-y-8">
@@ -295,9 +344,13 @@ export default function StoreDetailsPage({ params }) {
           <div className="flex gap-4 sm:gap-6 items-center relative z-10">
             <div className="h-20 w-20 md:h-24 md:w-24 border border-slate-200 bg-white rounded-2xl shadow-md overflow-hidden shrink-0 ring-4 ring-white relative">
               <Image
-                src={store.logo || "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=200&auto=format&fit=crop&q=80"}
+                src={
+                  store.logo ||
+                  "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=200&auto=format&fit=crop&q=80"
+                }
                 alt={`${store.name} Logo`}
                 fill
+                sizes="96px"
                 className="object-cover"
               />
             </div>
@@ -306,7 +359,11 @@ export default function StoreDetailsPage({ params }) {
                 <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-heading">
                   {store.name}
                 </h1>
-                <Badge variant="blue" pill className="text-[10px] font-extrabold bg-blue-50 border border-blue-100 text-blue-700">
+                <Badge
+                  variant="blue"
+                  pill
+                  className="text-[10px] font-extrabold bg-blue-50 border border-blue-100 text-blue-700"
+                >
                   {store.rating} ★ ({store.reviewsCount} reviews)
                 </Badge>
               </div>
@@ -338,8 +395,14 @@ export default function StoreDetailsPage({ params }) {
           <div className="lg:col-span-8 space-y-6">
             <div className="flex bg-slate-100/60 p-1.5 rounded-2xl border border-slate-200/50 relative z-10">
               {[
-                { id: "collections", label: `Latest Collections (${store.collections.length})` },
-                { id: "offers", label: `Coupons & Offers (${store.offers.length})` },
+                {
+                  id: "collections",
+                  label: `Latest Collections (${store.collections.length})`,
+                },
+                {
+                  id: "offers",
+                  label: `Coupons & Offers (${store.offers.length})`,
+                },
                 { id: "gallery", label: "Store Gallery" },
               ].map((tab) => {
                 const isActive = activeTab === tab.id;
@@ -353,10 +416,16 @@ export default function StoreDetailsPage({ params }) {
                       <motion.div
                         layoutId="activeTabIndicator"
                         className="absolute inset-0 bg-white border border-slate-200/40 shadow-xs rounded-xl"
-                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 380,
+                          damping: 30,
+                        }}
                       />
                     )}
-                    <span className={`relative z-10 ${isActive ? "text-purple-700 font-extrabold" : "text-slate-500 hover:text-slate-900"}`}>
+                    <span
+                      className={`relative z-10 ${isActive ? "text-purple-700 font-extrabold" : "text-slate-500 hover:text-slate-900"}`}
+                    >
                       {tab.label}
                     </span>
                   </button>
@@ -365,37 +434,79 @@ export default function StoreDetailsPage({ params }) {
             </div>
 
             <AnimatePresence mode="wait">
-              <motion.div key={activeTab} variants={contentVariants} initial="hidden" animate="visible" exit="hidden">
+              <motion.div
+                key={activeTab}
+                variants={contentVariants}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+              >
                 {activeTab === "collections" && (
-                  <motion.div variants={gridContainerVariants} initial="hidden" animate="visible" className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <motion.div
+                    variants={gridContainerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+                  >
                     {store.collections.length === 0 ? (
                       <div className="col-span-2 text-center py-16 bg-white border border-slate-200/80 rounded-3xl shadow-xs">
-                        <p className="text-sm text-slate-400">No lookbook collections posted yet for this store.</p>
+                        <p className="text-sm text-slate-400">
+                          No lookbook collections posted yet for this store.
+                        </p>
                       </div>
                     ) : (
                       store.collections.map((coll) => (
-                        <motion.div key={coll.id} variants={gridItemVariants} className="bg-white rounded-3xl border border-slate-200/80 p-4 shadow-xs space-y-3 flex flex-col justify-between">
-                          <div>
-                            <CollectionCard collection={coll} />
+                        <motion.div
+                          key={coll.id}
+                          variants={gridItemVariants}
+                          className="bg-white rounded-3xl border border-slate-200/80 p-4 shadow-xs space-y-3 flex flex-col justify-between"
+                        >
+                          <div className="space-y-3">
+                            <div className="relative w-full aspect-3/4 rounded-2xl overflow-hidden bg-slate-100 border border-slate-100">
+                              <Image
+                                src={
+                                  coll.image ||
+                                  "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&auto=format&fit=crop&q=80"
+                                }
+                                alt={coll.title}
+                                fill
+                                unoptimized
+                                sizes="(max-width: 768px) 100vw, 50vw"
+                                className="object-cover hover:scale-105 transition-transform duration-500"
+                              />
+                            </div>
+                            <div className="space-y-1 px-1">
+                              <div className="flex items-center justify-between">
+                                <h4 className="font-heading font-black text-slate-900 text-sm truncate">
+                                  {coll.title}
+                                </h4>
+                                <span className="text-xs font-black text-indigo-600">
+                                  {coll.price
+                                    ? `₹${coll.price.toLocaleString("en-IN")}`
+                                    : "On Request"}
+                                </span>
+                              </div>
+                              <p className="text-xs text-slate-500 line-clamp-2">
+                                {coll.description}
+                              </p>
+                            </div>
                           </div>
 
-                          {/* Instagram-Style Interaction Toolbar */}
-                          <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-slate-700 px-1">
+                          <div className="flex items-center justify-between pt-3 border-t border-slate-100 text-slate-700 px-1">
                             <div className="flex items-center gap-4">
-                              {/* Red Heart / Like Button */}
                               <button
                                 type="button"
                                 onClick={() => handleLikeToggle(coll.id)}
                                 className="flex items-center gap-1.5 cursor-pointer group transition-transform active:scale-90"
                               >
                                 <Heart
-                                  className={`w-5 h-5 transition-colors ${coll.isLiked ? "fill-rose-500 text-rose-500" : "text-slate-600 group-hover:text-rose-500"
-                                    }`}
+                                  className={`w-5 h-5 transition-colors ${coll.isLiked ? "fill-rose-500 text-rose-500" : "text-slate-600 group-hover:text-rose-500"}`}
                                 />
-                                <span className="text-xs font-bold">{coll.likesCount}</span>
+                                <span className="text-xs font-bold">
+                                  {coll.likesCount}
+                                </span>
                               </button>
 
-                              {/* Comment Button */}
                               <button
                                 type="button"
                                 onClick={() => {
@@ -408,12 +519,12 @@ export default function StoreDetailsPage({ params }) {
                                 className="flex items-center gap-1.5 cursor-pointer group transition-transform active:scale-90"
                               >
                                 <MessageCircle className="w-5 h-5 text-slate-600 group-hover:text-blue-500 transition-colors" />
-                                <span className="text-xs font-bold">{coll.comments?.length || 0}</span>
+                                <span className="text-xs font-bold">
+                                  {coll.comments?.length || 0}
+                                </span>
                               </button>
                             </div>
 
-                            {/* WhatsApp Direct Share Button */}
-                            {/* WhatsApp / Native Image Share Button */}
                             <button
                               type="button"
                               onClick={() => handleUnifiedShare(coll)}
@@ -421,7 +532,7 @@ export default function StoreDetailsPage({ params }) {
                               title="Share Image & Details to WhatsApp"
                             >
                               <Share2 className="w-3.5 h-3.5" />
-                              <span>Share to WhatsApp</span>
+                              <span>Share</span>
                             </button>
                           </div>
                         </motion.div>
@@ -431,10 +542,17 @@ export default function StoreDetailsPage({ params }) {
                 )}
 
                 {activeTab === "offers" && (
-                  <motion.div variants={gridContainerVariants} initial="hidden" animate="visible" className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <motion.div
+                    variants={gridContainerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+                  >
                     {store.offers.length === 0 ? (
                       <div className="col-span-2 text-center py-16 bg-white border border-slate-200/80 rounded-3xl shadow-xs">
-                        <p className="text-sm text-slate-400">No promotional coupons available at the moment.</p>
+                        <p className="text-sm text-slate-400">
+                          No promotional coupons available at the moment.
+                        </p>
                       </div>
                     ) : (
                       store.offers.map((off) => (
@@ -449,7 +567,9 @@ export default function StoreDetailsPage({ params }) {
                 {activeTab === "gallery" && (
                   <div className="bg-white border border-slate-200/80 p-6 rounded-3xl shadow-sm">
                     {store.gallery.length === 0 ? (
-                      <p className="text-sm text-slate-400 text-center py-8">No showcase photos uploaded.</p>
+                      <p className="text-sm text-slate-400 text-center py-8">
+                        No showcase photos uploaded.
+                      </p>
                     ) : (
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                         {store.gallery.map((imgUrl, idx) => (
@@ -460,7 +580,14 @@ export default function StoreDetailsPage({ params }) {
                             onClick={() => setSelectedGalleryImage(imgUrl)}
                             className="h-28 sm:h-36 rounded-2xl overflow-hidden bg-slate-50 border border-slate-200 cursor-pointer shadow-xs relative"
                           >
-                            <Image src={imgUrl} alt={`Store interior ${idx + 1}`} fill className="object-cover" />
+                            <Image
+                              src={imgUrl}
+                              alt={`Store interior ${idx + 1}`}
+                              fill
+                              unoptimized
+                              sizes="200px"
+                              className="object-cover"
+                            />
                           </motion.div>
                         ))}
                       </div>
@@ -478,15 +605,21 @@ export default function StoreDetailsPage({ params }) {
               </h3>
               <div className="space-y-4 text-sm text-slate-500">
                 <div>
-                  <span className="font-extrabold block text-slate-800 text-xs uppercase tracking-wider mb-0.5">Physical Address</span>
+                  <span className="font-extrabold block text-slate-800 text-xs uppercase tracking-wider mb-0.5">
+                    Physical Address
+                  </span>
                   <span>{store.address || store.location}</span>
                 </div>
                 <div>
-                  <span className="font-extrabold block text-slate-800 text-xs uppercase tracking-wider mb-0.5">Operating Hours</span>
+                  <span className="font-extrabold block text-slate-800 text-xs uppercase tracking-wider mb-0.5">
+                    Operating Hours
+                  </span>
                   <span>{store.hours}</span>
                 </div>
                 <div>
-                  <span className="font-extrabold block text-slate-800 text-xs uppercase tracking-wider mb-0.5">Phone Directory</span>
+                  <span className="font-extrabold block text-slate-800 text-xs uppercase tracking-wider mb-0.5">
+                    Phone Directory
+                  </span>
                   <span>{store.phone || "Not Provided"}</span>
                 </div>
               </div>
@@ -495,7 +628,6 @@ export default function StoreDetailsPage({ params }) {
         </div>
       </div>
 
-      {/* Sign-In Guard Modal Popup */}
       {showSignInModal && (
         <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl p-6 md:p-8 max-w-sm w-full shadow-2xl text-center space-y-5 font-body">
@@ -503,9 +635,12 @@ export default function StoreDetailsPage({ params }) {
               <Heart className="w-6 h-6 fill-rose-500" />
             </div>
             <div className="space-y-1">
-              <h3 className="font-heading font-black text-slate-900 text-base">Sign In Required</h3>
+              <h3 className="font-heading font-black text-slate-900 text-base">
+                Sign In Required
+              </h3>
               <p className="text-xs text-slate-500">
-                Please sign in to like collections, leave comments, and save items to your shopper profile wishlist.
+                Please sign in to like collections, leave comments, and save
+                items to your shopper profile wishlist.
               </p>
             </div>
 
@@ -528,12 +663,13 @@ export default function StoreDetailsPage({ params }) {
         </div>
       )}
 
-      {/* Comment Modal / Drawer */}
       {activeCommentItem && (
         <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4 font-body">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h3 className="font-heading font-black text-slate-900 text-sm">Comments</h3>
+              <h3 className="font-heading font-black text-slate-900 text-sm">
+                Comments
+              </h3>
               <button
                 type="button"
                 onClick={() => setActiveCommentItem(null)}
@@ -545,18 +681,28 @@ export default function StoreDetailsPage({ params }) {
 
             <div className="max-h-60 overflow-y-auto space-y-3">
               {activeCommentItem.comments?.length === 0 ? (
-                <p className="text-xs text-slate-400 text-center py-6">No comments yet. Start the conversation!</p>
+                <p className="text-xs text-slate-400 text-center py-6">
+                  No comments yet. Start the conversation!
+                </p>
               ) : (
                 activeCommentItem.comments?.map((c, i) => (
-                  <div key={i} className="p-3 bg-slate-50 rounded-2xl space-y-1">
-                    <span className="text-[10px] font-bold text-indigo-600 block">{c.userName || "Shopper"}</span>
+                  <div
+                    key={i}
+                    className="p-3 bg-slate-50 rounded-2xl space-y-1"
+                  >
+                    <span className="text-[10px] font-bold text-indigo-600 block">
+                      {c.userName || "Shopper"}
+                    </span>
                     <p className="text-xs text-slate-700">{c.text}</p>
                   </div>
                 ))
               )}
             </div>
 
-            <form onSubmit={handleCommentSubmit} className="flex gap-2 pt-2 border-t border-slate-100">
+            <form
+              onSubmit={handleCommentSubmit}
+              className="flex gap-2 pt-2 border-t border-slate-100"
+            >
               <input
                 type="text"
                 placeholder="Add a comment..."
