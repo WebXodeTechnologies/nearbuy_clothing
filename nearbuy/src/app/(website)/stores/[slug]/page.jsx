@@ -85,15 +85,19 @@ export default function StoreDetailsPage({ params }) {
         const vendorId = storeDoc.vendorId?._id || storeDoc.vendorId;
         const storeId = storeDoc._id;
 
-        const [collectionsRes, offersRes] = await Promise.all([
+        const [collectionsRes, offersRes, galleryRes] = await Promise.all([
           fetch(
             `/api/vendors/collections?vendorId=${vendorId}&storeId=${storeId}`,
           ),
           fetch(`/api/offers?vendorId=${vendorId}`),
+          fetch(`/api/gallery?vendor=${vendorId}`).catch(() => null),
         ]);
 
         const collectionsData = await collectionsRes.json().catch(() => ({}));
         const offersData = await offersRes.json().catch(() => ({}));
+        const galleryData = galleryRes
+          ? await galleryRes.json().catch(() => ({}))
+          : {};
 
         const rawCollections =
           collectionsData?.data?.collections ||
@@ -101,10 +105,19 @@ export default function StoreDetailsPage({ params }) {
           [];
         const rawOffers = offersData?.data?.offers || offersData?.offers || [];
 
+        // Extract gallery image URLs properly from the gallery API or storeDoc
+        const rawGalleryAssets = galleryData?.data || galleryData?.assets || [];
+        const galleryImages =
+          rawGalleryAssets.length > 0
+            ? rawGalleryAssets.map((asset) => asset.url).filter(Boolean)
+            : Array.isArray(storeDoc.gallery)
+              ? storeDoc.gallery
+              : [];
+
         const mappedStore = {
           id: storeDoc._id,
           vendorId: vendorId,
-          name: storeDoc.storeName || "Storefront",
+          name: storeDoc.storeName || storeDoc.businessName || "Storefront",
           slug: storeDoc.storeSlug || storeDoc.vendorId?.businessSlug || "",
           logo: storeDoc.logo || storeDoc.vendorId?.logo || "",
           banner: storeDoc.coverImage || storeDoc.vendorId?.coverImage || "",
@@ -129,7 +142,7 @@ export default function StoreDetailsPage({ params }) {
             storeDoc.openingTime && storeDoc.closingTime
               ? `${storeDoc.openingTime} - ${storeDoc.closingTime}`
               : "09:30 AM - 09:00 PM",
-          gallery: Array.isArray(storeDoc.gallery) ? storeDoc.gallery : [],
+          gallery: galleryImages,
           categories: storeDoc.categoryIds?.map((c) => c.name) || ["Boutique"],
           collections: rawCollections.map((c) => {
             const isUserLiked = currentUserId
@@ -309,7 +322,8 @@ export default function StoreDetailsPage({ params }) {
     <div className="flex-1 bg-slate-50/50 pb-24 pt-20 relative overflow-hidden min-h-screen font-body">
       {/* Background Decorative Pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] bg-size-[24px_24px] opacity-40 pointer-events-none" />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 sm:-mt-28 relative z-10 space-y-8">
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 relative z-10 space-y-8">
         {/* Breadcrumb Navigation */}
         <div className="bg-white/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-slate-200/60 inline-block shadow-sm">
           <Breadcrumb
@@ -320,7 +334,7 @@ export default function StoreDetailsPage({ params }) {
           />
         </div>
 
-        {/* 🌟 Premium Glassmorphism Store Header Profile Card */}
+        {/* 🌟 Premium Store Header Profile Card */}
         <motion.div
           ref={headerRef}
           initial={{ opacity: 0, y: 25 }}
@@ -332,7 +346,7 @@ export default function StoreDetailsPage({ params }) {
           <div className="absolute -top-24 -right-24 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="flex flex-col sm:flex-row gap-5 sm:gap-6 items-start sm:items-center relative z-10">
-            {/* Store Logo Container (Fixed Box with object-cover) */}
+            {/* Store Logo Container */}
             <div className="h-24 w-24 sm:h-28 sm:w-28 border-2 border-white bg-white rounded-3xl shadow-xl overflow-hidden shrink-0 ring-4 ring-indigo-500/10 relative">
               <Image
                 src={
@@ -450,7 +464,7 @@ export default function StoreDetailsPage({ params }) {
                 animate="visible"
                 exit="hidden"
               >
-                {/* COLLECTIONS TAB */}
+                {/* COLLECTIONS TAB (9:16 Instagram Ratio Cards) */}
                 {activeTab === "collections" && (
                   <motion.div
                     variants={gridContainerVariants}
@@ -476,11 +490,10 @@ export default function StoreDetailsPage({ params }) {
                           variants={gridItemVariants}
                           className="group relative bg-white rounded-[2.5rem] border border-slate-200/70 p-5 shadow-sm hover:shadow-2xl hover:border-indigo-200/80 transition-all duration-500 flex flex-col justify-between overflow-hidden"
                         >
-                          {/* Subtle background glow effect on hover */}
                           <div className="absolute -right-20 -top-20 w-48 h-48 bg-indigo-50 rounded-full blur-3xl group-hover:bg-indigo-100/60 transition-colors pointer-events-none" />
 
                           <div className="space-y-4 relative z-10">
-                            {/* 📸 Instagram-Style 9:16 Vertical Aspect Ratio Container */}
+                            {/* Instagram-Style 9:16 Vertical Aspect Ratio Container */}
                             <div className="relative w-full aspect-9/16 rounded-3xl overflow-hidden bg-slate-950 border border-slate-100/80 shadow-inner">
                               <Image
                                 src={
@@ -494,7 +507,6 @@ export default function StoreDetailsPage({ params }) {
                                 className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                               />
 
-                              {/* Floating Price Tag Overlay */}
                               <div className="absolute top-4 right-4">
                                 <span className="text-xs font-black text-slate-900 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-lg border border-white/20">
                                   {coll.price
@@ -504,7 +516,6 @@ export default function StoreDetailsPage({ params }) {
                               </div>
                             </div>
 
-                            {/* Content Section */}
                             <div className="space-y-1.5 px-1">
                               <h4 className="font-heading font-black text-slate-950 text-base tracking-tight group-hover:text-indigo-600 transition-colors truncate">
                                 {coll.title}
@@ -516,10 +527,8 @@ export default function StoreDetailsPage({ params }) {
                             </div>
                           </div>
 
-                          {/* Interaction Toolbar */}
                           <div className="flex items-center justify-between pt-4 mt-4 border-t border-slate-100 text-slate-700 px-1 relative z-10">
                             <div className="flex items-center gap-5">
-                              {/* Like Button */}
                               <button
                                 type="button"
                                 onClick={() => handleLikeToggle(coll.id)}
@@ -539,7 +548,6 @@ export default function StoreDetailsPage({ params }) {
                                 </span>
                               </button>
 
-                              {/* Comment Button */}
                               <button
                                 type="button"
                                 onClick={() => {
@@ -560,7 +568,6 @@ export default function StoreDetailsPage({ params }) {
                               </button>
                             </div>
 
-                            {/* WhatsApp Share Button */}
                             <button
                               type="button"
                               onClick={() => handleUnifiedShare(coll)}
@@ -600,12 +607,12 @@ export default function StoreDetailsPage({ params }) {
                   </motion.div>
                 )}
 
-                {/* GALLERY TAB */}
+                {/* GALLERY TAB (Connected to Vendor Gallery Uploads) */}
                 {activeTab === "gallery" && (
                   <div className="bg-white border border-slate-200/80 p-6 rounded-3xl shadow-sm">
                     {store.gallery.length === 0 ? (
                       <p className="text-sm text-slate-400 text-center py-12">
-                        No store showcase photos uploaded yet.
+                        No store gallery photos uploaded yet by this boutique.
                       </p>
                     ) : (
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -615,11 +622,11 @@ export default function StoreDetailsPage({ params }) {
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => setSelectedGalleryImage(imgUrl)}
-                            className="h-32 sm:h-40 rounded-2xl overflow-hidden bg-slate-900 border border-slate-200 cursor-pointer shadow-sm relative group"
+                            className="h-36 sm:h-44 rounded-2xl overflow-hidden bg-slate-900 border border-slate-200 cursor-pointer shadow-sm relative group"
                           >
                             <Image
                               src={imgUrl}
-                              alt={`Store interior ${idx + 1}`}
+                              alt={`Store gallery photo ${idx + 1}`}
                               fill
                               unoptimized
                               sizes="300px"
@@ -783,7 +790,7 @@ export default function StoreDetailsPage({ params }) {
       {/* Gallery Lightbox Modal */}
       {selectedGalleryImage && (
         <div
-          className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
           onClick={() => setSelectedGalleryImage(null)}
         >
           <div className="relative max-w-4xl w-full h-[80vh] rounded-3xl overflow-hidden shadow-2xl">

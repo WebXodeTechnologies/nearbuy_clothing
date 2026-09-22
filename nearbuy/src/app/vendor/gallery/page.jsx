@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 import useGalleryStore from "@/store/galleryStore";
-import { useUploadThing } from "@/utils/uploadthing"; // 👈 Import UploadThing client helper
+import { useUploadThing } from "@/utils/uploadthing";
 import {
   Image as ImageIcon,
   Folder,
@@ -30,24 +30,18 @@ export default function VendorGallery() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [isUploading, setIsUploading] = useState(false); // 👈 Upload tracking state
+  const [isUploading, setIsUploading] = useState(false);
 
   // Upload Form State
   const [assetName, setAssetName] = useState("");
-  const [assetFolder, setAssetFolder] = useState("Store Interior");
+  const [assetFolder, setAssetFolder] = useState("Storefront");
   const [imagePreview, setImagePreview] = useState("");
 
   const fileInputRef = useRef(null);
 
-  const folders = [
-    "All",
-    "Store Interior",
-    "Collections",
-    "Offers",
-    "Logo & Banners",
-  ];
+  // 🔄 Simplified folder categories (Removed Store Interior, Logo & Banners)
+  const folders = ["All", "Storefront", "Display Photos", "Promotional"];
 
-  // 👈 Initialize UploadThing hook with vendor storage middleware tracking
   const { startUpload } = useUploadThing("vendorAssetUploader", {
     headers: {
       "x-user-email": user?.email || "",
@@ -73,12 +67,12 @@ export default function VendorGallery() {
   }, [user, fetchGallery]);
 
   const filteredMedia = media.filter(
-    (m) => activeFolder === "All" || m.folder === activeFolder
+    (m) => activeFolder === "All" || m.folder === activeFolder,
   );
 
   const resetForm = () => {
     setAssetName("");
-    setAssetFolder(activeFolder === "All" ? "Store Interior" : activeFolder);
+    setAssetFolder(activeFolder === "All" ? "Storefront" : activeFolder);
     setImagePreview("");
   };
 
@@ -87,7 +81,6 @@ export default function VendorGallery() {
     setIsUploadOpen(true);
   };
 
-  // 👈 Handle PC File Upload via UploadThing Server
   const handleFileSelect = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -98,7 +91,7 @@ export default function VendorGallery() {
     }
 
     setIsUploading(true);
-    const toastId = toast.loading("Uploading photo to UploadThing server...");
+    const toastId = toast.loading("Uploading photo to cloud server...");
 
     try {
       if (!assetName) {
@@ -118,7 +111,7 @@ export default function VendorGallery() {
       (t) => (
         <div className="flex flex-col gap-3 font-body">
           <p className="text-xs font-bold text-slate-800">
-            Remove this photo from your shop gallery?
+            Remove this photo from your store gallery?
           </p>
           <div className="flex items-center justify-end gap-2">
             <button
@@ -160,7 +153,7 @@ export default function VendorGallery() {
           padding: "16px",
           boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.1)",
         },
-      }
+      },
     );
   };
 
@@ -177,7 +170,7 @@ export default function VendorGallery() {
 
     try {
       await createAsset({
-        name: assetName.trim() || "Shop Photo Asset",
+        name: assetName.trim() || "Store Gallery Asset",
         folder: assetFolder,
         url: imagePreview,
       });
@@ -194,7 +187,6 @@ export default function VendorGallery() {
 
   return (
     <div className="space-y-6 font-body pb-12">
-      {/* Hidden Native File Input */}
       <input
         type="file"
         ref={fileInputRef}
@@ -203,13 +195,13 @@ export default function VendorGallery() {
         className="hidden"
       />
 
-      {/* Header */}
       <DashboardHeader
-        title="Store Gallery & Media Assets"
-        description="Upload photos of your shop interior, trial rooms, and promotional banners so local shoppers can see your store."
-        badge="Shop Gallery"
+        title="Store Gallery"
+        description="Upload storefront images and promotional showcase photos so local walk-in customers can explore your shop."
+        badge="Store Gallery"
       >
         <button
+          type="button"
           onClick={handleOpenUpload}
           className="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black shadow-lg shadow-indigo-600/20 transition-all flex items-center gap-2 cursor-pointer"
         >
@@ -218,17 +210,18 @@ export default function VendorGallery() {
         </button>
       </DashboardHeader>
 
-      {/* Folder Pills Bar */}
       <div className="bg-white p-4 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto scrollbar-none py-1">
           {folders.map((f) => (
             <button
+              type="button"
               key={f}
               onClick={() => setActiveFolder(f)}
-              className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 border ${activeFolder === f
+              className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 border ${
+                activeFolder === f
                   ? "bg-indigo-600 text-white border-indigo-600 shadow-xs"
                   : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
-                }`}
+              }`}
             >
               <Folder className="w-3.5 h-3.5" />
               <span>{f}</span>
@@ -242,7 +235,6 @@ export default function VendorGallery() {
         </div>
       </div>
 
-      {/* Grid Gallery */}
       {loading ? (
         <div className="py-20 flex justify-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
@@ -256,9 +248,10 @@ export default function VendorGallery() {
             No Photos in {activeFolder}
           </h3>
           <p className="text-xs text-slate-500 mt-1.5 font-medium leading-relaxed">
-            Upload photos to show buyers what your shop interior and dress collections look like.
+            Upload storefront photos to showcase your shop to local buyers.
           </p>
           <button
+            type="button"
             onClick={handleOpenUpload}
             className="mt-6 px-6 py-3 rounded-2xl bg-indigo-600 text-white text-xs font-black shadow-md hover:bg-indigo-500 transition-colors cursor-pointer"
           >
@@ -276,17 +269,15 @@ export default function VendorGallery() {
                 key={assetId}
                 className="bg-white rounded-3xl border border-slate-200/80 shadow-xs hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between group"
               >
-                {/* Photo Area */}
                 <div className="h-60 w-full relative overflow-hidden bg-slate-900">
                   <Image
                     src={assetUrl}
-                    alt={item.name || "Gallery Photo"}
+                    alt={item.name || "Store Gallery Photo"}
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
 
-                  {/* Hover Actions Overlay */}
                   <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 z-10 backdrop-blur-xs">
                     <button
                       type="button"
@@ -306,7 +297,6 @@ export default function VendorGallery() {
                     </button>
                   </div>
 
-                  {/* Folder Tag Badge */}
                   <div className="absolute top-3 left-3 z-10">
                     <span className="text-[10px] font-black uppercase tracking-wider text-white bg-slate-950/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/20">
                       {item.folder}
@@ -314,17 +304,15 @@ export default function VendorGallery() {
                   </div>
                 </div>
 
-                {/* Asset Footer */}
                 <div className="p-4 flex items-center justify-between bg-white border-t border-slate-100">
                   <div>
-                    <h4 className="text-xs font-black text-slate-900 truncate max-w-40">
+                    <h4 className="text-xs font-black text-slate-900 truncate max-w-45">
                       {item.name}
                     </h4>
                     <span className="text-[10px] font-bold text-slate-400">
                       Cloud Synced
                     </span>
                   </div>
-
                   <span className="text-[10px] font-black text-teal-700 bg-teal-50 px-2.5 py-1 rounded-xl border border-teal-200">
                     ⚡ UploadThing
                   </span>
@@ -335,21 +323,23 @@ export default function VendorGallery() {
         </div>
       )}
 
-      {/* Upload Asset Modal */}
+      {/* Upload Modal */}
       <Modal
         isOpen={isUploadOpen}
         onClose={() => {
           setIsUploadOpen(false);
           resetForm();
         }}
-        title="Upload Shop Photo"
+        title="Upload Store Photo"
         size="md"
       >
-        <form onSubmit={handleUploadSubmit} className="space-y-4 font-body pt-2">
-          {/* File Picker Box */}
+        <form
+          onSubmit={handleUploadSubmit}
+          className="space-y-4 font-body pt-2"
+        >
           <div>
             <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
-              Select Image File (UploadThing Cloud)
+              Select Image File
             </label>
             <div
               onClick={() => !isUploading && fileInputRef.current?.click()}
@@ -384,17 +374,15 @@ export default function VendorGallery() {
                     )}
                   </div>
                   <span className="text-xs font-bold text-slate-700">
-                    {isUploading ? "Uploading to UploadThing server..." : "Click here to pick photo from PC"}
-                  </span>
-                  <span className="text-[10px] text-slate-400">
-                    Saved to Cloud Storage Pool
+                    {isUploading
+                      ? "Uploading..."
+                      : "Click here to pick photo from PC"}
                   </span>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Title / Caption */}
           <div>
             <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
               Photo Title / Caption
@@ -404,12 +392,11 @@ export default function VendorGallery() {
               required
               value={assetName}
               onChange={(e) => setAssetName(e.target.value)}
-              placeholder="e.g. Trial Room Area / Main Counter"
+              placeholder="e.g. Storefront Entrance / Main Display"
               className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs font-bold text-slate-900 focus:outline-none focus:border-indigo-600"
             />
           </div>
 
-          {/* Folder Category Select */}
           <div>
             <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
               Gallery Category
@@ -429,7 +416,6 @@ export default function VendorGallery() {
             </select>
           </div>
 
-          {/* Modal Actions */}
           <div className="pt-2 flex justify-end gap-3">
             <button
               type="button"
@@ -441,7 +427,6 @@ export default function VendorGallery() {
             >
               Cancel
             </button>
-
             <button
               type="submit"
               disabled={submitting || isUploading}
@@ -459,7 +444,7 @@ export default function VendorGallery() {
         </form>
       </Modal>
 
-      {/* Fullscreen Lightbox Preview */}
+      {/* Lightbox */}
       <AnimatePresence>
         {selectedImage && (
           <motion.div
@@ -467,7 +452,7 @@ export default function VendorGallery() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
-            onClick={() => setSelectedImage(null)}
+            onClick={() => setSelectedGalleryImage(null)}
           >
             <button
               type="button"
@@ -476,13 +461,12 @@ export default function VendorGallery() {
             >
               <X className="w-6 h-6" />
             </button>
-
             <div className="relative w-full max-w-4xl h-[80vh] rounded-3xl overflow-hidden shadow-2xl border border-white/25">
               <Image
                 src={selectedImage}
                 alt="Fullscreen Preview"
                 fill
-                sizes="(max-width: 1200px) 100vw, 1200px"
+                sizes="1200px"
                 className="object-contain w-full h-full"
               />
             </div>

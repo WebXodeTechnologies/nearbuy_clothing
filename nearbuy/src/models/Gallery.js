@@ -17,8 +17,16 @@ const GallerySchema = new mongoose.Schema(
     },
     folder: {
       type: String,
-      enum: ["Store Interior", "Collections", "Offers", "Logo & Banners"],
-      default: "Store Interior",
+      enum: [
+        "Storefront",
+        "Display Photos",
+        "Promotional",
+        "Store Interior",
+        "Collections",
+        "Offers",
+        "Logo & Banners",
+      ],
+      default: "Storefront",
       index: true,
     },
     url: {
