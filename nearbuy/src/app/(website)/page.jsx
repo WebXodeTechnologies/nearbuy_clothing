@@ -1,11 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import {
-  testimonials,
-  faqs,
-  plans,
-} from "@/data/dummy-data";
+import { testimonials, faqs, plans } from "@/data/dummy-data";
 import HeroSection from "@/components/home/HeroSection";
 import FeaturedCategoriesSection from "@/components/home/FeaturedCategoriesSection";
 import FeaturedStoresSection from "@/components/home/FeaturedStoresSection";
@@ -29,10 +25,16 @@ const mapDbStoreToFrontend = (s) => ({
   rating: 4.8,
   reviewsCount: s?.totalViews ? Math.floor(s.totalViews / 5) + 12 : 12,
   description: s?.description || "",
-  location: s?.address && s?.city ? `${s.address}, ${s.city}` : s?.city || "Namakkal",
+  location:
+    s?.address && s?.city ? `${s.address}, ${s.city}` : s?.city || "Namakkal",
   phone: s?.phone || s?.vendorId?.phone || "",
   whatsapp: s?.whatsapp || s?.phone || s?.vendorId?.phone || "",
   isFeatured: s?.isFeatured || false,
+  categories: s?.categoryIds?.map((c) => c.name) || ["Boutique"],
+  hours:
+    s?.openingTime && s?.closingTime
+      ? `${s.openingTime} - ${s.closingTime}`
+      : "10:00 AM - 9:00 PM",
 });
 
 export default function Home() {
@@ -41,7 +43,7 @@ export default function Home() {
     categories = [],
     offers = [],
     collections = [],
-    fetchPublicDirectory
+    fetchPublicDirectory,
   } = useWebsiteStore();
 
   useEffect(() => {
@@ -49,52 +51,63 @@ export default function Home() {
   }, [fetchPublicDirectory]);
 
   // Map database stores safely to frontend structure
-  const mappedStores = Array.isArray(stores) ? stores.map(mapDbStoreToFrontend) : [];
+  const mappedStores = Array.isArray(stores)
+    ? stores.map(mapDbStoreToFrontend)
+    : [];
 
-  // Filter featured stores; if none are marked as featured, fallback to showing top active stores
-  const featuredStores = mappedStores.filter((s) => s.isFeatured);
-  const storesToDisplay = featuredStores.length > 0 ? featuredStores : mappedStores.slice(0, 3);
+  // 🔄 Client Requirement: List ALL stores from the database instead of slicing or filtering only featured ones
+  const storesToDisplay = mappedStores;
 
   // Map and sort latest collections from MongoDB safely
   const latestCollections = Array.isArray(collections)
     ? collections
-      .map((c) => {
-        const store = Array.isArray(stores) ? stores.find((s) => s._id === c?.storeId) : null;
-        return {
-          id: c?._id,
-          title: c?.title || "New Arrival Collection",
-          description: c?.description || "",
-          image: c?.images?.[0] || c?.coverImage || "",
-          storeName: store?.storeName || c?.vendorId?.businessName || "Local Store",
-          storeSlug: store?.storeSlug || store?.vendorId?.businessSlug || "",
-        };
-      })
-      .slice(0, 3)
+        .map((c) => {
+          const store = Array.isArray(stores)
+            ? stores.find((s) => s._id === c?.storeId)
+            : null;
+          return {
+            id: c?._id,
+            title: c?.title || "New Arrival Collection",
+            description: c?.description || "",
+            image: c?.images?.[0] || c?.coverImage || "",
+            storeName:
+              store?.storeName || c?.vendorId?.businessName || "Local Store",
+            storeSlug: store?.storeSlug || store?.vendorId?.businessSlug || "",
+          };
+        })
+        .slice(0, 3)
     : [];
 
   // Map and sort trending offers from MongoDB safely
   const trendingOffers = Array.isArray(offers)
     ? offers
-      .map((o) => {
-        const store = Array.isArray(stores) ? stores.find((s) => s._id === o?.storeId) : null;
-        return {
-          id: o?._id,
-          title: o?.title || "Special Discount Offer",
-          code: o?.code || "WALKIN",
-          discountType: o?.discountType || "PERCENTAGE",
-          discountValue: o?.discountValue || 10,
-          storeName: store?.storeName || o?.vendorId?.businessName || "Local Store",
-          storeSlug: store?.storeSlug || store?.vendorId?.businessSlug || "",
-        };
-      })
-      .slice(0, 3)
+        .map((o) => {
+          const store = Array.isArray(stores)
+            ? stores.find((s) => s._id === o?.storeId)
+            : null;
+          return {
+            id: o?._id,
+            title: o?.title || "Special Discount Offer",
+            code: o?.code || "WALKIN",
+            discountType: o?.discountType || "PERCENTAGE",
+            discountValue: o?.discountValue || 10,
+            storeName:
+              store?.storeName || o?.vendorId?.businessName || "Local Store",
+            storeSlug: store?.storeSlug || store?.vendorId?.businessSlug || "",
+          };
+        })
+        .slice(0, 3)
     : [];
 
   return (
     <div className="min-h-screen bg-slate-50 selection:bg-blue-600 selection:text-white">
       <HeroSection />
       <FeaturedCategoriesSection categories={categories} />
-      <FeaturedStoresSection stores={storesToDisplay} />
+      <FeaturedStoresSection
+        stores={storesToDisplay}
+        title="All Registered"
+        highlight="Fashion Outlets"
+      />
       <LatestCollectionsSection collections={latestCollections} />
       <WhyChooseUsSection />
       <HowItWorksSection />
