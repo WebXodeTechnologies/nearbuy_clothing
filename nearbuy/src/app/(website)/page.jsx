@@ -55,28 +55,10 @@ export default function Home() {
     ? stores.map(mapDbStoreToFrontend)
     : [];
 
-  // 🔄 Client Requirement: List ALL stores from the database instead of slicing or filtering only featured ones
   const storesToDisplay = mappedStores;
 
-  // Map and sort latest collections from MongoDB safely
-  const latestCollections = Array.isArray(collections)
-    ? collections
-        .map((c) => {
-          const store = Array.isArray(stores)
-            ? stores.find((s) => s._id === c?.storeId)
-            : null;
-          return {
-            id: c?._id,
-            title: c?.title || "New Arrival Collection",
-            description: c?.description || "",
-            image: c?.images?.[0] || c?.coverImage || "",
-            storeName:
-              store?.storeName || c?.vendorId?.businessName || "Local Store",
-            storeSlug: store?.storeSlug || store?.vendorId?.businessSlug || "",
-          };
-        })
-        .slice(0, 3)
-    : [];
+  // 🔄 Pass ALL collections without slicing so every store's drops appear
+  const allCollections = Array.isArray(collections) ? collections : [];
 
   // Map and sort trending offers from MongoDB safely
   const trendingOffers = Array.isArray(offers)
@@ -108,7 +90,8 @@ export default function Home() {
         title="All Registered"
         highlight="Fashion Outlets"
       />
-      <LatestCollectionsSection collections={latestCollections} />
+      {/* Pass both raw collections and stores to LatestCollectionsSection */}
+      <LatestCollectionsSection collections={allCollections} stores={stores} />
       <WhyChooseUsSection />
       <HowItWorksSection />
       <VendorCtaSection />
