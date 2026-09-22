@@ -5,7 +5,7 @@ import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import { toast } from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 import useStoreStore from "@/store/storeStore";
-import { useUploadThing } from "@/utils/uploadthing"; // 👈 Import UploadThing client helper
+import { useUploadThing } from "@/utils/uploadthing";
 import {
   Store,
   MapPin,
@@ -15,7 +15,6 @@ import {
   RefreshCw,
   Save,
   Camera,
-  Image as ImageIcon,
   Clock,
   Calendar,
   Compass,
@@ -42,18 +41,14 @@ export default function VendorStore() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [isUploadingLogo, setIsUploadingLogo] = useState(false);
-  const [isUploadingCover, setIsUploadingCover] = useState(false);
   const [storeId, setStoreId] = useState(null);
 
   // Image Cropper Modal State
   const [cropModalOpen, setCropModalOpen] = useState(false);
   const [rawImageSrc, setRawImageSrc] = useState(null);
-  const [cropField, setCropField] = useState("logo"); // 'logo' | 'coverImage'
-  const [cropAspect, setCropAspect] = useState("1:1"); // '1:1' | '16:9'
 
-  // Hidden File Input Refs
+  // Hidden File Input Ref for Logo
   const logoInputRef = useRef(null);
-  const coverInputRef = useRef(null);
 
   // Operating Days State
   const [selectedDays, setSelectedDays] = useState(ALL_DAYS);
@@ -81,48 +76,31 @@ export default function VendorStore() {
     website: "",
     status: "Active",
     logo: "",
-    coverImage: "",
   });
 
-  // 👈 Initialize UploadThing for Logo Upload
-  const { startUpload: startLogoUpload } = useUploadThing("vendorAssetUploader", {
-    headers: {
-      "x-user-email": user?.email || "",
+  // UploadThing helper for Logo Upload
+  const { startUpload: startLogoUpload } = useUploadThing(
+    "vendorAssetUploader",
+    {
+      headers: {
+        "x-user-email": user?.email || "",
+      },
+      onClientUploadComplete: (res) => {
+        setIsUploadingLogo(false);
+        if (res && res[0]) {
+          const uploadedUrl = res[0].url || res[0].fileUrl;
+          setFormData((prev) => ({ ...prev, logo: uploadedUrl }));
+          toast.success("Store logo uploaded to cloud storage!");
+        }
+      },
+      onUploadError: (err) => {
+        setIsUploadingLogo(false);
+        toast.error(err?.message || "Storage limit reached or upload failed.");
+      },
     },
-    onClientUploadComplete: (res) => {
-      setIsUploadingLogo(false);
-      if (res && res[0]) {
-        const uploadedUrl = res[0].url || res[0].fileUrl;
-        setFormData((prev) => ({ ...prev, logo: uploadedUrl }));
-        toast.success("Store logo uploaded to cloud storage!");
-      }
-    },
-    onUploadError: (err) => {
-      setIsUploadingLogo(false);
-      toast.error(err?.message || "Storage limit reached or upload failed.");
-    },
-  });
+  );
 
-  // 👈 Initialize UploadThing for Cover Banner Upload
-  const { startUpload: startCoverUpload } = useUploadThing("vendorAssetUploader", {
-    headers: {
-      "x-user-email": user?.email || "",
-    },
-    onClientUploadComplete: (res) => {
-      setIsUploadingCover(false);
-      if (res && res[0]) {
-        const uploadedUrl = res[0].url || res[0].fileUrl;
-        setFormData((prev) => ({ ...prev, coverImage: uploadedUrl }));
-        toast.success("Cover banner uploaded to cloud storage!");
-      }
-    },
-    onUploadError: (err) => {
-      setIsUploadingCover(false);
-      toast.error(err?.message || "Storage limit reached or upload failed.");
-    },
-  });
-
-  // Helper to parse 12hr/24hr times to 24hr format for <input type="time">
+  // Helper to parse times
   const parseTo24Hr = (timeStr) => {
     if (!timeStr) return "09:30";
     if (timeStr.includes(":") && !timeStr.toLowerCase().includes("m")) {
@@ -138,7 +116,6 @@ export default function VendorStore() {
     return `${String(hours).padStart(2, "0")}:${minutes}`;
   };
 
-  // Helper to format 24h time to 12h AM/PM for display
   const format12Hour = (time24) => {
     if (!time24) return "";
     const [h, m] = time24.split(":");
@@ -148,7 +125,6 @@ export default function VendorStore() {
     return `${String(hours).padStart(2, "0")}:${m} ${suffix}`;
   };
 
-  // 1. Fetch Store Profile Data on Mount
   useEffect(() => {
     async function loadVendorStoreData() {
       setLoading(true);
@@ -165,7 +141,9 @@ export default function VendorStore() {
             description: store.description || store.tagline || store.bio || "",
             address:
               store.address ||
-              (typeof store.location === "object" ? store.location?.street : "") ||
+              (typeof store.location === "object"
+                ? store.location?.street
+                : "") ||
               "",
             area: store.area || "Salem Road",
             city: store.city || "Namakkal",
@@ -186,7 +164,6 @@ export default function VendorStore() {
                 ? "Inactive"
                 : "Active",
             logo: store.logo || "",
-            coverImage: store.coverImage || "",
           });
 
           if (
@@ -244,8 +221,7 @@ export default function VendorStore() {
     }
   };
 
-  // Handle PC File Selection -> Opens ImageCropModal for editing & cropping
-  const handleFileUpload = (e, field) => {
+  const handleFileUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -257,46 +233,45 @@ export default function VendorStore() {
     const reader = new FileReader();
     reader.onload = () => {
       setRawImageSrc(reader.result);
-      setCropField(field);
-      setCropAspect(field === "logo" ? "1:1" : "16:9");
       setCropModalOpen(true);
     };
     reader.readAsDataURL(file);
-
-    // Reset input value so selecting the same file triggers onChange
     e.target.value = "";
   };
 
-  // Called when user finishes cropping in ImageCropModal
   const handleCropComplete = async (croppedFile) => {
     setCropModalOpen(false);
+    setIsUploadingLogo(true);
+    const toastId = toast.loading("Uploading cropped store logo...");
+    try {
+      const res = await startLogoUpload([croppedFile]);
+      toast.dismiss(toastId);
 
-    if (cropField === "logo") {
-      setIsUploadingLogo(true);
-      const toastId = toast.loading("Uploading cropped store logo...");
-      try {
-        await startLogoUpload([croppedFile]);
-        toast.dismiss(toastId);
-      } catch (err) {
-        toast.dismiss(toastId);
-        setIsUploadingLogo(false);
-        toast.error(err.message || "Failed to upload logo");
+      // 🔄 FIX: Immediately grab the uploaded file URL from the UploadThing response
+      if (res && res[0]) {
+        const uploadedUrl = res[0].url || res[0].fileUrl;
+
+        // 1. Update local form state immediately so the UI re-renders right away
+        setFormData((prev) => ({ ...prev, logo: uploadedUrl }));
+
+        // 2. Automatically dispatch the save payload so MongoDB updates instantly
+        const payload = {
+          ...formData,
+          logo: uploadedUrl,
+          coverImage: "",
+        };
+        await updateStore(storeId, payload);
+        toast.success("Store logo updated successfully!");
       }
-    } else {
-      setIsUploadingCover(true);
-      const toastId = toast.loading("Uploading cropped cover banner...");
-      try {
-        await startCoverUpload([croppedFile]);
-        toast.dismiss(toastId);
-      } catch (err) {
-        toast.dismiss(toastId);
-        setIsUploadingCover(false);
-        toast.error(err.message || "Failed to upload banner");
-      }
+    } catch (err) {
+      toast.dismiss(toastId);
+      setIsUploadingLogo(false);
+      toast.error(err.message || "Failed to upload logo");
+    } finally {
+      setIsUploadingLogo(false);
     }
   };
 
-  // 2. Save Handler
   const handleSave = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
     setSaving(true);
@@ -327,7 +302,7 @@ export default function VendorStore() {
       website: formData.website || "",
       isActive: formData.status === "Active",
       logo: formData.logo || "",
-      coverImage: formData.coverImage || "",
+      coverImage: "", // Cleared out
     };
 
     try {
@@ -354,18 +329,11 @@ export default function VendorStore() {
 
   return (
     <div className="space-y-8 font-body pb-12">
-      {/* Hidden File Inputs */}
+      {/* Hidden File Input for Logo */}
       <input
         type="file"
         ref={logoInputRef}
-        onChange={(e) => handleFileUpload(e, "logo")}
-        accept="image/*"
-        className="hidden"
-      />
-      <input
-        type="file"
-        ref={coverInputRef}
-        onChange={(e) => handleFileUpload(e, "coverImage")}
+        onChange={handleFileUpload}
         accept="image/*"
         className="hidden"
       />
@@ -378,7 +346,7 @@ export default function VendorStore() {
         <button
           type="button"
           onClick={handleSave}
-          disabled={saving || isUploadingLogo || isUploadingCover}
+          disabled={saving || isUploadingLogo}
           className="px-6 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/20 transition-all cursor-pointer flex items-center gap-2 disabled:opacity-50"
         >
           {saving ? (
@@ -390,126 +358,95 @@ export default function VendorStore() {
         </button>
       </DashboardHeader>
 
-      {/* Cover Banner & Logo Header */}
-      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
-        <div className="h-48 md:h-64 w-full bg-slate-900 relative group overflow-hidden">
-          {formData.coverImage ? (
-            <Image
-              src={formData.coverImage}
-              alt="Store Cover"
-              fill
-              className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500"
-            />
-          ) : (
-            <div className="w-full h-full bg-linear-to-r from-slate-900 to-indigo-950 flex items-center justify-center text-slate-400 text-xs font-bold flex-col gap-2">
-              <ImageIcon className="w-8 h-8 text-slate-500" />
-              <span>No Cover Banner Selected. Click to upload from PC.</span>
-            </div>
-          )}
-          <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-transparent to-transparent" />
-
-          <button
-            type="button"
-            onClick={() => coverInputRef.current?.click()}
-            disabled={isUploadingCover}
-            className="absolute top-4 right-4 bg-slate-950/70 hover:bg-slate-950/90 text-white rounded-2xl px-4 py-2 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer border border-white/20 backdrop-blur-md shadow-md disabled:opacity-50"
-          >
-            {isUploadingCover ? (
-              <RefreshCw className="w-4 h-4 animate-spin text-indigo-400" />
+      {/* Clean Modern Profile Header (No Banner) */}
+      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="flex items-center gap-5">
+          <div className="h-24 w-24 md:h-28 md:w-28 rounded-3xl bg-slate-100 p-1.5 shadow-md border border-slate-200 shrink-0 relative group overflow-hidden">
+            {formData.logo ? (
+              <Image
+                src={formData.logo}
+                alt="Store Logo"
+                fill
+                className="w-full h-full object-cover rounded-2xl"
+              />
             ) : (
-              <Upload className="w-4 h-4 text-indigo-400" />
-            )}
-            <span>
-              {isUploadingCover
-                ? "Uploading..."
-                : formData.coverImage
-                  ? "Change Cover Banner"
-                  : "Upload Banner from PC"}
-            </span>
-          </button>
-        </div>
-
-        <div className="p-6 md:p-8 flex flex-col md:flex-row items-start md:items-end justify-between gap-6 -mt-16 relative z-10">
-          <div className="flex items-end gap-5">
-            <div className="h-24 w-24 md:h-28 md:w-28 rounded-3xl bg-white p-1.5 shadow-xl border border-slate-200 shrink-0 relative group overflow-hidden">
-              {formData.logo ? (
-                <Image
-                  src={formData.logo}
-                  alt="Store Logo"
-                  fill
-                  className="w-full h-full object-cover rounded-2xl"
-                />
-              ) : (
-                <div className="w-full h-full bg-slate-900 text-white font-black text-xl flex items-center justify-center rounded-2xl">
-                  {formData.businessName ? formData.businessName.charAt(0) : "S"}
-                </div>
-              )}
-              <button
-                type="button"
-                onClick={() => logoInputRef.current?.click()}
-                disabled={isUploadingLogo}
-                className="absolute inset-0 bg-slate-950/60 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-bold gap-1 cursor-pointer flex-col"
-              >
-                {isUploadingLogo ? (
-                  <RefreshCw className="w-4 h-4 animate-spin text-indigo-300" />
-                ) : (
-                  <>
-                    <Camera className="w-4 h-4 text-indigo-300" />
-                    <span>Upload Logo</span>
-                  </>
-                )}
-              </button>
-            </div>
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <h2 className="text-xl md:text-2xl font-heading font-black text-slate-900">
-                  {formData.businessName || "Store Name"}
-                </h2>
-                <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-black border border-emerald-200">
-                  Verified Store
-                </span>
+              <div className="w-full h-full bg-slate-900 text-white font-black text-2xl flex items-center justify-center rounded-2xl">
+                {formData.businessName ? formData.businessName.charAt(0) : "S"}
               </div>
-              <p className="text-xs text-slate-500 font-medium flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-indigo-600" />{" "}
-                {formData.address
-                  ? `${formData.address}, ${formData.city}`
-                  : formData.area && formData.city
-                    ? `${formData.area}, ${formData.city}`
-                    : "Address not updated yet"}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 bg-slate-50 p-2 rounded-2xl border border-slate-200">
-            <span className="text-xs font-bold text-slate-600 px-2">
-              Store Status:
-            </span>
+            )}
             <button
               type="button"
-              onClick={() =>
-                setFormData({
-                  ...formData,
-                  status: formData.status === "Active" ? "Inactive" : "Active",
-                })
-              }
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${formData.status === "Active"
-                  ? "bg-emerald-600 text-white shadow-xs"
-                  : "bg-amber-500 text-white shadow-xs"
-                }`}
+              onClick={() => logoInputRef.current?.click()}
+              disabled={isUploadingLogo}
+              className="absolute inset-0 bg-slate-950/60 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-bold gap-1 cursor-pointer flex-col"
             >
-              {formData.status === "Active" ? "🟢 Live on Streetunics" : "⏸️ Paused"}
+              {isUploadingLogo ? (
+                <RefreshCw className="w-4 h-4 animate-spin text-indigo-300" />
+              ) : (
+                <>
+                  <Camera className="w-4 h-4 text-indigo-300" />
+                  <span>Upload Logo</span>
+                </>
+              )}
             </button>
           </div>
+
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <h2 className="text-xl md:text-2xl font-heading font-black text-slate-900">
+                {formData.businessName || "Store Name"}
+              </h2>
+              <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-black border border-emerald-200">
+                Verified Store
+              </span>
+            </div>
+            <p className="text-xs text-slate-500 font-medium flex items-center gap-1.5">
+              <MapPin className="w-3.5 h-3.5 text-indigo-600" />{" "}
+              {formData.address
+                ? `${formData.address}, ${formData.city}`
+                : formData.area && formData.city
+                  ? `${formData.area}, ${formData.city}`
+                  : "Address not updated yet"}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 bg-slate-50 p-2 rounded-2xl border border-slate-200">
+          <span className="text-xs font-bold text-slate-600 px-2">
+            Store Status:
+          </span>
+          <button
+            type="button"
+            onClick={() =>
+              setFormData({
+                ...formData,
+                status: formData.status === "Active" ? "Inactive" : "Active",
+              })
+            }
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              formData.status === "Active"
+                ? "bg-emerald-600 text-white shadow-xs"
+                : "bg-amber-500 text-white shadow-xs"
+            }`}
+          >
+            {formData.status === "Active"
+              ? "🟢 Live on Streetunics"
+              : "⏸️ Paused"}
+          </button>
         </div>
       </div>
 
       {/* Main Details Form */}
-      <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <form
+        onSubmit={handleSave}
+        className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+      >
         <div className="lg:col-span-2 space-y-6">
           {/* 1. General Info Card */}
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-5">
             <h3 className="text-base font-heading font-extrabold text-slate-900 flex items-center gap-2">
-              <Store className="w-5 h-5 text-indigo-600" /> Basic Store Information
+              <Store className="w-5 h-5 text-indigo-600" /> Basic Store
+              Information
             </h3>
 
             <div className="space-y-4">
@@ -587,7 +524,8 @@ export default function VendorStore() {
           {/* 2. Structured Address Section */}
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-5">
             <h3 className="text-base font-heading font-extrabold text-slate-900 flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-teal-600" /> Physical Store Address & GPS
+              <MapPin className="w-5 h-5 text-teal-600" /> Physical Store
+              Address & GPS
             </h3>
 
             <div className="space-y-4">
@@ -803,10 +741,11 @@ export default function VendorStore() {
                       type="button"
                       key={day}
                       onClick={() => toggleDay(day)}
-                      className={`py-3 px-2 rounded-2xl text-xs font-bold transition-all cursor-pointer flex flex-col items-center gap-1 border ${isSelected
+                      className={`py-3 px-2 rounded-2xl text-xs font-bold transition-all cursor-pointer flex flex-col items-center gap-1 border ${
+                        isSelected
                           ? "bg-indigo-600 text-white border-indigo-600 shadow-sm"
                           : "bg-slate-50 text-slate-400 border-slate-200 hover:bg-slate-100"
-                        }`}
+                      }`}
                     >
                       <span className="text-[10px] font-black uppercase tracking-wider opacity-80">
                         {day.slice(0, 3)}
@@ -840,14 +779,13 @@ export default function VendorStore() {
                     type="button"
                     key={fac}
                     onClick={() => toggleFacility(fac)}
-                    className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border ${isSelected
+                    className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border ${
+                      isSelected
                         ? "bg-indigo-600 text-white border-indigo-600 shadow-xs"
                         : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
-                      }`}
+                    }`}
                   >
-                    {isSelected && (
-                      <Check className="w-3.5 h-3.5 text-white" />
-                    )}
+                    {isSelected && <Check className="w-3.5 h-3.5 text-white" />}
                     <span>{fac}</span>
                   </button>
                 );
@@ -939,20 +877,16 @@ export default function VendorStore() {
         </div>
       </form>
 
-      {/* Store Logo & Cover Banner Crop Modal */}
+      {/* Store Logo Crop Modal */}
       <ImageCropModal
         isOpen={cropModalOpen}
         onClose={() => setCropModalOpen(false)}
         imageSrc={rawImageSrc}
         onCropComplete={handleCropComplete}
-        isUploading={isUploadingLogo || isUploadingCover}
-        title={
-          cropField === "logo"
-            ? "Crop & Edit Store Logo (1:1 Ratio)"
-            : "Crop & Edit Cover Banner (16:9 Ratio)"
-        }
-        defaultAspect={cropAspect}
-        defaultShape={cropField === "logo" ? "square" : "square"}
+        isUploading={isUploadingLogo}
+        title="Crop & Edit Store Logo (1:1 Ratio)"
+        defaultAspect="1:1"
+        defaultShape="square"
       />
     </div>
   );
