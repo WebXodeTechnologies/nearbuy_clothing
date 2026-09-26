@@ -1,59 +1,95 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Store, MapPin } from "lucide-react";
+import Image from "next/image";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Store,
+  MapPin,
+  ArrowUpDown,
+  Sparkles,
+} from "lucide-react";
 
 export default function LatestCollectionsSection({
   collections = [],
   stores = [],
 }) {
   const [activeImageIndices, setActiveImageIndices] = useState({});
+  const [sortBy, setSortBy] = useState("latest"); // 'latest' | 'oldest' | 'price-low' | 'price-high'
 
   // 1. Create a lookup map for stores using storeId
-  const storeMap = {};
-  stores.forEach((store) => {
-    const sId = store._id || store.id;
-    storeMap[sId] = {
-      name: store.storeName || store.name || "Local Storefront",
-      slug: store.storeSlug || store.slug || "",
-      logo: store.logo || store.vendorId?.logo || "",
-      location: store.city || store.address || "Namakkal",
-    };
-  });
+  const storeMap = useMemo(() => {
+    const map = {};
+    stores.forEach((store) => {
+      const sId = String(store._id || store.id);
+      map[sId] = {
+        name: store.storeName || store.name || "Local Storefront",
+        slug: store.storeSlug || store.slug || "",
+        logo: store.logo || store.vendorId?.logo || "",
+        location: store.city || store.address || "Namakkal",
+      };
+    });
+    return map;
+  }, [stores]);
 
   // 2. Format and map all collections with their store info
-  const formattedCollections = collections.map((coll) => {
-    const sId = coll.storeId?._id || coll.storeId;
-    const storeInfo = storeMap[sId] || {
-      name: coll.storeName || coll.vendorId?.businessName || "Local Boutique",
-      slug: coll.storeSlug || coll.vendorId?.businessSlug || "",
-      logo: coll.logo || "",
-      location: "Namakkal",
-    };
+  const formattedCollections = useMemo(() => {
+    return collections.map((coll) => {
+      const rawStoreId = coll.storeId?._id || coll.storeId;
+      const sId = rawStoreId ? String(rawStoreId) : null;
 
-    return {
-      id: coll._id || coll.id,
-      title: coll.title || "New Arrival Lookbook",
-      description: coll.description || "",
-      images: [
-        coll.coverImage,
-        ...(Array.isArray(coll.images) ? coll.images : []),
-      ].filter(Boolean),
-      price: coll.price || 0,
-      createdAt: coll.createdAt || new Date(),
-      storeName: storeInfo.name,
-      storeSlug: storeInfo.slug,
-      storeLogo: storeInfo.logo,
-      storeLocation: storeInfo.location,
-    };
-  });
+      const storeInfo = (sId && storeMap[sId]) || {
+        name: coll.storeName || coll.vendorId?.businessName || "Local Boutique",
+        slug: coll.storeSlug || coll.vendorId?.businessSlug || "",
+        logo: coll.logo || "",
+        location: "Namakkal",
+      };
 
-  // 3. Sort by date (newest drops first)
-  const sortedCollections = formattedCollections.sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
-  );
+      return {
+        // eslint-disable-next-line react-hooks/purity
+        id: String(coll._id || coll.id || Math.random()),
+        title: coll.title || "New Arrival Lookbook",
+        description: coll.description || "",
+        images: [
+          coll.coverImage,
+          ...(Array.isArray(coll.images) ? coll.images : []),
+        ].filter(Boolean),
+        price: Number(coll.price) || 0,
+        createdAt: coll.createdAt ? new Date(coll.createdAt) : new Date(),
+        storeName: storeInfo.name,
+        storeSlug: storeInfo.slug,
+        storeLogo: storeInfo.logo,
+        storeLocation: storeInfo.location,
+      };
+    });
+  }, [collections, storeMap]);
+
+  // 3. Multi-option Sorting & Slicing to exactly 6 cards
+  const displayedCollections = useMemo(() => {
+    const list = [...formattedCollections];
+
+    switch (sortBy) {
+      case "latest":
+        list.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+        break;
+      case "oldest":
+        list.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+        break;
+      case "price-low":
+        list.sort((a, b) => a.price - b.price);
+        break;
+      case "price-high":
+        list.sort((a, b) => b.price - a.price);
+        break;
+      default:
+        list.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    }
+
+    // 🔒 Limit to top 6 cards
+    return list.slice(0, 6);
+  }, [formattedCollections, sortBy]);
 
   return (
     <section className="relative py-20 sm:py-28 bg-linear-to-b from-white via-blue-50/20 to-indigo-50/30 border-t border-gray-100/90 overflow-hidden font-body">
@@ -66,34 +102,53 @@ export default function LatestCollectionsSection({
 
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14 lg:mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-blue-50 text-blue-700 border border-blue-200/80 shadow-2xs mb-3.5">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600" />
-            </span>
-            <span className="uppercase tracking-wider">
-              Fresh Lookbook Drops
-            </span>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 lg:mb-16">
+          <div className="text-left max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-blue-50 text-blue-700 border border-blue-200/80 shadow-2xs mb-3.5">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600" />
+              </span>
+              <span className="uppercase tracking-wider">
+                Fresh Lookbook Drops
+              </span>
+            </div>
+
+            <h2 className="font-heading text-3xl sm:text-5xl font-extrabold text-gray-950 tracking-tight leading-tight">
+              Latest Lookbook{" "}
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-600 via-indigo-600 to-purple-600">
+                Releases
+              </span>
+            </h2>
+
+            <p className="mt-3.5 text-base sm:text-lg text-gray-600 leading-relaxed">
+              Discover the newest designer drops curated across verified
+              clothing boutiques in Namakkal.
+            </p>
           </div>
 
-          <h2 className="font-heading text-3xl sm:text-5xl font-extrabold text-gray-950 tracking-tight leading-tight">
-            Latest Lookbook{" "}
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-600 via-indigo-600 to-purple-600">
-              Releases
+          {/* 🔄 Sorting Controls */}
+          <div className="flex items-center gap-2.5 self-start md:self-end bg-white/80 backdrop-blur-md p-1.5 rounded-2xl border border-gray-200/90 shadow-2xs">
+            <span className="text-xs font-bold text-gray-500 pl-2.5 flex items-center gap-1.5">
+              <ArrowUpDown className="w-3.5 h-3.5 text-blue-600" /> Sort:
             </span>
-          </h2>
-
-          <p className="mt-3.5 text-base sm:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
-            Discover the newest designer drops curated across all registered
-            storefronts in Namakkal.
-          </p>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="bg-gray-50 border border-gray-200 rounded-xl px-3 py-1.5 text-xs font-extrabold text-gray-800 focus:outline-none focus:border-blue-600 cursor-pointer"
+            >
+              <option value="latest">Latest Drops (Newest)</option>
+              <option value="oldest">Oldest First</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+            </select>
+          </div>
         </div>
 
-        {/* Collection Cards Grid (Instagram 9:16 Vertical Ratio) */}
-        {sortedCollections.length > 0 ? (
+        {/* Collection Cards Grid (Strictly 6 Cards Max) */}
+        {displayedCollections.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {sortedCollections.map((coll) => {
+            {displayedCollections.map((coll) => {
               const currentImgIdx = activeImageIndices[coll.id] || 0;
               const allImages =
                 coll.images.length > 0
@@ -113,12 +168,15 @@ export default function LatestCollectionsSection({
                       href={`/stores/${coll.storeSlug}`}
                       className="flex items-center gap-2.5 group/store truncate"
                     >
-                      <div className="h-8 w-8 rounded-xl bg-white border border-gray-200 shadow-2xs overflow-hidden flex items-center justify-center shrink-0">
+                      <div className="h-8 w-8 rounded-xl bg-white border border-gray-200 shadow-2xs overflow-hidden flex items-center justify-center shrink-0 relative">
                         {coll.storeLogo ? (
-                          <img
+                          <Image
                             src={coll.storeLogo}
                             alt={coll.storeName}
-                            className="h-full w-full object-cover"
+                            fill
+                            sizes="32px"
+                            className="object-cover"
+                            unoptimized
                           />
                         ) : (
                           <Store className="w-4 h-4 text-blue-600" />
@@ -140,14 +198,17 @@ export default function LatestCollectionsSection({
                     </span>
                   </div>
 
-                  {/* 🔄 Instagram-Style 9:16 Vertical Aspect Ratio Carousel Image Container */}
+                  {/* Instagram-Style 9:16 Vertical Aspect Ratio Container */}
                   <div className="w-full aspect-9/16 relative overflow-hidden bg-gray-900 shrink-0 select-none">
-                    <img
+                    <Image
                       src={allImages[currentImgIdx % allImages.length]}
                       alt={coll.title}
-                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                      unoptimized
                     />
-                    <div className="absolute inset-0 bg-linear-to-t from-gray-950/70 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-t from-gray-950/70 via-transparent to-transparent pointer-events-none" />
 
                     {/* Carousel Navigation Arrows */}
                     {allImages.length > 1 && (
@@ -193,7 +254,11 @@ export default function LatestCollectionsSection({
                           {allImages.map((_, dotIdx) => (
                             <span
                               key={dotIdx}
-                              className={`h-1.5 rounded-full transition-all ${dotIdx === currentImgIdx % allImages.length ? "w-3 bg-white" : "w-1.5 bg-white/50"}`}
+                              className={`h-1.5 rounded-full transition-all ${
+                                dotIdx === currentImgIdx % allImages.length
+                                  ? "w-3 bg-white"
+                                  : "w-1.5 bg-white/50"
+                              }`}
                             />
                           ))}
                         </div>
@@ -208,7 +273,7 @@ export default function LatestCollectionsSection({
                     </div>
                   </div>
 
-                  {/* Card Body Details */}
+                  {/* Card Body */}
                   <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                     <div className="space-y-1.5">
                       <h4 className="font-heading font-extrabold text-gray-950 text-base sm:text-lg tracking-tight group-hover:text-blue-600 transition-colors line-clamp-1">

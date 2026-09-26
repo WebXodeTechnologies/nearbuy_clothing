@@ -1,15 +1,13 @@
 import { validate } from "@/middleware/validate.middleware";
 import { storeSchema, updateStoreSchema } from "@/validations/store.schema";
 import storeService from "@/services/store.service";
-import vendorRepository from "@/repositories/vendor.repository";
-import storeRepository from "@/repositories/store.repository";
 import Store from "@/models/Store";
+import Category from "@/models/Category";
 import dbConnect from "@/lib/db";
 import ApiResponse from "@/utils/apiResponse";
-import mongoose from "mongoose";
 import ApiError from "@/utils/apiError";
-import { getServerSession } from "next-auth"; // 👈 Required import
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"; // 👈 Adjust path if needed
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 class StoreController {
   async createStore(req) {
@@ -20,12 +18,14 @@ class StoreController {
     }
 
     const body = await req.json();
+    console.log("📥 [Store API] Incoming Create Store Body:", body);
     const validatedData = validate(storeSchema, body);
 
     const store = await storeService.createStore(
       session.user.id || session.user.vendorId,
       validatedData,
     );
+    console.log("✅ [Store API] Store Created Successfully:", store._id);
     return ApiResponse.created(store, "Store listing created successfully");
   }
 
@@ -39,24 +39,43 @@ class StoreController {
     const vendor = searchParams.get("vendor");
     const all = searchParams.get("all") === "true";
 
-    let result;
+    console.log(
+      "🔍 [Store API] Fetching stores with params - vendor:",
+      vendor,
+      "all:",
+      all,
+      "city:",
+      city,
+    );
+
+    let query = {};
     if (vendor) {
-      const stores = await storeService.getStoresByVendor(vendor);
-      result = { stores, total: stores.length };
-    } else if (all) {
-      result = await storeService.getAllStores(
-        {},
-        { limit, skip: (page - 1) * limit },
-      );
-    } else {
-      result = await storeService.getStoresByCity(city, {
-        limit,
-        skip: (page - 1) * limit,
-      });
+      query.vendorId = vendor;
+    } else if (!all && city) {
+      query.city = { $regex: new RegExp(city, "i") };
     }
 
+    const rawStores = await Store.find(query)
+      .populate("vendorId")
+      .populate("categoryIds")
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .lean();
+
+    const total = await Store.countDocuments(query);
+
+    rawStores.forEach((s, idx) => {
+      console.log(
+        `📦 [Store API DB Result] Store [${idx}] (${s.storeName || s.name}):`,
+        {
+          id: s._id,
+          categoryIds: s.categoryIds,
+        },
+      );
+    });
+
     return ApiResponse.success(
-      { ...result, page, limit },
+      { stores: rawStores, total, page, limit },
       "Stores retrieved successfully",
     );
   }
@@ -64,18 +83,18 @@ class StoreController {
   async getStoreById(req, context) {
     await dbConnect();
 
-    // Next.js App Router context parameters can be a promise or direct object
     const resolvedParams = await context?.params;
     const identifier = resolvedParams?.slug || resolvedParams?.id;
 
-    // Query by storeSlug, businessSlug, or _id, and POPULATE vendorId
     const store = await Store.findOne({
       $or: [
         { storeSlug: identifier },
         { businessSlug: identifier },
         { _id: identifier.match(/^[0-9a-fA-F]{24}$/) ? identifier : null },
       ],
-    }).populate("vendorId"); // 🔒 Crucial: Populates vendorId so vendorId._id is available!
+    })
+      .populate("vendorId")
+      .populate("categoryIds");
 
     if (!store) {
       throw new ApiError(404, "Store profile not found.");
@@ -95,6 +114,7 @@ class StoreController {
     const { id } = resolvedParams;
 
     const body = await req.json();
+    console.log("📥 [Store API] Updating Store ID:", id, "with body:", body);
     const validatedData = validate(updateStoreSchema, body);
 
     const updatedStore = await storeService.updateStore(
@@ -112,7 +132,6 @@ class StoreController {
   async deleteStore(req, { params }) {
     await dbConnect();
 
-    // Authenticate session to check roles and support Admin override
     const session = await getServerSession(authOptions);
     if (!session || !session.user) {
       throw new ApiError(401, "Unauthorized");
@@ -121,7 +140,6 @@ class StoreController {
     const resolvedParams = params instanceof Promise ? await params : params;
     const { id } = resolvedParams;
 
-    // Pass user ID and role so the service layer can allow ADMIN overrides
     await storeService.deleteStore(
       id,
       session.user.id || session.user.vendorId,

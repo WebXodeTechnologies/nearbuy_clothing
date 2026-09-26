@@ -1,31 +1,60 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, Suspense, useMemo } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import useWebsiteStore from "@/store/websiteStore";
 import Breadcrumb from "@/components/navigation/Breadcrumb";
 import StoreFilters from "@/components/stores/StoreFilters";
 import StoreListings from "@/components/stores/StoreListings";
 import StorePagination from "@/components/stores/StorePagination";
 
-const mapDbStoreToFrontend = (s) => ({
-  id: s._id,
-  name: s.storeName || s.name || "Unnamed Store",
-  slug: s.storeSlug || s.vendorId?.businessSlug || "",
-  logo: s.logo || s.vendorId?.logo || "",
-  banner: s.coverImage || s.vendorId?.coverImage || "",
-  rating: 4.8,
-  reviewsCount: 12,
-  description: s.description || s.tagline || "",
-  location: s.address && s.city ? `${s.address}, ${s.city}` : s.city || "",
-  city: s.city || "",
-  phone: s.phone || s.vendorId?.phone || "",
-  whatsapp: s.whatsapp || s.phone || s.vendorId?.phone || "",
-  categories: Array.isArray(s.categoryIds)
-    ? s.categoryIds.map((c) => c?.name || c).filter(Boolean)
-    : ["Boutique"],
-});
+// 1. Standalone pure mapper: receives the single store and the safe categories array
+const mapDbStoreToFrontend = (s, safeCategories = []) => {
+  let resolvedCategories = [];
+
+  if (Array.isArray(s?.categoryIds) && s.categoryIds.length > 0) {
+    resolvedCategories = s.categoryIds
+      .map((catItem) => {
+        // Populated category object
+        if (typeof catItem === "object" && catItem !== null) {
+          return catItem.name || catItem.title || null;
+        }
+
+        // ObjectId or string ID: safely match against safeCategories array
+        const matchedCategory = safeCategories.find(
+          (c) => String(c?._id || c?.id) === String(catItem),
+        );
+
+        return (
+          matchedCategory?.name ||
+          (typeof catItem === "string" && !catItem.match(/^[0-9a-fA-F]{24}$/)
+            ? catItem
+            : null)
+        );
+      })
+      .filter(Boolean);
+  }
+
+  if (resolvedCategories.length === 0) {
+    resolvedCategories = ["Boutique"];
+  }
+
+  return {
+    id: s?._id,
+    name: s?.storeName || s?.name || "Unnamed Store",
+    slug: s?.storeSlug || s?.vendorId?.businessSlug || "",
+    logo: s?.logo || s?.vendorId?.logo || "",
+    banner: "", // No banner image
+    rating: 4.8,
+    reviewsCount: 12,
+    description: s?.description || s?.tagline || "",
+    location: s?.address && s?.city ? `${s.address}, ${s.city}` : s?.city || "",
+    city: s?.city || "",
+    phone: s?.phone || s?.vendorId?.phone || "",
+    whatsapp: s?.whatsapp || s?.phone || s?.vendorId?.phone || "",
+    categories: resolvedCategories,
+  };
+};
 
 function ExploreStoresContent() {
   const router = useRouter();
@@ -59,24 +88,36 @@ function ExploreStoresContent() {
     setCurrentPage(1);
   }, [urlQuery, urlLoc, urlCat]);
 
+  // Normalize categories safely whether it's an array or nested under data/categories
+  const safeCategories = useMemo(() => {
+    if (Array.isArray(dbCategories)) return dbCategories;
+    if (Array.isArray(dbCategories?.categories)) return dbCategories.categories;
+    if (Array.isArray(dbCategories?.data)) return dbCategories.data;
+    return [];
+  }, [dbCategories]);
+
+  // Normalize stores safely whether it's an array or nested under data/stores
+  const safeStores = useMemo(() => {
+    if (Array.isArray(dbStores)) return dbStores;
+    if (Array.isArray(dbStores?.stores)) return dbStores.stores;
+    if (Array.isArray(dbStores?.data)) return dbStores.data;
+    return [];
+  }, [dbStores]);
+
   const categoriesList = [
     "All Categories",
-    ...(Array.isArray(dbCategories)
-      ? dbCategories.map((c) => c?.name).filter(Boolean)
-      : []),
-  ];
-  const locationsList = [
-    "All Locations",
-    ...new Set(
-      (Array.isArray(dbStores) ? dbStores : [])
-        .map((s) => s.city)
-        .filter(Boolean),
-    ),
+    ...safeCategories.map((c) => c?.name || c?.title).filter(Boolean),
   ];
 
-  const mappedStores = (Array.isArray(dbStores) ? dbStores : []).map(
-    mapDbStoreToFrontend,
-  );
+  const locationsList = [
+    "All Locations",
+    ...new Set(safeStores.map((s) => s?.city).filter(Boolean)),
+  ];
+
+  // Map stores safely using safeStores and safeCategories
+  const mappedStores = useMemo(() => {
+    return safeStores.map((s) => mapDbStoreToFrontend(s, safeCategories));
+  }, [safeStores, safeCategories]);
 
   const filteredStores = mappedStores.filter((store) => {
     const storeName = (store.name || "").toLowerCase();
@@ -165,7 +206,7 @@ function ExploreStoresContent() {
         <div className="space-y-2">
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl md:text-5xl font-heading leading-tight">
             Explore Local{" "}
-            <span className="bg-clip-text text-transparent bg-linear-to-r from-purple-600 via-indigo-600 to-purple-800">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-800">
               Clothing Stores
             </span>{" "}
             in Namakkal
@@ -191,7 +232,7 @@ function ExploreStoresContent() {
           locationsList={locationsList}
         />
 
-        {loading && (!dbStores || dbStores.length === 0) ? (
+        {loading && safeStores.length === 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-6">
             {[1, 2, 3, 4, 5, 6].map((n) => (
               <div

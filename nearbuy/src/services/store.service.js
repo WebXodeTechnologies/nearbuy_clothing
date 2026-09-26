@@ -2,16 +2,15 @@ import storeRepository from "@/repositories/store.repository";
 import vendorRepository from "@/repositories/vendor.repository";
 import userRepository from "@/repositories/user.repository";
 import ApiError from "@/utils/apiError";
+import mongoose from "mongoose";
 
 class StoreService {
   async createStore(ownerId, storeData) {
-    // 1. Fetch User Record
     const user = await userRepository.findById(ownerId);
     if (!user) {
       throw new ApiError(404, "User account profile not found.");
     }
 
-    // 2. Verify or Auto-Provision Vendor Profile
     let vendor = await vendorRepository.findByOwnerId(ownerId);
 
     if (!vendor) {
@@ -40,7 +39,6 @@ class StoreService {
       });
     }
 
-    // 3. Enforce Approval Guard
     if (vendor.status !== "Approved" && vendor.status !== "Pending") {
       throw new ApiError(
         403,
@@ -48,7 +46,6 @@ class StoreService {
       );
     }
 
-    // 4. Sync Store Branding back to Vendor Profile safely
     if (storeData.logo !== undefined || storeData.coverImage !== undefined) {
       const vendorUpdates = {};
       if (storeData.logo !== undefined) vendorUpdates.logo = storeData.logo;
@@ -59,7 +56,6 @@ class StoreService {
       await vendorRepository.updateProfile(vendor._id, vendorUpdates);
     }
 
-    // 5. Auto-generate Store Slug if missing
     if (storeData.storeName && !storeData.storeSlug) {
       storeData.storeSlug =
         storeData.storeName
@@ -72,13 +68,20 @@ class StoreService {
         Math.floor(Math.random() * 10000);
     }
 
-    // 6. Create Store Record
+    // 👈 Convert categoryIds to valid MongoDB ObjectIds
+    let formattedCategoryIds = [];
+    if (Array.isArray(storeData.categoryIds)) {
+      formattedCategoryIds = storeData.categoryIds
+        .filter((id) => mongoose.Types.ObjectId.isValid(id))
+        .map((id) => new mongoose.Types.ObjectId(id));
+    }
+
     const store = await storeRepository.create({
       ...storeData,
+      categoryIds: formattedCategoryIds,
       vendorId: vendor._id,
     });
 
-    // 7. Link Store ID back to Vendor Profile
     if (!vendor.storeId) {
       await vendorRepository.updateProfile(vendor._id, { storeId: store._id });
     }
@@ -123,7 +126,6 @@ class StoreService {
       throw new ApiError(403, "Unauthorized to update this store listing.");
     }
 
-    // Sync Store Branding back to Vendor Profile
     if (updateData.logo !== undefined || updateData.coverImage !== undefined) {
       const vendorUpdates = {};
       if (updateData.logo !== undefined) vendorUpdates.logo = updateData.logo;
@@ -134,7 +136,6 @@ class StoreService {
       await vendorRepository.updateProfile(vendor._id, vendorUpdates);
     }
 
-    // Auto-update Store Slug if storeName changes
     if (updateData.storeName && !updateData.storeSlug) {
       updateData.storeSlug =
         updateData.storeName
@@ -147,7 +148,15 @@ class StoreService {
         Math.floor(Math.random() * 10000);
     }
 
-    return await storeRepository.update(storeId, updateData);
+    // 👈 Convert categoryIds to valid MongoDB ObjectIds during update
+    const payload = { ...updateData };
+    if (Array.isArray(payload.categoryIds)) {
+      payload.categoryIds = payload.categoryIds
+        .filter((id) => mongoose.Types.ObjectId.isValid(id))
+        .map((id) => new mongoose.Types.ObjectId(id));
+    }
+
+    return await storeRepository.update(storeId, payload);
   }
 
   async getStoresByVendor(vendorId) {
@@ -190,8 +199,6 @@ class StoreService {
         throw new ApiError(403, "Unauthorized to delete this store listing.");
       }
     } else {
-      // 🔒 Cascading Delete for Admin: Automatically delete the associated vendor profile
-      // so they disappear from the Storage Registry & Database completely.
       const vendorId = store.vendorId?._id || store.vendorId;
       if (vendorId) {
         try {
@@ -202,7 +209,6 @@ class StoreService {
       }
     }
 
-    // Finally, delete the store listing itself
     return await storeRepository.delete(storeId);
   }
 

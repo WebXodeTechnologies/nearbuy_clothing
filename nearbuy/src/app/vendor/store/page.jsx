@@ -9,7 +9,6 @@ import { useUploadThing } from "@/utils/uploadthing";
 import {
   Store,
   MapPin,
-  Upload,
   Check,
   Eye,
   RefreshCw,
@@ -20,6 +19,7 @@ import {
   Compass,
   Globe,
   ExternalLink,
+  Tag,
 } from "lucide-react";
 import Image from "next/image";
 import ImageCropModal from "@/components/modals/ImageCropModal";
@@ -34,6 +34,16 @@ const ALL_DAYS = [
   "Sunday",
 ];
 
+const AVAILABLE_FACILITIES = [
+  "Parking",
+  "Trial Room",
+  "Air Conditioned",
+  "Wheelchair Access",
+  "Card Payment Accepted",
+  "UPI Accepted",
+  "Custom Alterations",
+];
+
 export default function VendorStore() {
   const { user } = useAuth();
   const { updateStore } = useStoreStore();
@@ -42,6 +52,10 @@ export default function VendorStore() {
   const [saving, setSaving] = useState(false);
   const [isUploadingLogo, setIsUploadingLogo] = useState(false);
   const [storeId, setStoreId] = useState(null);
+
+  // Master Categories State
+  const [availableCategories, setAvailableCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   // Image Cropper Modal State
   const [cropModalOpen, setCropModalOpen] = useState(false);
@@ -61,7 +75,7 @@ export default function VendorStore() {
     businessName: "",
     description: "",
     address: "",
-    area: "",
+    area: "Salem Road",
     city: "Namakkal",
     state: "Tamil Nadu",
     pincode: "",
@@ -100,7 +114,6 @@ export default function VendorStore() {
     },
   );
 
-  // Helper to parse times
   const parseTo24Hr = (timeStr) => {
     if (!timeStr) return "09:30";
     if (timeStr.includes(":") && !timeStr.toLowerCase().includes("m")) {
@@ -126,80 +139,119 @@ export default function VendorStore() {
   };
 
   useEffect(() => {
-    async function loadVendorStoreData() {
+    async function loadInitialData() {
       setLoading(true);
       try {
+        // 1. Fetch categories
+        const catRes = await fetch("/api/categories");
+        const catJson = await catRes.json();
+        const categoriesList = catJson?.data || catJson?.categories || [];
+        setAvailableCategories(categoriesList);
+
+        // 2. Fetch the logged-in vendor's STORE profile (not just vendor profile)
+        // Check /api/stores?all=true or an endpoint that returns the store document
         const res = await fetch("/api/vendors/me");
         const json = await res.json();
 
         if (res.ok && json.data) {
-          const store = json.data;
-          setStoreId(store._id);
+          const vendorData = json.data;
 
-          setFormData({
-            businessName: store.businessName || store.storeName || "",
-            description: store.description || store.tagline || store.bio || "",
-            address:
-              store.address ||
-              (typeof store.location === "object"
-                ? store.location?.street
-                : "") ||
-              "",
-            area: store.area || "Salem Road",
-            city: store.city || "Namakkal",
-            state: store.state || "Tamil Nadu",
-            pincode: store.pincode || "",
-            googleMapUrl:
-              store.googleMapUrl || store.location?.googleMapUrl || "",
-            phone: store.phone || store.businessPhone || "",
-            whatsapp: store.whatsapp || store.whatsappNumber || "",
-            email: store.email || "",
-            openingTime: parseTo24Hr(store.openingTime || "09:30 AM"),
-            closingTime: parseTo24Hr(store.closingTime || "09:00 PM"),
-            instagram: store.instagram || "",
-            facebook: store.facebook || "",
-            website: store.website || "",
-            status:
-              store.isActive === false || store.status === "Inactive"
-                ? "Inactive"
-                : "Active",
-            logo: store.logo || "",
-          });
+          // 🔍 CRITICAL FIX: Ensure we have the actual Store ID
+          // If vendorData.storeId is an object or ID, fetch the store, or query /api/stores?vendor=...
+          let storeData = vendorData;
+          let actualStoreId =
+            vendorData.storeId?._id || vendorData.storeId || vendorData._id;
 
-          if (
-            store.workingDays &&
-            Array.isArray(store.workingDays) &&
-            store.workingDays.length > 0
-          ) {
-            setSelectedDays(store.workingDays);
+          // If your backend separates Vendor and Store, fetch the actual store document:
+          try {
+            const storeRes = await fetch(
+              `/api/stores?vendor=${vendorData._id}`,
+            );
+            const storeJson = await storeRes.json();
+            const foundStore =
+              storeJson?.data?.stores?.[0] || storeJson?.stores?.[0];
+            if (foundStore) {
+              storeData = foundStore;
+              actualStoreId = foundStore._id;
+            }
+          } catch (e) {
+            console.log("Fallback to vendor document", e);
           }
 
-          if (store.facilities && Array.isArray(store.facilities)) {
-            setFacilities(store.facilities);
+          setStoreId(actualStoreId);
+
+          setFormData({
+            businessName: storeData.storeName || storeData.businessName || "",
+            description:
+              storeData.description || storeData.tagline || storeData.bio || "",
+            address:
+              storeData.address ||
+              (typeof storeData.location === "object"
+                ? storeData.location?.street
+                : "") ||
+              "",
+            area: storeData.area || "Salem Road",
+            city: storeData.city || "Namakkal",
+            state: storeData.state || "Tamil Nadu",
+            pincode: storeData.pincode || "",
+            googleMapUrl:
+              storeData.googleMapUrl || storeData.location?.googleMapUrl || "",
+            phone: storeData.phone || storeData.businessPhone || "",
+            whatsapp: storeData.whatsapp || storeData.whatsappNumber || "",
+            email: storeData.email || "",
+            openingTime: parseTo24Hr(storeData.openingTime || "09:30 AM"),
+            closingTime: parseTo24Hr(storeData.closingTime || "09:00 PM"),
+            instagram: storeData.instagram || "",
+            facebook: storeData.facebook || "",
+            website: storeData.website || "",
+            status:
+              storeData.isActive === false || storeData.status === "Inactive"
+                ? "Inactive"
+                : "Active",
+            logo: storeData.logo || "",
+          });
+
+          // 👈 RETRIEVE AND POPULATE EXISTING CATEGORIES ON REFRESH
+          if (
+            Array.isArray(storeData.categoryIds) &&
+            storeData.categoryIds.length > 0
+          ) {
+            const preselected = storeData.categoryIds
+              .map((c) => (typeof c === "object" && c !== null ? c._id : c))
+              .filter(Boolean)
+              .map(String);
+            setSelectedCategories(preselected);
+          } else {
+            setSelectedCategories([]);
+          }
+
+          if (storeData.workingDays && Array.isArray(storeData.workingDays)) {
+            setSelectedDays(storeData.workingDays);
+          }
+
+          if (storeData.facilities && Array.isArray(storeData.facilities)) {
+            setFacilities(storeData.facilities);
           }
         }
       } catch (err) {
-        console.error("Error loading store data:", err);
-        toast.error("Failed to load store profile details.");
+        console.error("Error loading initial store data:", err);
+        toast.error("Failed to load store profile or categories.");
       } finally {
         setLoading(false);
       }
     }
 
-    loadVendorStoreData();
+    loadInitialData();
   }, []);
 
-  const availableFacilities = [
-    "Parking",
-    "Trial Room",
-    "Air Conditioned",
-    "Wheelchair Access",
-    "Kids Section",
-    "Women's Wear",
-    "Men's Wear",
-    "Ethnic Wear",
-    "Western Wear",
-  ];
+  const toggleCategory = (catId) => {
+    const idStr = String(catId);
+    setSelectedCategories((prev) =>
+      prev.includes(idStr)
+        ? prev.filter((id) => id !== idStr)
+        : [...prev, idStr],
+    );
+  };
 
   const toggleDay = (day) => {
     if (selectedDays.includes(day)) {
@@ -247,18 +299,15 @@ export default function VendorStore() {
       const res = await startLogoUpload([croppedFile]);
       toast.dismiss(toastId);
 
-      // 🔄 FIX: Immediately grab the uploaded file URL from the UploadThing response
       if (res && res[0]) {
         const uploadedUrl = res[0].url || res[0].fileUrl;
-
-        // 1. Update local form state immediately so the UI re-renders right away
         setFormData((prev) => ({ ...prev, logo: uploadedUrl }));
 
-        // 2. Automatically dispatch the save payload so MongoDB updates instantly
         const payload = {
-          ...formData,
+          storeName: formData.businessName,
           logo: uploadedUrl,
           coverImage: "",
+          categoryIds: selectedCategories,
         };
         await updateStore(storeId, payload);
         toast.success("Store logo updated successfully!");
@@ -274,43 +323,63 @@ export default function VendorStore() {
 
   const handleSave = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
+
+    if (selectedCategories.length === 0) {
+      toast.error("Please select at least one boutique category!");
+      return;
+    }
+
+    if (!storeId) {
+      toast.error("Store ID not found. Please refresh and try again.");
+      return;
+    }
+
     setSaving(true);
+    const toastId = toast.loading("Saving store details and categories...");
 
     const payload = {
       storeName: formData.businessName,
-      businessName: formData.businessName,
       tagline: formData.description,
       description: formData.description || "",
-      bio: formData.description || "",
       address: formData.address,
-      area: formData.area || "",
+      area: formData.area || "Salem Road",
       city: formData.city || "Namakkal",
       state: formData.state || "Tamil Nadu",
       pincode: formData.pincode || "",
       googleMapUrl: formData.googleMapUrl || "",
       phone: formData.phone || "",
-      businessPhone: formData.phone || "",
       whatsapp: formData.whatsapp || "",
-      whatsappNumber: formData.whatsapp || "",
       email: formData.email || "",
       openingTime: format12Hour(formData.openingTime),
       closingTime: format12Hour(formData.closingTime),
       workingDays: selectedDays,
       facilities: facilities || [],
-      instagram: formData.instagram || "",
-      facebook: formData.facebook || "",
-      website: formData.website || "",
+      categoryIds: selectedCategories, // 👈 Explicit array of category IDs
+      status: formData.status,
       isActive: formData.status === "Active",
       logo: formData.logo || "",
-      coverImage: "", // Cleared out
     };
 
     try {
-      await updateStore(storeId, payload);
-      toast.success("Store details saved successfully!");
+      // Direct API update to guarantee the payload reaches the database
+      const res = await fetch(`/api/stores/${storeId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.message || "Failed to update store in database");
+      }
+
+      toast.success("Store & categories updated and live!", { id: toastId });
     } catch (err) {
       console.error("Save error:", err);
-      toast.error(err?.message || "Failed to save store details");
+      toast.error(err?.message || "Failed to save store details", {
+        id: toastId,
+      });
     } finally {
       setSaving(false);
     }
@@ -321,7 +390,7 @@ export default function VendorStore() {
       <div className="flex items-center justify-center min-h-100">
         <RefreshCw className="w-8 h-8 text-indigo-600 animate-spin" />
         <span className="ml-3 text-sm font-semibold text-slate-600">
-          Loading store profile...
+          Loading store profile & categories...
         </span>
       </div>
     );
@@ -329,7 +398,6 @@ export default function VendorStore() {
 
   return (
     <div className="space-y-8 font-body pb-12">
-      {/* Hidden File Input for Logo */}
       <input
         type="file"
         ref={logoInputRef}
@@ -340,7 +408,7 @@ export default function VendorStore() {
 
       <DashboardHeader
         title="My Store Profile & Physical Location"
-        description="Configure your physical storefront, address, Google Maps link, clock hours, and operating days."
+        description="Configure your storefront name, clothing categories, physical address, clock hours, and operating days."
         badge="Namakkal Storefront"
       >
         <button
@@ -358,7 +426,7 @@ export default function VendorStore() {
         </button>
       </DashboardHeader>
 
-      {/* Clean Modern Profile Header (No Banner) */}
+      {/* Header Summary Card */}
       <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="flex items-center gap-5">
           <div className="h-24 w-24 md:h-28 md:w-28 rounded-3xl bg-slate-100 p-1.5 shadow-md border border-slate-200 shrink-0 relative group overflow-hidden">
@@ -367,6 +435,7 @@ export default function VendorStore() {
                 src={formData.logo}
                 alt="Store Logo"
                 fill
+                sizes="112px"
                 className="w-full h-full object-cover rounded-2xl"
               />
             ) : (
@@ -401,7 +470,7 @@ export default function VendorStore() {
               </span>
             </div>
             <p className="text-xs text-slate-500 font-medium flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-indigo-600" />{" "}
+              <MapPin className="w-3.5 h-3.5 text-indigo-600" />
               {formData.address
                 ? `${formData.address}, ${formData.city}`
                 : formData.area && formData.city
@@ -429,9 +498,7 @@ export default function VendorStore() {
                 : "bg-amber-500 text-white shadow-xs"
             }`}
           >
-            {formData.status === "Active"
-              ? "🟢 Live on Streetunics"
-              : "⏸️ Paused"}
+            {formData.status === "Active" ? "Live on Streetunics" : "Paused"}
           </button>
         </div>
       </div>
@@ -521,7 +588,49 @@ export default function VendorStore() {
             </div>
           </div>
 
-          {/* 2. Structured Address Section */}
+          {/* 2. 🏷️ STORE CATEGORIES SECTION */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-base font-heading font-extrabold text-slate-900 flex items-center gap-2">
+                  <Tag className="w-5 h-5 text-indigo-600" /> Boutique Fashion
+                  Categories *
+                </h3>
+                <p className="text-xs text-slate-500 font-medium mt-0.5">
+                  Select which clothing categories are available at your
+                  physical shop.
+                </p>
+              </div>
+              <span className="text-[11px] font-extrabold text-indigo-700 bg-indigo-50 border border-indigo-100 px-3 py-1 rounded-full">
+                {selectedCategories.length} Selected
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+              {availableCategories.map((cat) => {
+                const isSelected = selectedCategories.includes(String(cat._id));
+                return (
+                  <button
+                    type="button"
+                    key={cat._id}
+                    onClick={() => toggleCategory(cat._id)}
+                    className={`p-3 rounded-2xl border text-xs font-bold flex items-center justify-between transition-all cursor-pointer ${
+                      isSelected
+                        ? "bg-indigo-50 border-indigo-300 text-indigo-700 shadow-2xs"
+                        : "bg-slate-50/70 border-slate-200 text-slate-600 hover:bg-slate-100"
+                    }`}
+                  >
+                    <span className="truncate">{cat.name}</span>
+                    {isSelected && (
+                      <Check className="w-3.5 h-3.5 text-indigo-600 shrink-0 ml-1" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 3. Physical Address & Location */}
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-5">
             <h3 className="text-base font-heading font-extrabold text-slate-900 flex items-center gap-2">
               <MapPin className="w-5 h-5 text-teal-600" /> Physical Store
@@ -653,7 +762,7 @@ export default function VendorStore() {
             </div>
           </div>
 
-          {/* 3. Working Hours & Days */}
+          {/* 4. Working Hours & Days */}
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-6">
             <h3 className="text-base font-heading font-extrabold text-slate-900 flex items-center gap-2">
               <Clock className="w-5 h-5 text-indigo-600" /> Working Hours &
@@ -762,17 +871,17 @@ export default function VendorStore() {
             </div>
           </div>
 
-          {/* 4. Facilities */}
+          {/* 5. Physical Store Facilities */}
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
             <h3 className="text-base font-heading font-extrabold text-slate-900">
-              Facilities & Features
+              Shop Amenities & Features
             </h3>
             <p className="text-xs text-slate-500 font-medium">
-              Select features available at your physical shop
+              Select conveniences available to in-person shoppers.
             </p>
 
             <div className="flex flex-wrap gap-2.5 pt-2">
-              {availableFacilities.map((fac) => {
+              {AVAILABLE_FACILITIES.map((fac) => {
                 const isSelected = facilities.includes(fac);
                 return (
                   <button

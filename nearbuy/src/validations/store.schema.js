@@ -6,6 +6,9 @@ export const storeSchema = z.object({
   tagline: z.string().optional().nullable(),
   description: z.string().optional().nullable(),
 
+  // 👈 CRITICAL FIX: Allow categoryIds array of MongoDB ObjectId strings
+  categoryIds: z.array(z.string()).optional().default([]),
+
   // Location & Address
   address: z.string().min(5, "Address must be at least 5 characters"),
   area: z.string().optional().nullable(),
@@ -39,7 +42,7 @@ export const storeSchema = z.object({
   instagram: z.string().optional().nullable(),
   facebook: z.string().optional().nullable(),
 
-  // Branding & Media (Supports both URLs and Base64 Desktop Uploads)
+  // Branding & Media
   logo: z.string().optional().nullable(),
   coverImage: z.string().optional().nullable(),
   gallery: z.array(z.string()).optional(),

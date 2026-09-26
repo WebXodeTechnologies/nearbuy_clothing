@@ -118,16 +118,30 @@ export default function StoreCard({ store }) {
           </div>
 
           {/* Categories */}
-          {categories.length > 0 && (
+          {Array.isArray(categories) && categories.length > 0 && (
             <div className="pt-1 flex flex-wrap gap-1.5">
-              {categories.slice(0, 3).map((cat) => (
-                <span
-                  key={cat}
-                  className="px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[10px] font-bold uppercase tracking-wider group-hover:bg-purple-50 group-hover:text-purple-700 transition-colors"
-                >
-                  {cat}
-                </span>
-              ))}
+              {categories.slice(0, 3).map((cat, idx) => {
+                // Handle both object { _id, name } and plain string categories
+                const catName =
+                  typeof cat === "object" && cat !== null
+                    ? cat.name || cat.title || ""
+                    : cat;
+                const catKey =
+                  typeof cat === "object" && cat !== null
+                    ? cat._id || cat.id || catName || idx
+                    : `${cat}-${idx}`;
+
+                if (!catName) return null;
+
+                return (
+                  <span
+                    key={catKey}
+                    className="px-2.5 py-1 rounded-lg bg-gray-100 text-gray-700 text-[10px] font-bold uppercase tracking-wider group-hover:bg-purple-50 group-hover:text-purple-700 transition-colors"
+                  >
+                    {catName}
+                  </span>
+                );
+              })}
             </div>
           )}
         </div>
