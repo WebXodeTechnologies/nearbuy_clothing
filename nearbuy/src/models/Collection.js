@@ -145,7 +145,6 @@ CollectionSchema.pre("validate", function () {
 CollectionSchema.index({ vendorId: 1 });
 CollectionSchema.index({ storeId: 1 });
 CollectionSchema.index({ categoryIds: 1 });
-CollectionSchema.index({ slug: 1 });
 CollectionSchema.index({ isFeatured: 1 });
 CollectionSchema.index({ isActive: 1 });
 

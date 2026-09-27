@@ -22,7 +22,9 @@ export const GET = withErrorHandler(async (req) => {
     if (queryVendorId) conditions.push({ vendorId: queryVendorId });
     if (queryStoreId) conditions.push({ storeId: queryStoreId });
 
-    collections = await Collection.find({ $or: conditions });
+    collections = await Collection.find({ $or: conditions })
+      .populate("categoryIds", "name slug image")
+      .sort({ createdAt: -1 });
   } else {
     // Otherwise, require authentication for the vendor dashboard
     const user = await authenticate(req);
@@ -39,7 +41,9 @@ export const GET = withErrorHandler(async (req) => {
     // Fetch dashboard items for this vendor
     collections = await Collection.find({
       $or: [{ vendorId: vendor._id }, { storeId: vendor._id }],
-    });
+    })
+      .populate("categoryIds", "name slug image")
+      .sort({ createdAt: -1 });
   }
 
   return ApiResponse.success(

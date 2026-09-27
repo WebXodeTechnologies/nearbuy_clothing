@@ -5,12 +5,10 @@ const StoreSchema = new mongoose.Schema(
     // ==========================================
     // Relationships
     // ==========================================
-
     vendorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vendor",
       required: [true, "Store must belong to an active Vendor profile"],
-      // 🔄 Removed inline index: true
     },
 
     categoryIds: [
@@ -23,7 +21,6 @@ const StoreSchema = new mongoose.Schema(
     // ==========================================
     // Store Information
     // ==========================================
-
     storeName: {
       type: String,
       required: [true, "Store name is required"],
@@ -43,7 +40,6 @@ const StoreSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
-      // 🔄 Removed inline index: true
     },
 
     description: {
@@ -55,7 +51,6 @@ const StoreSchema = new mongoose.Schema(
     // ==========================================
     // Store Branding
     // ==========================================
-
     logo: {
       type: String,
       default: "",
@@ -79,7 +74,6 @@ const StoreSchema = new mongoose.Schema(
     // ==========================================
     // Address & Location
     // ==========================================
-
     address: {
       type: String,
       required: [true, "Physical address is required"],
@@ -97,7 +91,6 @@ const StoreSchema = new mongoose.Schema(
       required: [true, "City is required"],
       default: "Namakkal",
       trim: true,
-      // 🔄 Removed inline index: true
     },
 
     state: {
@@ -126,7 +119,7 @@ const StoreSchema = new mongoose.Schema(
       },
       coordinates: {
         type: [Number],
-        default: [78.1674, 11.2189],
+        default: [78.1674, 11.2189], // Namakkal coordinates
       },
     },
 
@@ -138,7 +131,6 @@ const StoreSchema = new mongoose.Schema(
     // ==========================================
     // Contact Information
     // ==========================================
-
     phone: {
       type: String,
       default: "",
@@ -166,7 +158,6 @@ const StoreSchema = new mongoose.Schema(
     // ==========================================
     // Social Media
     // ==========================================
-
     instagram: {
       type: String,
       default: "",
@@ -185,7 +176,6 @@ const StoreSchema = new mongoose.Schema(
     // ==========================================
     // Business Hours
     // ==========================================
-
     openingTime: {
       type: String,
       default: "10:00 AM",
@@ -212,7 +202,6 @@ const StoreSchema = new mongoose.Schema(
     // ==========================================
     // Status & Visibility
     // ==========================================
-
     status: {
       type: String,
       enum: ["Active", "Inactive", "Pending"],
@@ -232,7 +221,6 @@ const StoreSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true,
-      // 🔄 Removed inline index: true
     },
 
     profileCompleted: {
@@ -243,7 +231,6 @@ const StoreSchema = new mongoose.Schema(
     // ==========================================
     // Analytics
     // ==========================================
-
     totalViews: {
       type: Number,
       default: 0,
@@ -267,7 +254,6 @@ const StoreSchema = new mongoose.Schema(
     // ==========================================
     // SEO
     // ==========================================
-
     seoTitle: {
       type: String,
       default: "",
@@ -283,30 +269,27 @@ const StoreSchema = new mongoose.Schema(
   },
 );
 
-// Auto-Generate Slug Pre-Validate Hook
-StoreSchema.pre("validate", function (next) {
+// ✅ Auto-Generate Slug Pre-Validate Hook (No `next` parameter)
+StoreSchema.pre("validate", function () {
   if (!this.storeSlug || this.storeSlug.trim() === "") {
     const baseName = this.storeName || "store";
-    this.storeSlug =
-      baseName
-        .toLowerCase()
-        .trim()
-        .replace(/[^\w\s-]/g, "")
-        .replace(/[\s_-]+/g, "-")
-        .replace(/^-+|-+$/g, "") +
-      "-" +
-      Math.floor(Math.random() * 10000);
+    const cleanBase = baseName
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/[\s_-]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+
+    const randomSuffix = Math.random().toString(36).substring(2, 7);
+    this.storeSlug = `${cleanBase}-${randomSuffix}`;
   }
-  next();
 });
 
 // ==========================================
-// Compound & Single Indexes (Single Source of Truth)
+// Compound & Single Indexes
 // ==========================================
-
 StoreSchema.index({ vendorId: 1 });
 StoreSchema.index({ city: 1, area: 1 });
-StoreSchema.index({ storeSlug: 1 });
 StoreSchema.index({ location: "2dsphere" });
 StoreSchema.index({ isFeatured: 1, isActive: 1 });
 

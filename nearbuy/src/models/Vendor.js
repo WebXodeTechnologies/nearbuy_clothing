@@ -321,14 +321,12 @@ VendorSchema.pre("validate", function (next) {
       "-" +
       Math.floor(Math.random() * 10000);
   }
-  next();
 });
 
 // ==========================================
 // Clean Indexes (Single Source of Truth)
 // ==========================================
 VendorSchema.index({ ownerId: 1 });
-VendorSchema.index({ businessSlug: 1 });
 VendorSchema.index({ status: 1 });
 VendorSchema.index({ planId: 1 });
 VendorSchema.index({ subscriptionId: 1 });
@@ -336,12 +334,20 @@ VendorSchema.index({ subscriptionId: 1 });
 // ==========================================
 // Hide Internal Fields & Virtuals
 // ==========================================
-VendorSchema.virtual("totalStorageLimitBytes").get(function () {
-  const base = 1 * 1024 * 1024 * 1024;
-  const extra = (this.extraStorageGBAllocated || 0) * 1024 * 1024 * 1024;
-  return Math.max(this.storageLimitBytes || base, base + extra);
-});
+VendorSchema.pre("validate", function () {
+  if (!this.businessSlug || this.businessSlug.trim() === "") {
+    const baseName = this.businessName || "boutique";
+    const cleanBase = baseName
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/[\s_-]+/g, "-")
+      .replace(/^-+|-+$/g, "");
 
+    const randomSuffix = Math.random().toString(36).substring(2, 7);
+    this.businessSlug = `${cleanBase}-${randomSuffix}`;
+  }
+});
 VendorSchema.set("toJSON", {
   virtuals: true,
   transform: (_, ret) => {

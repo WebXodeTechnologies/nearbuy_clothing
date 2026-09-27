@@ -97,14 +97,12 @@ CategorySchema.pre("validate", function (next) {
       .replace(/[\s_-]+/g, "-")
       .replace(/^-+|-+$/g, "");
   }
-  next();
 });
 
 // ==========================================
 // Indexes (Single Source of Truth)
 // ==========================================
 
-CategorySchema.index({ slug: 1 });
 CategorySchema.index({ isActive: 1 });
 
 // ==========================================
