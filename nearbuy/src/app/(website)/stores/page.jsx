@@ -234,7 +234,7 @@ function ExploreStoresContent() {
 
         {loading && safeStores.length === 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-6">
-            {[1, 2, 3, 4, 5, 6].map((n) => (
+            {[1, 2, 3, 4, 5, 6, 7].map((n) => (
               <div
                 key={n}
                 className="bg-white rounded-3xl p-4 h-80 animate-pulse border border-slate-200/60 shadow-xs flex flex-col justify-between"

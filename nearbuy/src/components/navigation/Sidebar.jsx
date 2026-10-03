@@ -52,7 +52,7 @@ export default function Sidebar({ type = "vendor", isMobile = false }) {
       icon: Tag,
       badge: "2 Active",
     },
-    { label: "Media Library", href: "/vendor/gallery", icon: ImageIcon },
+    { label: "Store Gallery", href: "/vendor/gallery", icon: ImageIcon },
     { label: "Customer Insights", href: "/vendor/analytics", icon: BarChart3 },
     {
       label: "Subscription",
