@@ -206,7 +206,7 @@ function ExploreStoresContent() {
         <div className="space-y-2">
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl md:text-5xl font-heading leading-tight">
             Explore Local{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-800">
+            <span className="bg-clip-text text-transparent bg-linear-to-r from-purple-600 via-indigo-600 to-purple-800">
               Clothing Stores
             </span>{" "}
             in Namakkal
